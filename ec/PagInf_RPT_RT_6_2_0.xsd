@@ -105,6 +105,7 @@
 			<xsd:enumeration value="PO"/> <!--- Pagamento attivato presso PSP -->
 			<xsd:enumeration value="OBEP"/> <!--- On-line Banking E-Payment -->
 			<xsd:enumeration value="OTH"/> <!-- Altre forme di versamento -->
+			<xsd:enumeration value="JIF"/>  <!-- Bancomat Pay  -->											 
 			<xsd:maxLength value="4"/>
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -124,9 +125,6 @@
 	<xsd:simpleType name="stFirmaRicevuta">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="0"/><!-- Firma non richiesta -->
-			<xsd:enumeration value="1"/><!-- CaDes -->
-			<xsd:enumeration value="3"/><!-- XaDes -->
-			<xsd:enumeration value="4"/><!-- Elettronica avanzata -->
 			<xsd:length value="1"/>
 		</xsd:restriction>
 	</xsd:simpleType>
