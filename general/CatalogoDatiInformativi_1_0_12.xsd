@@ -35,7 +35,7 @@
 			<xs:enumeration value="0"/>
 		</xs:restriction>
 	</xs:simpleType>
-
+	
 	<xs:simpleType name="stUno">
 		<xs:restriction base="xs:int">
 			<xs:enumeration value="1"/>
@@ -57,15 +57,16 @@
 			<xs:totalDigits value="11"/>
 		</xs:restriction>
 	</xs:simpleType>
-
+	
 	<xs:simpleType name="stTipoVersamento">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="BBT"/> <!-- Bonifico Bancario di Tesoreria -->
-			<xs:enumeration value="BP"/> <!-- Bollettino Postale -->
-			<xs:enumeration value="AD"/> <!-- Addebito Diretto -->
-			<xs:enumeration value="CP"/> <!-- Carta di Pagamento -->
-			<xs:enumeration value="PO"/> <!-- Pagamento attivato presso PSP  -->
+			<xs:enumeration value="BBT"/>  <!-- Bonifico Bancario di Tesoreria -->
+			<xs:enumeration value="BP"/>   <!-- Bollettino Postale -->
+			<xs:enumeration value="AD"/>   <!-- Addebito Diretto -->
+			<xs:enumeration value="CP"/>   <!-- Carta di Pagamento -->
+			<xs:enumeration value="PO"/>   <!-- Pagamento attivato presso PSP  -->
 			<xs:enumeration value="OBEP"/> <!-- Online Banking Electronic Payment -->
+			<xs:enumeration value="JIF"/>  <!-- Bancomat Pay  -->
 			<xs:maxLength value="4"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -79,7 +80,7 @@
 			<xs:enumeration value="SL"/> <!-- Sloveno  -->
 		</xs:restriction>
 	</xs:simpleType>
-
+	
 	<xs:simpleType name="stParoleChiave">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="American Express"/>
@@ -101,7 +102,7 @@
 			<xs:maxLength value="255"/>
 		</xs:restriction>
 	</xs:simpleType>
-
+	
 	<xs:simpleType name="stModelloPagamento">
 		<xs:restriction base="xs:int">
 			<xs:enumeration value="0"/> <!-- Modello di pagamento immediato (con redirezione) -->
@@ -141,7 +142,7 @@
 			<xs:element type="xs:base64Binary" name="logoServizio"/>
 		</xs:sequence>
 	</xs:complexType>
-
+	
 	<xs:complexType name="ctListaInformativePSP">
 		<xs:sequence>
 			<xs:element type="ctInformativaPSP" name="informativaPSP" maxOccurs="unbounded" minOccurs="0"/>
@@ -169,13 +170,13 @@
 			<xs:element type="ctInformazioniServizio" name="informazioniServizio" maxOccurs="unbounded" minOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
-
+	
 	<xs:complexType name="ctListaParoleChiave">
 		<xs:sequence>
 			<xs:element type="stParoleChiave" name="paroleChiave" maxOccurs="5" minOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
-
+	
 	<xs:complexType name="ctListaFasceCostoServizio">
 		<xs:sequence>
 			<xs:element type="ctFasciaCostoServizio" name="fasciaCostoServizio" maxOccurs="8" minOccurs="1"/>
@@ -211,14 +212,14 @@
 
 	<xs:complexType name="ctCostiServizio">
 		<xs:sequence>
-			<xs:element type="stUno" name="tipoCostoTransazione"/>
+			<xs:element type="stUno" name="tipoCostoTransazione"/> 
 			<xs:element type="stZero" name="tipoCommissione"/>
 			<xs:element type="stTipoCanaleServizio" name="tipoCanaleServizio" minOccurs="0"/>
 			<xs:element type="stPlateaErogazioneServizio" name="plateaErogazioneServizio" minOccurs="0"/>
 			<xs:element type="ctListaFasceCostoServizio" name="listaFasceCostoServizio"/>
 		</xs:sequence>
 	</xs:complexType>
-
+		
 	<xs:complexType name="ctInformazioniServizio">
 		<xs:sequence>
 			<xs:element type="stCodiceLingua" name="codiceLingua"/>
