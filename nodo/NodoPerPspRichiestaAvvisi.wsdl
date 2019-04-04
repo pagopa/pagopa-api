@@ -152,7 +152,7 @@
 
 			<xsd:complexType name="nodoChiediCatalogoServizi">
 				<xsd:sequence>
-					<xsd:element name="identificativoPSP" type="pay_i:stText35" minOccurs="0" />
+					<xsd:element name="identificativoPSP" type="pay_i:stText35" minOccurs="1" />
 					<xsd:element name="identificativoIntermediarioPSP" type="pay_i:stText35" minOccurs="1" />
 					<xsd:element name="identificativoCanale" type="pay_i:stText35" minOccurs="1" />
 					<xsd:element name="password" type="ppt:stPassword" minOccurs="1" />

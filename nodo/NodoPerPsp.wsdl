@@ -233,8 +233,8 @@
 			<xsd:complexType name="nodoInviaFlussoRendicontazione">
 				<xsd:sequence>
 					<xsd:element name="identificativoPSP" type="ppt:stText35" />
-					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" minOccurs="0" />
-					<xsd:element name="identificativoCanale" type="ppt:stText35" minOccurs="0" />
+					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" />
+					<xsd:element name="identificativoCanale" type="ppt:stText35" />
 					<xsd:element name="password" type="ppt:stPassword" />
 					<xsd:element name="identificativoDominio" type="ppt:stText35" />
 					<xsd:element name="identificativoFlusso" type="xsd:string" />
@@ -254,7 +254,7 @@
 
 			<xsd:complexType name="nodoChiediInformativaPA">
 				<xsd:sequence>
-					<xsd:element name="identificativoPSP" type="ppt:stText35" minOccurs="0" />
+					<xsd:element name="identificativoPSP" type="ppt:stText35" />
 					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" />
 					<xsd:element name="identificativoCanale" type="ppt:stText35" />
 					<xsd:element name="password" type="ppt:stPassword" />
