@@ -54,7 +54,7 @@
 
 	<xsd:complexType name="ctListaCataloghiServizi">
 		<xsd:sequence>
-			<xsd:element name="catalogoServizi" type="cs:ctCatalogoServizi" minOccurs="1" maxOccurs="unbounded"/>
+			<xsd:element name="catalogoServizi" type="cs:ctCatalogoServizi" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
