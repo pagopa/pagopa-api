@@ -86,7 +86,7 @@
 				<xsd:sequence>
 					<xsd:element name="importoSingoloVersamento" type="pay_i:stImporto" minOccurs="1">
 					</xsd:element>
-					<xsd:element name="ibanAccredito" type="pay_i:stIBANIdentifier" minOccurs="0">
+					<xsd:element name="ibanAccredito" type="pay_i:stIBANIdentifier" minOccurs="1">
 					</xsd:element>
 					<xsd:element name="bicAccredito" type="pay_i:stBICIdentifier" minOccurs="0">
 					</xsd:element>
