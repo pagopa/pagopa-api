@@ -83,10 +83,10 @@
 			</xsd:complexType>
 			<xsd:complexType name="basePspInviaCarrelloRPT">
 				<xsd:sequence>
-					<xsd:element name="identificativoPSP" type="ppt:stText35" minOccurs="0" />
-					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" minOccurs="0" />
-					<xsd:element name="identificativoCanale" type="ppt:stText35" minOccurs="0" />
-					<xsd:element name="modelloPagamento" type="ppt:stModelloPagamento" minOccurs="0" />
+					<xsd:element name="identificativoPSP" type="ppt:stText35" minOccurs="1" />
+					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" minOccurs="1" />
+					<xsd:element name="identificativoCanale" type="ppt:stText35" minOccurs="1" />
+					<xsd:element name="modelloPagamento" type="ppt:stModelloPagamento" minOccurs="1" />
 					<xsd:element name="parametriProfiloPagamento" type="xsd:string" minOccurs="0"/>
 					<xsd:element name="listaRPT" type="ppt:tipoListaRPT" />
 				</xsd:sequence>
