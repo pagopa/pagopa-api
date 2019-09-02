@@ -116,6 +116,9 @@
 					<xsd:element name="id" type="xsd:string" />
 					<xsd:element name="description" type="xsd:string" minOccurs="0" />
 					<xsd:element name="serial" type="xsd:int" minOccurs="0" />
+					<xsd:element name="originalFaultCode" type="xsd:string" minOccurs="0" />
+					<xsd:element name="originalFaultString" type="xsd:string" minOccurs="0" />
+					<xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:complexType>
 
