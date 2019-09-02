@@ -643,10 +643,7 @@
 			<xsd:element name="firmaRicevuta" type="pay_i:stFirmaRicevuta" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Codice del tipo di firma digitale  o elettronica qualificata  o elettronica avanzata cui deve essere sottoposto il messaggio di Ricevuta Telematica, secondo le tipologie di firma previste dalle Regole Tecniche sulla firma digitale.</xsd:documentation>
-					<xsd:documentation>0  Firma non richiesta</xsd:documentation>
-					<xsd:documentation>1  CaDes </xsd:documentation>
-					<xsd:documentation>3  XaDes </xsd:documentation>
-					<xsd:documentation>4  Elettronica avanzata </xsd:documentation>
+					<xsd:documentation>0  Firma non richiesta</xsd:documentation>					
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="datiSingoloVersamento" type="pay_i:ctDatiSingoloVersamentoRPT" minOccurs="1" maxOccurs="5">
