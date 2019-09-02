@@ -14,7 +14,7 @@
 
 			<xsd:simpleType name="stText6">
 				<xsd:restriction base="xsd:string">
-					<xsd:length value="6" />
+					<xsd:maxLength value="6" />
 				</xsd:restriction>
 			</xsd:simpleType>
 
