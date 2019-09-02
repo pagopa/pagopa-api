@@ -226,7 +226,7 @@
 					<xsd:element name="identificativoDominio" type="ppt:stText35" />
 					<xsd:element name="identificativoUnivocoVersamento" type="ppt:stText35" />
 					<xsd:element name="codiceContestoPagamento" type="ppt:stText35" />
-					<xsd:element name="ackRT" type="pay_j:ctMessaggioDiAcknowledgement" />
+					<xsd:element name="ackRT" type="xsd:base64Binary" />
 				</xsd:sequence>
 			</xsd:complexType>
 			<xsd:complexType name="pspInviaAckRTResponse">
