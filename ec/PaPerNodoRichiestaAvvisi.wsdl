@@ -126,7 +126,7 @@
 					<xsd:element name="enteBeneficiario" type="pay_i:ctEnteBeneficiario" minOccurs="0" />
 					<xsd:element name="credenzialiPagatore" type="pay_i:stText35" minOccurs="0" />
 					<xsd:choice>
-						<xsd:element name="causaleVersamento" type="pay_i:stText140" />
+						<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" />
 						<xsd:element name="spezzoniCausaleVersamento" type="ppt:ctSpezzoniCausaleVersamento" />
 					</xsd:choice>
 				</xsd:sequence>

@@ -34,6 +34,14 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+	 <xsd:simpleType name="stCausaleVersamento">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="(^\/RFB|^\/RFS)(\/[0-9a-zA-Z]{13,35})(\/\d+\.\d{2})?((\/TXT)(\/.{1,140})|)?"/>
+            <xsd:maxLength value="140"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	
     <xsd:simpleType name="stTipoIdentificativoUnivocoPersFG">
         <xsd:restriction base="xsd:string">
             <xsd:length value="1"/>
