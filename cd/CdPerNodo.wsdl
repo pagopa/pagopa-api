@@ -36,7 +36,7 @@
                 <xsd:complexContent>
                     <xsd:extension base="ppt:risposta">
                         <xsd:sequence>
-                            <xsd:element name="esito" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="esito" type="xsd:string" minOccurs="1"/>
                         </xsd:sequence>
                     </xsd:extension>
                 </xsd:complexContent>

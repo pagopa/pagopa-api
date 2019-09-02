@@ -161,7 +161,7 @@
 				<xsd:complexContent>
 					<xsd:extension base="ppt:risposta">
 						<xsd:sequence>
-							<xsd:element name="esito" type="xsd:string" minOccurs="0" />
+							<xsd:element name="esito" type="xsd:string" minOccurs="1" />
 							<xsd:element name="datiPagamentoPA" type="ppt:nodoTipoDatiPagamentoPA" minOccurs="0" />
 						</xsd:sequence>
 					</xsd:extension>
@@ -192,7 +192,7 @@
 				<xsd:complexContent>
 					<xsd:extension base="ppt:risposta">
 						<xsd:sequence>
-							<xsd:element name="esito" type="xsd:string" />
+							<xsd:element name="esito" type="xsd:string" minOccurs="1"/>
 							<!-- <xsd:element name="ackRT" type="pay_j:ctMessaggioDiAcknowledgement" /> -->
 						</xsd:sequence>
 					</xsd:extension>
@@ -223,7 +223,7 @@
 				<xsd:complexContent>
 					<xsd:extension base="ppt:risposta">
 						<xsd:sequence>
-							<xsd:element name="esito" type="xsd:string" minOccurs="0" />
+							<xsd:element name="esito" type="xsd:string" minOccurs="1" />
 							<xsd:element name="datiPagamentoPA" type="ppt:nodoTipoDatiPagamentoPA" minOccurs="0" />
 						</xsd:sequence>
 					</xsd:extension>
@@ -246,7 +246,7 @@
 				<xsd:complexContent>
 					<xsd:extension base="ppt:risposta">
 						<xsd:sequence>
-							<xsd:element name="esito" type="xsd:string" minOccurs="0" />
+							<xsd:element name="esito" type="xsd:string" minOccurs="1" />
 						</xsd:sequence>
 					</xsd:extension>
 				</xsd:complexContent>
@@ -355,7 +355,7 @@
 				<xsd:complexContent>
 					<xsd:extension base="ppt:risposta">
 						<xsd:sequence>
-							<xsd:element name="esito" type="xsd:string" minOccurs="0" />
+							<xsd:element name="esito" type="xsd:string" minOccurs="1" />
 						</xsd:sequence>
 					</xsd:extension>
 				</xsd:complexContent>
@@ -378,7 +378,7 @@
 				<xsd:complexContent>
 					<xsd:extension base="ppt:risposta">
 						<xsd:sequence>
-							<xsd:element name="esito" type="xsd:string" minOccurs="0" />
+							<xsd:element name="esito" type="xsd:string" minOccurs="1" />
 						</xsd:sequence>
 					</xsd:extension>
 				</xsd:complexContent>
