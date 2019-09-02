@@ -460,7 +460,7 @@
 					<xsd:documentation>Riporta la stessa informazione presente nel dato "codiceContestoPagamento" della Richiesta di Revoca (RR).</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="datiSingolaRevoca" type="pay_i:ctDatiSingoloEsitoRevoca" minOccurs="0" maxOccurs="5">
+			<xsd:element name="datiSingolaRevoca" type="pay_i:ctDatiSingoloEsitoRevoca" minOccurs="1" maxOccurs="5">
 				<xsd:annotation>
 					<xsd:documentation>Aggregazione "dati dei singoli pagamenti revocati", da un minimo di uno ad un massimo di 5 occorrenze di revoca, facenti capo ad un unico identificativoUnivocoVersamento.</xsd:documentation>
 				</xsd:annotation>
