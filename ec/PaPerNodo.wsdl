@@ -53,7 +53,7 @@
 			<!-- Element Definition -->
 			<xsd:complexType name="paaInviaRT">
 				<xsd:sequence>
-					<xsd:element name="tipoFirma" type="xsd:string" />
+					<xsd:element name="tipoFirma" type="xsd:boolean" default="false"/>
 					<xsd:element name="rt" type="xsd:base64Binary" />
 				</xsd:sequence>
 			</xsd:complexType>

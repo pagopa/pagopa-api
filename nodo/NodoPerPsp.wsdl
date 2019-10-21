@@ -201,7 +201,7 @@
 					<xsd:element name="identificativoDominio" type="ppt:stText35" />
 					<xsd:element name="identificativoUnivocoVersamento" type="ppt:stText35" />
 					<xsd:element name="codiceContestoPagamento" type="ppt:stText35" />
-					<xsd:element name="tipoFirma" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="tipoFirma" type="xsd:boolean" default="false" minOccurs="0"/>
 					<xsd:element name="forzaControlloSegno" type="ppt:stForzaControlloSegno" minOccurs="0"/>
 					<xsd:element name="rt" type="xsd:base64Binary" />
 				</xsd:sequence>
