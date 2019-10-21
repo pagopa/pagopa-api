@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="20.0">
+    <meta>
+        <filters directoryPatterns="" filePatterns="pagoPA.xpr" positiveFilePatterns="" showHiddenFiles="false"/>
+        <options/>
+    </meta>
+    <projectTree name="pagoPA.xpr">
+        <folder path="."/>
+    </projectTree>
+</project>

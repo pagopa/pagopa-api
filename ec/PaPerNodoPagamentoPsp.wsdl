@@ -29,7 +29,8 @@
 
 		<xsd:schema version="1.0" targetNamespace="http://ws.pagamenti.telematici.gov/">
 			<xsd:import schemaLocation="PagInf_RPT_RT_6_2_0.xsd" namespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"/>
-
+			<xsd:include schemaLocation="sac-common-types-1.0.xsd" />
+			
 			<xsd:simpleType name="stText25">
 				<xsd:restriction base="xsd:string">
 					<xsd:minLength value="1"/>
@@ -37,28 +38,6 @@
 				</xsd:restriction>
 			</xsd:simpleType>
 
-			<xsd:simpleType name="stText35">
-				<xsd:restriction base="xsd:string">
-					<xsd:minLength value="1"/>
-					<xsd:maxLength value="35"/>
-				</xsd:restriction>
-			</xsd:simpleType>
-
-			<xsd:simpleType name="stText140">
-				<xsd:restriction base="xsd:string">
-					<xsd:minLength value="1"/>
-					<xsd:maxLength value="140"/>
-				</xsd:restriction>
-			</xsd:simpleType>
-
-			<xsd:simpleType name="stImporto">
-				<xsd:restriction base="xsd:decimal">
-					<xsd:minInclusive value="0.00"/>
-					<xsd:maxInclusive value="999999.99"/>
-					<xsd:fractionDigits value="2"/>
-					<xsd:totalDigits value="10"/>
-				</xsd:restriction>
-			</xsd:simpleType>
 
 			<xsd:complexType name="ctSpezzoniCausaleVersamento">
 				<xsd:sequence minOccurs="1" maxOccurs="6">

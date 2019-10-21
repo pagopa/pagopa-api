@@ -2,6 +2,7 @@
 <xsd:schema
 		xmlns:pay_i="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:sac="http://ws.pagamenti.telematici.gov/"
 		targetNamespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		elementFormDefault="qualified"
 		attributeFormDefault="unqualified"
@@ -13,7 +14,7 @@
 		<xsd:documentation>= 28/02/2018 - allineamento a versione 2.1 dell'Allegato B</xsd:documentation>
 	</xsd:annotation>
 
-
+	<xsd:import  schemaLocation="sac-common-types-1.0.xsd" namespace="http://ws.pagamenti.telematici.gov/"/>
 	<!-- **** BEGIN: tipi semplici  ****-->
 
 	<xsd:simpleType name="stISODate">
@@ -682,7 +683,7 @@
 					<xsd:documentation>Eventuali credenziali richieste dal Prestatore di servizi di Pagamento necessarie per completare l’operazione (ad esempio: un codice bilaterale utilizzabile una sola volta).</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="sac:stCausaleVersamento" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Rappresenta la descrizione estesa della causale del versamento. Può assumere i seguenti valori:</xsd:documentation>
 				</xsd:annotation>
@@ -790,7 +791,7 @@
 					<xsd:documentation>Riferimento univoco dell’operazione assegnato al versamento dal Prestatore dei servizi di Pagamento. Può coincidere con il CRO nel caso di Bonifico Bancario o con il CODELINE nel caso di bollettino postale.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="sac:stCausaleVersamento" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Il dato deve essere riportato invariato, a cura del PSP, così come presente nella Richiesta di Pagamento Telematico (RPT) cui si riferisce il messaggio di Ricevuta Telematica.</xsd:documentation>
 				</xsd:annotation>
