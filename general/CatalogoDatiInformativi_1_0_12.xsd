@@ -67,6 +67,7 @@
 			<xs:enumeration value="PO"/>   <!-- Pagamento attivato presso PSP  -->
 			<xs:enumeration value="OBEP"/> <!-- Online Banking Electronic Payment -->
 			<xs:enumeration value="JIF"/>  <!-- Bancomat Pay  -->
+			<xs:enumeration value="MYBANK"><!-- MyBank Seller Bank -->
 			<xs:maxLength value="4"/>
 		</xs:restriction>
 	</xs:simpleType>
