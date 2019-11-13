@@ -126,8 +126,8 @@
 				<xsd:sequence>
 					<xsd:element name="identificativoPSP" type="ppt:stText35"/>
 					<xsd:element name="datiPagamentoPSP" type="ppt:paaTipoDatiPagamentoPSP"/>
-					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" minOccurs="0" />
-					<xsd:element name="identificativoCanalePSP" type="ppt:stText35" minOccurs="0" />
+					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35"  />
+					<xsd:element name="identificativoCanalePSP" type="ppt:stText35"  />
 				</xsd:sequence>
 			</xsd:complexType>
 			<xsd:complexType name="paaAttivaRPTRisposta">
