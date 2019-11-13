@@ -317,7 +317,7 @@
 					<xsd:documentation>Campo alfanumerico contenente il codice fiscale della struttura che invia la richiesta di pagamento.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="identificativoStazioneRichiedente" type="pay_i:stText35" minOccurs="0">
+			<xsd:element name="identificativoStazioneRichiedente" type="pay_i:stText35" >
 				<xsd:annotation>
 					<xsd:documentation>Identifica la stazione richiedente il pagamento. Nella fattispecie assume il codice del PdA richiedente o quello del Portale del ministero.</xsd:documentation>
 				</xsd:annotation>
