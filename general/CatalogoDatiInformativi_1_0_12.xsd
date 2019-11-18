@@ -208,9 +208,16 @@
 			<xs:element type="ctListaInformazioniServizio" name="listaInformazioniServizio"/>
 			<xs:element type="ctListaParoleChiave" name="listaParoleChiave" minOccurs="0"/>
 			<xs:element type="ctCostiServizio" name="costiServizio"/>
+			<xs:element type="ctListaConvenzioni" name="listaConvenzioni minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="ctListaConvenzioni">
+		<xs:sequence>
+			<xs:element type="xs:string" name="codiceConvenzione">
+		</xs:sequence>
+	</xs:complexType>
+	
 	<xs:complexType name="ctCostiServizio">
 		<xs:sequence>
 			<xs:element type="stUno" name="tipoCostoTransazione"/> 
@@ -218,6 +225,7 @@
 			<xs:element type="stTipoCanaleServizio" name="tipoCanaleServizio" minOccurs="0"/>
 			<xs:element type="stPlateaErogazioneServizio" name="plateaErogazioneServizio" minOccurs="0"/>
 			<xs:element type="ctListaFasceCostoServizio" name="listaFasceCostoServizio"/>
+			<xs:element type="stImporto" name="costoConvenzione" />
 		</xs:sequence>
 	</xs:complexType>
 		
