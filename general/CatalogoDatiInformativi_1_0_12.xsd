@@ -155,6 +155,9 @@
 			<xs:element type="stText35" name="identificativoFlusso"/>
 			<xs:element type="stText35" name="identificativoPSP"/>
 			<xs:element type="stText70" name="ragioneSociale"/>
+			<xs:element type="stText70" name="codiceABI"/>
+			<xs:element type="stText70" name="codiceBIC"/>
+			<xs:element type="stText70" name="mybankIDVS" minOccurs=0 />
 			<xs:element type="ctInformativaMaster" name="informativaMaster"/>
 			<xs:element type="ctListaInformativaDetail" name="listaInformativaDetail"/>
 		</xs:sequence>
@@ -214,7 +217,7 @@
 
 	<xs:complexType name="ctListaConvenzioni">
 		<xs:sequence>
-			<xs:element type="xs:string" name="codiceConvenzione">
+			<xs:element type="xs:string" name="codiceConvenzione" maxOccurs="unbounded" minOccurs="1">
 		</xs:sequence>
 	</xs:complexType>
 	
