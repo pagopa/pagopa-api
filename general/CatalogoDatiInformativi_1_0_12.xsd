@@ -211,7 +211,7 @@
 			<xs:element type="ctListaInformazioniServizio" name="listaInformazioniServizio"/>
 			<xs:element type="ctListaParoleChiave" name="listaParoleChiave" minOccurs="0"/>
 			<xs:element type="ctCostiServizio" name="costiServizio"/>
-			<xs:element type="ctListaConvenzioni" name="listaConvenzioni minOccurs="0" />
+			<xs:element type="ctListaConvenzioni" name="listaConvenzioni" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
