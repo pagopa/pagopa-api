@@ -217,7 +217,7 @@
 
 	<xs:complexType name="ctListaConvenzioni">
 		<xs:sequence>
-			<xs:element type="xs:string" name="codiceConvenzione" maxOccurs="unbounded" minOccurs="1">
+			<xs:element type="xs:string" name="codiceConvenzione" maxOccurs="unbounded" minOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
 	
