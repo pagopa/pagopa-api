@@ -228,7 +228,7 @@
 			<xs:element type="stTipoCanaleServizio" name="tipoCanaleServizio" minOccurs="0"/>
 			<xs:element type="stPlateaErogazioneServizio" name="plateaErogazioneServizio" minOccurs="0"/>
 			<xs:element type="ctListaFasceCostoServizio" name="listaFasceCostoServizio"/>
-			<xs:element type="stImporto" name="costoConvenzione" />
+			<xs:element type="stImporto" name="costoConvenzione" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 		
