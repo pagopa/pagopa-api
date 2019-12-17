@@ -39,6 +39,16 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="stCodiceIdentificativoUnivoco">
+	<xsd:annotation>
+					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o, in alternativa, la partita IVA del soggetto.</xsd:documentation>
+	</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="11"/>
+			<xsd:maxLength value="16"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<xsd:simpleType name="stText70">
 		<xsd:restriction base="xsd:string">
 			<xsd:minLength value="1"/>
@@ -371,7 +381,7 @@
 					<xsd:documentation>B - Codice BIC</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stText35" minOccurs="1">
+			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stCodiceIdentificativoUnivoco" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o la partita IVA del soggetto o il codice ABI o il codice BIC</xsd:documentation>
 				</xsd:annotation>
@@ -388,7 +398,7 @@
 					<xsd:documentation>G - Persona Giuridica</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stText35" minOccurs="1">
+			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stCodiceIdentificativoUnivoco" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o, in alternativa, la partita IVA del soggetto.</xsd:documentation>
 				</xsd:annotation>
@@ -404,7 +414,7 @@
 					<xsd:documentation>G - Persona Giuridica</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stText35" minOccurs="1">
+			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stCodiceIdentificativoUnivoco" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o, in alternativa, la partita IVA del soggetto.</xsd:documentation>
 				</xsd:annotation>
