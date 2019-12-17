@@ -46,8 +46,10 @@
 
 	<xsd:simpleType name="stImporto">
 		<xsd:restriction base="xsd:decimal">
+		<xsd:minInclusive value="0.01"/>
 			<xsd:fractionDigits value="2"/>
-			<xsd:totalDigits value="12"/>
+			<xsd:totalDigits value="18"/>
+			<xsd:pattern value="\d+\.\d{2}" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
