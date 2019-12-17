@@ -115,7 +115,8 @@
 			<xsd:enumeration value="PO"/> <!--- Pagamento attivato presso PSP -->
 			<xsd:enumeration value="OBEP"/> <!--- On-line Banking E-Payment -->
 			<xsd:enumeration value="OTH"/> <!-- Altre forme di versamento -->
-			<xsd:enumeration value="JIF"/>  <!-- Bancomat Pay  -->											 
+			<xsd:enumeration value="JIF"/>  <!-- Bancomat Pay  -->	
+			<xsd:enumeration value="MYBK"/>  <!-- MyBank Seller Bank -->			
 			<xsd:maxLength value="4"/>
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -695,7 +696,7 @@
 					<xsd:documentation>Eventuali credenziali richieste dal Prestatore di servizi di Pagamento necessarie per completare l’operazione (ad esempio: un codice bilaterale utilizzabile una sola volta).</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="sac:stCausaleVersamento" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="pay_i:stText140" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Rappresenta la descrizione estesa della causale del versamento. Può assumere i seguenti valori:</xsd:documentation>
 				</xsd:annotation>
@@ -803,7 +804,7 @@
 					<xsd:documentation>Riferimento univoco dell’operazione assegnato al versamento dal Prestatore dei servizi di Pagamento. Può coincidere con il CRO nel caso di Bonifico Bancario o con il CODELINE nel caso di bollettino postale.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="sac:stCausaleVersamento" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="pay_i:stText140" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Il dato deve essere riportato invariato, a cura del PSP, così come presente nella Richiesta di Pagamento Telematico (RPT) cui si riferisce il messaggio di Ricevuta Telematica.</xsd:documentation>
 				</xsd:annotation>

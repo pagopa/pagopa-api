@@ -67,6 +67,7 @@
 			<xs:enumeration value="PO"/>   <!-- Pagamento attivato presso PSP  -->
 			<xs:enumeration value="OBEP"/> <!-- Online Banking Electronic Payment -->
 			<xs:enumeration value="JIF"/>  <!-- Bancomat Pay  -->
+			<xs:enumeration value="MYBK"/>  <!-- MyBank Seller Bank -->
 			<xs:maxLength value="4"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -154,6 +155,9 @@
 			<xs:element type="stText35" name="identificativoFlusso"/>
 			<xs:element type="stText35" name="identificativoPSP"/>
 			<xs:element type="stText70" name="ragioneSociale"/>
+			<xs:element type="stText70" name="codiceABI"/>
+			<xs:element type="stText70" name="codiceBIC"/>
+			<xs:element type="stText70" name="mybankIDVS" minOccurs="0" />
 			<xs:element type="ctInformativaMaster" name="informativaMaster"/>
 			<xs:element type="ctListaInformativaDetail" name="listaInformativaDetail"/>
 		</xs:sequence>
@@ -207,9 +211,16 @@
 			<xs:element type="ctListaInformazioniServizio" name="listaInformazioniServizio"/>
 			<xs:element type="ctListaParoleChiave" name="listaParoleChiave" minOccurs="0"/>
 			<xs:element type="ctCostiServizio" name="costiServizio"/>
+			<xs:element type="ctListaConvenzioni" name="listaConvenzioni" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="ctListaConvenzioni">
+		<xs:sequence>
+			<xs:element type="xs:string" name="codiceConvenzione" maxOccurs="unbounded" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
 	<xs:complexType name="ctCostiServizio">
 		<xs:sequence>
 			<xs:element type="stUno" name="tipoCostoTransazione"/> 
@@ -217,6 +228,7 @@
 			<xs:element type="stTipoCanaleServizio" name="tipoCanaleServizio" minOccurs="0"/>
 			<xs:element type="stPlateaErogazioneServizio" name="plateaErogazioneServizio" minOccurs="0"/>
 			<xs:element type="ctListaFasceCostoServizio" name="listaFasceCostoServizio"/>
+			<xs:element type="stImporto" name="costoConvenzione" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 		

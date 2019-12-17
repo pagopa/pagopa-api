@@ -115,7 +115,8 @@
 			<xsd:enumeration value="PO"/> <!--- Pagamento attivato presso PSP -->
 			<xsd:enumeration value="OBEP"/> <!--- On-line Banking E-Payment -->
 			<xsd:enumeration value="OTH"/> <!-- Altre forme di versamento -->
-			<xsd:enumeration value="JIF"/>  <!-- Bancomat Pay  -->											 
+			<xsd:enumeration value="JIF"/>  <!-- Bancomat Pay  -->	
+			<xsd:enumeration value="MYBK"/>  <!-- MyBank Seller Bank -->			
 			<xsd:maxLength value="4"/>
 		</xsd:restriction>
 	</xsd:simpleType>
