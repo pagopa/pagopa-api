@@ -62,7 +62,7 @@
 
 	<xsd:simpleType name="stIdentificativoFlusso">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="[a-zA-Z0-9\-_]"/>
+			<xsd:pattern value="[a-zA-Z0-9\-_]{1,140}"/>
 			<xsd:minLength value="1"/>
 			<xsd:maxLength value="35"/>
 		</xsd:restriction>
