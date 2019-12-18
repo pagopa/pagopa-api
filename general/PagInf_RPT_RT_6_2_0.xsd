@@ -44,7 +44,7 @@
 					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o, in alternativa, la partita IVA del soggetto.</xsd:documentation>
 	</xsd:annotation>
 		<xsd:restriction base="xsd:string">
-			<xsd:minLength value="11"/>
+			<xsd:minLength value="2"/>
 			<xsd:maxLength value="16"/>
 		</xsd:restriction>
 	</xsd:simpleType>
