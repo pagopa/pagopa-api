@@ -484,6 +484,7 @@
 			<xsd:element name="identificativoUnivocoPagatore" type="pay_i:ctIdentificativoUnivocoPersonaFG" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Aggregazione che riporta le informazioni concernenti l’identificazione fiscale del pagatore.</xsd:documentation>
+					<xsd:documentation>Qualora non sia in grado di identificare fiscalmente il pagatore, si suggerisce di utilizzare il codice fiscale "ANONIMO" </xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="anagraficaPagatore" type="pay_i:stText70" minOccurs="1">
