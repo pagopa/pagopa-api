@@ -2,6 +2,7 @@
 <xsd:schema
 		xmlns:pay_i="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:sac="http://ws.pagamenti.telematici.gov/"
 		targetNamespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		elementFormDefault="qualified"
 		attributeFormDefault="unqualified"
@@ -13,7 +14,7 @@
 		<xsd:documentation>= 28/02/2018 - allineamento a versione 2.1 dell'Allegato B</xsd:documentation>
 	</xsd:annotation>
 
-
+	<xsd:import  schemaLocation="sac-common-types-1.0.xsd" namespace="http://ws.pagamenti.telematici.gov/"/>
 	<!-- **** BEGIN: tipi semplici  ****-->
 
 	<xsd:simpleType name="stISODate">
@@ -38,6 +39,16 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="stCodiceIdentificativoUnivoco">
+	<xsd:annotation>
+					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o, in alternativa, la partita IVA del soggetto.</xsd:documentation>
+	</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="2"/>
+			<xsd:maxLength value="16"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<xsd:simpleType name="stText70">
 		<xsd:restriction base="xsd:string">
 			<xsd:minLength value="1"/>
@@ -75,10 +86,8 @@
 
 	<xsd:simpleType name="stImporto">
 		<xsd:restriction base="xsd:decimal">
-			<xsd:minInclusive value="0.00"/>
-			<xsd:maxInclusive value="99999999.99"/>
 			<xsd:fractionDigits value="2"/>
-			<xsd:totalDigits value="12"/>
+			<xsd:totalDigits value="18"/>
 			<xsd:pattern value="\d+\.\d{2}" />
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -190,6 +199,9 @@
 	
 	<!-- Tabella T2 Sigla delle province italiane, Agenzia delle Entrate  --> 
 	<xsd:simpleType name="stSiglaProvinceAde">
+	<xsd:annotation>
+		<xsd:documentation>Tabella T2 Sigla delle province italiane, Agenzia delle Entrate --NON PIU UTILIZZATA</xsd:documentation>
+	</xsd:annotation>
 		<xsd:restriction base="xsd:string">
 		<xsd:enumeration value="AG" /> <!-- Agrigento  --> 
 		<xsd:enumeration value="AL" /> <!-- Alessandria  -->
@@ -317,7 +329,7 @@
 					<xsd:documentation>Campo alfanumerico contenente il codice fiscale della struttura che invia la richiesta di pagamento.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="identificativoStazioneRichiedente" type="pay_i:stText35" minOccurs="0">
+			<xsd:element name="identificativoStazioneRichiedente" type="pay_i:stText35" >
 				<xsd:annotation>
 					<xsd:documentation>Identifica la stazione richiedente il pagamento. Nella fattispecie assume il codice del PdA richiedente o quello del Portale del ministero.</xsd:documentation>
 				</xsd:annotation>
@@ -332,12 +344,12 @@
 					<xsd:documentation>Contiene la tipologia di Bollo Digitale.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="hashDocumento" type="pay_i:stText70" minOccurs="1">
+			<xsd:element name="hashDocumento" type="xsd:base64Binary" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Contiene l’impronta informatica (digest), rappresentata in "base 64 binary", del documento informatico o della segnatura di protocollo cui è associata la marca da bollo digitale</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="provinciaResidenza" type="pay_i:stSiglaProvinceAde" minOccurs="1">
+			<xsd:element name="provinciaResidenza" type="xsd:string" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Sigla automobilistica della provincia di residenza del soggetto pagatore.</xsd:documentation>
 				</xsd:annotation>
@@ -371,7 +383,7 @@
 					<xsd:documentation>B - Codice BIC</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stText35" minOccurs="1">
+			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stCodiceIdentificativoUnivoco" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o la partita IVA del soggetto o il codice ABI o il codice BIC</xsd:documentation>
 				</xsd:annotation>
@@ -388,7 +400,7 @@
 					<xsd:documentation>G - Persona Giuridica</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stText35" minOccurs="1">
+			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stCodiceIdentificativoUnivoco" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o, in alternativa, la partita IVA del soggetto.</xsd:documentation>
 				</xsd:annotation>
@@ -404,7 +416,7 @@
 					<xsd:documentation>G - Persona Giuridica</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stText35" minOccurs="1">
+			<xsd:element name="codiceIdentificativoUnivoco" type="pay_i:stCodiceIdentificativoUnivoco" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Campo alfanumerico che può contenere il codice fiscale o, in alternativa, la partita IVA del soggetto.</xsd:documentation>
 				</xsd:annotation>
@@ -471,6 +483,7 @@
 			<xsd:element name="identificativoUnivocoPagatore" type="pay_i:ctIdentificativoUnivocoPersonaFG" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Aggregazione che riporta le informazioni concernenti l’identificazione fiscale del pagatore.</xsd:documentation>
+					<xsd:documentation>Qualora non sia in grado di identificare fiscalmente il pagatore, si suggerisce di utilizzare il codice fiscale "ANONIMO" </xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="anagraficaPagatore" type="pay_i:stText70" minOccurs="1">
@@ -683,7 +696,7 @@
 					<xsd:documentation>Eventuali credenziali richieste dal Prestatore di servizi di Pagamento necessarie per completare l’operazione (ad esempio: un codice bilaterale utilizzabile una sola volta).</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="pay_i:stText140" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Rappresenta la descrizione estesa della causale del versamento. Può assumere i seguenti valori:</xsd:documentation>
 				</xsd:annotation>
@@ -791,7 +804,7 @@
 					<xsd:documentation>Riferimento univoco dell’operazione assegnato al versamento dal Prestatore dei servizi di Pagamento. Può coincidere con il CRO nel caso di Bonifico Bancario o con il CODELINE nel caso di bollettino postale.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="pay_i:stText140" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Il dato deve essere riportato invariato, a cura del PSP, così come presente nella Richiesta di Pagamento Telematico (RPT) cui si riferisce il messaggio di Ricevuta Telematica.</xsd:documentation>
 				</xsd:annotation>

@@ -298,7 +298,7 @@
 
 			<xsd:complexType name="tipoListaRPT">
 				<xsd:sequence>
-					<xsd:element name="elementoListaRPT" type="ppt:tipoElementoListaRPT" minOccurs="1" maxOccurs="unbounded" />
+					<xsd:element name="elementoListaRPT" type="ppt:tipoElementoListaRPT" minOccurs="1" maxOccurs="5" />
 				</xsd:sequence>
 			</xsd:complexType>
 

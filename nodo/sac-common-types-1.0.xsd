@@ -83,7 +83,7 @@
 
     <xsd:simpleType name="stImporto">
         <xsd:restriction base="xsd:decimal">
-            <xsd:minInclusive value="0.01"/>          
+            <xsd:minInclusive value="0.01"/>
             <xsd:fractionDigits value="2"/>
             <xsd:totalDigits value="18"/>
             <xsd:pattern value="\d+\.\d{2}" />
@@ -123,6 +123,9 @@
             <xsd:element name="id" type="xsd:string"/>
             <xsd:element name="description" type="xsd:string" minOccurs="0"/>
             <xsd:element name="serial" type="xsd:int" minOccurs="0"/>
+            <xsd:element name="originalFaultCode" type="xsd:string" minOccurs="0" />
+            <xsd:element name="originalFaultString" type="xsd:string" minOccurs="0" />
+            <xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 

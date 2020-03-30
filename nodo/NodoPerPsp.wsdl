@@ -25,29 +25,43 @@
 					<xsd:maxLength value="25" />
 				</xsd:restriction>
 			</xsd:simpleType>
-
-			<xsd:simpleType name="stText35">
+			
+			<xsd:simpleType name="stCCPost">
 				<xsd:restriction base="xsd:string">
-					<xsd:minLength value="1" />
-					<xsd:maxLength value="35" />
+					<xsd:length value="12"/>
+					<xsd:pattern value="[0-9]{12}"/>
 				</xsd:restriction>
 			</xsd:simpleType>
-
-			<xsd:simpleType name="stText140">
+			
+			<xsd:simpleType name="stCF">
 				<xsd:restriction base="xsd:string">
-					<xsd:minLength value="1" />
-					<xsd:maxLength value="140" />
+					<xsd:length value="11"/>
+					<xsd:pattern value="[0-9]{11}"/>
 				</xsd:restriction>
 			</xsd:simpleType>
-
-			<xsd:simpleType name="stImporto">
-				<xsd:restriction base="xsd:decimal">
-					<xsd:minInclusive value="0.00" />
-					<xsd:maxInclusive value="999999.99" />
-					<xsd:fractionDigits value="2" />
-					<xsd:totalDigits value="10" />
+			
+			<xsd:simpleType name="stAuxDigit">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="0"/>
+					<xsd:enumeration value="1"/>
+					<xsd:enumeration value="2"/>
+					<xsd:enumeration value="3"/>
 				</xsd:restriction>
 			</xsd:simpleType>
+			
+			<xsd:simpleType name="stCodStazPA">
+				<xsd:restriction base="xsd:string">
+					<xsd:length value="2"/>
+					<xsd:pattern value="[0-9]{2}"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stCodIUV">
+				<xsd:restriction base="xsd:string">
+					<xsd:pattern value="[0-9]{15}|[0-9]{17}"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
 
 			<xsd:complexType name="ctSpezzoniCausaleVersamento">
 				<xsd:sequence minOccurs="1" maxOccurs="6">
@@ -99,8 +113,18 @@
 			</xsd:complexType>
 
 			<xsd:complexType name="nodoTipoCodiceIdRPT">
+				
 				<xsd:sequence>
-					<xsd:any minOccurs="0" maxOccurs="unbounded" namespace="##any" />
+					<xsd:choice minOccurs="1" maxOccurs="1" >
+							<!--Nel caso di lettura QR-CODE-->
+						<xsd:element type="ppt:stCF" name="CF" />  
+							<!--Nel caso di lettura del Data-Matrix -->
+						<xsd:element type="ppt:stCCPost" name="CCPost"/>
+					</xsd:choice>
+					<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
+					<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
+					<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
+					
 				</xsd:sequence>
 			</xsd:complexType>
 
@@ -177,7 +201,7 @@
 					<xsd:element name="identificativoDominio" type="ppt:stText35" />
 					<xsd:element name="identificativoUnivocoVersamento" type="ppt:stText35" />
 					<xsd:element name="codiceContestoPagamento" type="ppt:stText35" />
-					<xsd:element name="tipoFirma" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="tipoFirma" type="xsd:boolean" default="false" minOccurs="0"/>
 					<xsd:element name="forzaControlloSegno" type="ppt:stForzaControlloSegno" minOccurs="0"/>
 					<xsd:element name="rt" type="xsd:base64Binary" />
 				</xsd:sequence>

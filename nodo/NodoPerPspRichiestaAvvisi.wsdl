@@ -97,30 +97,15 @@
 					<xsd:element name="enteBeneficiario" type="pay_i:ctEnteBeneficiario" minOccurs="0"/>
 					<xsd:element name="credenzialiPagatore" type="pay_i:stText35" minOccurs="0" />
 					<xsd:choice>
-						<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" />
+						<xsd:element name="causaleVersamento" type="ppt:stCausaleVersamento" />
 						<xsd:element name="spezzoniCausaleVersamento" type="ppt:ctSpezzoniCausaleVersamento" />
 					</xsd:choice>
 				</xsd:sequence>
 			</xsd:complexType>
 
-			<xsd:complexType name="ctRisposta">
-				<xsd:sequence>
-					<xsd:element name="fault" type="ppt:ctFaultBean" minOccurs="0" />
-				</xsd:sequence>
-			</xsd:complexType>
+			
 
-			<xsd:complexType name="ctFaultBean">
-				<xsd:sequence>
-					<xsd:element name="faultCode" type="xsd:string" />
-					<xsd:element name="faultString" type="xsd:string" />
-					<xsd:element name="id" type="xsd:string" />
-					<xsd:element name="description" type="xsd:string" minOccurs="0" />
-					<xsd:element name="serial" type="xsd:int" minOccurs="0" />
-					<xsd:element name="originalFaultCode" type="xsd:string" minOccurs="0" />
-					<xsd:element name="originalFaultString" type="xsd:string" minOccurs="0" />
-					<xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
-				</xsd:sequence>
-			</xsd:complexType>
+			
 
 			<xsd:complexType name="ctEsitoChiediNumeroAvviso">
 				<xsd:complexContent>
