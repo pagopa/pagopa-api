@@ -207,6 +207,7 @@
 			<xs:element type="xs:int" name="priorita"/>
 			<xs:element type="stZeroUno" name="canaleApp"/>
 			<xs:element type="stZeroUno" name="servizioAlleImprese" minOccurs="0"/>
+			<xs:element type="stZeroUno" name="marcaBolloDigitale"/>
 			<xs:element type="ctIdentificazioneServizio" name="identificazioneServizio" minOccurs="0"/>
 			<xs:element type="ctListaInformazioniServizio" name="listaInformazioniServizio"/>
 			<xs:element type="ctListaParoleChiave" name="listaParoleChiave" minOccurs="0"/>
