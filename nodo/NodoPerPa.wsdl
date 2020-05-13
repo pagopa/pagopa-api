@@ -129,7 +129,13 @@
 
 			<xsd:element name="nodoChiediSceltaWISP" type="ppt:nodoChiediSceltaWISP" />
 			<xsd:element name="nodoChiediSceltaWISPRisposta" type="ppt:nodoChiediSceltaWISPRisposta" />
-
+			
+			<xsd:element name="requireFunctionality">
+  				<xsd:complexType>
+    					<xsd:attribute name="active" type="xsd:boolean" default="0"/>
+  				</xsd:complexType>
+			</xsd:element>
+			
 			<xsd:complexType name="risposta">
 				<xsd:sequence>
 					<xsd:element name="fault" type="ppt:faultBean" minOccurs="0" />
@@ -293,6 +299,7 @@
 					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" />
 					<xsd:element name="identificativoCanale" type="ppt:stText35" />
 					<xsd:element name="listaRPT" type="ppt:tipoListaRPT" />
+					<xsd:element name="requireLightPayment" type="ppt:requireFunctionality" minOccurs="0"/>
 				</xsd:sequence>
 			</xsd:complexType>
 
