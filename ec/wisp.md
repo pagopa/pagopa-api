@@ -18,7 +18,7 @@ dove :
 
 *lang*:     specifica il linguaggio scelto dall'utilizzatore finale sul Portale dell'Ente Creditore, secondo la codifica standard ISO 693-3. Se non presente, la lingua mostrata sarà l'italiano.
 
-*logo*: codice identificativo del logo dell'EC configurato
+*logo*: codice identificativo del logo dell'EC configurato ( tipo file : png o jpg , formato 220x220 pixel)
 
 ## Re-direzione dal Web-FESP verso il Portale EC
 
