@@ -329,7 +329,7 @@
 					<xsd:documentation>Campo alfanumerico contenente il codice fiscale della struttura che invia la richiesta di pagamento.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="identificativoStazioneRichiedente" type="pay_i:stText35" >
+			<xsd:element name="identificativoStazioneRichiedente" type="pay_i:stText35" minOccurs="0" >
 				<xsd:annotation>
 					<xsd:documentation>Identifica la stazione richiedente il pagamento. Nella fattispecie assume il codice del PdA richiedente o quello del Portale del ministero.</xsd:documentation>
 				</xsd:annotation>
@@ -344,7 +344,7 @@
 					<xsd:documentation>Contiene la tipologia di Bollo Digitale.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="hashDocumento" type="xsd:base64Binary" minOccurs="1">
+			<xsd:element name="hashDocumento" type="pay_i:stText70" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Contiene l’impronta informatica (digest), rappresentata in "base 64 binary", del documento informatico o della segnatura di protocollo cui è associata la marca da bollo digitale</xsd:documentation>
 				</xsd:annotation>
