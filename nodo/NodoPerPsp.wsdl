@@ -39,6 +39,13 @@
 					<xsd:pattern value="[0-9]{11}"/>
 				</xsd:restriction>
 			</xsd:simpleType>
+
+			<xs:simpleType name="stGln">
+    			<xs:restriction base="xs:string">
+      				<xs:length value="13"/>
+      				<xs:pattern value="[0-9]{13}"/>
+    			</xs:restriction>
+  			</xs:simpleType>
 			
 			<xsd:simpleType name="stAuxDigit">
 				<xsd:restriction base="xsd:string">
@@ -116,9 +123,11 @@
 				
 				<xsd:sequence>
 					<xsd:choice minOccurs="1" maxOccurs="1" >
-							<!--Nel caso di lettura QR-CODE-->
-						<xsd:element type="ppt:stCF" name="CF" />  
-							<!--Nel caso di lettura del Data-Matrix -->
+						<!--Nel caso di lettura QR-CODE-->
+						<xsd:element type="ppt:stCF" name="CF" />
+						<!--Nel caso di lettura BARCODE-GS1-128-->
+						<xs:element type="ppt:stGln" name="Gln" />  
+						<!--Nel caso di lettura del Data-Matrix -->
 						<xsd:element type="ppt:stCCPost" name="CCPost"/>
 					</xsd:choice>
 					<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
