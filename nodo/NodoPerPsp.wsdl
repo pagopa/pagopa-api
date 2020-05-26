@@ -41,7 +41,7 @@
 			</xsd:simpleType>
 
 			<xsd:simpleType name="stGln">
-    			<xsd:restriction base="xs:string">
+    			<xsd:restriction base="xsd:string">
       				<xsd:length value="13"/>
       				<xsd:pattern value="[0-9]{13}"/>
     			</xsd:restriction>
