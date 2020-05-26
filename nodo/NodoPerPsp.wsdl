@@ -40,12 +40,12 @@
 				</xsd:restriction>
 			</xsd:simpleType>
 
-			<xs:simpleType name="stGln">
-    			<xs:restriction base="xs:string">
-      				<xs:length value="13"/>
-      				<xs:pattern value="[0-9]{13}"/>
-    			</xs:restriction>
-  			</xs:simpleType>
+			<xsd:simpleType name="stGln">
+    			<xsd:restriction base="xs:string">
+      				<xsd:length value="13"/>
+      				<xsd:pattern value="[0-9]{13}"/>
+    			</xsd:restriction>
+  			</xsd:simpleType>
 			
 			<xsd:simpleType name="stAuxDigit">
 				<xsd:restriction base="xsd:string">
