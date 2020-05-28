@@ -96,6 +96,13 @@
 				</xsd:restriction>
 			</xsd:simpleType>
 
+			<xsd:simpleType name="stZeroUno">
+				<xsd:restriction base="xsd:int">
+					<xsd:enumeration value="0"/>
+					<xsd:enumeration value="1"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
 			<xsd:element name="nodoChiediCopiaRT" type="ppt:nodoChiediCopiaRT" />
 			<xsd:element name="nodoChiediCopiaRTRisposta" type="ppt:nodoChiediCopiaRTRisposta" />
 
@@ -137,12 +144,6 @@
 
 			<xsd:element name="nodoChiediSceltaWISP" type="ppt:nodoChiediSceltaWISP" />
 			<xsd:element name="nodoChiediSceltaWISPRisposta" type="ppt:nodoChiediSceltaWISPRisposta" />
-			
-			<xsd:complexType name="requireFunctionality">
-  				<xsd:complexType>
-    					<xsd:attribute name="active" type="xsd:boolean" default="0"/>
-  				</xsd:complexType>
-			</xsd:complexType>
 			
 			<xsd:complexType name="risposta">
 				<xsd:sequence>
@@ -307,7 +308,7 @@
 					<xsd:element name="identificativoIntermediarioPSP" type="ppt:stText35" />
 					<xsd:element name="identificativoCanale" type="ppt:stText35" />
 					<xsd:element name="listaRPT" type="ppt:tipoListaRPT" />
-					<xsd:element name="requireLightPayment" type="ppt:requireFunctionality" minOccurs="0"/>
+					<xsd:element name="requireLightPayment" type="ppt:stZeroUno" minOccurs="0"/>
 					<xsd:element name="codiceConvenzione" type="ppt:stConvenzione" minOccurs="0"/>
 				</xsd:sequence>
 			</xsd:complexType>
