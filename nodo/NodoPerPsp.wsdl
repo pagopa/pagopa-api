@@ -126,7 +126,7 @@
 						<!--Nel caso di lettura QR-CODE-->
 						<xsd:element type="ppt:stCF" name="CF" />
 						<!--Nel caso di lettura BARCODE-GS1-128-->
-						<xs:element type="ppt:stGln" name="Gln" />  
+						<xsd:element type="ppt:stGln" name="Gln" />  
 						<!--Nel caso di lettura del Data-Matrix -->
 						<xsd:element type="ppt:stCCPost" name="CCPost"/>
 					</xsd:choice>
