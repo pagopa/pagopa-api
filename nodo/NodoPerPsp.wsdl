@@ -120,21 +120,38 @@
 			</xsd:complexType>
 
 			<xsd:complexType name="nodoTipoCodiceIdRPT">
-				
-				<xsd:sequence>
-					<xsd:choice minOccurs="1" maxOccurs="1" >
-						<!--Nel caso di lettura QR-CODE-->
-						<xsd:element type="ppt:stCF" name="CF" />
-						<!--Nel caso di lettura BARCODE-GS1-128-->
-						<xsd:element type="ppt:stGln" name="Gln" />  
-						<!--Nel caso di lettura del Data-Matrix -->
-						<xsd:element type="ppt:stCCPost" name="CCPost"/>
-					</xsd:choice>
-					<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
-					<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
-					<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
-					
-				</xsd:sequence>
+				<xsd:choice minOccurs="1" maxOccurs="1" >
+					<xsd:element name="QrCode">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element type="ppt:stCF" name="CF" minOccurs="1"/>
+								<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
+								<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
+								<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="BarCode">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element type="ppt:stGln" name="Gln" minOccurs="1"/>
+								<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
+								<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
+								<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="aim128">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element type="ppt:stCCPost" name="CCPost" minOccurs="1"/>
+								<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
+								<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
+								<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
 			</xsd:complexType>
 
 			<xsd:complexType name="nodoTipoDatiPagamentoPA">
