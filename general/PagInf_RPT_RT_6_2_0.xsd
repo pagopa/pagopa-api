@@ -65,8 +65,7 @@
 	
 	<xsd:simpleType name="stBase64Binary70">
 		<xsd:restriction base="xsd:base64Binary">
-			<xsd:minLength value="1"/>
-			<xsd:maxLength value="70"/>
+			<xsd:pattern value=".{1,70}"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 
