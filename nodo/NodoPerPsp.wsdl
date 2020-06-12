@@ -128,9 +128,9 @@
 
 			<xsd:complexType name="nodoTipoCodiceIdRPT">
 				<xsd:choice minOccurs="1" maxOccurs="1" >
-					<xsd:element name="QrCode" type="qrc:QrCode" />
-					<xsd:element name="BarCode" type="bc:BarCode" />
-					<xsd:element name="aim128" type="aim:aim128" />
+					<xsd:element ref="qrc:QrCode"></xsd:element>
+					<xsd:element ref="bc:BarCode"></xsd:element>
+					<xsd:element ref="aim:aim128"></xsd:element>
 				</xsd:choice>
 			</xsd:complexType>
 
