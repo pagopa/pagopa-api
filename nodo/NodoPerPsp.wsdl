@@ -11,14 +11,21 @@
 				  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 				  xmlns:tns="http://PuntoAccessoPSP.spcoop.gov.it/servizi/PagamentiTelematiciPspNodo"
 				  xmlns:pay_i="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
+				  xmlns:aim="http://PuntoAccessoPSP.spcoop.gov.it/Code_128_AIM_USS-128_tipo_C"
+				  xmlns:bc="http://PuntoAccessoPSP.spcoop.gov.it/BarCode_GS1_128_Modified"
+				  xmlns:qrc="http://PuntoAccessoPSP.spcoop.gov.it/QrCode"
 				  targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/servizi/PagamentiTelematiciPspNodo">
 	<!--   xmlns:pay_j="http://www.cnipa.gov.it/schemas/2010/Pagamenti/Ack_1_0/" -->
 
 	<wsdl:types>
 		<xsd:schema version="2.1.2" targetNamespace="http://ws.pagamenti.telematici.gov/">
+			
 			<xsd:import schemaLocation="PagInf_RPT_RT_6_2_0.xsd" namespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/" />
 			<!-- <xsd:import schemaLocation="ACK_PagamentiTelematici_6_0_1.xsd" namespace="http://www.cnipa.gov.it/schemas/2010/Pagamenti/Ack_1_0/" /> -->
-
+			<xsd:import schemaLocation="IdRPT_128_AIM_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/Code_128_AIM_USS-128_tipo_C" />
+			<xsd:import schemaLocation="IdRPT_GS1_128_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/BarCode_GS1_128_Modified" />
+			<xsd:import schemaLocation="IdRPT_QR_Code_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/QrCode"/>
+			
 			<xsd:simpleType name="stText25">
 				<xsd:restriction base="xsd:string">
 					<xsd:minLength value="1" />
@@ -121,36 +128,9 @@
 
 			<xsd:complexType name="nodoTipoCodiceIdRPT">
 				<xsd:choice minOccurs="1" maxOccurs="1" >
-					<xsd:element name="QrCode">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element type="ppt:stCF" name="CF" minOccurs="1"/>
-								<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
-								<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
-								<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
-							</xsd:sequence>
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="BarCode">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element type="ppt:stGln" name="Gln" minOccurs="1"/>
-								<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
-								<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
-								<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
-							</xsd:sequence>
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="aim128">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element type="ppt:stCCPost" name="CCPost" minOccurs="1"/>
-								<xsd:element type="ppt:stCodStazPA" name="CodStazPA" minOccurs="0"/>
-								<xsd:element type="ppt:stAuxDigit" name="AuxDigit" minOccurs="1"/>
-								<xsd:element type="ppt:stCodIUV" name="CodIUV" minOccurs="1"/>
-							</xsd:sequence>
-						</xsd:complexType>
-					</xsd:element>
+					<xsd:element name="QrCode" type="qrc:QrCode" />
+					<xsd:element name="BarCode" type="bc:BarCode" />
+					<xsd:element name="aim128" type="aim:aim128" />
 				</xsd:choice>
 			</xsd:complexType>
 
