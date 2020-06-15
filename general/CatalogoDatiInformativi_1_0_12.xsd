@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0.11">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0.12">
 	<xs:annotation>
 		<xs:documentation>Catalogo dati informativi</xs:documentation>
 		<xs:documentation>24/10/2015 - allineamento a versione 1.7 dell'Allegato B</xs:documentation>
 		<xs:documentation>27/10/2016 - adeguamento per versione 1.3 WISP</xs:documentation>
+		<xs:documentation>21/04/2020 - fasce di costi in convenzione</xs:documentation>
 	</xs:annotation>
 
 	<xs:element name="listaInformativePSP" type="ctListaInformativePSP"/>
@@ -54,9 +55,18 @@
 			<xs:minInclusive value="0.01"/>
 			<xs:fractionDigits value="2"/>
 			<xs:totalDigits value="18"/>
-			<xsd:pattern value="\d+\.\d{2}" />
+			<xs:pattern value="\d+\.\d{2}" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<xs:simpleType name="stImportoZero">
+		<xs:restriction base="xs:decimal">
+		    <xs:minInclusive value="0.00"/>
+			<xs:fractionDigits value="2"/>
+			<xs:totalDigits value="18"/>
+			<xs:pattern value="\d+\.\d{2}" />
+		</xs:restriction>
+	</xs:simpleType>	
 	
 	<xs:simpleType name="stTipoVersamento">
 		<xs:restriction base="xs:string">
@@ -207,6 +217,7 @@
 			<xs:element type="xs:int" name="priorita"/>
 			<xs:element type="stZeroUno" name="canaleApp"/>
 			<xs:element type="stZeroUno" name="servizioAlleImprese" minOccurs="0"/>
+			<xs:element type="stZeroUno" name="marcaBolloDigitale"/>
 			<xs:element type="ctIdentificazioneServizio" name="identificazioneServizio" minOccurs="0"/>
 			<xs:element type="ctListaInformazioniServizio" name="listaInformazioniServizio"/>
 			<xs:element type="ctListaParoleChiave" name="listaParoleChiave" minOccurs="0"/>
@@ -220,6 +231,7 @@
 			<xs:element type="xs:string" name="codiceConvenzione" maxOccurs="unbounded" minOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
+
 	
 	<xs:complexType name="ctCostiServizio">
 		<xs:sequence>
@@ -228,7 +240,7 @@
 			<xs:element type="stTipoCanaleServizio" name="tipoCanaleServizio" minOccurs="0"/>
 			<xs:element type="stPlateaErogazioneServizio" name="plateaErogazioneServizio" minOccurs="0"/>
 			<xs:element type="ctListaFasceCostoServizio" name="listaFasceCostoServizio"/>
-			<xs:element type="stImporto" name="costoConvenzione" minOccurs="0" />
+			<xs:element type="stImportoZero" name="costoConvenzione" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 		
@@ -245,8 +257,9 @@
 	<xs:complexType name="ctFasciaCostoServizio">
 		<xs:sequence>
 			<xs:element type="stImporto" name="importoMassimoFascia"/>
-			<xs:element type="stImporto" name="costoFisso"/>
-			<xs:element type="stImporto" name="valoreCommissione"/>
+			<xs:element type="stImportoZero" name="costoFisso"/>
+			<xs:element type="stImportoZero" name="valoreCommissione"/>
+			<xs:element type="ctListaConvenzioni" name="listaConvenzioniCosti" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 
