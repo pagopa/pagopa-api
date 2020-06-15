@@ -51,7 +51,7 @@
 
 	<xs:simpleType name="stImporto">
 		<xs:restriction base="xs:decimal">
-			<xs:minInclusive value="0.00"/>
+			<xs:minInclusive value="0.01"/>
 			<xs:fractionDigits value="2"/>
 			<xs:totalDigits value="18"/>
 			<xsd:pattern value="\d+\.\d{2}" />
@@ -251,6 +251,3 @@
 	</xs:complexType>
 
 </xs:schema>
-
-
-
