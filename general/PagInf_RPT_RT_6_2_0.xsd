@@ -355,7 +355,7 @@
 					<xsd:documentation>Contiene l’impronta informatica (digest), rappresentata in "base 64 binary", del documento informatico o della segnatura di protocollo cui è associata la marca da bollo digitale</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="provinciaResidenza" type="xsd:string" minOccurs="1">
+			<xsd:element name="provinciaResidenza" type="pay_i:stNazioneProvincia" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Sigla automobilistica della provincia di residenza del soggetto pagatore.</xsd:documentation>
 				</xsd:annotation>
