@@ -34,7 +34,8 @@
 		<!-- schema body -->
 		<xsd:schema version="1.0" targetNamespace="http://ws.pagamenti.telematici.gov/">
 			<xsd:import schemaLocation="PagInf_RPT_RT_6_2_0.xsd" namespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/" />
-
+			<xsd:include schemaLocation="sac-common-types-1.0.xsd" />
+			
 			<!-- simple types -->
 			<xsd:simpleType name="stIdentificativoServizio">
 				<xsd:restriction base="xsd:string">
