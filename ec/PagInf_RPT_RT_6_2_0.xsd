@@ -2,7 +2,6 @@
 <xsd:schema
 		xmlns:pay_i="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-		xmlns:sac="http://ws.pagamenti.telematici.gov/"
 		targetNamespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		elementFormDefault="qualified"
 		attributeFormDefault="unqualified"
@@ -14,7 +13,6 @@
 		<xsd:documentation>= 28/02/2018 - allineamento a versione 2.1 dell'Allegato B</xsd:documentation>
 	</xsd:annotation>
 
-	<xsd:import  schemaLocation="sac-common-types-1.0.xsd" namespace="http://ws.pagamenti.telematici.gov/"/>
 	<!-- **** BEGIN: tipi semplici  ****-->
 
 	<xsd:simpleType name="stISODate">
