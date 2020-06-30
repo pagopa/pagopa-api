@@ -2,7 +2,6 @@
 <xsd:schema
 		xmlns:pay_i="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-		xmlns:sac="http://ws.pagamenti.telematici.gov/"
 		targetNamespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
 		elementFormDefault="qualified"
 		attributeFormDefault="unqualified"
@@ -822,6 +821,11 @@
 			<xsd:element name="commissioniApplicatePSP" type="pay_i:stImporto" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation>Campo numerico (due cifre per la parte decimale, il separatore dei centesimi è il punto "."), indicante l’importo della commissione applicata dal PSP al proprio cliente (soggetto versante o soggetto pagatore).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="commissioniApplicatePA" type="pay_i:stImportoDiversoDaZero" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Campo numerico (due cifre per la parte decimale, il separatore dei centesimi è il punto "."), indicante l’importo della commissione applicata dalla PA a fronte di una convezione.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="allegatoRicevuta" type="pay_i:ctAllegatoRicevuta" minOccurs="0">
