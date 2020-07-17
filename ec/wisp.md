@@ -16,7 +16,7 @@ dove :
                 *urlWeb-FESP*:  è lo URL della componente Web-FESP del Nodo dei Pagamenti-SPC
                 *idSessione*:   è generato dal NodoSPC e identifica in modo univoco l’operazione di pagamento
 
-*lang*:     specifica il linguaggio scelto dall'utilizzatore finale sul Portale dell'Ente Creditore, secondo la codifica standard ISO 693-1. Se non presente, la lingua mostrata sarà l'italiano. Le lingue supportate sono Italiano ( it , it-IT ) , Inglese (en-US), Francese (fr-FR) , Tedesco (de-DE), Sloveno (sl-SI)
+*lang*:     specifica il linguaggio scelto dall'utilizzatore finale sul Portale dell'Ente Creditore, secondo la codifica standard ISO 693-1. Se non presente, la lingua mostrata sarà l'italiano. Le lingue supportate sono Italiano ( it , it-IT ) , Inglese (en, en-US), Francese (fr, fr-FR) , Tedesco (de, de-DE), Sloveno (sl-SI)
 
 esempio per poter configurare la lingua inglese 
 
