@@ -15,6 +15,13 @@
 
 	<!-- **** BEGIN: tipi semplici  ****-->
 
+	 <xsd:simpleType name="stCausaleVersamento">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="(\/RFB|\/RFS)(\/[0-9a-zA-Z]{13,35})(\/\d+\.\d{2})?((\/TXT)(\/.{1,140})|)?"/>
+            <xsd:maxLength value="140"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
 	<xsd:simpleType name="stISODate">
 		<xsd:restriction base="xsd:date"/>
 	</xsd:simpleType>
@@ -700,7 +707,7 @@
 					<xsd:documentation>Eventuali credenziali richieste dal Prestatore di servizi di Pagamento necessarie per completare l’operazione (ad esempio: un codice bilaterale utilizzabile una sola volta).</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="pay_i:stText140" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Rappresenta la descrizione estesa della causale del versamento. Può assumere i seguenti valori:</xsd:documentation>
 				</xsd:annotation>
@@ -808,7 +815,7 @@
 					<xsd:documentation>Riferimento univoco dell’operazione assegnato al versamento dal Prestatore dei servizi di Pagamento. Può coincidere con il CRO nel caso di Bonifico Bancario o con il CODELINE nel caso di bollettino postale.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="causaleVersamento" type="pay_i:stText140" minOccurs="1">
+			<xsd:element name="causaleVersamento" type="pay_i:stCausaleVersamento" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Il dato deve essere riportato invariato, a cura del PSP, così come presente nella Richiesta di Pagamento Telematico (RPT) cui si riferisce il messaggio di Ricevuta Telematica.</xsd:documentation>
 				</xsd:annotation>
@@ -1010,4 +1017,3 @@
 	</xsd:element>
 	<!-- **** END: elementi  ****-->
 </xsd:schema>
-
