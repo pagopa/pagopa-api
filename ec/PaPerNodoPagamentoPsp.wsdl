@@ -74,7 +74,7 @@
 					<xsd:element name="credenzialiPagatore" type="pay_i:stText35" minOccurs="0">
 					</xsd:element>
 					<xsd:choice minOccurs="1">
-						<xsd:element name="causaleVersamento" type="ppt:stCausaleVersamento" />
+						<xsd:element name="causaleVersamento" type="xsd:string" />
 						<xsd:element name="spezzoniCausaleVersamento" type="ppt:ctSpezzoniCausaleVersamento" />
 					</xsd:choice>
 					<!-- xsd:element name="datiSpecificiRiscossione" type="pay_i:stDatiSpecificiRiscossione" minOccurs="1">
@@ -217,4 +217,3 @@
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
-
