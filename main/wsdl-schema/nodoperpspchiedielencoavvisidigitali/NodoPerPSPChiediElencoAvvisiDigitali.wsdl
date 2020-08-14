@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Questo WSDL rappresenta l'interfaccia esposta dal Nodo dei Pagamenti Telematici per avvisi pull . -->
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+                  xmlns:sac="http://ws.pagamenti.telematici.gov/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://PuntoAccessoPSP.spcoop.gov.it/servizi/NodoChiediElencoAvvisiDigitali"
+                  targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/servizi/NodoChiediElencoAvvisiDigitali">
+
+    <wsdl:types>
+        <xsd:schema version="2.1" targetNamespace="http://ws.pagamenti.telematici.gov/">
+
+            <xsd:include schemaLocation="avvisi-digitali-1.0.xsd"/>
+
+            <xsd:simpleType name="stElencoCompleto">
+                <xsd:restriction base="xsd:string">
+                    <xsd:length value="1"/>
+                    <xsd:enumeration value="0"/><!-- Elenco completo -->
+                    <xsd:enumeration value="1"/><!-- Elenco incompleto -->
+                </xsd:restriction>
+            </xsd:simpleType>
+
+            <xsd:simpleType name="stNumeroAvvisi">
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[0-9]{3,3}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+
+            <xsd:simpleType name="stStatoPagamento">
+                <xsd:restriction base="xsd:string">
+                    <xsd:length value="2"/>
+                    <xsd:enumeration value="00"/> <!-- L'avviso è pagabile -->
+                    <xsd:enumeration value="01"/> <!-- L'avviso è gia stato pagato -->
+                    <xsd:enumeration value="02"/> <!-- L'avviso non è pagabile -->
+                </xsd:restriction>
+            </xsd:simpleType>
+
+            <xsd:complexType name="ctAvvisoDigitalePull">
+                <xsd:sequence>
+                    <xsd:element name="codiceAvviso" type="sac:stCodiceAvviso" />
+                    <xsd:element name="statoPagamento" type="sac:stStatoPagamento"/>
+                    <xsd:element name="dataScadenzaAvviso" type="sac:stISODate"/>
+                    <xsd:element name="importoAvviso" type="sac:stImporto"/>
+                    <xsd:element name="descrizionePagamento" type="sac:stText140" />
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ctElencoAvvisiDigitali">
+                <xsd:sequence>
+                    <xsd:element name="identificativoDominio" type="sac:stText35"/>
+                    <xsd:element name="elencoCompleto" type="sac:stElencoCompleto"/>
+                    <xsd:element name="numeroAvvisi" type="sac:stNumeroAvvisi"/>
+                    <xsd:element name="avvisoDigitale" type="sac:ctAvvisoDigitalePull" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ctNodoChiediElencoAvvisiDigitali">
+                <xsd:sequence>
+                    <xsd:element name="identificativoPSP" type="sac:stText35"/>
+                    <xsd:element name="identificativoIntermediarioPSP" type="sac:stText35"/>
+                    <xsd:element name="identificativoCanale" type="sac:stText35"/>
+                    <xsd:element name="codiceFiscaleUtente" type="sac:stText35"/>
+                    <xsd:element name="codiceFiscalePA" type="sac:stText35"/>
+                    <xsd:element name="codiceServizio" type="sac:stCodiceServizio" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="periodoRiferimento" type="sac:ctPeriodoRiferimento" minOccurs="0" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ctNodoChiediElencoAvvisiDigitaliRisposta">
+                <xsd:complexContent>
+                    <xsd:extension base="sac:ctRisposta">
+                        <xsd:sequence>
+                            <xsd:element name="esitoOperazione" type="sac:stEsitoOperazione"/>
+                            <xsd:element name="elencoAvvisiDigitali" type="sac:ctElencoAvvisiDigitali" minOccurs="0" maxOccurs="1"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+
+            <!-- Wrapper Elements -->
+            <xsd:element name="nodoChiediElencoAvvisiDigitali" type="sac:ctNodoChiediElencoAvvisiDigitali"/>
+            <xsd:element name="nodoChiediElencoAvvisiDigitaliRisposta" type="sac:ctNodoChiediElencoAvvisiDigitaliRisposta"/>
+
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="nodoChiediElencoAvvisiDigitali">
+        <wsdl:part name="bodyrichiesta" element="sac:nodoChiediElencoAvvisiDigitali"/>
+    </wsdl:message>
+    <wsdl:message name="nodoChiediElencoAvvisiDigitaliRisposta">
+        <wsdl:part name="bodyrisposta" element="sac:nodoChiediElencoAvvisiDigitaliRisposta"/>
+    </wsdl:message>
+
+    <wsdl:portType name="NodoChiediElencoAvvisiDigitali">
+        <wsdl:operation name="nodoChiediElencoAvvisiDigitali">
+            <wsdl:input message="tns:nodoChiediElencoAvvisiDigitali"
+                        wsam:Action="http://ws.pagamenti.telematici.gov/PPT/nodoChiediElencoAvvisiDigitali"/>
+            <wsdl:output message="tns:nodoChiediElencoAvvisiDigitaliRisposta"
+                         wsam:Action="http://ws.pagamenti.telematici.gov/PPT/nodoChiediElencoAvvisiDigitaliRisposta"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="NodoChiediElencoAvvisiDigitaliBinding" type="tns:NodoChiediElencoAvvisiDigitali">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="nodoChiediElencoAvvisiDigitali">
+            <soap:operation soapAction="nodoChiediElencoAvvisiDigitali"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="NodoChiediElencoAvvisiDigitaliService">
+        <wsdl:port name="PPTPort" binding="tns:NodoChiediElencoAvvisiDigitaliBinding">
+            <soap:address location="http://PuntoAccessoPSP.spcoop.gov.it/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
