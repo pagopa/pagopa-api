@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Questo WSDL rappresenta l'interfaccia esposta dal p2g per l'invio di un avviso di pagamento. -->
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+                  xmlns:sac="http://ws.pagamenti.telematici.gov/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://PuntoAccessoPSP.spcoop.gov.it/servizi/AvvisiDigitali"
+                  targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/servizi/AvvisiDigitali">
+
+    <wsdl:types>
+        <xsd:schema version="2.1" targetNamespace="http://ws.pagamenti.telematici.gov/">
+
+            <xsd:include schemaLocation="avvisi-digitali-1.0.xsd"/>
+
+            <xsd:complexType name="ctInviaAvvisoDigitale">
+                <xsd:sequence>
+                    <xsd:element name="identificativoPSP" type="sac:stText35"/>
+                    <xsd:element name="identificativoIntermediarioPSP" type="sac:stText35"/>
+                    <xsd:element name="identificativoCanale" type="sac:stText35"/>
+                    <xsd:element name="avvisoDigitale" type="sac:ctAvvisoDigitale"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ctInviaAvvisoDigitaleRisposta">
+                <xsd:complexContent>
+                    <xsd:extension base="sac:ctRisposta">
+                        <xsd:sequence>
+                            <xsd:element name="esitoOperazione" type="sac:stEsitoOperazione"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+
+            <!-- Wrapper Elements -->
+            <xsd:element name="pspInviaAvvisoDigitale" type="sac:ctInviaAvvisoDigitale"/>
+            <xsd:element name="pspInviaAvvisoDigitaleRisposta" type="sac:ctInviaAvvisoDigitaleRisposta"/>
+
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="pspInviaAvvisoDigitale">
+        <wsdl:part name="bodyrichiesta" element="sac:pspInviaAvvisoDigitale"/>
+    </wsdl:message>
+    <wsdl:message name="pspInviaAvvisoDigitaleRisposta">
+        <wsdl:part name="bodyrisposta" element="sac:pspInviaAvvisoDigitaleRisposta"/>
+    </wsdl:message>
+
+    <wsdl:portType name="AvvisiDigitali">
+        <wsdl:operation name="pspInviaAvvisoDigitale">
+            <wsdl:input message="tns:pspInviaAvvisoDigitale"
+                        wsam:Action="http://ws.pagamenti.telematici.gov/PPT/pspInviaAvvisoDigitale"/>
+            <wsdl:output message="tns:pspInviaAvvisoDigitaleRisposta"
+                         wsam:Action="http://ws.pagamenti.telematici.gov/PPT/pspInviaAvvisoDigitaleRisposta"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="AvvisiDigitaliBinding" type="tns:AvvisiDigitali">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="pspInviaAvvisoDigitale">
+            <soap:operation soapAction="pspInviaAvvisoDigitale"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="AvvisiDigitaliService">
+        <wsdl:port name="PPTPort" binding="tns:AvvisiDigitaliBinding">
+            <soap:address location="http://PuntoAccessoPSP.spcoop.gov.it/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
