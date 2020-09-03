@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:bc="http://PuntoAccessoPSP.spcoop.gov.it/BarCode_GS1_128_Modified"
+           elementFormDefault="qualified"
+           targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/BarCode_GS1_128_Modified">
+
+  <xs:simpleType name="stGln">
+    <xs:restriction base="xs:string">
+      <xs:length value="13"/>
+      <xs:pattern value="[0-9]{13}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stAuxDigit">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="1"/>
+      <xs:enumeration value="2"/>
+      <xs:enumeration value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stCodStazPA">
+    <xs:restriction base="xs:string">
+      <xs:length value="2"/>
+      <xs:pattern value="[0-9]{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stCodIUV">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{15}|[0-9]{17}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="BarCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="bc:stGln" name="Gln" minOccurs="1"/>
+        <xs:element type="bc:stCodStazPA" name="CodStazPA" minOccurs="0"/>
+        <xs:element type="bc:stAuxDigit" name="AuxDigit" minOccurs="1"/>
+        <xs:element type="bc:stCodIUV" name="CodIUV" minOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="nodoTipoCodiceIdRPT">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" ref="bc:BarCode"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

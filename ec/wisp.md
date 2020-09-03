@@ -43,6 +43,3 @@ dove:
 
 *URlEsitoPSP*:  è tutta la query string dei parametri passati dal Portale PSP al Web-FESP senza traduzione in idSession ed esito, il suo contenuto dipende dall'integrazione effettuata. Esempio per uno specifico PSP:
 `"idBruciatura=abc1d4e7f3a8&idCarrello=123456789&codiceRitorno=KO_02"`
-
----
-[back](README.md)
