@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:qrc="http://PuntoAccessoPSP.spcoop.gov.it/QrCode"
+           elementFormDefault="qualified"
+           targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/QrCode">
+
+  <xs:simpleType name="stCF">
+    <xs:restriction base="xs:string">
+      <xs:length value="11"/>
+      <xs:pattern value="[0-9]{11}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stAuxDigit">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="1"/>
+      <xs:enumeration value="2"/>
+      <xs:enumeration value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stCodStazPA">
+    <xs:restriction base="xs:string">
+      <xs:length value="2"/>
+      <xs:pattern value="[0-9]{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stCodIUV">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{15}|[0-9]{17}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="QrCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="qrc:stCF" name="CF" minOccurs="1"/>
+        <xs:element type="qrc:stCodStazPA" name="CodStazPA" minOccurs="0"/>
+        <xs:element type="qrc:stAuxDigit" name="AuxDigit" minOccurs="1"/>
+        <xs:element type="qrc:stCodIUV" name="CodIUV" minOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="nodoTipoCodiceIdRPT">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" ref="qrc:QrCode"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

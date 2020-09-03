@@ -160,6 +160,3 @@ con codiceRitorno che può assumere i seguenti valori (traduzione WFESP per PA):
 - OK:   Processo concluso con esito positivo (OK)
 - KO:   Processo concluso con esito negativo (ERROR)
 - DIFFERITO:    Processo concluso con esito differito (DIFFERITO)
-
----
-[back](README.md)

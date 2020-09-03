@@ -7,8 +7,8 @@
 
 Il repository è suddiviso nelle seguenti sezioni:
 
-* [ec](ec_wisp.md) : contiene la definizione delle interfacce esposte da un ente creditore.
-* [psp](psp_wfesp.md) : contiene la definizione delle interfacce esposte da un Psp.
+* **ec**: contiene la definizione delle interfacce esposte da un ente creditore.
+* **psp**: contiene la definizione delle interfacce esposte da un Psp.
 * **nodo**: contiene la definizione delle interfacce esposte dal sistema.
 * **pda**: contiene i tipi di dati scambiati dai soggetti aderenti con il Portale delle Adesioni.
 * **general**: contiene gli schemi di definizione dei documenti XML scambiati all'interno del sistema.
