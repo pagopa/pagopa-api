@@ -144,7 +144,7 @@
 
 			<xsd:element name="nodoChiediSceltaWISP" type="ppt:nodoChiediSceltaWISP" />
 			<xsd:element name="nodoChiediSceltaWISPRisposta" type="ppt:nodoChiediSceltaWISPRisposta" />
-			
+
 			<xsd:complexType name="risposta">
 				<xsd:sequence>
 					<xsd:element name="fault" type="ppt:faultBean" minOccurs="0" />
