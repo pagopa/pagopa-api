@@ -16,8 +16,7 @@
 	<wsdl:types>
 		<xsd:schema version="2.1.2" targetNamespace="http://ws.pagamenti.telematici.gov/">
 			<xsd:import schemaLocation="PagInf_RPT_RT_6_2_0.xsd" namespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/" />
-			<xsd:include schemaLocation="sac-common-types-1.0.xsd" />
-			
+
 			<!-- simple types -->
 			<xsd:simpleType name="stText18">
 				<xsd:restriction base="xsd:string">
@@ -83,6 +82,13 @@
 				</xsd:sequence>
 			</xsd:complexType>
 
+			<xsd:simpleType name="stCausaleVersamento">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="140"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+
 			<xsd:complexType name="ctSpezzoneStrutturatoCausaleVersamento">
 				<xsd:sequence>
 					<xsd:element type="ppt:stText25" name="causaleSpezzone" minOccurs="1"/>
@@ -104,9 +110,21 @@
 				</xsd:sequence>
 			</xsd:complexType>
 
-			
+			<xsd:complexType name="ctRisposta">
+				<xsd:sequence>
+					<xsd:element name="fault" type="ppt:ctFaultBean" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:complexType>
 
-			
+			<xsd:complexType name="ctFaultBean">
+				<xsd:sequence>
+					<xsd:element name="faultCode" type="xsd:string" />
+					<xsd:element name="faultString" type="xsd:string" />
+					<xsd:element name="id" type="xsd:string" />
+					<xsd:element name="description" type="xsd:string" minOccurs="0" />
+					<xsd:element name="serial" type="xsd:int" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:complexType>
 
 			<xsd:complexType name="ctEsitoChiediNumeroAvviso">
 				<xsd:complexContent>

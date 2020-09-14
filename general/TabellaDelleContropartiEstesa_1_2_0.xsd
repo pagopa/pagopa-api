@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified"
-        elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.2.0">
+           elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.2.0">
     <xs:annotation>
         <xs:documentation>Tabella delle controparti estesa</xs:documentation>
         <xs:documentation>24/10/2015 - allineamento a versione 1.7 dell'Allegato B</xs:documentation>
         <xs:documentation>17/06/2016 - allineamento a versione 1.7.1 dell'Allegato B</xs:documentation>
-		<xs:documentation>28/02/2018 - allineamento a versione 2.1 dell'Allegato B</xs:documentation>
+        <xs:documentation>28/02/2018 - allineamento a versione 2.1 dell'Allegato B</xs:documentation>
     </xs:annotation>
 
     <xs:element name="listaInformativeControparte" type="ctListaInformativeControparte"/>
     <xs:element name="informativaControparte" type="ctInformativaControparte"/>
 
     <xs:simpleType name="stIdServizio">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="[0-9]{5,5}" />
-		</xs:restriction>
-	</xs:simpleType>
-	
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{5,5}" />
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="stSellerBankIdentifier">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
@@ -49,21 +49,21 @@
             <xs:maxLength value="35"/>
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="stText70">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
             <xs:maxLength value="70"/>
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="stText255">
         <xs:restriction base="xs:string">
             <xs:minLength value="1" />
             <xs:maxLength value="255" />
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="stIdNegozio">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
@@ -79,15 +79,15 @@
             <xs:enumeration value="annuale"/>
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="stPagamentiPressoPSP">
         <xs:restriction base="xs:int">
             <xs:enumeration value="0"/> <!-- la PA NON consente i pagamenti c/o PSP -->
             <xs:enumeration value="1"/> <!-- la PA PSP CONSENTE i pagamenti c/o PSP  -->
         </xs:restriction>
     </xs:simpleType>
-	
-	<xs:simpleType name="ctAvvisaturaPull">
+
+    <xs:simpleType name="ctAvvisaturaPull">
         <xs:restriction base="xs:int">
             <xs:enumeration value="0"/> <!-- la PA NON consente avvisatura pull -->
             <xs:enumeration value="1"/> <!-- la PA CONSENTE consente avvisatura pull  -->
@@ -106,11 +106,11 @@
             <xs:element type="stText70" name="ragioneSociale"/>
             <xs:element type="xs:dateTime" name="dataInizioValidita"/>
             <xs:element type="stPagamentiPressoPSP" name="pagamentiPressoPSP"/>
-			<xs:element type="stText255" name="contactCenterEnteCreditore"/>
+            <xs:element type="stText255" name="contactCenterEnteCreditore"/>
             <xs:element type="ctModelloTreSpontaneo" name="modelloTreSpontaneo" minOccurs="0" />
-			<xs:element type="ctAvvisaturaPull" name="avvisaturaPull" minOccurs="0" />
-			<xs:element type="ctErogazioneServizio" name="erogazioneServizio" minOccurs="0" />
-			<xs:element type="ctContoAccredito" name="informativaContoAccredito" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element type="ctAvvisaturaPull" name="avvisaturaPull" minOccurs="0" />
+            <xs:element type="ctErogazioneServizio" name="erogazioneServizio" minOccurs="0" />
+            <xs:element type="ctContoAccredito" name="informativaContoAccredito" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
 
     </xs:complexType>
@@ -128,20 +128,20 @@
             <xs:element type="xs:dateTime" name="dataInizioValidita" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="ctModelloTreSpontaneo">
         <xs:sequence>
-             <xs:element type="ctServiziModelloTreSpontaneo" name="serviziModelloTreSpontaneo" minOccurs="1" maxOccurs="unbounded" />
+            <xs:element type="ctServiziModelloTreSpontaneo" name="serviziModelloTreSpontaneo" minOccurs="1" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="ctErogazioneServizio">
         <xs:sequence>
             <xs:element type="ctErogazione" name="disponibilita" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element type="ctErogazione" name="indisponibilita" minOccurs="0" maxOccurs="unbounded"/>  
+            <xs:element type="ctErogazione" name="indisponibilita" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="ctErogazione">
         <xs:sequence>
             <xs:element name="tipoPeriodo" type="stTipoPeriodo" minOccurs="0"/>
