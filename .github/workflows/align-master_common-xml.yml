@@ -25,8 +25,8 @@ jobs:
           path: pagopa-nodo4-common-xml
           ref: develop
 
-      - name: Create new branch
-        run: cd pagopa-nodo4-common-xml && git checkout -b bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
+      # - name: Create new branch
+      #   run: cd pagopa-nodo4-common-xml && git checkout -b bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
 
       - name: Run align WSDL
         run: bash ./scripts/check_dir.sh -v -a . pagopa-nodo4-common-xml
@@ -35,4 +35,5 @@ jobs:
         run: bash ./scripts/check_dir.sh -v -a -e xsd . pagopa-nodo4-common-xml
 
       - name: Git-push branch
-        run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_new_branch${{ steps.generate-uuid.outputs.uuid }} " && git push --set-upstream origin bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
+        run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_${{ steps.generate-uuid.outputs.uuid }} " && git push
+        # run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_new_branch${{ steps.generate-uuid.outputs.uuid }} " && git push --set-upstream origin bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
