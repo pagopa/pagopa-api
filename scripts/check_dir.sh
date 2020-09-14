@@ -97,6 +97,9 @@ then
         res=`comm -13 <(sort file1.txt) <(sort file2.txt)`
         res1=${res//[[:blank:]]/}
         echo ">>> only into $DST possibly DELETED files -$res1- !!!"
+        if [ -z "$res1" ]; then
+            res1="0"
+        fi
         # echo ">>>>>>>>>>>>>>>>>>>>"
         comm -13 <(sort file1.txt) <(sort file2.txt)
         echo "Done !"
@@ -105,6 +108,9 @@ then
         res=`comm -23 <(sort file1.txt) <(sort file2.txt) | wc -l`
         res2=${res//[[:blank:]]/}
         echo ">>> only into $SRC possibly NEW files -$res2-"
+        if [ -z "$res2" ]; then
+            res2="0"
+        fi
         # echo ">>>>>>>>>>>>>>>>>>>>"
         comm -23 <(sort file1.txt) <(sort file2.txt)
         echo "Done !"
