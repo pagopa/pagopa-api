@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="nodeForPsp"
+				  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+				  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				  xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+				  xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"
+				  xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl"
+				  targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl">
+
+	<wsdl:types>
+		<xsd:schema version="1.0.0">
+			<xsd:import schemaLocation="nodeForPsp.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="verifyPaymentNoticeReq">
+		<wsdl:part name="requestBody" element="nfpsp:verifyPaymentNoticeReq" />
+	</wsdl:message>
+	<wsdl:message name="verifyPaymentNoticeRes">
+		<wsdl:part name="responseBody" element="nfpsp:verifyPaymentNoticeRes" />
+	</wsdl:message>
+
+	<wsdl:message name="activatePaymentNoticeReq">
+		<wsdl:part name="requestBody" element="nfpsp:activatePaymentNoticeReq" />
+	</wsdl:message>
+	<wsdl:message name="activatePaymentNoticeRes">
+		<wsdl:part name="responseBody" element="nfpsp:activatePaymentNoticeRes" />
+	</wsdl:message>
+
+	<wsdl:message name="sendPaymentOutcomeReq">
+		<wsdl:part name="requestBody" element="nfpsp:sendPaymentOutcomeReq" />
+	</wsdl:message>
+	<wsdl:message name="sendPaymentOutcomeRes">
+		<wsdl:part name="responseBody" element="nfpsp:sendPaymentOutcomeRes" />
+	</wsdl:message>
+
+	<wsdl:portType name="nodeForPsp_PortType">
+		<wsdl:operation name="verifyPaymentNotice">
+			<wsdl:input message="tns:verifyPaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeReq"/>
+			<wsdl:output message="tns:verifyPaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeRes"/>
+		</wsdl:operation>
+		<wsdl:operation name="activatePaymentNotice">
+			<wsdl:input message="tns:activatePaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeReq"/>
+			<wsdl:output message="tns:activatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeRes"/>
+		</wsdl:operation>
+		<wsdl:operation name="sendPaymentOutcome">
+			<wsdl:input message="tns:sendPaymentOutcomeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeReq"/>
+			<wsdl:output message="tns:sendPaymentOutcomeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeRes"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="nodeForPsp_Binding" type="tns:nodeForPsp_PortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="verifyPaymentNotice">
+			<soap:operation soapAction="verifyPaymentNotice" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="activatePaymentNotice">
+			<soap:operation soapAction="activatePaymentNotice" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sendPaymentOutcome">
+			<soap:operation soapAction="sendPaymentOutcome" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="nodeForPsp_Service">
+		<wsdl:port name="nodeForPsp_Port" binding="tns:nodeForPsp_Binding">
+			<soap:address location="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
