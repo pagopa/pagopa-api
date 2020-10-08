@@ -19,7 +19,6 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-
     <xsd:simpleType name="stAmount">
         <xsd:restriction base="xsd:decimal">
             <xsd:fractionDigits value="2"/>
@@ -34,13 +33,13 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stIUV">
+    <xsd:simpleType name="stIUVBase">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="[0-9]{13}"/>
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stCheckDigit">
+    <xsd:simpleType name="stIUVCheckDigit">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="[0-9]{2}"/>
         </xsd:restriction>
@@ -55,10 +54,7 @@
 
     <xsd:simpleType name="stAuxDigit">
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="0"/>
-            <xsd:enumeration value="1"/>
-            <xsd:enumeration value="2"/>
-            <xsd:enumeration value="3"/>
+            <xsd:enumeration value="4"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -103,8 +99,8 @@
             <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" minOccurs="1"/>
             <xsd:element name="auxDigit" type="tns:stAuxDigit" minOccurs="1"/>
             <xsd:element name="segregationCode" type="tns:stSegregationCode" minOccurs="1"/>
-            <xsd:element name="IUV" type="tns:stIUV" minOccurs="1"/>
-            <xsd:element name="checkDigit" type="tns:stCheckDigit" minOccurs="1"/>
+            <xsd:element name="IUVBase" type="tns:stIUVBase" minOccurs="1"/>
+            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" minOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
 
@@ -114,8 +110,7 @@
             <xsd:element name="idPA" type="tns:stText35" />
             <xsd:element name="idBrokerPA" type="tns:stText35" />
             <xsd:element name="idStation" type="tns:stText35" />
-            <xsd:element name="IUV" type="tns:stIUV" />
-            <xsd:element name="checkDigit" type="tns:stCheckDigit" />
+            <xsd:element name="qrCode" type="tns:ctQrCode" />
             <xsd:element name="idPSP" type="tns:stText35"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -141,8 +136,7 @@
             <xsd:element name="idPA" type="tns:stText35" />
             <xsd:element name="idBrokerPA" type="tns:stText35" />
             <xsd:element name="idStation" type="tns:stText35" />
-            <xsd:element name="IUV" type="tns:stIUV" />
-            <xsd:element name="checkDigit" type="tns:stText35" />
+            <xsd:element name="qrCode" type="tns:ctQrCode" />
             <xsd:element name="idPSP" type="tns:stText35"/>
             <xsd:element name="amount" type="tns:stAmount"  />
             <xsd:element name="paymentNote" type="tns:stText140" />
@@ -182,7 +176,6 @@
         </xsd:complexContent>
     </xsd:complexType>
     -->
-
 
     <!-- Wrapper Elements -->	
     <xsd:element name="paVerifyPaymentNoticeReq" type="tns:paVerifyPaymentNoticeReq" />
