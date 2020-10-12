@@ -54,8 +54,8 @@
         <xs:restriction base="xs:decimal">
             <xs:minInclusive value="0.01" />
             <xs:fractionDigits value="2" />
-            <xs:totalDigits value="18" />
-            <!--			<xs:pattern value="\d+\.\d{2}" />-->
+            <xs:totalDigits value="11" />
+            <xs:pattern value="\d+\.\d{2}" />
         </xs:restriction>
     </xs:simpleType>
 
@@ -63,8 +63,8 @@
         <xs:restriction base="xs:decimal">
             <xs:minInclusive value="0.00" />
             <xs:fractionDigits value="2" />
-            <xs:totalDigits value="18" />
-            <!--			<xs:pattern value="\d+\.\d{2}" />-->
+            <xs:totalDigits value="11" />
+            <xs:pattern value="\d+\.\d{2}" />
         </xs:restriction>
     </xs:simpleType>
 
