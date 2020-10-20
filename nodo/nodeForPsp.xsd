@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" 
+            xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
+            targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
 
     <!--Simple type-->
     <xsd:simpleType name="stText35">
@@ -26,7 +29,7 @@
     <xsd:simpleType name="stAmount">
         <xsd:restriction base="xsd:decimal">
             <xsd:fractionDigits value="2" />
-            <xsd:totalDigits value="18" />
+            <xsd:totalDigits value="11" />
             <xsd:pattern value="\d+\.\d{2}" />
         </xsd:restriction>
     </xsd:simpleType>
@@ -79,7 +82,7 @@
     <!--Complex type-->
     <xsd:complexType name="ctResponse">
         <xsd:sequence>
-            <xsd:element name="outcome" type="tns:stOutcome" minOccurs="1" />
+            <xsd:element name="outcome" type="tns:stOutcome" />
             <xsd:element name="fault" type="tns:ctFaultBean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
@@ -99,11 +102,11 @@
 
     <xsd:complexType name="ctQrCode">
         <xsd:sequence>
-            <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" minOccurs="1" />
-            <xsd:element name="auxDigit" type="tns:stAuxDigit" minOccurs="1" />
-            <xsd:element name="segregationCode" type="tns:stSegregationCode" minOccurs="1" />
-            <xsd:element name="IUVBase" type="tns:stIUVBase" minOccurs="1" />
-            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" minOccurs="1" />
+            <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" />
+            <xsd:element name="auxDigit" type="tns:stAuxDigit" />
+            <xsd:element name="segregationCode" type="tns:stSegregationCode" />
+            <xsd:element name="IUVBase" type="tns:stIUVBase" />
+            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -127,7 +130,7 @@
                     <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
                     <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
-                    <xsd:element name="commissionPA" type="tns:stAmount" minOccurs="0" />
+                    <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -155,8 +158,8 @@
                     <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
                     <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
-                    <xsd:element name="commissionPA" type="tns:stAmount" minOccurs="0" />
-                    <xsd:element name="paymentToken" type="tns:stUUID" minOccurs="0" />
+                    <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
+                    <xsd:element name="paymentToken" type="tns:stText140" minOccurs="0" />
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -168,10 +171,11 @@
             <xsd:element name="identificativoIntermediarioPSP" type="tns:stText35" />
             <xsd:element name="idChannel" type="tns:stText35" />
             <xsd:element name="password" type="tns:stPassword" />
-            <xsd:element name="paymentToken" type="tns:stUUID" />
+            <xsd:element name="paymentToken" type="tns:stText140" />
             <xsd:element name="esito" type="tns:stOutcome" />
             <xsd:element name="paymentMethod" type="tns:stText35" />
-            <xsd:element name="commissionPA" type="tns:stAmount" />
+            <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
+            <xsd:element name="chargeUser" type="tns:stAmount" />
         </xsd:sequence>
     </xsd:complexType>
 

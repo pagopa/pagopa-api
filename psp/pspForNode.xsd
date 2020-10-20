@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd" 
+            xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
+            targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
 
     <!--Simple type-->
     <xsd:simpleType name="stText35">
@@ -29,26 +32,6 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stSegregationCode">
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="2" />
-            <xsd:pattern value="[0-9]{2}" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stIUVCheckDigit">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{2}" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stSegregationCode">
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="2" />
-            <xsd:pattern value="[0-9]{2}" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
     <xsd:simpleType name="stAmount">
         <xsd:restriction base="xsd:decimal">
             <xsd:fractionDigits value="2" />
@@ -71,16 +54,11 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stIUVBase">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{13}" />
-        </xsd:restriction>
-    </xsd:simpleType>
 
     <!--Complex type-->
     <xsd:complexType name="ctResponse">
         <xsd:sequence>
-            <xsd:element name="outcome" type="tns:stOutcome" minOccurs="1" />
+            <xsd:element name="outcome" type="tns:stOutcome" />
             <xsd:element name="fault" type="tns:ctFaultBean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
@@ -100,26 +78,17 @@
 
     <xsd:complexType name="ctTransferPSP">
         <xsd:sequence>
-            <xsd:element name="idTransfer" type="tns:stText35" minOccurs="1" />
-            <xsd:element name="transferAmount" type="tns:stAmount" minOccurs="1" />
+            <xsd:element name="idTransfer" type="tns:stText35" />
+            <xsd:element name="transferAmount" type="tns:stAmount" />
             <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
-            <xsd:element name="IBAN" type="tns:stIBAN" minOccurs="1" />
-            <xsd:element name="remittanceInformation" type="tns:stText140" minOccurs="1" />
+            <xsd:element name="IBAN" type="tns:stIBAN" />
+            <xsd:element name="remittanceInformation" type="tns:stText140" />
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="ctPaymentPSP">
+    <xsd:complexType name="ctTransferListPSP">
         <xsd:sequence>
-            <xsd:element name="segregationCode" type="tns:stSegregationCode" minOccurs="1" />
-            <xsd:element name="IUVBase" type="tns:stIUVBase" minOccurs="1" />
-            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" minOccurs="1" />
-            <xsd:element name="paymentAmount" type="tns:stAmount" minOccurs="1" />
-            <xsd:element name="description" type="tns:stText140" minOccurs="1" />
-            <xsd:element name="category" type="tns:stText140" minOccurs="1" />
-            <xsd:element name="companyName" type="tns:stText35" minOccurs="1" />
-            <xsd:element name="officeName" type="tns:stText35" minOccurs="1" />
-            <xsd:element name="paFee" type="tns:stAmount" minOccurs="1" />
-            <xsd:element name="transfer" type="tns:ctTransferPSP" minOccurs="1" maxOccurs="5" />
+            <xsd:element name="transfer" type="tns:ctTransferPSP" maxOccurs="5" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -128,8 +97,8 @@
             <xsd:element name="idPSP" type="tns:stText35" />
             <xsd:element name="idBrokerPSP" type="tns:stText35" />
             <xsd:element name="idChannel" type="tns:stText35" />
-            <xsd:element name="paymentToken" type="tns:stUUID" />
-            <xsd:element name="payment" type="tns:ctPaymentPSP" />
+            <xsd:element name="paymentToken" type="tns:stText140" />
+            <xsd:element name="transferList" type="tns:ctTransferListPSP" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -138,6 +107,7 @@
             <xsd:extension base="tns:ctResponse"></xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
+
     <!-- Wrapper Elements -->
     <xsd:element name="pspSendPaymentReq" type="tns:pspSendPaymentReq" />
     <xsd:element name="pspSendPaymentRes" type="tns:pspSendPaymentRes" />
