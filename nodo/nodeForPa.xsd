@@ -107,14 +107,14 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stCodiceIdentificativoUnivoco">
+    <xsd:simpleType name="stEntityUniqueIdentifierValue">
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="2" />
             <xsd:maxLength value="16" />
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stTipoIdentificativoUnivocoPersFG">
+    <xsd:simpleType name="stEntityUniqueIdentifierType">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="F" /> <!-- Persona Fisica -->
             <xsd:enumeration value="G" /> <!-- Persona Giuridica -->
@@ -160,23 +160,23 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="ctIdentificativoUnivocoPersonaFG">
+    <xsd:complexType name="ctEntityUniqueIdentifier">
         <xsd:sequence>
-            <xsd:element name="tipoIdentificativoUnivoco" type="tns:stTipoIdentificativoUnivocoPersFG"/>
-            <xsd:element name="codiceIdentificativoUnivoco" type="tns:stCodiceIdentificativoUnivoco" />
+            <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType"/>
+            <xsd:element name="entityUniqueIdentifierValue" type="tns:stEntityUniqueIdentifierValue" />
         </xsd:sequence>
     </xsd:complexType>
 
     <xsd:complexType name="ctDebtor">
         <xsd:sequence>
-            <xsd:element name="identificativoUnivoco" type="tns:ctIdentificativoUnivocoPersonaFG" />
-            <xsd:element name="anagrafica" type="tns:stText70" />
-            <xsd:element name="indirizzo" type="tns:stText70" minOccurs="0"/>
-            <xsd:element name="civico" type="tns:stText16" minOccurs="0"/>
-            <xsd:element name="cap" type="tns:stText16" minOccurs="0"/>
-            <xsd:element name="localita" type="tns:stText35" minOccurs="0"/>
-            <xsd:element name="provincia" type="tns:stText35" minOccurs="0"/>
-            <xsd:element name="nazione" type="tns:stNazioneProvincia" minOccurs="0"/>
+            <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
+            <xsd:element name="fullAddress" type="tns:stText70" />
+            <xsd:element name="streetName" type="tns:stText70" minOccurs="0"/>
+            <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0"/>
+            <xsd:element name="postalCode" type="tns:stText16" minOccurs="0"/>
+            <xsd:element name="city" type="tns:stText35" minOccurs="0"/>
+            <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0"/>
+            <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0"/>
             <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0"/>
         </xsd:sequence>
     </xsd:complexType>

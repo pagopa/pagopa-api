@@ -167,12 +167,12 @@
 
     <xsd:complexType name="sendPaymentOutcomeReq">
         <xsd:sequence>
-            <xsd:element name="identificativoPSP" type="tns:stText35" />
-            <xsd:element name="identificativoIntermediarioPSP" type="tns:stText35" />
+            <xsd:element name="idPSP" type="tns:stText35" />
+            <xsd:element name="idBrokerPSP" type="tns:stText35" />
             <xsd:element name="idChannel" type="tns:stText35" />
             <xsd:element name="password" type="tns:stPassword" />
             <xsd:element name="paymentToken" type="tns:stText140" />
-            <xsd:element name="esito" type="tns:stOutcome" />
+            <xsd:element name="outcome" type="tns:stOutcome" />
             <xsd:element name="paymentMethod" type="tns:stText35" />
             <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
             <xsd:element name="chargeUser" type="tns:stAmount" />
