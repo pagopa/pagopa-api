@@ -54,6 +54,9 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stISODate">
+        <xsd:restriction base="xsd:date" />
+    </xsd:simpleType>
 
     <!--Complex type-->
     <xsd:complexType name="ctResponse">
@@ -92,6 +95,7 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <!--Element req/res-->
     <xsd:complexType name="pspSendPaymentReq">
         <xsd:sequence>
             <xsd:element name="idPSP" type="tns:stText35" />
@@ -104,7 +108,11 @@
 
     <xsd:complexType name="pspSendPaymentRes">
         <xsd:complexContent>
-            <xsd:extension base="tns:ctResponse"></xsd:extension>
+            <xsd:extension base="tns:ctResponse">
+                <xsd:sequence>
+                    <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" />
+                </xsd:sequence>    
+            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
 

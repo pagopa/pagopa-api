@@ -167,7 +167,7 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="ctDebtor">
+    <xsd:complexType name="ctSubject">
         <xsd:sequence>
             <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
             <xsd:element name="fullAddress" type="tns:stText70" />
@@ -192,7 +192,7 @@
             <xsd:element name="companyName" type="tns:stText35" />
             <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
             <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" />
-            <xsd:element name="debtor" type="tns:ctDebtor"/>
+            <xsd:element name="debtor" type="tns:ctSubject"/>
             <xsd:element name="transferList" type="tns:ctTransferListPA" />
         </xsd:sequence>
     </xsd:complexType>

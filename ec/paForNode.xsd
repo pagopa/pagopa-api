@@ -5,6 +5,13 @@
             targetNamespace="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
 
     <!--Simple type-->
+    <xsd:simpleType name="stText16">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="16" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="stText35">
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="1" />
@@ -12,10 +19,24 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stText70">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="70" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="stText140">
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="1" />
             <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stEMail">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
+            <xsd:maxLength value="256" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -30,6 +51,13 @@
     <xsd:simpleType name="stUUID">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stIBAN">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="35" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -72,8 +100,40 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stEntityUniqueIdentifierValue">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2" />
+            <xsd:maxLength value="16" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stEntityUniqueIdentifierType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="F" /> <!-- Persona Fisica -->
+            <xsd:enumeration value="G" /> <!-- Persona Giuridica -->
+            <xsd:length value="1" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stNazioneProvincia">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]{2,2}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stISODate">
+        <xsd:restriction base="xsd:date" />
+    </xsd:simpleType>
 
     <!--Complex type-->
+
+    <xsd:complexType name="ctEntityUniqueIdentifier">
+        <xsd:sequence>
+            <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType"/>
+            <xsd:element name="entityUniqueIdentifierValue" type="tns:stEntityUniqueIdentifierValue" />
+        </xsd:sequence>
+    </xsd:complexType>
+
     <xsd:complexType name="ctResponse">
         <xsd:sequence>
             <xsd:element name="outcome" type="tns:stOutcome" />
@@ -94,6 +154,25 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:complexType name="ctTransferPA">
+        <xsd:sequence>
+            <xsd:element name="idTransfer" type="tns:stText35" />
+            <xsd:element name="transferAmount" type="tns:stAmount" />
+            <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
+            <xsd:element name="IBAN" type="tns:stIBAN" />
+            <xsd:element name="remittanceInformation" type="tns:stText140" />
+            <xsd:element name="transferCategory" type="tns:stText140"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="ctTransferListPA">
+        <xsd:sequence>
+            <xsd:element name="transfer" type="tns:ctTransferPA" maxOccurs="5" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
     <xsd:complexType name="ctQrCode">
         <xsd:sequence>
             <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" />
@@ -101,6 +180,48 @@
             <xsd:element name="segregationCode" type="tns:stSegregationCode" />
             <xsd:element name="IUVBase" type="tns:stIUVBase" />
             <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    
+    <xsd:complexType name="ctSubject">
+        <xsd:sequence>
+            <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
+            <xsd:element name="fullAddress" type="tns:stText70" />
+            <xsd:element name="streetName" type="tns:stText70" minOccurs="0"/>
+            <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0"/>
+            <xsd:element name="postalCode" type="tns:stText16" minOccurs="0"/>
+            <xsd:element name="city" type="tns:stText35" minOccurs="0"/>
+            <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0"/>
+            <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0"/>
+            <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="ctReceipt">
+        <xsd:sequence>
+            <!-- datiPA -->
+            <xsd:element name="segregationCode" type="tns:stSegregationCode" />
+            <xsd:element name="IUVBase" type="tns:stIUVBase" />
+            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
+            <xsd:element name="paymentAmount" type="tns:stAmount" />
+            <xsd:element name="description" type="tns:stText140" />
+            <xsd:element name="paymentCategory" type="tns:stText140"/>
+            <xsd:element name="companyName" type="tns:stText35" />
+            <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
+            <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" /> <!--questa è la massima commissione pagabile da PA-->
+            <xsd:element name="debtor" type="tns:ctSubject"/>
+            <xsd:element name="transferList" type="tns:ctTransferListPA" />
+            <!-- datiPSP -->
+            <xsd:element name="idPSP" type="tns:stText35" />
+            <!-- <xsd:element name="PSPCompanyName" type="tns:stText35" /> -->
+            <xsd:element name="outcome" type="tns:stOutcome" />
+            <xsd:element name="payer" type="tns:ctSubject" minOccurs="0"/>
+            <xsd:element name="paymentMethod" type="tns:stText35" minOccurs="0"/>
+            <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> --> <!--questa è commissione effettiva pagata da PA-->
+            <xsd:element name="chargeUser" type="tns:stAmount" minOccurs="0"/>
+            <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -156,24 +277,23 @@
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
-
-    <!--
+    
     <xsd:complexType name="paSendRTReq">
         <xsd:sequence>
-            <xsd:element name="tokenPagamento" type="tns:stUUID" />
-            <xsd:element name="CFEnte" type="tns:stCF" minOccurs="0"/>
-            <xsd:element name="rt" type="xsd:base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
-            <xsd:element name="dataRiversamento" type="tns:stText35" />
+            <xsd:element name="idPA" type="tns:stText35" />
+            <xsd:element name="idBrokerPA" type="tns:stText35" />
+            <xsd:element name="idStation" type="tns:stText35" />
+            <xsd:element name="paymentToken" type="tns:stText140" />
+            <xsd:element name="receipt" type="tns:ctReceipt" />
         </xsd:sequence>
     </xsd:complexType>
 
     <xsd:complexType name="paSendRTRes">
         <xsd:complexContent>
-            <xsd:extension base="tns:ctRisposta">
+            <xsd:extension base="tns:ctResponse">
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
-    -->
 
     <!-- Wrapper Elements -->	
     <xsd:element name="paVerifyPaymentNoticeReq" type="tns:paVerifyPaymentNoticeReq" />
@@ -181,8 +301,8 @@
 
     <xsd:element name="paActivatePaymentNoticeReq" type="tns:paActivatePaymentNoticeReq" />
     <xsd:element name="paActivatePaymentNoticeRes" type="tns:paActivatePaymentNoticeRes" />
-    <!-- 
+    
     <xsd:element name="paSendRTReq" type="tns:paSendRTReq" />
     <xsd:element name="paSendRTRes" type="tns:paSendRTRes" />
-     -->
+
 </xsd:schema>
