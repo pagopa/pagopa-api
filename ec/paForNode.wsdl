@@ -26,14 +26,12 @@
 	<wsdl:message name="paActivatePaymentNoticeRes">
 		<wsdl:part name="responseBody" element="pafn:paActivatePaymentNoticeRes"/>
 	</wsdl:message>
-	<!--
 	<wsdl:message name="paSendRTReq">
 		<wsdl:part name="requestBody" element="pafn:paSendRTReq" />
 	</wsdl:message>
 	<wsdl:message name="paSendRTRes">
 		<wsdl:part name="responseBody" element="pafn:paSendRTRes" />
 	</wsdl:message>
-	-->
 
 	<wsdl:portType name="paForNode_PortType">
 		<wsdl:operation name="paVerifyPaymentNotice">
@@ -44,12 +42,10 @@
 			<wsdl:input message="tns:paActivatePaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paActivatePaymentNoticeReq"/>
 			<wsdl:output message="tns:paActivatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paActivatePaymentNoticeRes"/>
 		</wsdl:operation>
-		<!--
 		<wsdl:operation name="paSendRT">
 			<wsdl:input message="tns:paSendRTReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paSendRTReq"/>
 			<wsdl:output message="tns:paSendRTRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paSendRTRes"/>
 		</wsdl:operation>
-		-->
 	</wsdl:portType>
 
 	<wsdl:binding name="paForNode_Binding" type="tns:paForNode_PortType">
@@ -73,7 +69,6 @@
 				<soap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<!--
 		<wsdl:operation name="paSendRT">
 			<soap:operation soapAction="paSendRT" />
 			<wsdl:input>
@@ -83,7 +78,6 @@
 				<soap:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
-		-->
 	</wsdl:binding>
 
 	<wsdl:service name="paForNode_Service">
