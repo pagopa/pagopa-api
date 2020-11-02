@@ -207,7 +207,7 @@
 
     <xsd:complexType name="activatePaymentNoticeReq">
         <xsd:sequence>
-            <xsd:element name="idempotencyKey" type="tns:stUUID" />
+            <xsd:element name="idempotencyKey" type="tns:stText140" />
             <xsd:element name="idPSP" type="tns:stText35" />
             <xsd:element name="idBrokerPSP" type="tns:stText35" />
             <xsd:element name="idChannel" type="tns:stText35" />

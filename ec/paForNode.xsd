@@ -260,7 +260,7 @@
 
     <xsd:complexType name="paActivatePaymentNoticeReq">
         <xsd:sequence>
-            <xsd:element name="idempotencyKey" type="tns:stUUID" />	
+            <xsd:element name="idempotencyKey" type="tns:stText140" />	
             <xsd:element name="idPA" type="tns:stText35" />
             <xsd:element name="idBrokerPA" type="tns:stText35" />
             <xsd:element name="idStation" type="tns:stText35" />
