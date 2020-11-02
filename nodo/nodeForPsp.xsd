@@ -122,6 +122,10 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stISODate">
+        <xsd:restriction base="xsd:date" />
+    </xsd:simpleType>
+
     <!--Complex type-->
 
     <xsd:complexType name="ctEntityUniqueIdentifier">
@@ -134,7 +138,7 @@
     <xsd:complexType name="ctSubject">
         <xsd:sequence>
             <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
-            <xsd:element name="fullAddress" type="tns:stText70" />
+            <xsd:element name="fullName" type="tns:stText70" />
             <xsd:element name="streetName" type="tns:stText70" minOccurs="0"/>
             <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0"/>
             <xsd:element name="postalCode" type="tns:stText16" minOccurs="0"/>
@@ -242,6 +246,7 @@
             <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
             <xsd:element name="chargeUser" type="tns:stAmount" />
             <xsd:element name="payer" type="tns:ctSubject" minOccurs="0"/>
+            <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa-->
         </xsd:sequence>
     </xsd:complexType>
 
