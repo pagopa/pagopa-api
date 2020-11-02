@@ -190,6 +190,30 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="stIdentificativoFlusso">
+		<xs:annotation>
+			<xs:documentation>
+				Identificativo della richiesta di configurazione, contiene l'identificativo del PSP e la data di richiesta.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Z]{8}_[0-9]{2}-[0-9]{2}-[0-9]{2}"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="stIdentificativoPSP">
+		<xs:annotation>
+			<xs:documentation>
+				Identificativo del PSP all'interno della piattaforma. 
+				Viene assegnato a seguito della sottoscrizione del contratto.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z0-9]{8}"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+
 	<xs:complexType name="ctIdentificazioneServizio">
 		<xs:sequence>
 			<xs:element type="stText35" name="nomeServizio"/>
@@ -205,20 +229,17 @@
 
 	<xs:complexType name="ctInformativaPSP">
 		<xs:sequence>
-			<xs:element type="stText35" name="identificativoFlusso">
+			<xs:element type="stIdentificativoFlusso" name="identificativoFlusso">
 				<xs:annotation>
 					<xs:documentation>
-						identificativo univoco per la richiesta di configurazione del PSP.
-						si consiglia il formato **identificativoPSP_GG-MM-AAA**
+						identificativo della richiesta
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element type="stText35" name="identificativoPSP">
+			<xs:element type="stIdentificativoPSP" name="identificativoPSP">
 				<xs:annotation>
 					<xs:documentation>
-						identificativo del PSP all'interno della piattaforma pagoPA.
-						Tale identificativo viene comunicato a seguito della sottoscrizione del contratto;
-						Usualmente viene utilizzato il formato "ABIXXXXX" dove XXXXX rappresenta il valore del codice ABI del PSP.
+						identificativo del PSP
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -261,7 +282,7 @@
 			<xs:element type="ctListaInformativaDetail" name="listaInformativaDetail">
 				<xs:annotation>
 					<xs:documentation>
-						.... 
+						Configurazione dei servizi di pagamento
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -269,9 +290,23 @@
 	</xs:complexType>
 
 	<xs:complexType name="ctListaInformativaDetail">
-		<xs:sequence>
-			<xs:element type="ctInformativaDetail" name="informativaDetail" maxOccurs="unbounded" minOccurs="1"/>
-		</xs:sequence>
+		<xs:choice >
+			<xs:sequence>
+				<xs:element type="ctInformativaDetail" name="informativaDetail" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Custom Configuration</xs:documentation>
+				</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence >
+				<xs:element type="ctCBILL" name="informativaDetail" minOccurs="0"> 
+					<xs:annotation>
+						<xs:documentation> Sezione pre-compilata per CBILL</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+		
 	</xs:complexType>
 
 	<xs:complexType name="ctListaInformazioniServizio">
@@ -303,6 +338,22 @@
 		</xs:sequence>
 	</xs:complexType>
 
+
+	<xs:complexType name="ctCBILL">
+		<xs:sequence>
+			<xs:element type="stText35" name="identificativoIntermediario" fixed="CBILL">
+			</xs:element>
+			<xs:element type="stIdentificativoCanale" name="identificativoCanale" fixed="CBILL_Channel">
+			</xs:element>
+			<xs:element type="stTipoVersamento" name="tipoVersamento" fixed="PO"/>
+			<xs:element type="stModelloPagamento" name="modelloPagamento" fixed="4" />
+			<xs:element type="xs:int" name="priorita" fixed="0" />
+			<xs:element type="stZeroUno" name="canaleApp" fixed="0"/>
+			<xs:element type="ctListaInformazioniServizio" name="listaInformazioniServizio"/>
+			<xs:element type="ctCostiServizio" name="costiServizio"/>
+		</xs:sequence>
+	</xs:complexType>
+	
 	<xs:complexType name="ctInformativaDetail">
 		<xs:sequence>
 			<xs:element type="stText35" name="identificativoIntermediario">
