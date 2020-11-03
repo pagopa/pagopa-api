@@ -42,9 +42,8 @@
 
     <xsd:simpleType name="stAmount">
         <xsd:restriction base="xsd:decimal">
-            <xsd:fractionDigits value="2"/>
-            <xsd:totalDigits value="11"/>
-            <xsd:pattern value="\d+\.\d{2}" />
+            <xsd:pattern value="\d+\.\d{2}"/>
+            <xsd:maxInclusive value="999999999.99"/>
         </xsd:restriction>
     </xsd:simpleType>
 
