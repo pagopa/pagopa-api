@@ -18,13 +18,13 @@
             </xs:documentation>
         </xs:annotation>
     </xs:element>
-    <!-- <xs:element name="informativaPSP" type="ctInformativaPSP">
+    <xs:element name="informativaPSP" type="ctInformativaPSP">
         <xs:annotation>
             <xs:documentation>
                 All'interno di questo elemento viene descritta la configurazione di un singolo PSP
             </xs:documentation>
         </xs:annotation>
-    </xs:element> -->
+    </xs:element>
 
     <xs:simpleType name="stText35">
         <xs:restriction base="xs:string">
