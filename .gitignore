@@ -2,3 +2,5 @@
 examples
 metals.*
 settings.json
+xsdvi/
+*.log

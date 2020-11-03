@@ -1,0 +1,92 @@
+svg {
+  pointer-events: none;
+}
+text {
+  font-family: arial;
+  font-size: 11px;
+}
+line,
+polyline,
+polygon {
+  fill: none;
+  stroke: black;
+}
+
+.strong {
+  font-size: 12px;
+  font-weight: bold;
+}
+.small {
+  font-size: 10px;
+}
+.big {
+  font-size: 15px;
+  fill: #882222;
+}
+
+.button {
+  fill: white;
+  stroke: black;
+  pointer-events: all;
+}
+.shadow {
+  fill: #ccccd8;
+  stroke: none;
+}
+.connection {
+  fill: none;
+  stroke: #666666;
+}
+.empty {
+  fill: none;
+  stroke: black;
+}
+.filled {
+  fill: black;
+  stroke: none;
+}
+
+.boxelement,
+.boxany,
+.boxattribute1,
+.boxanyattribute {
+  fill: #ffffbb;
+  stroke: #776633;
+  pointer-events: all;
+}
+.boxattribute2 {
+  fill: #ffffbb;
+  stroke: #776633;
+  pointer-events: all;
+  stroke-dasharray: 2;
+}
+.boxschema,
+.boxloop,
+.boxcompositor {
+  fill: #e7ebf3;
+  stroke: #666677;
+}
+.boxselector,
+.boxfield,
+.boxidc {
+  fill: #e0f7b7;
+  stroke: #667733;
+}
+
+.lax {
+  fill: white;
+  stroke: black;
+}
+.skip {
+  fill: #cc6666;
+  stroke: black;
+}
+.strict {
+  fill: black;
+  stroke: none;
+}
+
+.border {
+  fill: #f9f9f9;
+  stroke: #dddddd;
+}
