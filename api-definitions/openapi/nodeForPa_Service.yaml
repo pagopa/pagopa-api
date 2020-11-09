@@ -1,9 +1,14 @@
 swagger: '2.0'
 info:
   title: nodeForPa_Service
-  description: ''
+  # description: ''
   x-ibm-name: nodeforpaservice
-  version: 1.0.0
+  version: Beta 1.0.0
+  x-logo:
+    url: 'https://www.cittametropolitana.genova.it/sites/default/files/siti-tematici/Logo%20PagoPA.jpg'
+    backgroundColor: '#FFFFFF'
+  description:
+    $ref: description.md
 schemes:
   - https
 basePath: /nodeForPa_Service

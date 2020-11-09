@@ -1,5 +1,4 @@
 apiDefinitions:
-  combined : openapi/combined.yaml
   nodeForPa_Service : openapi/nodeForPa_Service.yaml
   nodeForPsp_Service : openapi/nodeForPsp_Service.yaml
   paForNode_Service : openapi/paForNode_Service.yaml

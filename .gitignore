@@ -10,3 +10,5 @@ generator/src/wsdl/*.wsdl
 generator/out/*.yaml
 yarn.lock
 yarn-error.*
+api-definitions/openapi/combined.yaml
+api-definitions/openapi/_SNIPPET.yaml

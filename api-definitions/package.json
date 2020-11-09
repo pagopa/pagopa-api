@@ -8,6 +8,7 @@
     "scripts": {
         "start": "openapi preview-docs",
         "build": "openapi bundle -o dist",
-        "test": "openapi lint"
+        "test": "openapi lint",
+        "nodeForPsp_Service": "npm run start nodeForPa_Service"
     }
 }
