@@ -2,3 +2,11 @@
 examples
 metals.*
 settings.json
+conf/
+node_modules/
+package-lock.json
+generator/src/wsdl/*.xsd
+generator/src/wsdl/*.wsdl
+generator/out/*.yaml
+yarn.lock
+yarn-error.*

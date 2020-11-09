@@ -1,0 +1,516 @@
+swagger: '2.0'
+info:
+  title: pspForNode_Service
+  description: ''
+  x-ibm-name: pspfornodeservice
+  version: 1.0.0
+schemes:
+  - https
+basePath: /pspForNode_Service
+produces:
+  - application/xml
+consumes:
+  - text/xml
+securityDefinitions:
+  clientID:
+    type: apiKey
+    name: X-IBM-Client-Id
+    in: header
+    description: ''
+security:
+  - clientID: []
+x-ibm-configuration:
+  type: wsdl
+  phase: realized
+  enforced: true
+  testable: true
+  gateway: datapower-gateway
+  cors:
+    enabled: true
+  wsdl-definition:
+    wsdl: pspForNode.wsdl
+    service: pspForNode_Service
+    port: pspForNode_Port
+    soap-version: '1.1'
+  assembly:
+    execute:
+      - proxy:
+          title: proxy
+          target-url: 'http://pagopa-api.pagopa.gov.it/service/psp/pspForNode'
+  x-ibm-apiconnect-wsdl:
+    package-version: 1.8.31
+    options: {}
+    messages:
+      info: []
+      warning: []
+      error: []
+paths:
+  /pspSendPayment:
+    post:
+      summary: Operation pspSendPayment
+      description: ''
+      operationId: pspSendPayment
+      x-ibm-soap:
+        soap-action: pspSendPayment
+        soap-operation: '{http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd}pspSendPaymentReq'
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/pspSendPaymentInput'
+      responses:
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/pspSendPaymentOutput'
+definitions:
+  Security:
+    xml:
+      namespace: >-
+        http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+      prefix: wsse
+    description: Header for WS-Security
+    type: object
+    properties:
+      UsernameToken:
+        xml:
+          namespace: >-
+            http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+          prefix: wsse
+        type: object
+        properties:
+          Username:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+              prefix: wsse
+            type: string
+          Password:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+              prefix: wsse
+            type: string
+          Nonce:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+              prefix: wsse
+            type: string
+            properties:
+              EncodingType:
+                xml:
+                  namespace: ''
+                  attribute: true
+                type: string
+          Created:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+            type: string
+      Timestamp:
+        xml:
+          namespace: >-
+            http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+          prefix: wsu
+        type: object
+        properties:
+          Created:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+            type: string
+          Expires:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+            type: string
+          Id:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+              attribute: true
+            type: string
+  pspSendPaymentInput:
+    description: Input message for wsdl operation pspSendPaymentReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Header:
+            $ref: '#/definitions/pspSendPaymentHeader'
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              pspSendPaymentReq:
+                $ref: '#/definitions/pspSendPaymentReq_element_pspfn'
+            required:
+              - pspSendPaymentReq
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/psp/pspForNode.wsdl}pspForNode_Port'
+      wsdl-operation: pspSendPaymentReq
+      wsdl-message-direction-or-name: pspSendPaymentReqRequest
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Header>
+        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken>
+          <wsse:Username>string</wsse:Username>
+          <wsse:Password>string</wsse:Password>
+          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
+          <wsu:Created>string</wsu:Created>
+         </wsse:UsernameToken>
+         <wsu:Timestamp wsu:Id="string">
+          <wsu:Created>string</wsu:Created>
+          <wsu:Expires>string</wsu:Expires>
+         </wsu:Timestamp>
+        </wsse:Security>
+       </soapenv:Header>
+       <soapenv:Body>
+        <pspfn:pspSendPaymentReq xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"><!-- mandatory -->
+         <idPSP><!-- mandatory -->string</idPSP>
+         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+         <idChannel><!-- mandatory -->string</idChannel>
+         <paymentToken><!-- mandatory -->string</paymentToken>
+         <transferList><!-- mandatory -->
+          <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+           <idTransfer><!-- mandatory -->string</idTransfer>
+           <transferAmount><!-- mandatory -->999999996.99</transferAmount>
+           <fiscalCodePA>string</fiscalCodePA>
+           <IBAN><!-- mandatory -->string</IBAN>
+           <remittanceInformation><!-- mandatory -->string</remittanceInformation>
+          </transfer>
+         </transferList>
+        </pspfn:pspSendPaymentReq>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  pspSendPaymentHeader:
+    description: Input headers for wsdl operation pspSendPaymentReq
+    type: object
+    properties:
+      Security:
+        $ref: '#/definitions/Security'
+  pspSendPaymentOutput:
+    description: Output message for wsdl operation pspSendPaymentReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              pspSendPaymentRes:
+                $ref: '#/definitions/pspSendPaymentRes_element_pspfn'
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/psp/pspForNode.wsdl}pspForNode_Port'
+      wsdl-operation: pspSendPaymentReq
+      wsdl-message-direction-or-name: pspSendPaymentReqResponse
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+        <pspfn:pspSendPaymentRes xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
+         <outcome><!-- mandatory -->string</outcome>
+         <fault>
+          <faultCode><!-- mandatory -->string</faultCode>
+          <faultString><!-- mandatory -->string</faultString>
+          <id><!-- mandatory -->string</id>
+          <description>string</description>
+          <serial>3</serial>
+          <originalFaultCode>string</originalFaultCode>
+          <originalFaultString>string</originalFaultString>
+          <originalDescription>string</originalDescription>
+         </fault>
+         <transferDate>2016-04-18</transferDate>
+        </pspfn:pspSendPaymentRes>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  pspSendPaymentReq_element_pspfn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+      name: pspSendPaymentReq
+    type: object
+    properties:
+      idPSP:
+        $ref: '#/definitions/stText35_type_pspfn'
+      idBrokerPSP:
+        $ref: '#/definitions/stText35_type_pspfn'
+      idChannel:
+        $ref: '#/definitions/stText35_type_pspfn'
+      paymentToken:
+        $ref: '#/definitions/stText140_type_pspfn'
+      transferList:
+        $ref: '#/definitions/ctTransferListPSP_type_pspfn'
+    required:
+      - idPSP
+      - idBrokerPSP
+      - idChannel
+      - paymentToken
+      - transferList
+    example: >-
+
+      <pspfn:pspSendPaymentReq
+      xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
+       <idPSP><!-- mandatory -->string</idPSP>
+       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+       <idChannel><!-- mandatory -->string</idChannel>
+       <paymentToken><!-- mandatory -->string</paymentToken>
+       <transferList><!-- mandatory -->
+        <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+         <idTransfer><!-- mandatory -->string</idTransfer>
+         <transferAmount><!-- mandatory -->999999996.99</transferAmount>
+         <fiscalCodePA>string</fiscalCodePA>
+         <IBAN><!-- mandatory -->string</IBAN>
+         <remittanceInformation><!-- mandatory -->string</remittanceInformation>
+        </transfer>
+       </transferList>
+      </pspfn:pspSendPaymentReq>
+  pspSendPaymentRes_element_pspfn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+      name: pspSendPaymentRes
+    allOf:
+      - $ref: '#/definitions/ctResponse_type_pspfn'
+      - type: object
+        properties:
+          transferDate:
+            $ref: '#/definitions/stISODate_type_pspfn'
+    example: >-
+
+      <pspfn:pspSendPaymentRes
+      xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
+       <outcome><!-- mandatory -->string</outcome>
+       <fault>
+        <faultCode><!-- mandatory -->string</faultCode>
+        <faultString><!-- mandatory -->string</faultString>
+        <id><!-- mandatory -->string</id>
+        <description>string</description>
+        <serial>3</serial>
+        <originalFaultCode>string</originalFaultCode>
+        <originalFaultString>string</originalFaultString>
+        <originalDescription>string</originalDescription>
+       </fault>
+       <transferDate>2016-04-18</transferDate>
+      </pspfn:pspSendPaymentRes>
+  stText35_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stText35
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stText35_type_pspfn
+  stText140_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 140
+    x-xsi-type: stText140
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stText140_type_pspfn
+  ctTransferListPSP_type_pspfn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      transfer:
+        type: array
+        minItems: 1
+        maxItems: 5
+        items:
+          $ref: '#/definitions/ctTransferPSP_type_pspfn'
+    required:
+      - transfer
+    x-xsi-type: ctTransferListPSP
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: ctTransferListPSP_type_pspfn
+  stISODate_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    format: date
+    x-xsi-type: stISODate
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stISODate_type_pspfn
+  stOutcome_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    enum:
+      - OK
+      - KO
+    x-xsi-type: stOutcome
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stOutcome_type_pspfn
+  ctFaultBean_type_pspfn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      faultCode:
+        xml:
+          namespace: ''
+        type: string
+      faultString:
+        xml:
+          namespace: ''
+        type: string
+      id:
+        xml:
+          namespace: ''
+        type: string
+      description:
+        xml:
+          namespace: ''
+        type: string
+      serial:
+        xml:
+          namespace: ''
+        type: integer
+        format: int32
+      originalFaultCode:
+        xml:
+          namespace: ''
+        type: string
+      originalFaultString:
+        xml:
+          namespace: ''
+        type: string
+      originalDescription:
+        xml:
+          namespace: ''
+        type: string
+    required:
+      - faultCode
+      - faultString
+      - id
+    x-xsi-type: ctFaultBean
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: ctFaultBean_type_pspfn
+  ctTransferPSP_type_pspfn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      idTransfer:
+        $ref: '#/definitions/stText35_type_pspfn'
+      transferAmount:
+        $ref: '#/definitions/stAmount_type_pspfn'
+      fiscalCodePA:
+        $ref: '#/definitions/stFiscalCodePA_type_pspfn'
+      IBAN:
+        $ref: '#/definitions/stIBAN_type_pspfn'
+      remittanceInformation:
+        $ref: '#/definitions/stText140_type_pspfn'
+    required:
+      - idTransfer
+      - transferAmount
+      - IBAN
+      - remittanceInformation
+    x-xsi-type: ctTransferPSP
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: ctTransferPSP_type_pspfn
+  stAmount_type_pspfn:
+    xml:
+      namespace: ''
+    type: number
+    maximum: 999999999.99
+    pattern: '\d+\.\d{2}'
+    x-xsi-type: stAmount
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stAmount_type_pspfn
+  stFiscalCodePA_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[0-9]{11}'
+    minLength: 11
+    maxLength: 11
+    x-xsi-type: stFiscalCodePA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stFiscalCodePA_type_pspfn
+  stIBAN_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIBAN
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stIBAN_type_pspfn
+  ctResponse_type_pspfn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      outcome:
+        $ref: '#/definitions/stOutcome_type_pspfn'
+      fault:
+        $ref: '#/definitions/ctFaultBean_type_pspfn'
+    required:
+      - outcome
+    x-ibm-discriminator: true
+    x-xsi-type: ctResponse
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: ctResponse_type_pspfn
