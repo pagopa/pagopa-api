@@ -53,8 +53,6 @@
         <xs:restriction base="xs:decimal">
             <xs:minInclusive value="0.00" />
             <xs:maxInclusive value="999999999.99" />
-            <xs:fractionDigits value="2" />
-            <xs:totalDigits value="11" />
             <xs:pattern value="\d+\.\d{2}" />
         </xs:restriction>
     </xs:simpleType>
