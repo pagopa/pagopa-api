@@ -1,17 +1,9 @@
 # Configurazione di un PSP
 
-La configurazione di un PSP all'interno della piattaforma pagoPA avviene tramite la trasmissione di un file xml il cui schema è riportato all'intenro di CatalogoDatiInformativi.xsd
+La configurazione di un PSP all'interno della piattaforma pagoPA avviene tramite la trasmissione di:
 
-## Premessa
-
-Per poter essere configurati all'interno della piattaforma è necessario che sia stata abilitata la connessione e l'autenticazione.
-
-### Connessione ed autenticazione
-
-La piattaforma pagoPA è raggiungibile via :
-
-- public-internet
-- VPN dedicata
+- Il CatalogoDatiInformativi ( CDI) , file xml il cui schema è rappresentato dal file CatalogoDatiInformativi.xsd
+- Report della configurazione, file html dove vengono riassunte le iformazioni essenziali dei servizi configurati
 
 ## building
 
@@ -38,15 +30,15 @@ Per compulare un catalogo dati è possibile aprire tramite il proprio Browser la
 Verrà scaricato un file nominato CDISample.xml.
 rinominatelo con lo stesso valore del campo IdentificativoFlusso.
 
-## Report Business
+## Creazione del Report
 
-Per evidenziare i dati di business legati alla configurazione, è possibile generare un report HTML utilizzando
+Per evidenziare i servizi configurati ,è possibile generare un report HTML utilizzando
 
 `./cdi2html.sh <filenameXML>`
 
 creerà il file
 `/out/<filenameXML>.html`
 
-## Invio del Catalogo Dati
+## Invio dei dati di configurazione
 
-Il CDI deve essere inviato,assieme al report , all'indirizzo helpdesk@pagopa.gov.it da un PSP o da un Mandatario Qualificato nominato dal PSP. L'invio di CDI da soggetti diversi non sarà preso in considerazione.
+Il CDI ed annesso report, devono  essere inviati all'indirizzo helpdesk@pagopa.gov.it da un PSP o da un Mandatario Qualificato nominato dal PSP stesso. L'invio di CDI da soggetti diversi non sarà preso in considerazione.
