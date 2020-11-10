@@ -146,7 +146,7 @@
         <xsd:sequence>
             <xsd:element name="idTransfer" type="tns:stText35" />
             <xsd:element name="transferAmount" type="tns:stAmount" />
-            <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
+            <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
             <xsd:element name="IBAN" type="tns:stIBAN" />
             <xsd:element name="remittanceInformation" type="tns:stText140" />
             <xsd:element name="transferCategory" type="tns:stText140"/>
