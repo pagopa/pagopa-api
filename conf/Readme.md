@@ -15,10 +15,10 @@ La piattaforma pagoPA è raggiungibile via :
 
 ## building
 
-all'interno della directory `conf` eseguire i comandi 
+all'interno della directory `conf` eseguire i comandi
 
 `xslproc -o ./out/CatalogoDatiInformativi.html ./xs3p/xs3p.xsl CatalogoDatiInformativi.xsd`
-Per la compilazione della pagina di documentazione 
+Per la compilazione della pagina di documentazione
 
 `xslproc -o ./out/form_CatalogoDatiInformativi.html ./xs2html2xml/form_CatalogoDatiInformativi.html`
 per la creazione di una form dinamica.
@@ -34,8 +34,19 @@ La documentazione del formato CDI è specificata tramite il file CatalogodatiInf
 ## Compilazione del Catalogo Dati
 
 Per compulare un catalogo dati è possibile aprire tramite il proprio Browser la pagina `./out/form_CatalogoDatiInformativi.html` , compilare il form e presemere il taso `Download`.
-Verrà scaricato un file nominato CDISample.xml , rinominatelo con lo stesso valore del campo IdentificativoFlusso.
+
+Verrà scaricato un file nominato CDISample.xml.
+rinominatelo con lo stesso valore del campo IdentificativoFlusso.
+
+## Report Business
+
+Per evidenziare i dati di business legati alla configurazione, è possibile generare un report HTML utilizzando
+
+`./cdi2html.sh <filenameXML>`
+
+creerà il file
+`/out/<filenameXML>.html`
 
 ## Invio del Catalogo Dati
 
-Il CDI deve essere inviato all'indirizzo helpdesk@pagopa.gov.it da un PSP o da un Mandatario Qualificato nominato dal PSP. L'invio di CDI da soggetti diversi non sarà preso in considerazione.
+Il CDI deve essere inviato,assieme al report , all'indirizzo helpdesk@pagopa.gov.it da un PSP o da un Mandatario Qualificato nominato dal PSP. L'invio di CDI da soggetti diversi non sarà preso in considerazione.

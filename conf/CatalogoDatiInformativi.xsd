@@ -74,7 +74,7 @@
 			</xs:documentation>
 		</xs:annotation>
 			<xs:restriction base="xs:string">
-				<xs:pattern value="[0-9A-Z]{15}"></xs:pattern>
+				<xs:pattern value="[0-9A-Z]{1,15}"></xs:pattern>
 			</xs:restriction>	
 	</xs:simpleType>
 
@@ -169,14 +169,23 @@
 
 	<xs:simpleType name="stImportoMassimoFascia">
 		<xs:restriction base="xs:decimal">
+			<xs:enumeration value="5.00"></xs:enumeration>
+			<xs:enumeration value="10.00"></xs:enumeration>
+			<xs:enumeration value="30.00"></xs:enumeration>
+
 			<xs:enumeration value="50.00"></xs:enumeration>
+			<xs:enumeration value="100.00"></xs:enumeration>
+
 			<xs:enumeration value="150.00"></xs:enumeration>
+			<xs:enumeration value="200.00"></xs:enumeration>
+
 			<xs:enumeration value="250.00"></xs:enumeration>
 			<xs:enumeration value="500.00"></xs:enumeration>
 			<xs:enumeration value="1000.00"></xs:enumeration>
 			<xs:enumeration value="1500.00"></xs:enumeration>
 			<xs:enumeration value="2000.00"></xs:enumeration>
 			<xs:enumeration value="999999999.99"></xs:enumeration>
+
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -435,7 +444,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element type="stZeroUno" name="stornoPagamento" default="0">
+			<xs:element type="stZeroUno" name="stornoPagamento" fixed="0">
 				<xs:annotation>
 					<xs:documentation>
 						Abilitazione allo Storno (deprecato  =0 )
@@ -452,11 +461,8 @@
 			<xs:element type="xs:base64Binary" name="logoPSP">
 				<xs:annotation>
 					<xs:documentation>
-						logo del PSP
+						logo del PSP in formato PNG, con sfondo trasparente e senza margini interni
 					</xs:documentation>
-					<xs:appinfo>
-						formato PNG, con sfondo trasparente e senza margini interni
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -542,7 +548,8 @@
 			<xs:element type="stText140" name="descrizioneServizio" minOccurs="0" default="Pagamento con CBILL"/>
 			<xs:element type="stText140" name="disponibilitaServizio" default="24/7/7"/>
 			<xs:element type="stText140" name="limitazioniServizio" minOccurs="0"/>
-			<xs:element type="stUrlInformazioni" name="urlInformazioniCanale" minOccurs="0"/>
+			<xs:element type="stUrlInformazioni" name="urlInformazioniCanale" minOccurs="0">
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -551,7 +558,7 @@
 	<xs:complexType name="ctFasciaCostoServizio">
 		<xs:sequence>
 			<xs:element type="stImportoMassimoFascia" name="importoMassimoFascia"/>
-			<xs:element type="stImportoZero" name="costoFisso" default="0.00"/>
+			<xs:element type="stImportoZero" name="costoFisso" fixed="0.00"/>
 			<xs:element type="stImportoZero" name="valoreCommissione"/>
 			<xs:element type="ctListaConvenzioni" name="listaConvenzioniCosti" minOccurs="0"/>
 		</xs:sequence>
