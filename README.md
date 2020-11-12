@@ -23,7 +23,7 @@ clone the repo typing:
 git clone https://github.com/pagopa/pagopa-api pagopa-api && cd $_
 ```
 
-and then run the following script ( ex: _nodeForPsp_ )
+and then run 🚀 the following script ( ex: _nodeForPsp_ )
 ```
 ./build_doc.sh -b -r nodeForPsp
 ```
