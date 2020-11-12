@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "npm-run-all -s build:*",
         "build:env": "cpy ../nodo/nodeFor* ./src/wsdl/ && cpy ../ec/paForNode.* ./src/wsdl/ && cpy ../psp/pspForNode.* ./src/wsdl/",
-        "build:generate_yaml": "node generate_yaml.js"
+        "build:generate_yaml": "node generate_yaml.js",
+        "build:copyapi": "cpy ./out/*.yaml ../api-definitions/openapi"
     },
     "author": "",
     "license": "ISC",

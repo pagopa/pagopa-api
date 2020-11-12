@@ -31,31 +31,16 @@
     <wsdl:portType name="nodeForPsp_PortType">
         <wsdl:operation name="verifyPaymentNotice">
             <wsdl:documentation>
-                Il PSP tramite la primitiva `verifyPaymentNotice` e quindi QR-CODE (codice fiscale, IUV, ...) richiede alla piattaforma, l'avviso di pagamento aggiornato.
-                Alla ricezione della response della `verifyPaymentNotice` il PSP non puo' incassare in quanto la posizione non e' bloccata dalla PA, e non ha a disposizione
-                il _paymentToken_ necessario relativo alla posizione debitoria.
+                Gets Payment Notice Data; a Payment Notice is identified by its QR-CODE data.
             </wsdl:documentation>
             <wsdl:input message="tns:verifyPaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeReq" />
             <wsdl:output message="tns:verifyPaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeRes" />
         </wsdl:operation>
         <wsdl:operation name="activatePaymentNotice">
-            <wsdl:documentation>
-                Il PSP, tramite la primitiva `activatePaymentNotice`, richiede una sessione di pagamento di un avviso **pagoPA** specificando l' importo e 
-                n risposta, la piattaforma genera un token che, di fatto, impedisce ad altri PSP di aprire altre sessioni di pagamento per l' avviso che si sta pagando. Lo stato del pagamento e' posto in `paying`.
-            </wsdl:documentation>
             <wsdl:input message="tns:activatePaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeReq" />
             <wsdl:output message="tns:activatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeRes" />
         </wsdl:operation>
         <wsdl:operation name="sendPaymentOutcome">
-            <wsdl:documentation>
-                Il PSP effettua l' incasso dell' importo e notifica l' operazione alla piattaforma tramite il servizio `sendPaymentOutcome` specificando :
-                - importo Totale incassato
-                - importo dell' avviso
-                - strumento di pagamento utilizzato 
-                - commissioni applicate 
-                - (opzionale) identificativo dell' utente che ha effettuato l' operazione
-                In risposta alla notifica di incasso, il PSP rilascia uno scontrino all' utente con i dati ottenuti in risposta.
-            </wsdl:documentation>
             <wsdl:input message="tns:sendPaymentOutcomeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeReq" />
             <wsdl:output message="tns:sendPaymentOutcomeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeRes" />
         </wsdl:operation>
