@@ -14,11 +14,36 @@ Il repository è suddiviso nelle seguenti sezioni:
 * **general**: contiene gli schemi di definizione dei documenti XML scambiati all'interno del sistema.
 
 
-## How to generate documentation
+## How to generate documentation 
+> NOTe : _BETA version_ available only for [Monografia Processo di pagamento presso il PSP con Ente multi-beneficiario](https://docs.google.com/document/d/1qmQ12SfkhjJGss--d5mQwqrcMCb9pF4JHj-k8w8X9jM/view)
 
+
+clone the repo typing:
 ```
-cd generator
-yarn install
-yarn build
+git clone https://github.com/pagopa/pagopa-api pagopa-api && cd $_
 ```
+
+and then run the following script ( ex: _nodeForPsp_ )
+```
+./build_doc.sh -b -r nodeForPsp
+```
+> NOTE : allowed services _{nodeForPa, nodeForPsp , paForNode, pspForNode}_
+
+if all rights 👍 you will see somethign like that:
+```
+Using Redoc community edition.
+Login with openapi-cli login or use an enterprise license key to preview with the premium docs.
+
+
+  🔎  Preview server running at http://127.0.0.1:8080
+
+Bundling...
+
+
+  👀  Watching openapi/nodeForPsp_Service.yaml and all related resources for changes
+
+Created a bundle for openapi/nodeForPsp_Service.yaml successfully
+```
+
+then click [here](http://127.0.0.1:8080) to show documentation.
 

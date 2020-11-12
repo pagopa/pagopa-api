@@ -9,6 +9,9 @@
         "start": "openapi preview-docs",
         "build": "openapi bundle -o dist",
         "test": "openapi lint",
-        "nodeForPsp_Service": "npm run start nodeForPa_Service"
+        "nodeForPsp_Service": "npm run start nodeForPsp_Service",
+        "nodeForPa_Service": "npm run start nodeForPa_Service",
+        "pspForNode_Service": "npm run start pspForNode_Service",
+        "paForNode_Service": "npm run start paForNode_Service"
     }
 }

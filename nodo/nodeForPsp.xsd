@@ -257,14 +257,14 @@
         <xsd:complexContent>
             <xsd:extension base="tns:ctResponse">
                 <xsd:sequence>
-                    <xsd:element name="amount" type="tns:stAmount" minOccurs="0" >
+                    <xsd:element name="amount" type="tns:stAmount" minOccurs="0">
                         <xsd:annotation>
                             <xsd:documentation>
                                 Amount of payment in euro
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0" >
+                    <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0">
                         <xsd:annotation>
                             <xsd:documentation>
                                 full text description
@@ -285,7 +285,7 @@
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="officeName" type="tns:stText140" minOccurs="0" >
+                    <xsd:element name="officeName" type="tns:stText140" minOccurs="0">
                         <xsd:annotation>
                             <xsd:documentation>
                                 Public Admninistration Department Name
@@ -302,8 +302,8 @@
         <xsd:sequence>
             <xsd:element name="idempotencyKey" type="tns:stText140" />
             <xsd:element name="idPSP" type="tns:stIdPSP" />
-            <xsd:element name="idBrokerPSP" type="tns:stBrokerId" />
-            <xsd:element name="idChannel" type="tns:stChannelId" />
+            <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+            <xsd:element name="idChannel" type="tns:stIdChannel" />
             <xsd:element name="password" type="tns:stPassword" />
             <xsd:element name="qrCode" type="tns:ctQrCode" />
             <xsd:element name="amount" type="tns:stAmount" />
