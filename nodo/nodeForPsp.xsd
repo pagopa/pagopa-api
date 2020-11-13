@@ -68,6 +68,31 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stIdempotencyKey">
+        <xsd:annotation>
+            <xsd:documentation>
+                `IdempotencyKey`, it has been genearated from PSP.
+                It's obtained as concatenation of the PSP' fiscal code followed by a `_` and a unique random string within PSP, that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-zA-Z0-9]{10}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stPaymentToken">
+        <xsd:annotation>
+            <xsd:documentation>
+                `PaymentToken`, it has been genearated from PA.
+                It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
     <xsd:simpleType name="stPassword">
         <xsd:annotation>
             <xsd:documentation>
@@ -300,7 +325,7 @@
 
     <xsd:complexType name="activatePaymentNoticeReq">
         <xsd:sequence>
-            <xsd:element name="idempotencyKey" type="tns:stText140" />
+            <xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" />
             <xsd:element name="idPSP" type="tns:stIdPSP" />
             <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
             <xsd:element name="idChannel" type="tns:stIdChannel" />
@@ -321,7 +346,7 @@
                     <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-                    <xsd:element name="paymentToken" type="tns:stText140" minOccurs="0" />
+                    <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -333,7 +358,7 @@
             <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
             <xsd:element name="idChannel" type="tns:stIdChannel" />
             <xsd:element name="password" type="tns:stPassword" />
-            <xsd:element name="paymentToken" type="tns:stText140" />
+            <xsd:element name="paymentToken" type="tns:stPaymentToken" />
             <xsd:element name="outcome" type="tns:stOutcome" />
             <xsd:element name="paymentMethod" type="tns:stText35" />
             <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->

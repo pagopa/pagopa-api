@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-            xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" 
-            xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
-            targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd">
 
     <!--Simple type-->
     <xsd:simpleType name="stText16">
@@ -30,6 +27,18 @@
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="1" />
             <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stPaymentToken">
+        <xsd:annotation>
+            <xsd:documentation>
+                `PaymentToken`, it has been genearated from PA.
+                It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -81,8 +90,8 @@
 
     <xsd:simpleType name="stAmount">
         <xsd:restriction base="xsd:decimal">
-            <xsd:pattern value="\d+\.\d{2}"/>
-            <xsd:maxInclusive value="999999999.99"/>
+            <xsd:pattern value="\d+\.\d{2}" />
+            <xsd:maxInclusive value="999999999.99" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -149,7 +158,7 @@
             <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
             <xsd:element name="IBAN" type="tns:stIBAN" />
             <xsd:element name="remittanceInformation" type="tns:stText140" />
-            <xsd:element name="transferCategory" type="tns:stText140"/>
+            <xsd:element name="transferCategory" type="tns:stText140" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -161,7 +170,7 @@
 
     <xsd:complexType name="ctEntityUniqueIdentifier">
         <xsd:sequence>
-            <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType"/>
+            <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType" />
             <xsd:element name="entityUniqueIdentifierValue" type="tns:stEntityUniqueIdentifierValue" />
         </xsd:sequence>
     </xsd:complexType>
@@ -170,13 +179,13 @@
         <xsd:sequence>
             <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
             <xsd:element name="fullName" type="tns:stText70" />
-            <xsd:element name="streetName" type="tns:stText70" minOccurs="0"/>
-            <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0"/>
-            <xsd:element name="postalCode" type="tns:stText16" minOccurs="0"/>
-            <xsd:element name="city" type="tns:stText35" minOccurs="0"/>
-            <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0"/>
-            <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0"/>
-            <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0"/>
+            <xsd:element name="streetName" type="tns:stText70" minOccurs="0" />
+            <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0" />
+            <xsd:element name="postalCode" type="tns:stText16" minOccurs="0" />
+            <xsd:element name="city" type="tns:stText35" minOccurs="0" />
+            <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0" />
+            <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0" />
+            <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -187,11 +196,11 @@
             <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
             <xsd:element name="paymentAmount" type="tns:stAmount" />
             <xsd:element name="description" type="tns:stText140" />
-            <xsd:element name="paymentCategory" type="tns:stText140"/>
+            <xsd:element name="paymentCategory" type="tns:stText140" />
             <xsd:element name="companyName" type="tns:stText35" />
             <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
             <!-- <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" /> -->
-            <xsd:element name="debtor" type="tns:ctSubject"/>
+            <xsd:element name="debtor" type="tns:ctSubject" />
             <xsd:element name="transferList" type="tns:ctTransferListPA" />
         </xsd:sequence>
     </xsd:complexType>
@@ -202,7 +211,7 @@
             <xsd:element name="idBrokerPA" type="tns:stText35" />
             <xsd:element name="idStation" type="tns:stText35" />
             <xsd:element name="password" type="tns:stPassword" />
-            <xsd:element name="paymentToken" type="tns:stText140" />
+            <xsd:element name="paymentToken" type="tns:stPaymentToken" />
             <xsd:element name="payment" type="tns:ctPaymentPA" />
         </xsd:sequence>
     </xsd:complexType>
@@ -212,7 +221,7 @@
             <xsd:extension base="tns:ctResponse"></xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
-    
+
     <!-- Wrapper Elements -->
     <xsd:element name="sendPaymentReq" type="tns:sendPaymentReq" />
     <xsd:element name="sendPaymentRes" type="tns:sendPaymentRes" />

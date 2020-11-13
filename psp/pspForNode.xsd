@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-            xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd" 
-            xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
-            targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
 
     <!--Simple type-->
     <xsd:simpleType name="stText35">
@@ -16,6 +13,18 @@
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="1" />
             <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stPaymentToken">
+        <xsd:annotation>
+            <xsd:documentation>
+                `PaymentToken`, it has been genearated from PA.
+                It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -34,8 +43,8 @@
 
     <xsd:simpleType name="stAmount">
         <xsd:restriction base="xsd:decimal">
-            <xsd:pattern value="\d+\.\d{2}"/>
-            <xsd:maxInclusive value="999999999.99"/>
+            <xsd:pattern value="\d+\.\d{2}" />
+            <xsd:maxInclusive value="999999999.99" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -100,7 +109,7 @@
             <xsd:element name="idPSP" type="tns:stText35" />
             <xsd:element name="idBrokerPSP" type="tns:stText35" />
             <xsd:element name="idChannel" type="tns:stText35" />
-            <xsd:element name="paymentToken" type="tns:stText140" />
+            <xsd:element name="paymentToken" type="tns:stPaymentToken" />
             <xsd:element name="transferList" type="tns:ctTransferListPSP" />
         </xsd:sequence>
     </xsd:complexType>
@@ -110,7 +119,7 @@
             <xsd:extension base="tns:ctResponse">
                 <xsd:sequence>
                     <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" />
-                </xsd:sequence>    
+                </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
