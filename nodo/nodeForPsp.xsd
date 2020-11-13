@@ -54,10 +54,68 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stPaymentMethod">
+        <xsd:annotation>
+            <xsd:documentation>
+                It defines the payment method used by the customer
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="35" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="stText70">
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="1" />
             <xsd:maxLength value="70" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stCompanyName">
+        <xsd:annotation>
+            <xsd:documentation>
+                Public Administration full name
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:simpleType name="stOfficeName">
+        <xsd:annotation>
+            <xsd:documentation>
+                Public Admninistration Department Name
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stPaymentToken">
+        <xsd:annotation>
+            <xsd:documentation>
+                
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    
+
+    <xsd:simpleType name="stIdempotencyKey">
+        xsd:annotation>
+            <xsd:documentation>
+                
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="140" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -118,6 +176,11 @@
     </xsd:simpleType>
 
     <xsd:simpleType name="stFiscalCodePA">
+        <xsd:annotation>
+                            <xsd:documentation>
+                                tax code of the public administration to which the payment notification is made out
+                            </xsd:documentation>
+                        </xsd:annotation>
         <xsd:restriction base="xsd:string">
             <xsd:length value="11" />
             <xsd:pattern value="[0-9]{11}" />
@@ -272,25 +335,11 @@
                         </xsd:annotation>
                     </xsd:element>
                     <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0">
-                        <xsd:annotation>
-                            <xsd:documentation>
-                                tax code of the public administration to which the payment notification is made out
-                            </xsd:documentation>
-                        </xsd:annotation>
+    
                     </xsd:element>
-                    <xsd:element name="companyName" type="tns:stText140" minOccurs="0">
-                        <xsd:annotation>
-                            <xsd:documentation>
-                                Public Administration full name
-                            </xsd:documentation>
-                        </xsd:annotation>
+                    <xsd:element name="companyName" type="tns:stCompanyname" minOccurs="0">
                     </xsd:element>
-                    <xsd:element name="officeName" type="tns:stText140" minOccurs="0">
-                        <xsd:annotation>
-                            <xsd:documentation>
-                                Public Admninistration Department Name
-                            </xsd:documentation>
-                        </xsd:annotation>
+                    <xsd:element name="officeName" type="tns:stOfficeName" minOccurs="0">
                     </xsd:element>
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
                 </xsd:sequence>
@@ -300,7 +349,7 @@
 
     <xsd:complexType name="activatePaymentNoticeReq">
         <xsd:sequence>
-            <xsd:element name="idempotencyKey" type="tns:stText140" />
+            <xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" />
             <xsd:element name="idPSP" type="tns:stIdPSP" />
             <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
             <xsd:element name="idChannel" type="tns:stIdChannel" />
@@ -318,10 +367,10 @@
                     <xsd:element name="amount" type="tns:stAmount" minOccurs="0" />
                     <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
-                    <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
-                    <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
+                    <xsd:element name="companyName" type="tns:stCompanyName" minOccurs="0" />
+                    <xsd:element name="officeName" type="tns:stOfficeName" minOccurs="0" />
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-                    <xsd:element name="paymentToken" type="tns:stText140" minOccurs="0" />
+                    <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -333,9 +382,9 @@
             <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
             <xsd:element name="idChannel" type="tns:stIdChannel" />
             <xsd:element name="password" type="tns:stPassword" />
-            <xsd:element name="paymentToken" type="tns:stText140" />
+            <xsd:element name="paymentToken" type="tns:stPaymentToken" />
             <xsd:element name="outcome" type="tns:stOutcome" />
-            <xsd:element name="paymentMethod" type="tns:stText35" />
+            <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
             <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
             <xsd:element name="chargeUser" type="tns:stAmount" />
             <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
