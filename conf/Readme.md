@@ -5,6 +5,11 @@ La configurazione di un PSP all'interno della piattaforma pagoPA avviene tramite
 - Il CatalogoDatiInformativi ( CDI) , file xml il cui schema è rappresentato dal file CatalogoDatiInformativi.xsd
 - Report della configurazione, file html dove vengono riassunte le iformazioni essenziali dei servizi configurati
 
+## pre-requisite
+Il progetto fa uso di due submodules necessari per la generazione del form e per la generazione della documentazione a partire da un xsd.
+
+`git submmodule update --remote xs3p xsd2html2xml` 
+
 ## building
 
 all'interno della directory `conf` eseguire i comandi
