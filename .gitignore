@@ -4,3 +4,4 @@ metals.*
 settings.json
 xsdvi/
 *.log
+out/
