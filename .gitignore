@@ -2,7 +2,9 @@
 examples
 metals.*
 settings.json
-conf/
+xsdvi/
+*.log
+out/
 node_modules/
 package-lock.json
 generator/src/wsdl/*.xsd
