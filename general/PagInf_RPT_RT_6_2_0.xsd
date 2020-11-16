@@ -84,16 +84,16 @@
 
     <xsd:simpleType name="stImporto">
         <xsd:restriction base="xsd:decimal">
-            <xsd:totalDigits value="11" />
-            <xsd:fractionDigits value="2" />
+            <xsd:maxInclusive value="999999999.99" />
             <xsd:pattern value="\d+\.\d{2}" />
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:simpleType name="stImportoDiversoDaZero">
-        <xsd:restriction base="pay_i:stImporto">
+        <xsd:restriction base="xsd:decimal">
             <xsd:minInclusive value="0.01" />
-
+            <xsd:maxInclusive value="999999999.99" />
+            <xsd:pattern value="\d+\.\d{2}" />
         </xsd:restriction>
     </xsd:simpleType>
 

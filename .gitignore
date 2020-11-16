@@ -5,3 +5,13 @@ settings.json
 xsdvi/
 *.log
 out/
+node_modules/
+package-lock.json
+generator/src/wsdl/*.xsd
+generator/src/wsdl/*.wsdl
+generator/out/*.yaml
+yarn.lock
+yarn-error.*
+api-definitions/openapi/combined.yaml
+api-definitions/openapi/_SNIPPET.yaml
+*.bak

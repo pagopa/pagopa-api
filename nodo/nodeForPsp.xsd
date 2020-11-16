@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-            xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" 
-            xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
-            targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
 
     <!--Simple type-->
 
@@ -12,6 +9,43 @@
             <xsd:maxLength value="16" />
         </xsd:restriction>
     </xsd:simpleType>
+
+    <xsd:simpleType name="stIdPSP">
+        <xsd:annotation>
+            <xsd:documentation>
+                PSP Identifier, it has been assigned from pagoPA.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="35" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stIdBroker">
+        <xsd:annotation>
+            <xsd:documentation>
+                Broker Identifier, it has been assigned from pagoPA.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="35" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stIdChannel">
+        <xsd:annotation>
+            <xsd:documentation>
+                Channel Identifier, it identifies a payment service category
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="35" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
 
     <xsd:simpleType name="stText35">
         <xsd:restriction base="xsd:string">
@@ -34,7 +68,37 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stIdempotencyKey">
+        <xsd:annotation>
+            <xsd:documentation>
+                `IdempotencyKey`, it has been genearated from PSP.
+                It's obtained as concatenation of the PSP' fiscal code followed by a `_` and a unique random string within PSP, that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-zA-Z0-9]{10}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stPaymentToken">
+        <xsd:annotation>
+            <xsd:documentation>
+                `PaymentToken`, it has been genearated from PA.
+                It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
     <xsd:simpleType name="stPassword">
+        <xsd:annotation>
+            <xsd:documentation>
+                channel password, it has been assigned from pagoPA
+            </xsd:documentation>
+        </xsd:annotation>
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="8" />
             <xsd:maxLength value="15" />
@@ -49,10 +113,14 @@
     </xsd:simpleType>
 
     <xsd:simpleType name="stAmount">
+        <xsd:annotation>
+            <xsd:documentation>
+                Amount of payment in euro
+            </xsd:documentation>
+        </xsd:annotation>
         <xsd:restriction base="xsd:decimal">
-            <xsd:fractionDigits value="2" />
-            <xsd:totalDigits value="11" />
             <xsd:pattern value="\d+\.\d{2}" />
+            <xsd:maxInclusive value="999999999.99" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -130,7 +198,7 @@
 
     <xsd:complexType name="ctEntityUniqueIdentifier">
         <xsd:sequence>
-            <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType"/>
+            <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType" />
             <xsd:element name="entityUniqueIdentifierValue" type="tns:stEntityUniqueIdentifierValue" />
         </xsd:sequence>
     </xsd:complexType>
@@ -139,13 +207,13 @@
         <xsd:sequence>
             <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
             <xsd:element name="fullName" type="tns:stText70" />
-            <xsd:element name="streetName" type="tns:stText70" minOccurs="0"/>
-            <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0"/>
-            <xsd:element name="postalCode" type="tns:stText16" minOccurs="0"/>
-            <xsd:element name="city" type="tns:stText35" minOccurs="0"/>
-            <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0"/>
-            <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0"/>
-            <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0"/>
+            <xsd:element name="streetName" type="tns:stText70" minOccurs="0" />
+            <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0" />
+            <xsd:element name="postalCode" type="tns:stText16" minOccurs="0" />
+            <xsd:element name="city" type="tns:stText35" minOccurs="0" />
+            <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0" />
+            <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0" />
+            <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -170,6 +238,25 @@
     </xsd:complexType>
 
     <xsd:complexType name="ctQrCode">
+        <xsd:annotation>
+            <xsd:documentation>
+Payment Notice QR-CODE data.
+QR-CODE is ISO/IEC 18004:2015 compliant generated with:
+
+- Symbol Version : 4
+- Modules : 33x33
+- Modules width : 3 pixels
+- ECC Level: M ( max correction error 15%)
+- Character set : UTF-8
+
+QR-CODE contains a string formatted as :
+`PAGOPA|002|noticeNumber|fiscalCode|amount`
+
+the notice number is composed by:
+
+`[auxDigit][segregationCode][IUVBase][IUVCheckDigit]`
+            </xsd:documentation>
+        </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" />
             <xsd:element name="auxDigit" type="tns:stAuxDigit" />
@@ -182,9 +269,9 @@
     <!--Element req/res-->
     <xsd:complexType name="verifyPaymentNoticeReq">
         <xsd:sequence>
-            <xsd:element name="idPSP" type="tns:stText35" />
-            <xsd:element name="idBrokerPSP" type="tns:stText35" />
-            <xsd:element name="idChannel" type="tns:stText35" />
+            <xsd:element name="idPSP" type="tns:stIdPSP" />
+            <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+            <xsd:element name="idChannel" type="tns:stIdChannel" />
             <xsd:element name="password" type="tns:stPassword" />
             <xsd:element name="qrCode" type="tns:ctQrCode" />
         </xsd:sequence>
@@ -194,11 +281,41 @@
         <xsd:complexContent>
             <xsd:extension base="tns:ctResponse">
                 <xsd:sequence>
-                    <xsd:element name="amount" type="tns:stAmount" minOccurs="0" />
-                    <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0" />
-                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
-                    <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
-                    <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
+                    <xsd:element name="amount" type="tns:stAmount" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Amount of payment in euro
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                full text description
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                tax code of the public administration to which the payment notification is made out
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="companyName" type="tns:stText140" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Public Administration full name
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="officeName" type="tns:stText140" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Public Admninistration Department Name
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
                 </xsd:sequence>
             </xsd:extension>
@@ -207,10 +324,10 @@
 
     <xsd:complexType name="activatePaymentNoticeReq">
         <xsd:sequence>
-            <xsd:element name="idempotencyKey" type="tns:stUUID" />
-            <xsd:element name="idPSP" type="tns:stText35" />
-            <xsd:element name="idBrokerPSP" type="tns:stText35" />
-            <xsd:element name="idChannel" type="tns:stText35" />
+            <xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" />
+            <xsd:element name="idPSP" type="tns:stIdPSP" />
+            <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+            <xsd:element name="idChannel" type="tns:stIdChannel" />
             <xsd:element name="password" type="tns:stPassword" />
             <xsd:element name="qrCode" type="tns:ctQrCode" />
             <xsd:element name="amount" type="tns:stAmount" />
@@ -228,7 +345,7 @@
                     <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-                    <xsd:element name="paymentToken" type="tns:stText140" minOccurs="0" />
+                    <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -236,16 +353,16 @@
 
     <xsd:complexType name="sendPaymentOutcomeReq">
         <xsd:sequence>
-            <xsd:element name="idPSP" type="tns:stText35" />
-            <xsd:element name="idBrokerPSP" type="tns:stText35" />
-            <xsd:element name="idChannel" type="tns:stText35" />
+            <xsd:element name="idPSP" type="tns:stIdPSP" />
+            <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+            <xsd:element name="idChannel" type="tns:stIdChannel" />
             <xsd:element name="password" type="tns:stPassword" />
-            <xsd:element name="paymentToken" type="tns:stText140" />
+            <xsd:element name="paymentToken" type="tns:stPaymentToken" />
             <xsd:element name="outcome" type="tns:stOutcome" />
             <xsd:element name="paymentMethod" type="tns:stText35" />
             <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
             <xsd:element name="chargeUser" type="tns:stAmount" />
-            <xsd:element name="payer" type="tns:ctSubject" minOccurs="0"/>
+            <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
             <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa-->
         </xsd:sequence>
     </xsd:complexType>
