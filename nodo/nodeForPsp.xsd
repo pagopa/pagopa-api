@@ -79,38 +79,16 @@
                 Public Administration full name
             </xsd:documentation>
         </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
 
-        <xsd:simpleType name="stOfficeName">
+    <xsd:simpleType name="stOfficeName">
         <xsd:annotation>
             <xsd:documentation>
                 Public Admninistration Department Name
-            </xsd:documentation>
-        </xsd:annotation>
-
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="140" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stPaymentToken">
-        <xsd:annotation>
-            <xsd:documentation>
-                
-            </xsd:documentation>
-        </xsd:annotation>
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="140" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    
-
-    <xsd:simpleType name="stIdempotencyKey">
-        xsd:annotation>
-            <xsd:documentation>
-                
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
@@ -123,6 +101,30 @@
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="1" />
             <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stIdempotencyKey">
+        <xsd:annotation>
+            <xsd:documentation>
+                `IdempotencyKey`, it has been genearated from PSP.
+                It's obtained as concatenation of the PSP' fiscal code followed by a `_` and a unique random string within PSP, that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-zA-Z0-9]{10}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stPaymentToken">
+        <xsd:annotation>
+            <xsd:documentation>
+                `PaymentToken`, it has been genearated from PA.
+                It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -177,10 +179,10 @@
 
     <xsd:simpleType name="stFiscalCodePA">
         <xsd:annotation>
-                            <xsd:documentation>
-                                tax code of the public administration to which the payment notification is made out
-                            </xsd:documentation>
-                        </xsd:annotation>
+            <xsd:documentation>
+                tax code of the public administration to which the payment notification is made out
+            </xsd:documentation>
+        </xsd:annotation>
         <xsd:restriction base="xsd:string">
             <xsd:length value="11" />
             <xsd:pattern value="[0-9]{11}" />
@@ -334,13 +336,9 @@
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0">
-    
-                    </xsd:element>
-                    <xsd:element name="companyName" type="tns:stCompanyname" minOccurs="0">
-                    </xsd:element>
-                    <xsd:element name="officeName" type="tns:stOfficeName" minOccurs="0">
-                    </xsd:element>
+                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0"></xsd:element>
+                    <xsd:element name="companyName" type="tns:stCompanyName" minOccurs="0"></xsd:element>
+                    <xsd:element name="officeName" type="tns:stOfficeName" minOccurs="0"></xsd:element>
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
                 </xsd:sequence>
             </xsd:extension>
