@@ -7,7 +7,8 @@ Any PSP can enable many channels.
 
 ## Warning
 
-*This is an experimental API that is (most probably) going to change*
+**This is an experimental API that is (most probably) going to change as we evolve the pagoPa platform.**
+
 
 ## Identification and Authentication
 
