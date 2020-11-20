@@ -2,6 +2,7 @@
 
 
 # lsof -i :8080 | grep node | cut -f 5 -d ' ' | xargs kill -9
+# ./build_doc.sh -b -r nodeForPsp
 BUILD=0
 RUN=0
 usage=NOK
@@ -38,14 +39,14 @@ while (( "$#" )); do
             else
                 echo "Error: Argument for '$2' is no allowed" >&2
                 exit 1
-            fi        
+            fi
         ;;
 
         *) # preserve positional arguments
             # echo "$# $@"
             usage=OK
             break
-        ;;        
+        ;;
 
     esac
 done

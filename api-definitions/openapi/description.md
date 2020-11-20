@@ -1,8 +1,6 @@
 
 # Introduction
 
-> `TBD` _under construction_
-
 This is the documentation of the pagoPA API for Provider Payment Services. This API enables a PSP channel to pay a pagoPA Payment Notice according to _CAD (Codice Amministrazione Digitale)_
 
 Any PSP can enable many channels.
@@ -12,8 +10,6 @@ Any PSP can enable many channels.
 *This is an experimental API that is (most probably) going to change*
 
 ## Identification and Authentication
-
-> `TBD` _under construction_
 
 Use of this API is restricted to PSP, or 3rd parties ( named as brokers ) which have signed a contract with PagoPA S.p.A. as stated in _link_
 
@@ -28,4 +24,4 @@ Formally, any API request is coming from a broker on behalf of a PSP which is re
 
 ## Getting started guide
 
-> `TBD` _under construction_
+> _under construction_
