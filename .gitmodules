@@ -7,3 +7,6 @@
 [submodule "conf/xsd2html2xml"]
 	path = conf/xsd2html2xml
 	url = https://github.com/gammam/xsd2html2xml.git
+[submodule "xs3p"]
+	path = xs3p
+	url = https://github.com/gammam/xs3p.git
