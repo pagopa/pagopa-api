@@ -64,10 +64,6 @@ The sender PSP ( or broker ) is responsable to call an `sendPaymentOutcome`.
             <wsdl:input message="tns:activatePaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeReq" />
             <wsdl:output message="tns:activatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeRes" />
             <wsdl:fault message="tns:handledException" name="handledException"/>
-            <wsdl:fault message="tns:orverduePayment" name="orverduePayment" />
-            <wsdl:fault message="tns:ongoingPayment" name="ongoingPayment" />
-            <wsdl:fault message="tns:declinedAmount" name="declinedAmount"/>
-            <wsdl:fault message="tns:notFoundPayment" name="notFoundPayment"/>
         </wsdl:operation>
         <wsdl:operation name="sendPaymentOutcome">
             <wsdl:documentation>
