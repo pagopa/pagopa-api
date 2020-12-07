@@ -310,28 +310,28 @@ the notice number is composed by:
 
     <xsd:complexType name="verifyPaymentNoticeRes">
                 <xsd:sequence>
-                    <xsd:element name="amount" type="tns:stAmount" minOccurs="0">
+                    <xsd:element name="amount" type="tns:stAmount" >
                         <xsd:annotation>
                             <xsd:documentation>
                                 Amount of payment in euro
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0">
+                    <xsd:element name="paymentDescription" type="tns:stText140" >
                         <xsd:annotation>
                             <xsd:documentation>
                                 full text description
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0">
+                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" >
                         <xsd:annotation>
                             <xsd:documentation>
                                 tax code of the public administration to which the payment notification is made out
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="companyName" type="tns:stText140" minOccurs="0">
+                    <xsd:element name="companyName" type="tns:stText140" >
                         <xsd:annotation>
                             <xsd:documentation>
                                 Public Administration full name
@@ -362,13 +362,13 @@ the notice number is composed by:
 
     <xsd:complexType name="activatePaymentNoticeRes">
                 <xsd:sequence>
-                    <xsd:element name="totalAmount" type="tns:stAmount" minOccurs="0" />
-                    <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0" />
-                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
-                    <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
+                    <xsd:element name="totalAmount" type="tns:stAmount" />
+                    <xsd:element name="paymentDescription" type="tns:stText140" />
+                    <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
+                    <xsd:element name="companyName" type="tns:stText140"  />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-                    <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
+                    <xsd:element name="paymentToken" type="tns:stPaymentToken" />
                     <xsd:element name="transferList" type="tns:ctTransferListPSP" />
                 </xsd:sequence>
     </xsd:complexType>
