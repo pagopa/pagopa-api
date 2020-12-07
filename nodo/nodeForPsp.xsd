@@ -10,6 +10,13 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stIBAN">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="35" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="stIdPSP">
         <xsd:annotation>
             <xsd:documentation>
@@ -130,9 +137,9 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stIUVBase">
+    <xsd:simpleType name="stNoticeNumber">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{13}" />
+            <xsd:pattern value="[0-9]{18}" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -149,16 +156,22 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stAuxDigit">
+    <xsd:simpleType name="stPaymentMethod">
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="4" />
+          <xsd:enumeration value="cash"/>
+          <xsd:enumeration value="creditCard"/>
+          <xsd:enumeration value="bancomat"/>
+          <xsd:enumeration value="other"/>
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stSegregationCode">
+    <xsd:simpleType name="stPaymentChannel">
         <xsd:restriction base="xsd:string">
-            <xsd:length value="2" />
-            <xsd:pattern value="[0-9]{2}" />
+          <xsd:enumeration value="frontOffice"/>
+          <xsd:enumeration value="atm"/>
+          <xsd:enumeration value="onLine"/>
+          <xsd:enumeration value="app"/>
+          <xsd:enumeration value="other"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -259,10 +272,24 @@ the notice number is composed by:
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" />
-            <xsd:element name="auxDigit" type="tns:stAuxDigit" />
-            <xsd:element name="segregationCode" type="tns:stSegregationCode" />
-            <xsd:element name="IUVBase" type="tns:stIUVBase" />
-            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
+            <xsd:element name="noticeNumber" type="tns:stNoticeNumber" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="ctTransferPSP">
+        <xsd:sequence>
+            <xsd:element name="idTransfer" type="tns:stText35" />
+            <xsd:element name="transferAmount" type="tns:stAmount" />
+            <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
+            <xsd:element name="IBAN" type="tns:stIBAN" />
+            <xsd:element name="remittanceInformation" type="tns:stText140" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctTransferListPSP">
+        <xsd:sequence>
+            <xsd:element name="transfer" type="tns:ctTransferPSP" maxOccurs="5" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -330,8 +357,8 @@ the notice number is composed by:
             <xsd:element name="idChannel" type="tns:stIdChannel" />
             <xsd:element name="password" type="tns:stPassword" />
             <xsd:element name="qrCode" type="tns:ctQrCode" />
-            <xsd:element name="amount" type="tns:stAmount" />
-            <xsd:element name="paymentNote" type="tns:stText140" />
+            <xsd:element name="amount" type="tns:stAmount" minOccurs="0" />
+            <xsd:element name="paymentNote" type="tns:stText140" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -339,13 +366,14 @@ the notice number is composed by:
         <xsd:complexContent>
             <xsd:extension base="tns:ctResponse">
                 <xsd:sequence>
-                    <xsd:element name="amount" type="tns:stAmount" minOccurs="0" />
+                    <xsd:element name="totalAmount" type="tns:stAmount" minOccurs="0" />
                     <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
                     <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
                     <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
+                    <xsd:element name="transferList" type="tns:ctTransferListPSP" />
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
@@ -359,11 +387,13 @@ the notice number is composed by:
             <xsd:element name="password" type="tns:stPassword" />
             <xsd:element name="paymentToken" type="tns:stPaymentToken" />
             <xsd:element name="outcome" type="tns:stOutcome" />
-            <xsd:element name="paymentMethod" type="tns:stText35" />
+            <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
+            <xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" /> <!--data applicativa-->
             <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-            <xsd:element name="chargeUser" type="tns:stAmount" />
+            <xsd:element name="fee" type="tns:stAmount" minOccurs="0" />
             <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
             <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa-->
+            <xsd:element name="trasferDate" type="tns:stISODate" minOccurs="0" /> <!--data di disposizione bonifico-->      
         </xsd:sequence>
     </xsd:complexType>
 
