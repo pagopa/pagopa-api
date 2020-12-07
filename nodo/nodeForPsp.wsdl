@@ -70,13 +70,11 @@ Until the receipt of a `sendPaymentOutcome`, any subsequent request for the same
 Close payment session associated with the paymentToken.
 The outcome can be positive or negative.
 
-- if **positive**, any payment request related to the same payment notice (via `paymentToken`) will be denied.
-- if **negative**, any payment request related to the same payment notice (via `paymentToken`) will be allowed 
+if **positive**, the psp SHALL fill the _details_
 
 The operation use the paymentToken as idempotency key for safely retrying requests without accidentally performing the same operation twice ( or to retrieve missed responses).
 The idempotency layer compares incoming parameters to those of the original request and errors unless they're the same to prevent accidental misuse.
 
-PaymentToken are eligibile to be removed from the system according the data retention policy.
             </wsdl:documentation>
       <wsdl:input message="tns:sendPaymentOutcomeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeReq" />
       <wsdl:output message="tns:sendPaymentOutcomeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeRes" />

@@ -365,21 +365,23 @@ the notice number is composed by:
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="ctOutcomeDetails">
+      <xsd:sequence>
+        <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
+        <xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
+        <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
+        <xsd:element name="fee" type="tns:stAmount"/>
+        <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
+        <xsd:element name="applicationDate" type="tns:stISODate" /> <!--data applicativa-->
+        <xsd:element name="trasferDate" type="tns:stISODate" /> <!--data di disposizione bonifico-->
+      </xsd:sequence>
+    
+  </xsd:complexType>
   <xsd:complexType name="sendPaymentOutcomeReq">
     <xsd:sequence>
-      <xsd:element name="idPSP" type="tns:stIdPSP" />
-      <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
-      <xsd:element name="idChannel" type="tns:stIdChannel" />
-      <xsd:element name="password" type="tns:stPassword" />
       <xsd:element name="paymentToken" type="tns:stPaymentToken" />
       <xsd:element name="outcome" type="tns:stOutcome" />
-      <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
-      <xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
-      <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-      <xsd:element name="fee" type="tns:stAmount" minOccurs="0" />
-      <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
-      <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa-->
-      <xsd:element name="trasferDate" type="tns:stISODate" minOccurs="0" /> <!--data di disposizione bonifico-->
+      <xsd:element name="details" type="tns:ctOutcomeDetails" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
