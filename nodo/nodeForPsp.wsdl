@@ -20,6 +20,10 @@
     <wsdl:message name="activatePaymentNoticeRes">
         <wsdl:part name="responseBody" element="nfpsp:activatePaymentNoticeRes" />
     </wsdl:message>
+    
+    <wsdl:message name="handledException">
+        <wsdl:part name="fault" element="nfpsp:handledException" />
+    </wsdl:message>
 
     <wsdl:message name="sendPaymentOutcomeReq">
         <wsdl:part name="requestBody" element="nfpsp:sendPaymentOutcomeReq" />
@@ -59,6 +63,11 @@ The sender PSP ( or broker ) is responsable to call an `sendPaymentOutcome`.
             </wsdl:documentation>
             <wsdl:input message="tns:activatePaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeReq" />
             <wsdl:output message="tns:activatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeRes" />
+            <wsdl:fault message="tns:handledException" name="handledException"/>
+            <wsdl:fault message="tns:orverduePayment" name="orverduePayment" />
+            <wsdl:fault message="tns:ongoingPayment" name="ongoingPayment" />
+            <wsdl:fault message="tns:declinedAmount" name="declinedAmount"/>
+            <wsdl:fault message="tns:notFoundPayment" name="notFoundPayment"/>
         </wsdl:operation>
         <wsdl:operation name="sendPaymentOutcome">
             <wsdl:documentation>
@@ -98,6 +107,9 @@ PaymentToken are eligibile to be removed from the system according the data rete
             <wsdl:output>
                 <soap:body use="literal" />
             </wsdl:output>
+            <wsdl:fault name="handledException">
+                <soap:fault name="handledException" use="literal"/>
+            </wsdl:fault>
         </wsdl:operation>
         <wsdl:operation name="sendPaymentOutcome">
             <soap:operation soapAction="sendPaymentOutcome" />

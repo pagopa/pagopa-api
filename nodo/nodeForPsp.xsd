@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" 
+            xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
+            targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+
+
+
+
 
     <!--Simple type-->
 
@@ -230,11 +237,12 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="ctResponse">
+
+    <xsd:complexType name="handledException">
         <xsd:sequence>
-            <xsd:element name="outcome" type="tns:stOutcome" />
-            <xsd:element name="fault" type="tns:ctFaultBean" minOccurs="0" />
+            <xsd:element name="faultBean" type="tns:ctFaultBean" minOccurs="0" />
         </xsd:sequence>
+        
     </xsd:complexType>
 
     <xsd:complexType name="ctFaultBean">
@@ -301,8 +309,6 @@ the notice number is composed by:
     </xsd:complexType>
 
     <xsd:complexType name="verifyPaymentNoticeRes">
-        <xsd:complexContent>
-            <xsd:extension base="tns:ctResponse">
                 <xsd:sequence>
                     <xsd:element name="amount" type="tns:stAmount" minOccurs="0">
                         <xsd:annotation>
@@ -341,9 +347,9 @@ the notice number is composed by:
                     </xsd:element>
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
                 </xsd:sequence>
-            </xsd:extension>
-        </xsd:complexContent>
     </xsd:complexType>
+
+
 
     <xsd:complexType name="activatePaymentNoticeReq">
         <xsd:sequence>
@@ -355,8 +361,6 @@ the notice number is composed by:
     </xsd:complexType>
 
     <xsd:complexType name="activatePaymentNoticeRes">
-        <xsd:complexContent>
-            <xsd:extension base="tns:ctResponse">
                 <xsd:sequence>
                     <xsd:element name="totalAmount" type="tns:stAmount" minOccurs="0" />
                     <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0" />
@@ -367,8 +371,6 @@ the notice number is composed by:
                     <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
                     <xsd:element name="transferList" type="tns:ctTransferListPSP" />
                 </xsd:sequence>
-            </xsd:extension>
-        </xsd:complexContent>
     </xsd:complexType>
 
     <xsd:complexType name="sendPaymentOutcomeReq">
@@ -390,9 +392,6 @@ the notice number is composed by:
     </xsd:complexType>
 
     <xsd:complexType name="sendPaymentOutcomeRes">
-        <xsd:complexContent>
-            <xsd:extension base="tns:ctResponse"></xsd:extension>
-        </xsd:complexContent>
     </xsd:complexType>
 
     <!-- Wrapper Elements -->
