@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="nodeForPsp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl">
+<wsdl:definitions name="nodeForPsp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl">
 
     <wsdl:types>
         <xsd:schema version="1.0.0">
@@ -114,6 +114,7 @@ PaymentToken are eligibile to be removed from the system according the data rete
         <wsdl:port name="nodeForPsp_Port" binding="tns:nodeForPsp_Binding">
             <soap:address location="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp" />
         </wsdl:port>
+   
     </wsdl:service>
 
 </wsdl:definitions>
