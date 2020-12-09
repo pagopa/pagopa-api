@@ -272,9 +272,6 @@
     <!--Element req/res-->
     <xsd:complexType name="paVerifyPaymentNoticeReq">
         <xsd:sequence>
-            <xsd:element name="idPA" type="tns:stText35" />
-            <xsd:element name="idBrokerPA" type="tns:stText35" />
-            <xsd:element name="idStation" type="tns:stText35" />
             <xsd:element name="qrCode" type="tns:ctQrCode" />
         </xsd:sequence>
     </xsd:complexType>
@@ -288,7 +285,6 @@
                     <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
                     <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
-                    <xsd:element name="postalList" type="tns:ctTransferListPA" />
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0"/> -->
                 </xsd:sequence>
             </xsd:extension>
@@ -297,9 +293,6 @@
 
     <xsd:complexType name="paGetPaymentReq">
         <xsd:sequence>
-            <xsd:element name="idPA" type="tns:stText35" />
-            <xsd:element name="idBrokerPA" type="tns:stText35" />
-            <xsd:element name="idStation" type="tns:stText35" />
             <xsd:element name="qrCode" type="tns:ctQrCode" />
             <xsd:element name="amount" type="tns:stAmount" />
             <xsd:element name="paymentNote" type="tns:stText140" />
@@ -318,9 +311,6 @@
 
     <xsd:complexType name="paSendRTReq">
         <xsd:sequence>
-            <xsd:element name="idPA" type="tns:stText35" />
-            <xsd:element name="idBrokerPA" type="tns:stText35" />
-            <xsd:element name="idStation" type="tns:stText35" />
             <xsd:element name="paymentToken" type="tns:stPaymentToken" />
             <xsd:element name="receipt" type="tns:ctReceipt" />
         </xsd:sequence>
