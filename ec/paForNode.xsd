@@ -288,6 +288,7 @@
                     <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0" />
                     <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
                     <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
+                    <xsd:element name="postalList" type="tns:ctTransferListPA" />
                     <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0"/> -->
                 </xsd:sequence>
             </xsd:extension>
