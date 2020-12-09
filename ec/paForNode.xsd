@@ -227,15 +227,12 @@
 
     <xsd:complexType name="ctPaymentPA">
         <xsd:sequence>
-            <xsd:element name="segregationCode" type="tns:stSegregationCode" />
-            <xsd:element name="IUVBase" type="tns:stIUVBase" />
-            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
+            <xsd:element name="IUV" type="tns:stText35" />
             <xsd:element name="paymentAmount" type="tns:stAmount" />
+            <xsd:element name="dueDate" type="xsd:dateTime" minOccurs="0"/>
             <xsd:element name="description" type="tns:stText140" />
             <xsd:element name="paymentCategory" type="tns:stText140" />
-            <xsd:element name="companyName" type="tns:stText35" />
             <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
-            <!-- <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" /> -->
             <xsd:element name="debtor" type="tns:ctSubject" />
             <xsd:element name="transferList" type="tns:ctTransferListPA" />
         </xsd:sequence>
@@ -245,12 +242,11 @@
     <xsd:complexType name="ctReceipt">
         <xsd:sequence>
             <!-- datiPA -->
-            <xsd:element name="segregationCode" type="tns:stSegregationCode" />
-            <xsd:element name="IUVBase" type="tns:stIUVBase" />
-            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
+            <xsd:element name="IUV" type="tns:stText35" />
             <xsd:element name="paymentAmount" type="tns:stAmount" />
             <xsd:element name="description" type="tns:stText140" />
             <xsd:element name="paymentCategory" type="tns:stText140" />
+            <xsd:element name="paFiscalCode" type="tns:stFiscalCodePA" />
             <xsd:element name="companyName" type="tns:stText35" />
             <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
             <!-- <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" /> -->
