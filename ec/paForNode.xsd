@@ -149,6 +149,12 @@
         <xsd:restriction base="xsd:dateTime" />
     </xsd:simpleType>
 
+    <xsd:simpleType name="stNoticeNumber">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{18}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  
     <!--Complex type-->
 
     <xsd:complexType name="ctEntityUniqueIdentifier">
@@ -200,10 +206,7 @@
     <xsd:complexType name="ctQrCode">
         <xsd:sequence>
             <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" />
-            <xsd:element name="auxDigit" type="tns:stAuxDigit" />
-            <xsd:element name="segregationCode" type="tns:stSegregationCode" />
-            <xsd:element name="IUVBase" type="tns:stIUVBase" />
-            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
+            <xsd:element name="noticeNumber" type="tns:stNoticeNumber" />
         </xsd:sequence>
     </xsd:complexType>
 
