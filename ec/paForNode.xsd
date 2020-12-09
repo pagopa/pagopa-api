@@ -154,7 +154,7 @@
       <xsd:pattern value="[0-9]{18}" />
     </xsd:restriction>
   </xsd:simpleType>
-  
+
     <!--Complex type-->
 
     <xsd:complexType name="ctEntityUniqueIdentifier">
@@ -339,8 +339,8 @@
     <xsd:element name="paVerifyPaymentNoticeReq" type="tns:paVerifyPaymentNoticeReq" />
     <xsd:element name="paVerifyPaymentNoticeRes" type="tns:paVerifyPaymentNoticeRes" />
 
-    <xsd:element name="paActivatePaymentNoticeReq" type="tns:paActivatePaymentNoticeReq" />
-    <xsd:element name="paActivatePaymentNoticeRes" type="tns:paActivatePaymentNoticeRes" />
+    <xsd:element name="paGetPaymentReq" type="tns:paGetPaymentReq" />
+    <xsd:element name="paGetPaymentRes" type="tns:paGetPaymentRes" />
 
     <xsd:element name="paSendRTReq" type="tns:paSendRTReq" />
     <xsd:element name="paSendRTRes" type="tns:paSendRTRes" />
