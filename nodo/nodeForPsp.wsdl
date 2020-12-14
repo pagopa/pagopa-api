@@ -21,10 +21,6 @@
     <wsdl:part name="responseBody" element="nfpsp:activatePaymentNoticeRes" />
   </wsdl:message>
 
-  <wsdl:message name="handledException">
-    <wsdl:part name="fault" element="nfpsp:handledException" />
-  </wsdl:message>
-
   <wsdl:message name="sendPaymentOutcomeReq">
     <wsdl:part name="requestBody" element="nfpsp:sendPaymentOutcomeReq" />
   </wsdl:message>
@@ -39,7 +35,6 @@ Gets Payment Notice Data; a Payment Notice is identified by its QR-CODE data.
             </wsdl:documentation>
       <wsdl:input message="tns:verifyPaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeReq" />
       <wsdl:output message="tns:verifyPaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeRes" />
-      <wsdl:fault message="tns:handledException" name="handledException" />
     </wsdl:operation>
     <wsdl:operation name="activatePaymentNotice">
       <wsdl:documentation>
@@ -63,7 +58,6 @@ Until the receipt of a `sendPaymentOutcome`, any subsequent request for the same
             </wsdl:documentation>
       <wsdl:input message="tns:activatePaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeReq" />
       <wsdl:output message="tns:activatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeRes" />
-      <wsdl:fault message="tns:handledException" name="handledException" />
     </wsdl:operation>
     <wsdl:operation name="sendPaymentOutcome">
       <wsdl:documentation>
@@ -78,7 +72,6 @@ The idempotency layer compares incoming parameters to those of the original requ
             </wsdl:documentation>
       <wsdl:input message="tns:sendPaymentOutcomeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeReq" />
       <wsdl:output message="tns:sendPaymentOutcomeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeRes" />
-      <wsdl:fault message="tns:handledException" name="handledException" />
     </wsdl:operation>
   </wsdl:portType>
 
@@ -93,9 +86,6 @@ The idempotency layer compares incoming parameters to those of the original requ
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="handledException">
-        <soap:fault name="handledException" use="literal" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="activatePaymentNotice">
       <soap:operation soapAction="activatePaymentNotice" />
@@ -105,9 +95,6 @@ The idempotency layer compares incoming parameters to those of the original requ
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="handledException">
-        <soap:fault name="handledException" use="literal" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="sendPaymentOutcome">
       <soap:operation soapAction="sendPaymentOutcome" />
@@ -117,9 +104,6 @@ The idempotency layer compares incoming parameters to those of the original requ
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="handledException">
-        <soap:fault name="handledException" use="literal" />
-      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
 
