@@ -307,6 +307,10 @@ the notice number is composed by:
   <!--Element req/res-->
   <xsd:complexType name="verifyPaymentNoticeReq">
     <xsd:sequence>
+      <xsd:element name="idPSP" type="tns:stIdPSP" />
+      <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+      <xsd:element name="idChannel" type="tns:stIdChannel" />
+      <xsd:element name="password" type="tns:stPassword" />
       <xsd:element name="qrCode" type="tns:ctQrCode" />
     </xsd:sequence>
   </xsd:complexType>
@@ -360,6 +364,10 @@ the notice number is composed by:
 
   <xsd:complexType name="activatePaymentNoticeReq">
     <xsd:sequence>
+      <xsd:element name="idPSP" type="tns:stIdPSP" />
+      <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+      <xsd:element name="idChannel" type="tns:stIdChannel" />
+      <xsd:element name="password" type="tns:stPassword" />
       <xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" />
       <xsd:element name="qrCode" type="tns:ctQrCode" />
       <xsd:element name="expirationTime" type="tns:stExpirationTime" minOccurs="0" />
@@ -401,6 +409,10 @@ the notice number is composed by:
   </xsd:complexType>
   <xsd:complexType name="sendPaymentOutcomeReq">
     <xsd:sequence>
+      <xsd:element name="idPSP" type="tns:stIdPSP" />
+      <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+      <xsd:element name="idChannel" type="tns:stIdChannel" />
+      <xsd:element name="password" type="tns:stPassword" />
       <xsd:element name="paymentToken" type="tns:stPaymentToken" />
       <xsd:element name="outcome" type="tns:stOutcome" />
       <xsd:element name="details" type="tns:ctOutcomeDetails" minOccurs="0" />
