@@ -395,7 +395,7 @@ the notice number is composed by:
       <xsd:element name="fee" type="tns:stAmount" />
       <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
       <xsd:element name="applicationDate" type="tns:stISODate" /> <!--data applicativa-->
-      <xsd:element name="trasferDate" type="tns:stISODate" /> <!--data di disposizione bonifico-->
+      <xsd:element name="transferDate" type="tns:stISODate" /> <!--data di disposizione bonifico-->
     </xsd:sequence>
 
   </xsd:complexType>
