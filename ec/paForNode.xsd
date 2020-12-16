@@ -284,9 +284,11 @@
       <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
       <!--questa è commissione effettiva pagata da PA-->
       <xsd:element name="fee" type="tns:stAmount" minOccurs="0" />
-      <xsd:element name="paymentDateTime" type="tns:stISODateTime" minOccurs="0" /> <!-- ??? -->
-      <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa-->
-      <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" /> <!--data riversamento-->
+      <xsd:element name="paymentDateTime" type="tns:stISODateTime" minOccurs="0" /> <!-- data attivazione pagamento -->
+      <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!-- data applicativa-->
+      <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" /> <!-- data riversamento-->
+      <!-- add TOKEN : per associare un id unico alla RT -->
+      <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
 
