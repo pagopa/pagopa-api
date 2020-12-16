@@ -276,7 +276,7 @@ the notice number is composed by:
   </xsd:complexType>
 
   <!-- Payment List : verify response -->
-  <xsd:complexType name="ctPaymentPSP">
+  <xsd:complexType name="ctPaymentOptionDescription">
     <xsd:sequence>
       <xsd:element name="amount" type="tns:stAmount" />
       <!-- Data di scadenza del pagamento -->
@@ -285,9 +285,9 @@ the notice number is composed by:
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:complexType name="ctPaymentListPSP">
+  <xsd:complexType name="ctPaymentOptionsDescriptionList">
     <xsd:sequence>
-      <xsd:element name="transfer" type="tns:ctPaymentPSP" maxOccurs="5" />
+      <xsd:element name="paymentOptionDescription" type="tns:ctPaymentOptionDescription" maxOccurs="5" />
     </xsd:sequence>
   </xsd:complexType>
 
@@ -321,7 +321,7 @@ the notice number is composed by:
       <xsd:extension base="tns:ctResponse">
 
         <xsd:sequence>
-          <xsd:element name="paymentList" type="tns:ctPaymentListPSP" />
+          <xsd:element name="paymentList" type="tns:ctPaymentOptionsDescriptionList" />
 
           <xsd:element name="paymentDescription" type="tns:stText140" minOccurs="0">
             <xsd:annotation>
