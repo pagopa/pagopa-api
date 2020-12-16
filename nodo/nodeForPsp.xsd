@@ -246,8 +246,25 @@
   </xsd:complexType>
 
 
+  <xsd:complexType name="ctResponse">
+    <xsd:sequence>
+      <xsd:element name="outcome" type="tns:stOutcome" />
+      <xsd:element name="fault" type="tns:ctFaultBean" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-
+  <xsd:complexType name="ctFaultBean">
+    <xsd:sequence>
+      <xsd:element name="faultCode" type="xsd:string" />
+      <xsd:element name="faultString" type="xsd:string" />
+      <xsd:element name="id" type="xsd:string" />
+      <xsd:element name="description" type="xsd:string" minOccurs="0" />
+      <xsd:element name="serial" type="xsd:int" minOccurs="0" />
+      <xsd:element name="originalFaultCode" type="xsd:string" minOccurs="0" />
+      <xsd:element name="originalFaultString" type="xsd:string" minOccurs="0" />
+      <xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
 
   <xsd:complexType name="ctQrCode">
     <xsd:annotation>
