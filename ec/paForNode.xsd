@@ -295,6 +295,7 @@
         <xsd:sequence>
             <xsd:element name="qrCode" type="tns:ctQrCode" />
             <xsd:element name="amount" type="tns:stAmount" />
+            <xsd:element name="date" type="tns:stISODateTime" />
             <xsd:element name="paymentNote" type="tns:stText140" />
         </xsd:sequence>
     </xsd:complexType>
