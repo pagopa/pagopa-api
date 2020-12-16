@@ -188,7 +188,8 @@
   <xsd:complexType name="ctPaymentAmountPA">
     <xsd:sequence>
       <xsd:element name="amount" type="tns:stAmount" />
-      <xsd:element name="expirationDate" type="tns:stISODate" minOccurs="0" />
+      <!-- Data di scadenza del pagamento -->
+      <xsd:element name="dueDate" type="tns:stISODate" minOccurs="0" />
       <xsd:element name="detailDescription" type="tns:stText140" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
@@ -244,8 +245,12 @@
     <xsd:sequence>
       <xsd:element name="IUV" type="tns:stText35" />
       <xsd:element name="paymentAmount" type="tns:stAmount" />
+      <!-- dueDate sent into request -->
       <xsd:element name="dueDate" type="xsd:dateTime" minOccurs="0" />
-      <xsd:element name="finalDueDate" type="xsd:dateTime" minOccurs="0" /> <!-- rateizzazione : piu' occrenze sullo stesso IUV -->
+      <!-- rateizzazione : piu' occrenze sullo stesso IUV : valorizzato solo su PAGAMENTO UNICO o ULTIMO PGAMENTO -->
+      <xsd:element name="finalPayment" type="xsd:boolean" minOccurs="0" />
+      <!-- validity Date : data entro la quale non ci rigiriamo verso la PA -->
+      <xsd:element name="validityDate" type="xsd:dateTime" minOccurs="0" /> <!-- rateizzazione : piu' occrenze sullo stesso IUV -->
       <xsd:element name="description" type="tns:stText140" />
       <xsd:element name="paymentCategory" type="tns:stText140" />
       <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
@@ -316,7 +321,10 @@
       <xsd:element name="idBrokerPA" type="tns:stText35" />
       <xsd:element name="idStation" type="tns:stText35" />
       <xsd:element name="qrCode" type="tns:ctQrCode" />
-      <xsd:element name="amount" type="tns:stAmount" />
+      <!-- amount should not match with amount received into verify res -->
+      <xsd:element name="amount" type="tns:stAmount" minOccurs="0" />
+      <!-- Data di scadenza del pagamento -->
+      <xsd:element name="dueDate" type="tns:stISODate" minOccurs="0" />
       <xsd:element name="paymentNote" type="tns:stText140" />
     </xsd:sequence>
   </xsd:complexType>
