@@ -227,7 +227,7 @@
 
   <xsd:complexType name="ctPaymentPA">
     <xsd:sequence>
-      <xsd:element name="IUV" type="tns:stText35" />
+      <xsd:element name="creditorReferenceId" type="tns:stText35" />
       <xsd:element name="paymentAmount" type="tns:stAmount" />
       <xsd:element name="dueDate" type="xsd:dateTime" minOccurs="0" />
       <xsd:element name="finalDueDate" type="xsd:dateTime" minOccurs="0" /> <!-- rateizzazione : piu' occrenze sullo stesso IUV -->
@@ -242,15 +242,20 @@
 
   <xsd:complexType name="ctReceipt">
     <xsd:sequence>
+      <!--unique id -->
+      <xsd:element name="receiptId" type="xsd:string"/>
+      <xsd:element name="noticeNumber" type="tns:stNoticeNumber"/>
+      <xsd:element name="fiscalCode" type="tns:stFiscalCodePA" />
+      <xsd:element name="outcome" type="tns:stOutcome" />
       <!-- datiPA -->
-      <xsd:element name="IUV" type="tns:stText35" />
+      <xsd:element name="CreditorReferenceId" type="tns:stText35" />  <!-- IUV -->
       <xsd:element name="paymentAmount" type="tns:stAmount" />
       <xsd:element name="description" type="tns:stText140" />
       <xsd:element name="paymentCategory" type="tns:stText140" />
-      <xsd:element name="paFiscalCode" type="tns:stFiscalCodePA" />
+     
       <xsd:element name="companyName" type="tns:stText35" />
       <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
-      <!-- <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" /> -->
+     
       <xsd:element name="debtor" type="tns:ctSubject" />
       <xsd:element name="transferList" type="tns:ctTransferListPA" />
       <!-- datiPSP -->
@@ -258,15 +263,14 @@
       <xsd:element name="PSPCompanyName" type="tns:stText35" />
       <xsd:element name="idChannel" type="tns:stText35" />
       <xsd:element name="channelDescription" type="tns:stText35" />
-      <xsd:element name="outcome" type="tns:stOutcome" />
+      
       <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
       <xsd:element name="paymentMethod" type="tns:stText35" minOccurs="0" />
-      <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-      <!--questa è commissione effettiva pagata da PA-->
+  
       <xsd:element name="fee" type="tns:stAmount" minOccurs="0" />
-      <xsd:element name="paymentDateTime" type="tns:stISODateTime" minOccurs="0" /> <!-- ??? -->
-      <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa-->
-      <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" /> <!--data riversamento-->
+      <xsd:element name="paymentDateTime" type="tns:stISODateTime" minOccurs="0" /> <!--data esecuzione pagamento da parte dell'utente-->
+      <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa , data del pagamento lato PSP-->
+      <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" /> <!--data riversamento delle somme incassate dal PSP-->
     </xsd:sequence>
   </xsd:complexType>
 
@@ -321,8 +325,7 @@
       <xsd:element name="idPA" type="tns:stText35" />
       <xsd:element name="idBrokerPA" type="tns:stText35" />
       <xsd:element name="idStation" type="tns:stText35" />
-      <xsd:element name="paymentToken" type="tns:stPaymentToken" />
-      <xsd:element name="receipt" type="tns:ctReceipt" />
+          <xsd:element name="receipt" type="tns:ctReceipt" />
     </xsd:sequence>
   </xsd:complexType>
 
