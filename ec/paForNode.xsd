@@ -157,6 +157,7 @@
 
   <xsd:simpleType name="stAmountOption">
     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="EQUAL_THAN"></xsd:enumeration>
       <xsd:enumeration value="LESSER_THAN"></xsd:enumeration>
       <xsd:enumeration value="GREATER_THAN"></xsd:enumeration>
       <xsd:enumeration value="ANY"></xsd:enumeration>
