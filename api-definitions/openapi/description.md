@@ -1,7 +1,7 @@
 
 # Introduction
 
-This is the documentation of the pagoPA API for Provider Payment Services. This API enables a PSP  to pay a pagoPA Payment Notice according to _CAD (Codice Amministrazione Digitale)_
+This is the documentation of the pagoPA API for Payment Service Provider. This API enables a PSP  to pay a pagoPA Payment Notice according to _CAD (Codice Amministrazione Digitale)_
 
 _Reference API PA side is available [here](https://pagopa.github.io/pagopa-api/indexPA.html)_
 
@@ -15,7 +15,7 @@ Use of this API is restricted to PSP, or 3rd parties ( named as brokers ) which 
 
 Both PSPs and Brokers are identified with an identifier ( idPSP, idBroker )  assigned by PagoPA S.p.A.
 
-Formally, any API request is coming from a broker on behalf of a PSP which is responsable pf the payment.
+Formally, any API request is coming from a broker on behalf of a PSP which is responsable of the payment.
 
 - idPSP : it represent the PSP responsable for the payment
 - idBroker : the sender
