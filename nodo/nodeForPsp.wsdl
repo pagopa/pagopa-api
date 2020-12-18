@@ -36,6 +36,9 @@
     <wsdl:operation name="verifyPaymentNotice">
       <wsdl:documentation>
 Gets Payment Notice Data; a Payment Notice is identified by its QR-CODE data.
+
+The operation returns available payment options to the user. Each payment options desribes the acceptance `amount` values to be used requesting a payment activaction ( _see activetePayment_ ).
+
             </wsdl:documentation>
       <wsdl:input message="tns:verifyPaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeReq" />
       <wsdl:output message="tns:verifyPaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeRes" />
@@ -45,9 +48,7 @@ Gets Payment Notice Data; a Payment Notice is identified by its QR-CODE data.
       <wsdl:documentation>
 Request a payment activation, it returns a paymentToken.
 
-Payment amount shoud be equal to the payment notice amount; if omitted, it will updated by the public administration.
-In some cases, Public Administration can allow payment with an amount greater or lesser than the payment notice amount; In such cases, the *amount* attribute and *paymentNote* MUST BE filled.
-
+Payment amount shall be equal to a payment option returned by `verifyPaymentNotice` ; if omitted,  it will setted by the public administration.
 The operation supports client idempotency for safely retrying requests without accidentally performing the same operation twice ( or to retrieve missed responses).
 The idempontency key works by saving the resulting status code and body of the first request made for any given idempotency key if its status is OK.
 Subsequent request with the same key return the same result, except for error codes. 

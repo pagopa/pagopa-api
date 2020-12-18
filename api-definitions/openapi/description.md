@@ -9,7 +9,7 @@ This is the documentation of the pagoPA API for Provider Payment Services. This 
 
 ## Identification and Authentication
 
-Use of this API is restricted to PSP, or 3rd parties ( named as brokers ) which have signed a contract with PagoPA S.p.A. as stated in _link_
+Use of this API is restricted to PSP, or 3rd parties ( named as brokers ) which have signed a contract with PagoPA S.p.A. as stated _[here](https://www.pagopa.gov.it/it/prestatori-servizi-di-pagamento/)_
 
 Both PSPs and Brokers are identified with an identifier ( idPSP, idBroker )  assigned by PagoPA S.p.A.
 
