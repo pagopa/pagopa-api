@@ -7,7 +7,7 @@ info:
   description: 
     $ref: description.md
   x-ibm-name: nodeforpspservice
-  version: BETA version 1.0.1
+  version: 1.0.0
 schemes:
   - https
 basePath: /nodeForPsp_Service
@@ -55,6 +55,11 @@ paths:
       description: >-
         Gets Payment Notice Data; a Payment Notice is identified by its QR-CODE
         data.
+
+
+        The operation returns available payment options to the user. Each
+        payment options desribes the acceptance `amount` values to be used
+        requesting a payment activaction ( _see activetePayment_ ).
       operationId: verifyPaymentNotice
       x-ibm-soap:
         soap-action: verifyPaymentNotice
@@ -82,13 +87,9 @@ paths:
         Request a payment activation, it returns a paymentToken.
 
 
-        Payment amount shoud be equal to the payment notice amount; if omitted,
-        it will updated by the public administration.
-
-        In some cases, Public Administration can allow payment with an amount
-        greater or lesser than the payment notice amount; In such cases, the
-        *amount* attribute and *paymentNote* MUST BE filled.
-
+        Payment amount shall be equal to a payment option returned by
+        `verifyPaymentNotice` ; if omitted,  it will setted by the public
+        administration.
 
         The operation supports client idempotency for safely retrying requests
         without accidentally performing the same operation twice ( or to
@@ -366,8 +367,9 @@ definitions:
          <paymentList><!-- mandatory -->
           <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
            <amount><!-- mandatory -->999999996.99</amount>
+           <options><!-- mandatory -->string</options>
            <dueDate>2016-04-18</dueDate>
-           <detailDescription>string</detailDescription>
+           <paymentNote>string</paymentNote>
           </paymentOptionDescription>
          </paymentList>
          <paymentDescription>string</paymentDescription>
@@ -840,8 +842,9 @@ definitions:
        <paymentList><!-- mandatory -->
         <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
          <amount><!-- mandatory -->999999996.99</amount>
+         <options><!-- mandatory -->string</options>
          <dueDate>2016-04-18</dueDate>
-         <detailDescription>string</detailDescription>
+         <paymentNote>string</paymentNote>
         </paymentOptionDescription>
        </paymentList>
        <paymentDescription>string</paymentDescription>
@@ -1284,12 +1287,15 @@ definitions:
     properties:
       amount:
         $ref: '#/definitions/stAmount_type_nfpsp'
+      options:
+        $ref: '#/definitions/stAmountOptionPSP_type_nfpsp'
       dueDate:
         $ref: '#/definitions/stISODate_type_nfpsp'
-      detailDescription:
+      paymentNote:
         $ref: '#/definitions/stText140_type_nfpsp'
     required:
       - amount
+      - options
     x-xsi-type: ctPaymentOptionDescription
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -1383,6 +1389,20 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: ctSubject_type_nfpsp
+  stAmountOptionPSP_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    enum:
+      - EQUAL_THAN
+      - LESSER_THAN
+      - GREATER_THAN
+      - ANY
+    x-xsi-type: stAmountOptionPSP
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stAmountOptionPSP_type_nfpsp
   stText35_type_nfpsp:
     xml:
       namespace: ''

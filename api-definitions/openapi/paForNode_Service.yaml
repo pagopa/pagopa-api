@@ -1325,6 +1325,7 @@ definitions:
       namespace: ''
     type: string
     enum:
+      - EQUAL_THAN
       - LESSER_THAN
       - GREATER_THAN
       - ANY
