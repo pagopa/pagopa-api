@@ -3,6 +3,8 @@
 
 This is the documentation of the pagoPA API for Provider Payment Services. This API enables a PSP  to pay a pagoPA Payment Notice according to _CAD (Codice Amministrazione Digitale)_
 
+_Reference API PA side is available [here](https://raw.githubusercontent.com/pagopa/pagopa-api/develop/docs/index.html)_
+
 ## Warning
 
 **This is an experimental API that is (most probably) going to change as we evolve the pagoPa platform.**

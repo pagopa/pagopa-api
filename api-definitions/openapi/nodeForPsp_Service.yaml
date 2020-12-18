@@ -7,7 +7,7 @@ info:
   description: 
     $ref: description.md
   x-ibm-name: nodeforpspservice
-  version: Beta version 1.0.2 - 20201218
+  version: Beta version 1.0.3 - 20201218
 schemes:
   - https
 basePath: /nodeForPsp_Service
