@@ -7,7 +7,7 @@ info:
   description: 
     $ref: description.md
   x-ibm-name: nodeforpspservice
-  version: 1.0.0
+  version: Beta version 1.0.1 - 20201218
 schemes:
   - https
 basePath: /nodeForPsp_Service
@@ -308,6 +308,10 @@ definitions:
        </soapenv:Header>
        <soapenv:Body>
         <nfpsp:verifyPaymentNoticeReq xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"><!-- mandatory -->
+         <idPSP><!-- mandatory -->string</idPSP>
+         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+         <idChannel><!-- mandatory -->string</idChannel>
+         <password><!-- mandatory -->string</password>
          <qrCode><!-- mandatory -->
           <fiscalCode><!-- mandatory -->string</fiscalCode>
           <noticeNumber><!-- mandatory -->string</noticeNumber>
@@ -364,7 +368,7 @@ definitions:
           <originalFaultString>string</originalFaultString>
           <originalDescription>string</originalDescription>
          </fault>
-         <paymentList><!-- mandatory -->
+         <paymentList>
           <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
            <amount><!-- mandatory -->999999996.99</amount>
            <options><!-- mandatory -->string</options>
@@ -480,6 +484,10 @@ definitions:
        </soapenv:Header>
        <soapenv:Body>
         <nfpsp:activatePaymentNoticeReq xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"><!-- mandatory -->
+         <idPSP><!-- mandatory -->string</idPSP>
+         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+         <idChannel><!-- mandatory -->string</idChannel>
+         <password><!-- mandatory -->string</password>
          <idempotencyKey><!-- mandatory -->string</idempotencyKey>
          <qrCode><!-- mandatory -->
           <fiscalCode><!-- mandatory -->string</fiscalCode>
@@ -530,13 +538,24 @@ definitions:
       xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
         <nfpsp:activatePaymentNoticeRes xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+         <outcome><!-- mandatory -->string</outcome>
+         <fault>
+          <faultCode><!-- mandatory -->string</faultCode>
+          <faultString><!-- mandatory -->string</faultString>
+          <id><!-- mandatory -->string</id>
+          <description>string</description>
+          <serial>3</serial>
+          <originalFaultCode>string</originalFaultCode>
+          <originalFaultString>string</originalFaultString>
+          <originalDescription>string</originalDescription>
+         </fault>
          <totalAmount>999999996.99</totalAmount>
          <paymentDescription>string</paymentDescription>
          <fiscalCodePA>string</fiscalCodePA>
          <companyName>string</companyName>
          <officeName>string</officeName>
          <paymentToken>string</paymentToken>
-         <transferList><!-- mandatory -->
+         <transferList>
           <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
            <idTransfer><!-- mandatory -->string</idTransfer>
            <transferAmount><!-- mandatory -->999999996.99</transferAmount>
@@ -649,6 +668,10 @@ definitions:
        </soapenv:Header>
        <soapenv:Body>
         <nfpsp:sendPaymentOutcomeReq xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"><!-- mandatory -->
+         <idPSP><!-- mandatory -->string</idPSP>
+         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+         <idChannel><!-- mandatory -->string</idChannel>
+         <password><!-- mandatory -->string</password>
          <paymentToken><!-- mandatory -->string</paymentToken>
          <outcome><!-- mandatory -->string</outcome>
          <details>
@@ -670,7 +693,7 @@ definitions:
            <e-mail>string</e-mail>
           </payer>
           <applicationDate><!-- mandatory -->2016-04-18</applicationDate>
-          <trasferDate><!-- mandatory -->2016-04-18</trasferDate>
+          <transferDate><!-- mandatory -->2016-04-18</transferDate>
          </details>
         </nfpsp:sendPaymentOutcomeReq>
        </soapenv:Body>
@@ -784,14 +807,30 @@ definitions:
       name: verifyPaymentNoticeReq
     type: object
     properties:
+      idPSP:
+        $ref: '#/definitions/stIdPSP_type_nfpsp'
+      idBrokerPSP:
+        $ref: '#/definitions/stIdBroker_type_nfpsp'
+      idChannel:
+        $ref: '#/definitions/stIdChannel_type_nfpsp'
+      password:
+        $ref: '#/definitions/stPassword_type_nfpsp'
       qrCode:
         $ref: '#/definitions/ctQrCode_type_nfpsp'
     required:
+      - idPSP
+      - idBrokerPSP
+      - idChannel
+      - password
       - qrCode
     example: >-
 
       <nfpsp:verifyPaymentNoticeReq
       xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+       <idPSP><!-- mandatory -->string</idPSP>
+       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+       <idChannel><!-- mandatory -->string</idChannel>
+       <password><!-- mandatory -->string</password>
        <qrCode><!-- mandatory -->
         <fiscalCode><!-- mandatory -->string</fiscalCode>
         <noticeNumber><!-- mandatory -->string</noticeNumber>
@@ -822,8 +861,6 @@ definitions:
           officeName:
             $ref: '#/definitions/stText140_type_nfpsp'
             description: Public Admninistration Department Name
-        required:
-          - paymentList
     example: >-
 
       <nfpsp:verifyPaymentNoticeRes
@@ -839,7 +876,7 @@ definitions:
         <originalFaultString>string</originalFaultString>
         <originalDescription>string</originalDescription>
        </fault>
-       <paymentList><!-- mandatory -->
+       <paymentList>
         <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
          <amount><!-- mandatory -->999999996.99</amount>
          <options><!-- mandatory -->string</options>
@@ -886,6 +923,14 @@ definitions:
       name: activatePaymentNoticeReq
     type: object
     properties:
+      idPSP:
+        $ref: '#/definitions/stIdPSP_type_nfpsp'
+      idBrokerPSP:
+        $ref: '#/definitions/stIdBroker_type_nfpsp'
+      idChannel:
+        $ref: '#/definitions/stIdChannel_type_nfpsp'
+      password:
+        $ref: '#/definitions/stPassword_type_nfpsp'
       idempotencyKey:
         $ref: '#/definitions/stIdempotencyKey_type_nfpsp'
       qrCode:
@@ -899,12 +944,20 @@ definitions:
       paymentNote:
         $ref: '#/definitions/stText140_type_nfpsp'
     required:
+      - idPSP
+      - idBrokerPSP
+      - idChannel
+      - password
       - idempotencyKey
       - qrCode
     example: >-
 
       <nfpsp:activatePaymentNoticeReq
       xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+       <idPSP><!-- mandatory -->string</idPSP>
+       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+       <idChannel><!-- mandatory -->string</idChannel>
+       <password><!-- mandatory -->string</password>
        <idempotencyKey><!-- mandatory -->string</idempotencyKey>
        <qrCode><!-- mandatory -->
         <fiscalCode><!-- mandatory -->string</fiscalCode>
@@ -920,35 +973,46 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
       name: activatePaymentNoticeRes
-    type: object
-    properties:
-      totalAmount:
-        $ref: '#/definitions/stAmount_type_nfpsp'
-      paymentDescription:
-        $ref: '#/definitions/stText140_type_nfpsp'
-      fiscalCodePA:
-        $ref: '#/definitions/stFiscalCodePA_type_nfpsp'
-      companyName:
-        $ref: '#/definitions/stText140_type_nfpsp'
-      officeName:
-        $ref: '#/definitions/stText140_type_nfpsp'
-      paymentToken:
-        $ref: '#/definitions/stPaymentToken_type_nfpsp'
-      transferList:
-        $ref: '#/definitions/ctTransferListPSP_type_nfpsp'
-    required:
-      - transferList
+    allOf:
+      - $ref: '#/definitions/ctResponse_type_nfpsp'
+      - type: object
+        properties:
+          totalAmount:
+            $ref: '#/definitions/stAmount_type_nfpsp'
+          paymentDescription:
+            $ref: '#/definitions/stText140_type_nfpsp'
+          fiscalCodePA:
+            $ref: '#/definitions/stFiscalCodePA_type_nfpsp'
+          companyName:
+            $ref: '#/definitions/stText140_type_nfpsp'
+          officeName:
+            $ref: '#/definitions/stText140_type_nfpsp'
+          paymentToken:
+            $ref: '#/definitions/stPaymentToken_type_nfpsp'
+          transferList:
+            $ref: '#/definitions/ctTransferListPSP_type_nfpsp'
     example: >-
 
       <nfpsp:activatePaymentNoticeRes
       xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+       <outcome><!-- mandatory -->string</outcome>
+       <fault>
+        <faultCode><!-- mandatory -->string</faultCode>
+        <faultString><!-- mandatory -->string</faultString>
+        <id><!-- mandatory -->string</id>
+        <description>string</description>
+        <serial>3</serial>
+        <originalFaultCode>string</originalFaultCode>
+        <originalFaultString>string</originalFaultString>
+        <originalDescription>string</originalDescription>
+       </fault>
        <totalAmount>999999996.99</totalAmount>
        <paymentDescription>string</paymentDescription>
        <fiscalCodePA>string</fiscalCodePA>
        <companyName>string</companyName>
        <officeName>string</officeName>
        <paymentToken>string</paymentToken>
-       <transferList><!-- mandatory -->
+       <transferList>
         <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
          <idTransfer><!-- mandatory -->string</idTransfer>
          <transferAmount><!-- mandatory -->999999996.99</transferAmount>
@@ -965,6 +1029,14 @@ definitions:
       name: sendPaymentOutcomeReq
     type: object
     properties:
+      idPSP:
+        $ref: '#/definitions/stIdPSP_type_nfpsp'
+      idBrokerPSP:
+        $ref: '#/definitions/stIdBroker_type_nfpsp'
+      idChannel:
+        $ref: '#/definitions/stIdChannel_type_nfpsp'
+      password:
+        $ref: '#/definitions/stPassword_type_nfpsp'
       paymentToken:
         $ref: '#/definitions/stPaymentToken_type_nfpsp'
       outcome:
@@ -972,12 +1044,20 @@ definitions:
       details:
         $ref: '#/definitions/ctOutcomeDetails_type_nfpsp'
     required:
+      - idPSP
+      - idBrokerPSP
+      - idChannel
+      - password
       - paymentToken
       - outcome
     example: >-
 
       <nfpsp:sendPaymentOutcomeReq
       xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+       <idPSP><!-- mandatory -->string</idPSP>
+       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+       <idChannel><!-- mandatory -->string</idChannel>
+       <password><!-- mandatory -->string</password>
        <paymentToken><!-- mandatory -->string</paymentToken>
        <outcome><!-- mandatory -->string</outcome>
        <details>
@@ -999,7 +1079,7 @@ definitions:
          <e-mail>string</e-mail>
         </payer>
         <applicationDate><!-- mandatory -->2016-04-18</applicationDate>
-        <trasferDate><!-- mandatory -->2016-04-18</trasferDate>
+        <transferDate><!-- mandatory -->2016-04-18</transferDate>
        </details>
       </nfpsp:sendPaymentOutcomeReq>
   sendPaymentOutcomeRes_element_nfpsp:
@@ -1027,6 +1107,54 @@ definitions:
         <originalDescription>string</originalDescription>
        </fault>
       </nfpsp:sendPaymentOutcomeRes>
+  stIdPSP_type_nfpsp:
+    xml:
+      namespace: ''
+    description: 'PSP Identifier, it has been assigned from pagoPA.'
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIdPSP
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stIdPSP_type_nfpsp
+  stIdBroker_type_nfpsp:
+    xml:
+      namespace: ''
+    description: 'Broker Identifier, it has been assigned from pagoPA.'
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIdBroker
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stIdBroker_type_nfpsp
+  stIdChannel_type_nfpsp:
+    xml:
+      namespace: ''
+    description: 'Channel Identifier, it identifies a payment service category'
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIdChannel
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stIdChannel_type_nfpsp
+  stPassword_type_nfpsp:
+    xml:
+      namespace: ''
+    description: 'channel password, it has been assigned from pagoPA'
+    type: string
+    minLength: 8
+    maxLength: 15
+    x-xsi-type: stPassword
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stPassword_type_nfpsp
   ctQrCode_type_nfpsp:
     xml:
       namespace: ''
@@ -1209,13 +1337,13 @@ definitions:
         $ref: '#/definitions/ctSubject_type_nfpsp'
       applicationDate:
         $ref: '#/definitions/stISODate_type_nfpsp'
-      trasferDate:
+      transferDate:
         $ref: '#/definitions/stISODate_type_nfpsp'
     required:
       - paymentMethod
       - fee
       - applicationDate
-      - trasferDate
+      - transferDate
     x-xsi-type: ctOutcomeDetails
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -1394,9 +1522,9 @@ definitions:
       namespace: ''
     type: string
     enum:
-      - EQUAL_THAN
-      - LESSER_THAN
-      - GREATER_THAN
+      - EQ
+      - LS
+      - GT
       - ANY
     x-xsi-type: stAmountOptionPSP
     x-xsi-type-xml:
