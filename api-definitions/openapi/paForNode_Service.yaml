@@ -1,0 +1,1503 @@
+swagger: '2.0'
+info:
+  title: paForNode_Service
+  description: ''
+  x-ibm-name: pafornodeservice
+  version: 1.0.0
+schemes:
+  - https
+basePath: /paForNode_Service
+produces:
+  - application/xml
+consumes:
+  - text/xml
+securityDefinitions:
+  clientID:
+    type: apiKey
+    name: X-IBM-Client-Id
+    in: header
+    description: ''
+security:
+  - clientID: []
+x-ibm-configuration:
+  type: wsdl
+  phase: realized
+  enforced: true
+  testable: true
+  gateway: datapower-gateway
+  cors:
+    enabled: true
+  wsdl-definition:
+    wsdl: paForNode.wsdl
+    service: paForNode_Service
+    port: paForNode_Port
+    soap-version: '1.1'
+  assembly:
+    execute:
+      - proxy:
+          title: proxy
+          target-url: 'http://pagopa-api.pagopa.gov.it/service/pa/paForNode'
+  x-ibm-apiconnect-wsdl:
+    package-version: 1.8.31
+    options: {}
+    messages:
+      info: []
+      warning: []
+      error: []
+paths:
+  /paVerifyPaymentNotice:
+    post:
+      summary: Operation paVerifyPaymentNotice
+      description: ''
+      operationId: paVerifyPaymentNotice
+      x-ibm-soap:
+        soap-action: paVerifyPaymentNotice
+        soap-operation: >-
+          {http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd}paVerifyPaymentNoticeReq
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/paVerifyPaymentNoticeInput'
+      responses:
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/paVerifyPaymentNoticeOutput'
+  /paGetPayment:
+    post:
+      summary: Operation paGetPayment
+      description: ''
+      operationId: paGetPayment
+      x-ibm-soap:
+        soap-action: paGetPayment
+        soap-operation: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd}paGetPaymentReq'
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/paGetPaymentInput'
+      responses:
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/paGetPaymentOutput'
+  /paSendRT:
+    post:
+      summary: Operation paSendRT
+      description: ''
+      operationId: paSendRT
+      x-ibm-soap:
+        soap-action: paSendRT
+        soap-operation: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd}paSendRTReq'
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/paSendRTInput'
+      responses:
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/paSendRTOutput'
+definitions:
+  Security:
+    xml:
+      namespace: >-
+        http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+      prefix: wsse
+    description: Header for WS-Security
+    type: object
+    properties:
+      UsernameToken:
+        xml:
+          namespace: >-
+            http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+          prefix: wsse
+        type: object
+        properties:
+          Username:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+              prefix: wsse
+            type: string
+          Password:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+              prefix: wsse
+            type: string
+          Nonce:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+              prefix: wsse
+            type: string
+            properties:
+              EncodingType:
+                xml:
+                  namespace: ''
+                  attribute: true
+                type: string
+          Created:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+            type: string
+      Timestamp:
+        xml:
+          namespace: >-
+            http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+          prefix: wsu
+        type: object
+        properties:
+          Created:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+            type: string
+          Expires:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+            type: string
+          Id:
+            xml:
+              namespace: >-
+                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+              prefix: wsu
+              attribute: true
+            type: string
+  paVerifyPaymentNoticeInput:
+    description: Input message for wsdl operation paVerifyPaymentNoticeReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Header:
+            $ref: '#/definitions/paVerifyPaymentNoticeHeader'
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              paVerifyPaymentNoticeReq:
+                $ref: '#/definitions/paVerifyPaymentNoticeReq_element_pafn'
+            required:
+              - paVerifyPaymentNoticeReq
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.wsdl}paForNode_Port'
+      wsdl-operation: paVerifyPaymentNoticeReq
+      wsdl-message-direction-or-name: paVerifyPaymentNoticeReqRequest
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Header>
+        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken>
+          <wsse:Username>string</wsse:Username>
+          <wsse:Password>string</wsse:Password>
+          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
+          <wsu:Created>string</wsu:Created>
+         </wsse:UsernameToken>
+         <wsu:Timestamp wsu:Id="string">
+          <wsu:Created>string</wsu:Created>
+          <wsu:Expires>string</wsu:Expires>
+         </wsu:Timestamp>
+        </wsse:Security>
+       </soapenv:Header>
+       <soapenv:Body>
+        <pafn:paVerifyPaymentNoticeReq xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"><!-- mandatory -->
+         <idPA><!-- mandatory -->string</idPA>
+         <idBrokerPA><!-- mandatory -->string</idBrokerPA>
+         <idStation><!-- mandatory -->string</idStation>
+         <qrCode><!-- mandatory -->
+          <fiscalCode><!-- mandatory -->string</fiscalCode>
+          <noticeNumber><!-- mandatory -->string</noticeNumber>
+         </qrCode>
+        </pafn:paVerifyPaymentNoticeReq>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  paVerifyPaymentNoticeHeader:
+    description: Input headers for wsdl operation paVerifyPaymentNoticeReq
+    type: object
+    properties:
+      Security:
+        $ref: '#/definitions/Security'
+  paVerifyPaymentNoticeOutput:
+    description: Output message for wsdl operation paVerifyPaymentNoticeReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              paVerifyPaymentNoticeRes:
+                $ref: '#/definitions/paVerifyPaymentNoticeRes_element_pafn'
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.wsdl}paForNode_Port'
+      wsdl-operation: paVerifyPaymentNoticeReq
+      wsdl-message-direction-or-name: paVerifyPaymentNoticeReqResponse
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+        <pafn:paVerifyPaymentNoticeRes xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+         <outcome><!-- mandatory -->string</outcome>
+         <fault>
+          <faultCode><!-- mandatory -->string</faultCode>
+          <faultString><!-- mandatory -->string</faultString>
+          <id><!-- mandatory -->string</id>
+          <description>string</description>
+          <serial>3</serial>
+          <originalFaultCode>string</originalFaultCode>
+          <originalFaultString>string</originalFaultString>
+          <originalDescription>string</originalDescription>
+         </fault>
+         <paymentList><!-- mandatory -->
+          <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+           <amount><!-- mandatory -->999999996.99</amount>
+           <options><!-- mandatory -->string</options>
+           <dueDate>2016-04-18</dueDate>
+           <detailDescription>string</detailDescription>
+           <transferType>string</transferType>
+          </paymentOptionDescription>
+         </paymentList>
+         <paymentDescription>string</paymentDescription>
+         <fiscalCodePA>string</fiscalCodePA>
+         <companyName>string</companyName>
+         <officeName>string</officeName>
+        </pafn:paVerifyPaymentNoticeRes>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  paGetPaymentInput:
+    description: Input message for wsdl operation paGetPaymentReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Header:
+            $ref: '#/definitions/paGetPaymentHeader'
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              paGetPaymentReq:
+                $ref: '#/definitions/paGetPaymentReq_element_pafn'
+            required:
+              - paGetPaymentReq
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.wsdl}paForNode_Port'
+      wsdl-operation: paGetPaymentReq
+      wsdl-message-direction-or-name: paGetPaymentReqRequest
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Header>
+        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken>
+          <wsse:Username>string</wsse:Username>
+          <wsse:Password>string</wsse:Password>
+          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
+          <wsu:Created>string</wsu:Created>
+         </wsse:UsernameToken>
+         <wsu:Timestamp wsu:Id="string">
+          <wsu:Created>string</wsu:Created>
+          <wsu:Expires>string</wsu:Expires>
+         </wsu:Timestamp>
+        </wsse:Security>
+       </soapenv:Header>
+       <soapenv:Body>
+        <pafn:paGetPaymentReq xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"><!-- mandatory -->
+         <idPA><!-- mandatory -->string</idPA>
+         <idBrokerPA><!-- mandatory -->string</idBrokerPA>
+         <idStation><!-- mandatory -->string</idStation>
+         <qrCode><!-- mandatory -->
+          <fiscalCode><!-- mandatory -->string</fiscalCode>
+          <noticeNumber><!-- mandatory -->string</noticeNumber>
+         </qrCode>
+         <amount><!-- mandatory -->999999996.99</amount>
+         <paymentNote><!-- mandatory -->string</paymentNote>
+         <transferType>string</transferType>
+        </pafn:paGetPaymentReq>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  paGetPaymentHeader:
+    description: Input headers for wsdl operation paGetPaymentReq
+    type: object
+    properties:
+      Security:
+        $ref: '#/definitions/Security'
+  paGetPaymentOutput:
+    description: Output message for wsdl operation paGetPaymentReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              paGetPaymentRes:
+                $ref: '#/definitions/paGetPaymentRes_element_pafn'
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.wsdl}paForNode_Port'
+      wsdl-operation: paGetPaymentReq
+      wsdl-message-direction-or-name: paGetPaymentReqResponse
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+        <pafn:paGetPaymentRes xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+         <outcome><!-- mandatory -->string</outcome>
+         <fault>
+          <faultCode><!-- mandatory -->string</faultCode>
+          <faultString><!-- mandatory -->string</faultString>
+          <id><!-- mandatory -->string</id>
+          <description>string</description>
+          <serial>3</serial>
+          <originalFaultCode>string</originalFaultCode>
+          <originalFaultString>string</originalFaultString>
+          <originalDescription>string</originalDescription>
+         </fault>
+         <data><!-- mandatory -->
+          <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
+          <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
+          <dueDate>2016-04-18T14:07:37</dueDate>
+          <finalDueDate>2016-04-18T14:07:37</finalDueDate>
+          <description><!-- mandatory -->string</description>
+          <paymentCategory><!-- mandatory -->string</paymentCategory>
+          <officeName>string</officeName>
+          <debtor><!-- mandatory -->
+           <uniqueIdentifier><!-- mandatory -->
+            <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
+            <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
+           </uniqueIdentifier>
+           <fullName><!-- mandatory -->string</fullName>
+           <streetName>string</streetName>
+           <civicNumber>string</civicNumber>
+           <postalCode>string</postalCode>
+           <city>string</city>
+           <stateProvinceRegion>string</stateProvinceRegion>
+           <country>string</country>
+           <e-mail>string</e-mail>
+          </debtor>
+          <transferList><!-- mandatory -->
+           <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+            <idTransfer><!-- mandatory -->string</idTransfer>
+            <transferAmount><!-- mandatory -->999999996.99</transferAmount>
+            <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
+            <IBAN><!-- mandatory -->string</IBAN>
+            <remittanceInformation><!-- mandatory -->string</remittanceInformation>
+            <transferCategory><!-- mandatory -->string</transferCategory>
+           </transfer>
+          </transferList>
+          <metadata>
+           <mapEntry><!-- between zero and 10 repetitions of this element -->
+            <key><!-- mandatory -->string</key>
+            <value><!-- mandatory -->string</value>
+           </mapEntry>
+          </metadata>
+         </data>
+        </pafn:paGetPaymentRes>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  paSendRTInput:
+    description: Input message for wsdl operation paSendRTReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Header:
+            $ref: '#/definitions/paSendRTHeader'
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              paSendRTReq:
+                $ref: '#/definitions/paSendRTReq_element_pafn'
+            required:
+              - paSendRTReq
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.wsdl}paForNode_Port'
+      wsdl-operation: paSendRTReq
+      wsdl-message-direction-or-name: paSendRTReqRequest
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Header>
+        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken>
+          <wsse:Username>string</wsse:Username>
+          <wsse:Password>string</wsse:Password>
+          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
+          <wsu:Created>string</wsu:Created>
+         </wsse:UsernameToken>
+         <wsu:Timestamp wsu:Id="string">
+          <wsu:Created>string</wsu:Created>
+          <wsu:Expires>string</wsu:Expires>
+         </wsu:Timestamp>
+        </wsse:Security>
+       </soapenv:Header>
+       <soapenv:Body>
+        <pafn:paSendRTReq xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"><!-- mandatory -->
+         <idPA><!-- mandatory -->string</idPA>
+         <idBrokerPA><!-- mandatory -->string</idBrokerPA>
+         <idStation><!-- mandatory -->string</idStation>
+         <receipt><!-- mandatory -->
+          <receiptId><!-- mandatory -->string</receiptId>
+          <noticeNumber><!-- mandatory -->string</noticeNumber>
+          <fiscalCode><!-- mandatory -->string</fiscalCode>
+          <outcome><!-- mandatory -->string</outcome>
+          <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
+          <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
+          <description><!-- mandatory -->string</description>
+          <paymentCategory><!-- mandatory -->string</paymentCategory>
+          <companyName><!-- mandatory -->string</companyName>
+          <officeName>string</officeName>
+          <debtor><!-- mandatory -->
+           <uniqueIdentifier><!-- mandatory -->
+            <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
+            <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
+           </uniqueIdentifier>
+           <fullName><!-- mandatory -->string</fullName>
+           <streetName>string</streetName>
+           <civicNumber>string</civicNumber>
+           <postalCode>string</postalCode>
+           <city>string</city>
+           <stateProvinceRegion>string</stateProvinceRegion>
+           <country>string</country>
+           <e-mail>string</e-mail>
+          </debtor>
+          <transferList><!-- mandatory -->
+           <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+            <idTransfer><!-- mandatory -->string</idTransfer>
+            <transferAmount><!-- mandatory -->999999996.99</transferAmount>
+            <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
+            <IBAN><!-- mandatory -->string</IBAN>
+            <remittanceInformation><!-- mandatory -->string</remittanceInformation>
+            <transferCategory><!-- mandatory -->string</transferCategory>
+           </transfer>
+          </transferList>
+          <idPSP><!-- mandatory -->string</idPSP>
+          <PSPCompanyName><!-- mandatory -->string</PSPCompanyName>
+          <idChannel><!-- mandatory -->string</idChannel>
+          <channelDescription><!-- mandatory -->string</channelDescription>
+          <payer>
+           <uniqueIdentifier><!-- mandatory -->
+            <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
+            <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
+           </uniqueIdentifier>
+           <fullName><!-- mandatory -->string</fullName>
+           <streetName>string</streetName>
+           <civicNumber>string</civicNumber>
+           <postalCode>string</postalCode>
+           <city>string</city>
+           <stateProvinceRegion>string</stateProvinceRegion>
+           <country>string</country>
+           <e-mail>string</e-mail>
+          </payer>
+          <paymentMethod>string</paymentMethod>
+          <fee>999999996.99</fee>
+          <paymentDateTime>2016-04-18T14:07:37</paymentDateTime>
+          <applicationDate>2016-04-18</applicationDate>
+          <transferDate>2016-04-18</transferDate>
+         </receipt>
+        </pafn:paSendRTReq>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  paSendRTHeader:
+    description: Input headers for wsdl operation paSendRTReq
+    type: object
+    properties:
+      Security:
+        $ref: '#/definitions/Security'
+  paSendRTOutput:
+    description: Output message for wsdl operation paSendRTReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              paSendRTRes:
+                $ref: '#/definitions/paSendRTRes_element_pafn'
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/pa/paForNode.wsdl}paForNode_Port'
+      wsdl-operation: paSendRTReq
+      wsdl-message-direction-or-name: paSendRTReqResponse
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+        <pafn:paSendRTRes xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+         <outcome><!-- mandatory -->string</outcome>
+         <fault>
+          <faultCode><!-- mandatory -->string</faultCode>
+          <faultString><!-- mandatory -->string</faultString>
+          <id><!-- mandatory -->string</id>
+          <description>string</description>
+          <serial>3</serial>
+          <originalFaultCode>string</originalFaultCode>
+          <originalFaultString>string</originalFaultString>
+          <originalDescription>string</originalDescription>
+         </fault>
+        </pafn:paSendRTRes>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  paVerifyPaymentNoticeReq_element_pafn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+      name: paVerifyPaymentNoticeReq
+    type: object
+    properties:
+      idPA:
+        $ref: '#/definitions/stText35_type_pafn'
+      idBrokerPA:
+        $ref: '#/definitions/stText35_type_pafn'
+      idStation:
+        $ref: '#/definitions/stText35_type_pafn'
+      qrCode:
+        $ref: '#/definitions/ctQrCode_type_pafn'
+    required:
+      - idPA
+      - idBrokerPA
+      - idStation
+      - qrCode
+    example: >-
+
+      <pafn:paVerifyPaymentNoticeReq
+      xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+       <idPA><!-- mandatory -->string</idPA>
+       <idBrokerPA><!-- mandatory -->string</idBrokerPA>
+       <idStation><!-- mandatory -->string</idStation>
+       <qrCode><!-- mandatory -->
+        <fiscalCode><!-- mandatory -->string</fiscalCode>
+        <noticeNumber><!-- mandatory -->string</noticeNumber>
+       </qrCode>
+      </pafn:paVerifyPaymentNoticeReq>
+  paVerifyPaymentNoticeRes_element_pafn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+      name: paVerifyPaymentNoticeRes
+    allOf:
+      - $ref: '#/definitions/ctResponse_type_pafn'
+      - type: object
+        properties:
+          paymentList:
+            $ref: '#/definitions/ctPaymentOptionsDescriptionListPA_type_pafn'
+          paymentDescription:
+            $ref: '#/definitions/stText140_type_pafn'
+          fiscalCodePA:
+            $ref: '#/definitions/stFiscalCodePA_type_pafn'
+          companyName:
+            $ref: '#/definitions/stText140_type_pafn'
+          officeName:
+            $ref: '#/definitions/stText140_type_pafn'
+        required:
+          - paymentList
+    example: >-
+
+      <pafn:paVerifyPaymentNoticeRes
+      xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+       <outcome><!-- mandatory -->string</outcome>
+       <fault>
+        <faultCode><!-- mandatory -->string</faultCode>
+        <faultString><!-- mandatory -->string</faultString>
+        <id><!-- mandatory -->string</id>
+        <description>string</description>
+        <serial>3</serial>
+        <originalFaultCode>string</originalFaultCode>
+        <originalFaultString>string</originalFaultString>
+        <originalDescription>string</originalDescription>
+       </fault>
+       <paymentList><!-- mandatory -->
+        <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+         <amount><!-- mandatory -->999999996.99</amount>
+         <options><!-- mandatory -->string</options>
+         <dueDate>2016-04-18</dueDate>
+         <detailDescription>string</detailDescription>
+         <transferType>string</transferType>
+        </paymentOptionDescription>
+       </paymentList>
+       <paymentDescription>string</paymentDescription>
+       <fiscalCodePA>string</fiscalCodePA>
+       <companyName>string</companyName>
+       <officeName>string</officeName>
+      </pafn:paVerifyPaymentNoticeRes>
+  paGetPaymentReq_element_pafn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+      name: paGetPaymentReq
+    type: object
+    properties:
+      idPA:
+        $ref: '#/definitions/stText35_type_pafn'
+      idBrokerPA:
+        $ref: '#/definitions/stText35_type_pafn'
+      idStation:
+        $ref: '#/definitions/stText35_type_pafn'
+      qrCode:
+        $ref: '#/definitions/ctQrCode_type_pafn'
+      amount:
+        $ref: '#/definitions/stAmount_type_pafn'
+      paymentNote:
+        $ref: '#/definitions/stText140_type_pafn'
+      transferType:
+        $ref: '#/definitions/stTransferType_type_pafn'
+    required:
+      - idPA
+      - idBrokerPA
+      - idStation
+      - qrCode
+      - amount
+      - paymentNote
+    example: >-
+
+      <pafn:paGetPaymentReq
+      xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+       <idPA><!-- mandatory -->string</idPA>
+       <idBrokerPA><!-- mandatory -->string</idBrokerPA>
+       <idStation><!-- mandatory -->string</idStation>
+       <qrCode><!-- mandatory -->
+        <fiscalCode><!-- mandatory -->string</fiscalCode>
+        <noticeNumber><!-- mandatory -->string</noticeNumber>
+       </qrCode>
+       <amount><!-- mandatory -->999999996.99</amount>
+       <paymentNote><!-- mandatory -->string</paymentNote>
+       <transferType>string</transferType>
+      </pafn:paGetPaymentReq>
+  paGetPaymentRes_element_pafn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+      name: paGetPaymentRes
+    allOf:
+      - $ref: '#/definitions/ctResponse_type_pafn'
+      - type: object
+        properties:
+          data:
+            $ref: '#/definitions/ctPaymentPA_type_pafn'
+        required:
+          - data
+    example: >-
+
+      <pafn:paGetPaymentRes
+      xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+       <outcome><!-- mandatory -->string</outcome>
+       <fault>
+        <faultCode><!-- mandatory -->string</faultCode>
+        <faultString><!-- mandatory -->string</faultString>
+        <id><!-- mandatory -->string</id>
+        <description>string</description>
+        <serial>3</serial>
+        <originalFaultCode>string</originalFaultCode>
+        <originalFaultString>string</originalFaultString>
+        <originalDescription>string</originalDescription>
+       </fault>
+       <data><!-- mandatory -->
+        <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
+        <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
+        <dueDate>2016-04-18T14:07:37</dueDate>
+        <finalDueDate>2016-04-18T14:07:37</finalDueDate>
+        <description><!-- mandatory -->string</description>
+        <paymentCategory><!-- mandatory -->string</paymentCategory>
+        <officeName>string</officeName>
+        <debtor><!-- mandatory -->
+         <uniqueIdentifier><!-- mandatory -->
+          <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
+          <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
+         </uniqueIdentifier>
+         <fullName><!-- mandatory -->string</fullName>
+         <streetName>string</streetName>
+         <civicNumber>string</civicNumber>
+         <postalCode>string</postalCode>
+         <city>string</city>
+         <stateProvinceRegion>string</stateProvinceRegion>
+         <country>string</country>
+         <e-mail>string</e-mail>
+        </debtor>
+        <transferList><!-- mandatory -->
+         <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+          <idTransfer><!-- mandatory -->string</idTransfer>
+          <transferAmount><!-- mandatory -->999999996.99</transferAmount>
+          <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
+          <IBAN><!-- mandatory -->string</IBAN>
+          <remittanceInformation><!-- mandatory -->string</remittanceInformation>
+          <transferCategory><!-- mandatory -->string</transferCategory>
+         </transfer>
+        </transferList>
+        <metadata>
+         <mapEntry><!-- between zero and 10 repetitions of this element -->
+          <key><!-- mandatory -->string</key>
+          <value><!-- mandatory -->string</value>
+         </mapEntry>
+        </metadata>
+       </data>
+      </pafn:paGetPaymentRes>
+  paSendRTReq_element_pafn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+      name: paSendRTReq
+    type: object
+    properties:
+      idPA:
+        $ref: '#/definitions/stText35_type_pafn'
+      idBrokerPA:
+        $ref: '#/definitions/stText35_type_pafn'
+      idStation:
+        $ref: '#/definitions/stText35_type_pafn'
+      receipt:
+        $ref: '#/definitions/ctReceipt_type_pafn'
+    required:
+      - idPA
+      - idBrokerPA
+      - idStation
+      - receipt
+    example: >-
+
+      <pafn:paSendRTReq
+      xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+       <idPA><!-- mandatory -->string</idPA>
+       <idBrokerPA><!-- mandatory -->string</idBrokerPA>
+       <idStation><!-- mandatory -->string</idStation>
+       <receipt><!-- mandatory -->
+        <receiptId><!-- mandatory -->string</receiptId>
+        <noticeNumber><!-- mandatory -->string</noticeNumber>
+        <fiscalCode><!-- mandatory -->string</fiscalCode>
+        <outcome><!-- mandatory -->string</outcome>
+        <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
+        <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
+        <description><!-- mandatory -->string</description>
+        <paymentCategory><!-- mandatory -->string</paymentCategory>
+        <companyName><!-- mandatory -->string</companyName>
+        <officeName>string</officeName>
+        <debtor><!-- mandatory -->
+         <uniqueIdentifier><!-- mandatory -->
+          <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
+          <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
+         </uniqueIdentifier>
+         <fullName><!-- mandatory -->string</fullName>
+         <streetName>string</streetName>
+         <civicNumber>string</civicNumber>
+         <postalCode>string</postalCode>
+         <city>string</city>
+         <stateProvinceRegion>string</stateProvinceRegion>
+         <country>string</country>
+         <e-mail>string</e-mail>
+        </debtor>
+        <transferList><!-- mandatory -->
+         <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+          <idTransfer><!-- mandatory -->string</idTransfer>
+          <transferAmount><!-- mandatory -->999999996.99</transferAmount>
+          <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
+          <IBAN><!-- mandatory -->string</IBAN>
+          <remittanceInformation><!-- mandatory -->string</remittanceInformation>
+          <transferCategory><!-- mandatory -->string</transferCategory>
+         </transfer>
+        </transferList>
+        <idPSP><!-- mandatory -->string</idPSP>
+        <PSPCompanyName><!-- mandatory -->string</PSPCompanyName>
+        <idChannel><!-- mandatory -->string</idChannel>
+        <channelDescription><!-- mandatory -->string</channelDescription>
+        <payer>
+         <uniqueIdentifier><!-- mandatory -->
+          <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
+          <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
+         </uniqueIdentifier>
+         <fullName><!-- mandatory -->string</fullName>
+         <streetName>string</streetName>
+         <civicNumber>string</civicNumber>
+         <postalCode>string</postalCode>
+         <city>string</city>
+         <stateProvinceRegion>string</stateProvinceRegion>
+         <country>string</country>
+         <e-mail>string</e-mail>
+        </payer>
+        <paymentMethod>string</paymentMethod>
+        <fee>999999996.99</fee>
+        <paymentDateTime>2016-04-18T14:07:37</paymentDateTime>
+        <applicationDate>2016-04-18</applicationDate>
+        <transferDate>2016-04-18</transferDate>
+       </receipt>
+      </pafn:paSendRTReq>
+  paSendRTRes_element_pafn:
+    xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+      name: paSendRTRes
+    allOf:
+      - $ref: '#/definitions/ctResponse_type_pafn'
+      - type: object
+        properties: {}
+    example: >-
+
+      <pafn:paSendRTRes
+      xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+       <outcome><!-- mandatory -->string</outcome>
+       <fault>
+        <faultCode><!-- mandatory -->string</faultCode>
+        <faultString><!-- mandatory -->string</faultString>
+        <id><!-- mandatory -->string</id>
+        <description>string</description>
+        <serial>3</serial>
+        <originalFaultCode>string</originalFaultCode>
+        <originalFaultString>string</originalFaultString>
+        <originalDescription>string</originalDescription>
+       </fault>
+      </pafn:paSendRTRes>
+  stText35_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stText35
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stText35_type_pafn
+  ctQrCode_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      fiscalCode:
+        $ref: '#/definitions/stFiscalCodePA_type_pafn'
+      noticeNumber:
+        $ref: '#/definitions/stNoticeNumber_type_pafn'
+    required:
+      - fiscalCode
+      - noticeNumber
+    x-xsi-type: ctQrCode
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctQrCode_type_pafn
+  ctPaymentOptionsDescriptionListPA_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      paymentOptionDescription:
+        type: array
+        minItems: 1
+        maxItems: 5
+        items:
+          $ref: '#/definitions/ctPaymentOptionDescriptionPA_type_pafn'
+    required:
+      - paymentOptionDescription
+    x-xsi-type: ctPaymentOptionsDescriptionListPA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctPaymentOptionsDescriptionListPA_type_pafn
+  stText140_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 140
+    x-xsi-type: stText140
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stText140_type_pafn
+  stFiscalCodePA_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[0-9]{11}'
+    minLength: 11
+    maxLength: 11
+    x-xsi-type: stFiscalCodePA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stFiscalCodePA_type_pafn
+  stAmount_type_pafn:
+    xml:
+      namespace: ''
+    type: number
+    maximum: 999999999.99
+    pattern: '\d+\.\d{2}'
+    x-xsi-type: stAmount
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stAmount_type_pafn
+  stTransferType_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    enum:
+      - POSTAL
+    x-xsi-type: stTransferType
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stTransferType_type_pafn
+  ctPaymentPA_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      creditorReferenceId:
+        $ref: '#/definitions/stText35_type_pafn'
+      paymentAmount:
+        $ref: '#/definitions/stAmount_type_pafn'
+      dueDate:
+        xml:
+          namespace: ''
+        type: string
+        format: date-time
+      finalDueDate:
+        xml:
+          namespace: ''
+        type: string
+        format: date-time
+      description:
+        $ref: '#/definitions/stText140_type_pafn'
+      paymentCategory:
+        $ref: '#/definitions/stText140_type_pafn'
+      officeName:
+        $ref: '#/definitions/stText35_type_pafn'
+      debtor:
+        $ref: '#/definitions/ctSubject_type_pafn'
+      transferList:
+        $ref: '#/definitions/ctTransferListPA_type_pafn'
+      metadata:
+        $ref: '#/definitions/ctMetadata_type_pafn'
+    required:
+      - creditorReferenceId
+      - paymentAmount
+      - description
+      - paymentCategory
+      - debtor
+      - transferList
+    x-xsi-type: ctPaymentPA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctPaymentPA_type_pafn
+  ctReceipt_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      receiptId:
+        xml:
+          namespace: ''
+        type: string
+      noticeNumber:
+        $ref: '#/definitions/stNoticeNumber_type_pafn'
+      fiscalCode:
+        $ref: '#/definitions/stFiscalCodePA_type_pafn'
+      outcome:
+        $ref: '#/definitions/stOutcome_type_pafn'
+      creditorReferenceId:
+        $ref: '#/definitions/stText35_type_pafn'
+      paymentAmount:
+        $ref: '#/definitions/stAmount_type_pafn'
+      description:
+        $ref: '#/definitions/stText140_type_pafn'
+      paymentCategory:
+        $ref: '#/definitions/stText140_type_pafn'
+      companyName:
+        $ref: '#/definitions/stText35_type_pafn'
+      officeName:
+        $ref: '#/definitions/stText35_type_pafn'
+      debtor:
+        $ref: '#/definitions/ctSubject_type_pafn'
+      transferList:
+        $ref: '#/definitions/ctTransferListPA_type_pafn'
+      idPSP:
+        $ref: '#/definitions/stText35_type_pafn'
+      PSPCompanyName:
+        $ref: '#/definitions/stText35_type_pafn'
+      idChannel:
+        $ref: '#/definitions/stText35_type_pafn'
+      channelDescription:
+        $ref: '#/definitions/stText35_type_pafn'
+      payer:
+        $ref: '#/definitions/ctSubject_type_pafn'
+      paymentMethod:
+        $ref: '#/definitions/stText35_type_pafn'
+      fee:
+        $ref: '#/definitions/stAmount_type_pafn'
+      paymentDateTime:
+        $ref: '#/definitions/stISODateTime_type_pafn'
+      applicationDate:
+        $ref: '#/definitions/stISODate_type_pafn'
+      transferDate:
+        $ref: '#/definitions/stISODate_type_pafn'
+    required:
+      - receiptId
+      - noticeNumber
+      - fiscalCode
+      - outcome
+      - creditorReferenceId
+      - paymentAmount
+      - description
+      - paymentCategory
+      - companyName
+      - debtor
+      - transferList
+      - idPSP
+      - PSPCompanyName
+      - idChannel
+      - channelDescription
+    x-xsi-type: ctReceipt
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctReceipt_type_pafn
+  stOutcome_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    enum:
+      - OK
+      - KO
+    x-xsi-type: stOutcome
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stOutcome_type_pafn
+  ctFaultBean_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      faultCode:
+        xml:
+          namespace: ''
+        type: string
+      faultString:
+        xml:
+          namespace: ''
+        type: string
+      id:
+        xml:
+          namespace: ''
+        type: string
+      description:
+        xml:
+          namespace: ''
+        type: string
+      serial:
+        xml:
+          namespace: ''
+        type: integer
+        format: int32
+      originalFaultCode:
+        xml:
+          namespace: ''
+        type: string
+      originalFaultString:
+        xml:
+          namespace: ''
+        type: string
+      originalDescription:
+        xml:
+          namespace: ''
+        type: string
+    required:
+      - faultCode
+      - faultString
+      - id
+    x-xsi-type: ctFaultBean
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctFaultBean_type_pafn
+  stNoticeNumber_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[0-9]{18}'
+    x-xsi-type: stNoticeNumber
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stNoticeNumber_type_pafn
+  ctPaymentOptionDescriptionPA_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      amount:
+        $ref: '#/definitions/stAmount_type_pafn'
+      options:
+        $ref: '#/definitions/stAmountOption_type_pafn'
+      dueDate:
+        $ref: '#/definitions/stISODate_type_pafn'
+      detailDescription:
+        $ref: '#/definitions/stText140_type_pafn'
+      transferType:
+        $ref: '#/definitions/stTransferType_type_pafn'
+    required:
+      - amount
+      - options
+    x-xsi-type: ctPaymentOptionDescriptionPA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctPaymentOptionDescriptionPA_type_pafn
+  ctSubject_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      uniqueIdentifier:
+        $ref: '#/definitions/ctEntityUniqueIdentifier_type_pafn'
+      fullName:
+        $ref: '#/definitions/stText70_type_pafn'
+      streetName:
+        $ref: '#/definitions/stText70_type_pafn'
+      civicNumber:
+        $ref: '#/definitions/stText16_type_pafn'
+      postalCode:
+        $ref: '#/definitions/stText16_type_pafn'
+      city:
+        $ref: '#/definitions/stText35_type_pafn'
+      stateProvinceRegion:
+        $ref: '#/definitions/stText35_type_pafn'
+      country:
+        $ref: '#/definitions/stNazioneProvincia_type_pafn'
+      e-mail:
+        $ref: '#/definitions/stEMail_type_pafn'
+    required:
+      - uniqueIdentifier
+      - fullName
+    x-xsi-type: ctSubject
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctSubject_type_pafn
+  ctTransferListPA_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      transfer:
+        type: array
+        minItems: 1
+        maxItems: 5
+        items:
+          $ref: '#/definitions/ctTransferPA_type_pafn'
+    required:
+      - transfer
+    x-xsi-type: ctTransferListPA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctTransferListPA_type_pafn
+  ctMetadata_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      mapEntry:
+        type: array
+        maxItems: 10
+        items:
+          $ref: '#/definitions/ctMapEntry_type_pafn'
+    x-xsi-type: ctMetadata
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctMetadata_type_pafn
+  stISODateTime_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    format: date-time
+    x-xsi-type: stISODateTime
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stISODateTime_type_pafn
+  stISODate_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    format: date
+    x-xsi-type: stISODate
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stISODate_type_pafn
+  stAmountOption_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    enum:
+      - EQUAL_THAN
+      - LESSER_THAN
+      - GREATER_THAN
+      - ANY
+    x-xsi-type: stAmountOption
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stAmountOption_type_pafn
+  ctEntityUniqueIdentifier_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      entityUniqueIdentifierType:
+        $ref: '#/definitions/stEntityUniqueIdentifierType_type_pafn'
+      entityUniqueIdentifierValue:
+        $ref: '#/definitions/stEntityUniqueIdentifierValue_type_pafn'
+    required:
+      - entityUniqueIdentifierType
+      - entityUniqueIdentifierValue
+    x-xsi-type: ctEntityUniqueIdentifier
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctEntityUniqueIdentifier_type_pafn
+  stText70_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 70
+    x-xsi-type: stText70
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stText70_type_pafn
+  stText16_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 16
+    x-xsi-type: stText16
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stText16_type_pafn
+  stNazioneProvincia_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[A-Z]{2,2}'
+    x-xsi-type: stNazioneProvincia
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stNazioneProvincia_type_pafn
+  stEMail_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*'
+    maxLength: 256
+    x-xsi-type: stEMail
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stEMail_type_pafn
+  ctTransferPA_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      idTransfer:
+        $ref: '#/definitions/stText35_type_pafn'
+      transferAmount:
+        $ref: '#/definitions/stAmount_type_pafn'
+      fiscalCodePA:
+        $ref: '#/definitions/stFiscalCodePA_type_pafn'
+      IBAN:
+        $ref: '#/definitions/stIBAN_type_pafn'
+      remittanceInformation:
+        $ref: '#/definitions/stText140_type_pafn'
+      transferCategory:
+        $ref: '#/definitions/stText140_type_pafn'
+    required:
+      - idTransfer
+      - transferAmount
+      - fiscalCodePA
+      - IBAN
+      - remittanceInformation
+      - transferCategory
+    x-xsi-type: ctTransferPA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctTransferPA_type_pafn
+  ctMapEntry_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      key:
+        xml:
+          namespace: ''
+        type: string
+      value:
+        xml:
+          namespace: ''
+        type: string
+    required:
+      - key
+      - value
+    x-xsi-type: ctMapEntry
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctMapEntry_type_pafn
+  stEntityUniqueIdentifierType_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    enum:
+      - F
+      - G
+    minLength: 1
+    maxLength: 1
+    x-xsi-type: stEntityUniqueIdentifierType
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stEntityUniqueIdentifierType_type_pafn
+  stEntityUniqueIdentifierValue_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 2
+    maxLength: 16
+    x-xsi-type: stEntityUniqueIdentifierValue
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stEntityUniqueIdentifierValue_type_pafn
+  stIBAN_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIBAN
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stIBAN_type_pafn
+  ctResponse_type_pafn:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      outcome:
+        $ref: '#/definitions/stOutcome_type_pafn'
+      fault:
+        $ref: '#/definitions/ctFaultBean_type_pafn'
+    required:
+      - outcome
+    x-ibm-discriminator: true
+    x-xsi-type: ctResponse
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: ctResponse_type_pafn

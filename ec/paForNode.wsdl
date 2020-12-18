@@ -20,11 +20,11 @@
 	<wsdl:message name="paVerifyPaymentNoticeRes">
 		<wsdl:part name="responseBody" element="pafn:paVerifyPaymentNoticeRes"/>
 	</wsdl:message>
-	<wsdl:message name="paActivatePaymentNoticeReq">
-		<wsdl:part name="requestBody" element="pafn:paActivatePaymentNoticeReq"/>
+	<wsdl:message name="paGetPaymentReq">
+		<wsdl:part name="requestBody" element="pafn:paGetPaymentReq"/>
 	</wsdl:message>
-	<wsdl:message name="paActivatePaymentNoticeRes">
-		<wsdl:part name="responseBody" element="pafn:paActivatePaymentNoticeRes"/>
+	<wsdl:message name="paGetPaymentRes">
+		<wsdl:part name="responseBody" element="pafn:paGetPaymentRes"/>
 	</wsdl:message>
 	<wsdl:message name="paSendRTReq">
 		<wsdl:part name="requestBody" element="pafn:paSendRTReq" />
@@ -38,9 +38,9 @@
 			<wsdl:input message="tns:paVerifyPaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paVerifyPaymentNoticeReq"/>
 			<wsdl:output message="tns:paVerifyPaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paVerifyPaymentNoticeRes"/>
 		</wsdl:operation>
-		<wsdl:operation name="paActivatePaymentNotice">
-			<wsdl:input message="tns:paActivatePaymentNoticeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paActivatePaymentNoticeReq"/>
-			<wsdl:output message="tns:paActivatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paActivatePaymentNoticeRes"/>
+		<wsdl:operation name="paGetPayment">
+			<wsdl:input message="tns:paGetPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paGetPaymentReq"/>
+			<wsdl:output message="tns:paGetPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paGetPaymentRes"/>
 		</wsdl:operation>
 		<wsdl:operation name="paSendRT">
 			<wsdl:input message="tns:paSendRTReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paSendRTReq"/>
@@ -60,8 +60,8 @@
 				<soap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="paActivatePaymentNotice">
-			<soap:operation soapAction="paActivatePaymentNotice" />
+		<wsdl:operation name="paGetPayment">
+			<soap:operation soapAction="paGetPayment" />
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
