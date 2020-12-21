@@ -356,10 +356,10 @@
       <xsd:element name="idBrokerPA" type="tns:stText35" />
       <xsd:element name="idStation" type="tns:stText35" />
       <xsd:element name="qrCode" type="tns:ctQrCode" />
-      <xsd:element name="amount" type="tns:stAmount" />
+      <xsd:element name="amount" type="tns:stAmount" minOccurs="0" />
       <xsd:element name="paymentNote" type="tns:stText140" />
       <xsd:element name="transferType" type="tns:stTransferType" minOccurs="0" />
-
+      <xsd:element name="dueDate" type="tns:stISODate" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
 
