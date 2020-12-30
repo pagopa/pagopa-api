@@ -269,7 +269,8 @@
       <xsd:element name="lastPayment" type="xsd:boolean" minOccurs="0" /> <!-- last payment : se in rateizzazione -->
       <xsd:element name="description" type="tns:stText140" />
       <xsd:element name="paymentCategory" type="tns:stText140" />
-      <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
+      <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
+      <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
       <xsd:element name="debtor" type="tns:ctSubject" />
       <xsd:element name="transferList" type="tns:ctTransferListPA" />
       <xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
@@ -290,8 +291,8 @@
       <xsd:element name="description" type="tns:stText140" />
       <xsd:element name="paymentCategory" type="tns:stText140" />
 
-      <xsd:element name="companyName" type="tns:stText35" />
-      <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
+      <xsd:element name="companyName" type="tns:stText140" />
+      <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
 
       <xsd:element name="debtor" type="tns:ctSubject" />
       <xsd:element name="transferList" type="tns:ctTransferListPA" />
@@ -308,6 +309,9 @@
       <xsd:element name="paymentDateTime" type="tns:stISODateTime" minOccurs="0" /> <!--data esecuzione pagamento da parte dell'utente-->
       <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" /> <!--data applicativa , data del pagamento lato PSP-->
       <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" /> <!--data riversamento delle somme incassate dal PSP-->
+
+      <!-- used to link info received in to ctPaymentPA -->
+      <xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
 
