@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: Debtor Positions Interfaces API
   contact:
-    name: PagoPA team
+    name: PagoPA
     url: https://www.pagopa.gov.it/
   x-logo:
     url: https://www.pagopa.gov.it/assets/images/pagopa-logo.png
@@ -66,6 +66,57 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
+    delete:
+      operationId: delDbPosition
+      summary: |
+        ThePA can only cancel its own PDs, or rather the entities it manages.
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - name: paymentnotice
+          in: path
+          required: true
+          description: payment notice number.
+          type: string
+      responses:
+        "200":
+          description: payment position details.
+          schema:
+            $ref: "#/definitions/PaymentPosition"
+        "401":
+          description: Wrong or missing function key.
+        "404":
+          description: No payment found.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+    patch:
+      operationId: updateDbPosition
+      summary: |
+        The PA update a Debt Position
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - name: paymentnotice
+          in: path
+          required: true
+          description: payment notice number.
+          type: string
+      responses:
+        "204":
+          description: Request updatede.
+          schema:
+            $ref: "#/definitions/PaymentPosition"
+        "401":
+          description: Wrong or missing function key.
+        "409":
+          description: "Conflict: pending request found."
+          schema:
+            $ref: "#/definitions/ProblemJson"
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+            
             
 parameters:
   OrganizationFiscalCode:
@@ -120,6 +171,7 @@ definitions:
       payment-notice-id:
         type: string
         pattern: "^[ACEFGHLMNPRUV3469]{12}$"
+        description: Payment Notice Number
       fiscal_code:
         $ref: "#/definitions/FiscalCode"
       status:
@@ -127,3 +179,14 @@ definitions:
         enum:
           - PAYABLE
           - NOT_PAYABLE
+        description: Payment Status  
+      taxonomy:
+        type: string
+        pattern: "^[0-9]{3}$"
+        x-example: 010-TARI/TEFA
+        description: Payment Tax
+    required:
+      - payment-notice-id
+      - fiscal_code
+      - status
+      - taxonomy
