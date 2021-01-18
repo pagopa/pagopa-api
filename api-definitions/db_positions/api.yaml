@@ -1,0 +1,129 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Debtor Positions Interfaces API
+  contact:
+    name: PagoPA team
+    url: https://www.pagopa.gov.it/
+  x-logo:
+    url: https://www.pagopa.gov.it/assets/images/pagopa-logo.png
+  description: Specification for Debtor Positions Interfaces
+host: api.io.italia.it.TOBEDEFINE
+basePath: "/api/v1"
+schemes:
+  - https
+security:
+  - ApiKey: []
+paths:
+  "/payment-notices/{organizationfiscalcode}-{paymentnotice}":
+    post:
+      operationId: createDbPosition
+      summary: |
+        The PA creates a Debt Position
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - name: paymentnotice
+          in: path
+          required: true
+          description: payment notice number.
+          type: string
+      responses:
+        "201":
+          description: Request created.
+          schema:
+            $ref: "#/definitions/PaymentPosition"
+        "401":
+          description: Wrong or missing function key.
+        "409":
+          description: "Conflict: pending request found."
+          schema:
+            $ref: "#/definitions/ProblemJson"
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+    get:
+      operationId: getDbPosition
+      summary: |
+        The PA gets the details of a specific debt position, or searches for all its PDs that meet a certain search criterion.
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - name: paymentnotice
+          in: path
+          required: true
+          description: payment notice number.
+          type: string
+      responses:
+        "200":
+          description: payment position details.
+          schema:
+            $ref: "#/definitions/PaymentPosition"
+        "401":
+          description: Wrong or missing function key.
+        "404":
+          description: No payment found.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+            
+parameters:
+  OrganizationFiscalCode:
+    name: organizationfiscalcode
+    in: path
+    type: string
+    maxLength: 16
+    minLength: 16
+    required: true
+    description: The fiscal code of the PA, all upper case.
+    x-example: SPNDNL80R13C555X
+  FiscalCode:
+    name: fiscalcode
+    in: path
+    type: string
+    maxLength: 16
+    minLength: 16
+    required: true
+    description: The fiscal code of the user, all upper case.
+    x-example: SPNDNL80R13C555X
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  ApiKey:
+    type: apiKey
+    name: X-Functions-Key
+    in: header
+    description: The API key to access this function app.
+definitions:
+  Timestamp:
+    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/Timestamp"
+  FiscalCode:
+    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/FiscalCode"
+  OrganizationFiscalCode:
+    $ref: 'https://raw.githubusercontent.com/pagopa/io-functions/v0.64.0/api/definitions.yaml#/OrganizationFiscalCode'
+  ProblemJson:
+    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/ProblemJson"
+  PaginationResponse:
+    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/PaginationResponse"
+  DetailResponse:
+    type: object
+    properties:
+      detail:
+        type: string
+    required:
+      - detail
+  PaymentPosition:
+    type: object
+    properties:
+      payment-notice-id:
+        type: string
+        pattern: "^[ACEFGHLMNPRUV3469]{12}$"
+      fiscal_code:
+        $ref: "#/definitions/FiscalCode"
+      status:
+        type: string
+        enum:
+          - PAYABLE
+          - NOT_PAYABLE
