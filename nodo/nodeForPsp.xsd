@@ -96,14 +96,14 @@
   </xsd:simpleType>
 
   <xsd:simpleType name="stPaymentToken">
-    <xsd:annotation>
+    <!-- <xsd:annotation>
       <xsd:documentation>
                 `PaymentToken`, it has been genearated from nodoSPC.
                 It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
             </xsd:documentation>
-    </xsd:annotation>
+    </xsd:annotation> -->
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+      <!-- <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" /> -->
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -438,6 +438,7 @@ the notice number is composed by:
           <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
           <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
           <xsd:element name="transferList" type="tns:ctTransferListPSP" minOccurs="0" />
+          <xsd:element name="creditorReferenceId" type="tns:stText35" /> <!--IUV -->
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
