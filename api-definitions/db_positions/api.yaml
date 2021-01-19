@@ -15,18 +15,30 @@ schemes:
 security:
   - ApiKey: []
 paths:
-  "/payment-notices/{organizationfiscalcode}-{paymentnotice}":
+  "/payment-notices/{organizationfiscalcode}-{paymentnoticenumber}":
     post:
       operationId: createDbPosition
       summary: |
         The PA creates a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - name: paymentnotice
-          in: path
+        - $ref: "#/parameters/PaymentNoticeNumber"
+        - name: payment-posistion
+          in: body
           required: true
-          description: payment notice number.
-          type: string
+          schema:
+            $ref: "#/definitions/PaymentPosition"
+          examples:
+            application/json:
+              time_to_live: 3600
+              content:
+                subject: ipsum labore deserunt fugiat
+                markdown: |-
+                  Nullam dapibus metus sed elementum efficitur. Curabitur facilisis sagittis risus nec sodales.
+                  Vestibulum in eros sapien. Donec ac odio sit amet dui semper ornare eget nec odio. Pellentesque habitant
+                  morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent nibh ex, mattis sit amet
+                  felis id, sodales euismod velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        
       responses:
         "201":
           description: Request created.
@@ -48,11 +60,7 @@ paths:
         The PA gets the details of a specific debt position, or searches for all its PDs that meet a certain search criterion.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - name: paymentnotice
-          in: path
-          required: true
-          description: payment notice number.
-          type: string
+        - $ref: "#/parameters/PaymentNoticeNumber"        
       responses:
         "200":
           description: payment position details.
@@ -72,11 +80,7 @@ paths:
         ThePA can only cancel its own PDs, or rather the entities it manages.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - name: paymentnotice
-          in: path
-          required: true
-          description: payment notice number.
-          type: string
+        - $ref: "#/parameters/PaymentNoticeNumber"        
       responses:
         "200":
           description: payment position details.
@@ -96,14 +100,10 @@ paths:
         The PA update a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - name: paymentnotice
-          in: path
-          required: true
-          description: payment notice number.
-          type: string
+        - $ref: "#/parameters/PaymentNoticeNumber"
       responses:
         "204":
-          description: Request updatede.
+          description: Request updated.
           schema:
             $ref: "#/definitions/PaymentPosition"
         "401":
@@ -123,11 +123,9 @@ parameters:
     name: organizationfiscalcode
     in: path
     type: string
-    maxLength: 16
-    minLength: 16
+    x-import: italia-ts-commons/lib/strings
     required: true
-    description: The fiscal code of the PA, all upper case.
-    x-example: SPNDNL80R13C555X
+    description: Organization fiscal code, the fiscal code of the PA.
   FiscalCode:
     name: fiscalcode
     in: path
@@ -136,7 +134,16 @@ parameters:
     minLength: 16
     required: true
     description: The fiscal code of the user, all upper case.
-    x-example: SPNDNL80R13C555X
+  PaymentNoticeNumber:
+    in: path
+    name: paymentnoticenumber
+    required: true
+    description:
+      The field ["Numero Avviso"](https://pagopa-specifichepagamenti.readthedocs.io/it/latest/_docs/Capitolo7.html#il-numero-avviso-e-larchivio-dei-pagamenti-in-attesa)
+      of pagoPa, needed to identify the payment. Format is `<aux digit (1n)>[<application code> (2n)]<codice IUV (15|17n)>`.
+      See [pagoPa specs](https://www.agid.gov.it/sites/default/files/repository_files/specifiche_attuative_pagamenti_1_3_1_0.pdf) for more info on this field and the IUV.
+    type: string
+    pattern: "^[0123][0-9]{17}$"
 consumes:
   - application/json
 produces:
@@ -154,6 +161,8 @@ definitions:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/FiscalCode"
   OrganizationFiscalCode:
     $ref: 'https://raw.githubusercontent.com/pagopa/io-functions/v0.64.0/api/definitions.yaml#/OrganizationFiscalCode'
+  PaymentNoticeNumber:
+    $ref: "https://raw.githubusercontent.com/teamdigitale/io-functions-commons/master/openapi/definitions.yaml#/PaymentNoticeNumber"
   ProblemJson:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/ProblemJson"
   PaginationResponse:
@@ -165,15 +174,56 @@ definitions:
         type: string
     required:
       - detail
+  DepartmentName:
+    type: string
+    description: |-
+      The department inside the organization that runs the service. Will
+      be added to the content of sent messages.
+    minLength: 1
+    example: ufficio tributi comune di Roma
+  Transfer:
+    type: object
+  Debtor:
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+        example: Mario
+      surname:
+        type: string
+        minLength: 1
+        example: Rossi
+      fiscal_code:
+        $ref: "#/definitions/FiscalCode"
+      type:
+        type: string
+        enum:
+          - FISICA
+          - GIURIDICA
+        description: Payment Status  
+    required:
+      - name
+      - surname
+      - type
+  Payment-Option:
+    type: object
+    properties:
+      transfers:
+        type: array
+        items:
+          $ref: "#/definitions/Transfer"
+    required:
+      - transfers
   PaymentPosition:
     type: object
     properties:
       payment-notice-id:
-        type: string
-        pattern: "^[ACEFGHLMNPRUV3469]{12}$"
+        $ref: "#/definitions/PaymentNoticeNumber"
         description: Payment Notice Number
-      fiscal_code:
-        $ref: "#/definitions/FiscalCode"
+        example: 009876543212346543
+      pa_fiscal_code:
+        $ref: "#/definitions/OrganizationFiscalCode"
       status:
         type: string
         enum:
@@ -182,11 +232,21 @@ definitions:
         description: Payment Status  
       taxonomy:
         type: string
-        pattern: "^[0-9]{3}$"
-        x-example: 010-TARI/TEFA
-        description: Payment Tax
+        pattern: "^[0-9]{3}-[a-zA-Z]$"
+        example: 010-TARI/TEFA
+        description: Payment Tax see [Tabella - Tassonomia dei servizi di incasso](https://docs.google.com/spreadsheets/d/13xOd__Qd4pwKHr3wjE-73NAB2O7UKmIt/edit#gid=1444196601)
+      department:
+        $ref: "#/definitions/DepartmentName"
+      debtor:
+        $ref: "#/definitions/Debtor"
+      payment-options:
+        type: array
+        items:
+          $ref: "#/definitions/Payment-Option"
     required:
       - payment-notice-id
       - fiscal_code
       - status
       - taxonomy
+      - department
+      - payment-options
