@@ -28,17 +28,6 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/PaymentPosition"
-          examples:
-            application/json:
-              time_to_live: 3600
-              content:
-                subject: ipsum labore deserunt fugiat
-                markdown: |-
-                  Nullam dapibus metus sed elementum efficitur. Curabitur facilisis sagittis risus nec sodales.
-                  Vestibulum in eros sapien. Donec ac odio sit amet dui semper ornare eget nec odio. Pellentesque habitant
-                  morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent nibh ex, mattis sit amet
-                  felis id, sodales euismod velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        
       responses:
         "201":
           description: Request created.
@@ -115,9 +104,7 @@ paths:
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"
-            
-            
+            $ref: "#/definitions/ProblemJson" 
 parameters:
   OrganizationFiscalCode:
     name: organizationfiscalcode
@@ -167,6 +154,17 @@ definitions:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/ProblemJson"
   PaginationResponse:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/PaginationResponse"
+  PaymentAmount:
+    description: |-
+      Amount of payment in euro cent. PagoPA accepts up to 9999999999 euro cents.
+    type: integer
+    minimum: 1
+    maximum: 9999999999
+    example: 15000
+  Iban:
+    type: string
+    pattern: '[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}'
+    example: IT60X0542811101000000123456
   DetailResponse:
     type: object
     properties:
@@ -181,8 +179,31 @@ definitions:
       be added to the content of sent messages.
     minLength: 1
     example: ufficio tributi comune di Roma
+  Taxonomy:
+    type: string
+    pattern: "^[0-9]{3}-[a-zA-Z]$"
+    example: 010-TARI/TEFA
+    description: Payment Tax see [Tabella - Tassonomia dei servizi di incasso](https://docs.google.com/spreadsheets/d/13xOd__Qd4pwKHr3wjE-73NAB2O7UKmIt/edit#gid=1444196601)
   Transfer:
     type: object
+    properties:
+      partial_amount:
+        $ref: "#/definitions/PaymentAmount"
+      transfer_IBAN:
+        $ref: "#/definitions/Iban"
+      pa_fiscal_code:
+        $ref: "#/definitions/OrganizationFiscalCode"
+      reason:
+          type: string
+          minLength: 1
+          example: Causale pagamento TARI comune di ROMA 
+      taxonomy:
+          $ref: "#/definitions/Taxonomy"
+    required:
+      - partial_amount
+      - transfer_IBAN
+      - fiscal_code
+      - taxonomy
   Debtor:
     type: object
     properties:
@@ -209,11 +230,31 @@ definitions:
   Payment-Option:
     type: object
     properties:
+      payment-option-id:
+        type: string
+        minLength: 1
+        example: 12345678901-009876543212346543-01
+      amount:
+        $ref: "#/definitions/PaymentAmount"
+      due_date:
+        $ref: "#/definitions/Timestamp"
+      is_conclusive:
+        type: boolean
+        default: true
+      payment_description: 
+        type: string
+        minLength: 1
+        example: TARI 2021 soluzione unica
       transfers:
         type: array
         items:
           $ref: "#/definitions/Transfer"
     required:
+      - payment-option-id
+      - amount
+      - due_date
+      - is_conclusive
+      - description
       - transfers
   PaymentPosition:
     type: object
@@ -231,10 +272,7 @@ definitions:
           - NOT_PAYABLE
         description: Payment Status  
       taxonomy:
-        type: string
-        pattern: "^[0-9]{3}-[a-zA-Z]$"
-        example: 010-TARI/TEFA
-        description: Payment Tax see [Tabella - Tassonomia dei servizi di incasso](https://docs.google.com/spreadsheets/d/13xOd__Qd4pwKHr3wjE-73NAB2O7UKmIt/edit#gid=1444196601)
+          $ref: "#/definitions/Taxonomy"
       department:
         $ref: "#/definitions/DepartmentName"
       debtor:
