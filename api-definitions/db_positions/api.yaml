@@ -104,7 +104,9 @@ paths:
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson" 
+            $ref: "#/definitions/ProblemJson"
+            
+            
 parameters:
   OrganizationFiscalCode:
     name: organizationfiscalcode
