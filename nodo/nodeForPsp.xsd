@@ -83,6 +83,16 @@
     </xsd:restriction>
   </xsd:simpleType>
 
+  <xsd:simpleType name="stIdTransfer">
+    <xsd:restriction base="xsd:int">
+      <xsd:enumeration value="1" />
+      <xsd:enumeration value="2" />
+      <xsd:enumeration value="3" />
+      <xsd:enumeration value="4" />
+      <xsd:enumeration value="5" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:simpleType name="stIdempotencyKey">
     <xsd:annotation>
       <xsd:documentation>
@@ -325,7 +335,7 @@ the notice number is composed by:
 
   <xsd:complexType name="ctTransferPSP">
     <xsd:sequence>
-      <xsd:element name="idTransfer" type="tns:stText35" />
+      <xsd:element name="idTransfer" type="tns:stIdTransfer" />
       <xsd:element name="transferAmount" type="tns:stAmount" />
       <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
       <xsd:element name="IBAN" type="tns:stIBAN" />

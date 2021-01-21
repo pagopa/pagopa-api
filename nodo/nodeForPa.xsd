@@ -30,6 +30,16 @@
     </xsd:restriction>
   </xsd:simpleType>
 
+  <xsd:simpleType name="stIdTransfer">
+    <xsd:restriction base="xsd:int">
+      <xsd:enumeration value="1" />
+      <xsd:enumeration value="2" />
+      <xsd:enumeration value="3" />
+      <xsd:enumeration value="4" />
+      <xsd:enumeration value="5" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:simpleType name="stPaymentToken">
     <!-- <xsd:annotation>
       <xsd:documentation>
@@ -158,7 +168,8 @@
 
   <xsd:complexType name="ctTransferPA">
     <xsd:sequence>
-      <xsd:element name="idTransfer" type="tns:stText35" />
+      <!-- Usato nei flussi di rendicontazione -->
+      <xsd:element name="idTransfer" type="tns:stIdTransfer" /> <!--IUR=paymentToken + IUV della PA + idTransfer   -->
       <xsd:element name="transferAmount" type="tns:stAmount" />
       <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
       <xsd:element name="IBAN" type="tns:stIBAN" />
