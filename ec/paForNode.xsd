@@ -274,7 +274,7 @@
     <xsd:sequence>
       <xsd:element name="creditorReferenceId" type="tns:stText35" /> <!--IUV -->
       <xsd:element name="paymentAmount" type="tns:stAmount" />
-      <xsd:element name="dueDate" type="xsd:dateTime" /> <!-- REQUIRED : entro quando è valido il pagamento - expiration data -->
+      <xsd:element name="dueDate" type="tns:stISODate" /> <!-- REQUIRED : entro quando è valido il pagamento - expiration data -->
       <xsd:element name="retentionDate" type="xsd:dateTime" minOccurs="0" /> <!-- fino a questa data non ci rigereremo verso la PA -->
       <xsd:element name="lastPayment" type="xsd:boolean" minOccurs="0" /> <!-- last payment : se in rateizzazione -->
       <xsd:element name="description" type="tns:stText140" />
