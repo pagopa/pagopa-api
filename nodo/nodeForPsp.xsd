@@ -136,7 +136,7 @@
       <xsd:documentation> expiration time ( ms ), max 30 minute </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:integer">
-      <xsd:maxInclusive value="108000" />
+      <xsd:maxInclusive value="1800000" />
     </xsd:restriction>
   </xsd:simpleType>
 
