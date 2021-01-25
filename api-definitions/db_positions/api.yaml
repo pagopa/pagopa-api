@@ -129,7 +129,7 @@ paths:
         - Receipts
       operationId: getReceipt
       summary: |
-        The Organization gets all payment receipts.
+        The Organization gets a payment receipt.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/ReceiptNumber"        
