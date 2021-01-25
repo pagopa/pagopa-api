@@ -1,13 +1,13 @@
 swagger: "2.0"
 info:
-  version: 1.0.1
-  title: Debtor Positions Interfaces API
+  version: 1.0.0
+  title: Debtor Positions API
   contact:
     name: PagoPA
     url: https://www.pagopa.gov.it/
   x-logo:
     url: https://www.pagopa.gov.it/assets/images/pagopa-logo.png
-  description: Specification for Debtor Positions Interfaces
+  description: Specification for Debtor Positions API
 host: api.io.italia.it.TOBEDEFINE
 basePath: "/api/v1"
 schemes:
@@ -15,15 +15,15 @@ schemes:
 security:
   - ApiKey: []
 paths:
-  "/payment-notices/{organizationfiscalcode}-{paymentnoticenumber}":
+  "/payment-notices/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}":
     post:
-      operationId: createDbPosition
+      operationId: createPosition
       summary: |
         The PA creates a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"
-        - name: payment-posistion
+        - name: payment_position
           in: body
           required: true
           schema:
@@ -44,9 +44,9 @@ paths:
           schema:
             $ref: "#/definitions/ProblemJson"
     get:
-      operationId: getDbPosition
+      operationId: getPosition
       summary: |
-        The PA gets the details of a specific debt position, or searches for all its PDs that meet a certain search criterion.
+        The PA gets the details of a specific debt position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"        
@@ -64,9 +64,9 @@ paths:
           schema:
             $ref: "#/definitions/ProblemJson"
     delete:
-      operationId: delDbPosition
+      operationId: delPosition
       summary: |
-        ThePA can only cancel its own PDs, or rather the entities it manages.
+        The PA can only cancel its own debt positions, or rather the entities it manages.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"        
@@ -78,18 +78,23 @@ paths:
         "401":
           description: Wrong or missing function key.
         "404":
-          description: No payment found.
+          description: No payment position found.
         "500":
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
-    patch:
-      operationId: updateDbPosition
+    put:
+      operationId: updatePosition
       summary: |
         The PA update a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"
+        - name: payment_position
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/PaymentPosition"
       responses:
         "204":
           description: Request updated.
@@ -105,8 +110,7 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
-            
-            
+             
 parameters:
   OrganizationFiscalCode:
     name: organizationfiscalcode
@@ -153,9 +157,9 @@ definitions:
   PaymentNoticeNumber:
     $ref: "https://raw.githubusercontent.com/teamdigitale/io-functions-commons/master/openapi/definitions.yaml#/PaymentNoticeNumber"
   ProblemJson:
-    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/ProblemJson"
+    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/ProblemJson"
   PaginationResponse:
-    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/PaginationResponse"
+    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/PaginationResponse"
   PaymentAmount:
     description: |-
       Amount of payment in euro cent. PagoPA accepts up to 9999999999 euro cents.
@@ -204,7 +208,7 @@ definitions:
     required:
       - partial_amount
       - transfer_IBAN
-      - fiscal_code
+      - pa_fiscal_code
       - taxonomy
   Debtor:
     type: object
@@ -232,7 +236,7 @@ definitions:
   Payment-Option:
     type: object
     properties:
-      payment-option-id:
+      payment_option_id:
         type: string
         minLength: 1
         example: 12345678901-009876543212346543-01
@@ -252,16 +256,16 @@ definitions:
         items:
           $ref: "#/definitions/Transfer"
     required:
-      - payment-option-id
+      - payment_option_id
       - amount
       - due_date
       - is_conclusive
-      - description
+      - payment_description
       - transfers
   PaymentPosition:
     type: object
     properties:
-      payment-notice-id:
+      payment_notice_id:
         $ref: "#/definitions/PaymentNoticeNumber"
         description: Payment Notice Number
         example: 009876543212346543
@@ -279,14 +283,14 @@ definitions:
         $ref: "#/definitions/DepartmentName"
       debtor:
         $ref: "#/definitions/Debtor"
-      payment-options:
+      payment_options:
         type: array
         items:
           $ref: "#/definitions/Payment-Option"
     required:
-      - payment-notice-id
-      - fiscal_code
+      - payment_notice_id
+      - pa_fiscal_code
       - status
       - taxonomy
       - department
-      - payment-options
+      - payment_options
