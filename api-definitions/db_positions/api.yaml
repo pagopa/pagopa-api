@@ -14,12 +14,19 @@ schemes:
   - https
 security:
   - ApiKey: []
+tags:
+  - name: Payments
+    description: Everything about Payments
+  - name: Receipts
+    description: Everything about Receipts 
 paths:
   "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}":
     post:
+      tags: 
+        - Payments
       operationId: createPosition
       summary: |
-        The PA creates a Debt Position
+        The Organization creates a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"
@@ -44,9 +51,11 @@ paths:
           schema:
             $ref: "#/definitions/ProblemJson"
     get:
+      tags: 
+        - Payments
       operationId: getPosition
       summary: |
-        The PA gets the details of a specific debt position.
+        Return the details of a specific debt position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"        
@@ -64,9 +73,11 @@ paths:
           schema:
             $ref: "#/definitions/ProblemJson"
     delete:
+      tags: 
+        - Payments
       operationId: delPosition
       summary: |
-        The PA can only cancel its own debt positions, or rather the entities it manages.
+        Delete the debt positions of the organization
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"        
@@ -84,9 +95,11 @@ paths:
           schema:
             $ref: "#/definitions/ProblemJson"
     put:
+      tags: 
+        - Payments
       operationId: updatePosition
       summary: |
-        The PA update a Debt Position
+        Update a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"
@@ -110,15 +123,43 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
-             
+  "/organizations/{organizationfiscalcode}/payment-receipts/{receiptid}":
+    get:
+      tags: 
+        - Receipts
+      operationId: getReceipt
+      summary: |
+        The Organization gets all payment receipts.
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/ReceiptNumber"        
+      responses:
+        "200":
+          description: payment receipts 
+          schema:
+            $ref: "#/definitions/ReceiptPayment"
+        "401":
+          description: Wrong or missing function key.
+        "404":
+          description: No payment found.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
 parameters:
+  ReceiptNumber:
+    name: receiptid
+    in: path
+    type: string
+    required: true
+    description: The receipt identification.
   OrganizationFiscalCode:
     name: organizationfiscalcode
     in: path
     type: string
     x-import: italia-ts-commons/lib/strings
     required: true
-    description: Organization fiscal code, the fiscal code of the PA.
+    description: Organization fiscal code, the fiscal code of the Organization.
   FiscalCode:
     name: fiscalcode
     in: path
@@ -160,9 +201,9 @@ definitions:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/ProblemJson"
   PaginationResponse:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/PaginationResponse"
-  PaymentAmount:
+  Amount:
     description: |-
-      Amount of payment in euro cent. PagoPA accepts up to 9999999999 euro cents.
+      Amount in euro cent. PagoPA accepts up to 9999999999 euro cents.
     type: integer
     minimum: 1
     maximum: 9999999999
@@ -171,6 +212,12 @@ definitions:
     type: string
     pattern: '[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}'
     example: IT60X0542811101000000123456
+  PaymentOptionId:
+    type: string
+    minLength: 1
+    example: 12345678901-009876543212346543-001
+    description: Payment option ID its a union of `Organization fiscal code` + `-` + `Payment Notice Number` + unique counter number
+    pattern: "^[0-9]*-[0123][0-9]{17}-[0-9]{3}$"
   DetailResponse:
     type: object
     properties:
@@ -194,10 +241,10 @@ definitions:
     type: object
     properties:
       partial_amount:
-        $ref: "#/definitions/PaymentAmount"
-      transfer_IBAN:
+        $ref: "#/definitions/Amount"
+      iban:
         $ref: "#/definitions/Iban"
-      pa_fiscal_code:
+      organization_fiscal_code:
         $ref: "#/definitions/OrganizationFiscalCode"
       reason:
           type: string
@@ -207,9 +254,28 @@ definitions:
           $ref: "#/definitions/Taxonomy"
     required:
       - partial_amount
-      - transfer_IBAN
-      - pa_fiscal_code
+      - iban
+      - organization_fiscal_code
       - taxonomy
+  Psp:
+    type: object
+    properties:
+      id:
+        type: string
+        minLength: 1
+        example: psp1234567890
+      company_name:
+        type: string
+        minLength: 1
+        example: PSP company name
+      id_channel:
+        type: string
+        minLength: 1
+        example: PSP'channel identification
+      description:
+        type: string
+        minLength: 1
+        example: PSP'description
   Debtor:
     type: object
     properties:
@@ -236,14 +302,10 @@ definitions:
   Payment-Option:
     type: object
     properties:
-      payment_option_id:
-        type: string
-        minLength: 1
-        example: 12345678901-009876543212346543-001
-        description: Payment option ID its a union of `Organization fiscal code` + `-` + `Payment Notice Number` + unique counter number
-        pattern: "^[0-9]*-[0123][0-9]{17}-[0-9]{3}$"
+      id:
+        $ref: "#/definitions/PaymentOptionId"
       amount:
-        $ref: "#/definitions/PaymentAmount"
+        $ref: "#/definitions/Amount"
       due_date:
         $ref: "#/definitions/Timestamp"
       is_conclusive:
@@ -258,20 +320,83 @@ definitions:
         items:
           $ref: "#/definitions/Transfer"
     required:
-      - payment_option_id
+      - id
       - amount
       - due_date
       - is_conclusive
       - payment_description
       - transfers
+  ReceiptPayment:
+    type: object
+    properties:
+      id:
+        type: string
+        minLength: 1
+        example: 123e4567-e89b-12d3-a456-426614174000
+        description: Receipt identification ( generated by NodoSPC )
+      notice_id:
+        $ref: "#/definitions/PaymentNoticeNumber"
+      option_id:
+        $ref: "#/definitions/PaymentOptionId"
+      organization_fiscal_code:
+        $ref: "#/definitions/OrganizationFiscalCode"
+      outcome:
+        type: string
+        enum:
+          - OK
+          - NOK
+      # Organization data
+      debtor:
+        $ref: "#/definitions/Debtor"
+      psp:
+        $ref: "#/definitions/Psp"
+      payer:
+        $ref: "#/definitions/Debtor"
+      payment-method:
+        type: string      
+      payment-description:
+        type: string      
+      payment-category:
+        type: string      
+      amount:
+        $ref: "#/definitions/Amount"
+      fee:
+        $ref: "#/definitions/Amount"
+      application-date:
+        type: string
+        format: date-time      
+      transfer-date:
+        type: string
+        format: date-time      
+      transfers:
+        type: array
+        items:
+          $ref: "#/definitions/Transfer"
+    required:
+      - id
+      - notice_id
+      - option_id
+      - organization_fiscal_code
+      - outcome
+      - debtor
+      - psp
+      - payer
+      - payment-method
+      - payment-description
+      - payment-category
+      - amount
+      - fee
+      - application-date
+      - transfer-date
+      - transfers
   PaymentPosition:
     type: object
     properties:
-      payment_notice_id:
+      id:
         $ref: "#/definitions/PaymentNoticeNumber"
         description: Payment Notice Number
         example: 009876543212346543
-      pa_fiscal_code:
+      organization_fiscal_code:
         $ref: "#/definitions/OrganizationFiscalCode"
       status:
         type: string
@@ -290,8 +415,8 @@ definitions:
         items:
           $ref: "#/definitions/Payment-Option"
     required:
-      - payment_notice_id
-      - pa_fiscal_code
+      - id
+      - organization_fiscal_code
       - status
       - taxonomy
       - department
