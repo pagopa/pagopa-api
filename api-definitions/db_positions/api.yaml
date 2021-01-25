@@ -15,7 +15,7 @@ schemes:
 security:
   - ApiKey: []
 paths:
-  "/payment-notices/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}":
+  "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}":
     post:
       operationId: createPosition
       summary: |
@@ -239,7 +239,9 @@ definitions:
       payment_option_id:
         type: string
         minLength: 1
-        example: 12345678901-009876543212346543-01
+        example: 12345678901-009876543212346543-001
+        description: Payment option ID its a union of `Organization fiscal code` + `-` + `Payment Notice Number` + unique counter number
+        pattern: "^[0-9]*-[0123][0-9]{17}-[0-9]{3}$"
       amount:
         $ref: "#/definitions/PaymentAmount"
       due_date:
