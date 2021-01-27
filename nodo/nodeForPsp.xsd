@@ -347,17 +347,16 @@ the notice number is composed by:
 
   <!--Element req/res-->
 
-<xsd:complexType name="verificaBollettinoReq">
-  <xsd:sequence>
+  <xsd:complexType name="verificaBollettinoReq">
+    <xsd:sequence>
       <xsd:element name="idPSP" type="tns:stIdPSP" />
       <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
       <xsd:element name="idChannel" type="tns:stIdChannel" />
       <xsd:element name="password" type="tns:stPassword" />
       <xsd:element name="ccp" type="tns:stPostalAccount" />
       <xsd:element name="noticeNumber" type="tns:stNoticeNumber" />
-  </xsd:sequence>
-</xsd:complexType>
-
+    </xsd:sequence>
+  </xsd:complexType>
 
 
   <xsd:complexType name="verifyPaymentNoticeReq">

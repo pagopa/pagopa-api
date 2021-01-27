@@ -41,7 +41,7 @@
     <wsdl:operation name="verificaBollettino">
       <wsdl:documentation>
         Interrogazione del bollettino postale PA contenuto all'interno dell'avviso di pagamento.
-        Ogni bollettino postale PA è identificato per mezzo delle informazioni contenute all'interno del _data-matrix_, ovvero conto corrente postale e numero avviso.
+        Ogni bollettino postale PA è identificato per mezzo delle informazioni contenute all'interno del [data-matrix](https://docs.italia.it/italia/pagopa/pagopa-specifichepagamenti-docs/it/stabile/_docs/SANP_2.2_Sez3_Cap10_PagamentoPressoPSP.html), ovvero conto corrente postale e numero avviso.
         
         L'operazione ritorna tutti le possibili opzioni di pagamento disponibili per l'avviso di pagamnto.
       </wsdl:documentation>
