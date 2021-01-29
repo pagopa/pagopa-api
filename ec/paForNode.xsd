@@ -282,7 +282,12 @@
       <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
       <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
       <xsd:element name="debtor" type="tns:ctSubject" />
-      <xsd:element name="transferList" type="tns:ctTransferListPA" />
+      <!-- 
+        minOccurs="0"
+        Al momento sempre valorizzata dal nodo : anche se in futuro per le KO potrebbe non esserlo.
+        Questo perchè per valorizzare tale campo richiede diversi accessi al DB
+      -->
+      <xsd:element name="transferList" type="tns:ctTransferListPA" minOccurs="0" />
       <xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
@@ -308,6 +313,10 @@
       <xsd:element name="transferList" type="tns:ctTransferListPA" />
       <!-- datiPSP -->
       <xsd:element name="idPSP" type="tns:stText35" />
+      <!-- OLD RT : codiceIdentificativoUnivoco + denominazioneAttestante  -->
+      <xsd:element name="pspFiscalCode" type="tns:stText70" minOccurs="0" /> <!-- CF_PA ITA : max 11 chars -->
+      <xsd:element name="pspPartitaIVA" type="tns:stText70" minOccurs="0" /> <!-- now empty : da definire sul DB lato LMI -->
+      <!-- ABI optional al momento non sara' presente nella ricevuta -->
       <xsd:element name="PSPCompanyName" type="tns:stText35" />
       <xsd:element name="idChannel" type="tns:stText35" />
       <xsd:element name="channelDescription" type="tns:stText35" />
