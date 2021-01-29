@@ -2,13 +2,17 @@
 
 <wsdl:definitions name="paForNode" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:nfpa="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.wsdl">
 
-    <wsdl:types>
-        <xsd:schema version="1.0.0">
-            <xsd:import schemaLocation="nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" />
-        </xsd:schema>
-    </wsdl:types>
+  <wsdl:types>
+    <xsd:schema version="1.0.0">
+      <xsd:import schemaLocation="nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" />
+    </xsd:schema>
+  </wsdl:types>
 
-    <wsdl:message name="sendPaymentReq">
+  <!-- ******************* -->
+  <!-- REMOVED useless -->
+  <!-- ******************* -->
+
+  <!-- <wsdl:message name="sendPaymentReq">
         <wsdl:part name="requestBody" element="nfpa:sendPaymentReq" />
     </wsdl:message>
     <wsdl:message name="sendPaymentRes">
@@ -40,5 +44,5 @@
         <wsdl:port name="nodeForPa_Port" binding="tns:nodeForPa_Binding">
             <soap:address location="http://pagopa-api.pagopa.gov.it/service/node/nodeForPa" />
         </wsdl:port>
-    </wsdl:service>
+    </wsdl:service> -->
 </wsdl:definitions>

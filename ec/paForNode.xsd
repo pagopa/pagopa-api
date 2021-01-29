@@ -278,7 +278,7 @@
       <xsd:element name="retentionDate" type="xsd:dateTime" minOccurs="0" /> <!-- fino a questa data non ci rigereremo verso la PA -->
       <xsd:element name="lastPayment" type="xsd:boolean" minOccurs="0" /> <!-- last payment : se in rateizzazione -->
       <xsd:element name="description" type="tns:stText140" />
-      <xsd:element name="paymentCategory" type="tns:stText140" />
+      <!-- <xsd:element name="paymentCategory" type="tns:stText140" /> -->
       <xsd:element name="companyName" type="tns:stText140" minOccurs="0" />
       <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
       <xsd:element name="debtor" type="tns:ctSubject" />
@@ -304,7 +304,8 @@
       <xsd:element name="creditorReferenceId" type="tns:stText35" /> <!-- IUV -->
       <xsd:element name="paymentAmount" type="tns:stAmount" />
       <xsd:element name="description" type="tns:stText140" />
-      <xsd:element name="paymentCategory" type="tns:stText140" />
+      <!-- Rimosso perche non ricevuto piu' dal PA  -->
+      <!-- <xsd:element name="paymentCategory" type="tns:stText140" />  -->
 
       <xsd:element name="companyName" type="tns:stText140" />
       <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
