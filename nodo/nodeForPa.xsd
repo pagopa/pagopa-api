@@ -66,8 +66,7 @@
 
   <xsd:simpleType name="stIBAN">
     <xsd:restriction base="xsd:string">
-      <xsd:minLength value="1" />
-      <xsd:maxLength value="35" />
+      <xsd:pattern value="[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}" />
     </xsd:restriction>
   </xsd:simpleType>
 
