@@ -1,228 +1,229 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd">
 
-    <!--Simple type-->
-    <xsd:simpleType name="stText16">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="16" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <!--Simple type-->
+  <xsd:simpleType name="stText16">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="16" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stText35">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="35" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stText35">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="35" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stText70">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="70" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stText70">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="70" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stText140">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="140" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stText140">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="140" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stPaymentToken">
-        <xsd:annotation>
-            <xsd:documentation>
+  <xsd:simpleType name="stPaymentToken">
+    <xsd:annotation>
+      <xsd:documentation>
                 `PaymentToken`, it has been genearated from PA.
                 It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
             </xsd:documentation>
-        </xsd:annotation>
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
-        </xsd:restriction>
-    </xsd:simpleType>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stPassword">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="8" />
-            <xsd:maxLength value="15" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stPassword">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="8" />
+      <xsd:maxLength value="15" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stIBAN">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="35" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stIBAN">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="35" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stEMail">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
-            <xsd:maxLength value="256" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stEMail">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
+      <xsd:maxLength value="256" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stUUID">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stUUID">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stSegregationCode">
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="2" />
-            <xsd:pattern value="[0-9]{2}" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stSegregationCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="2" />
+      <xsd:pattern value="[0-9]{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stIUVBase">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{13}" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stIUVBase">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{13}" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stIUVCheckDigit">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{2}" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stIUVCheckDigit">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stAmount">
-        <xsd:restriction base="xsd:decimal">
-            <xsd:pattern value="\d+\.\d{2}" />
-            <xsd:maxInclusive value="999999999.99" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stAmount">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:pattern value="\d+\.\d{2}" />
+      <xsd:maxInclusive value="999999999.99" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stFiscalCodePA">
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="11" />
-            <xsd:pattern value="[0-9]{11}" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stFiscalCodePA">
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="11" />
+      <xsd:pattern value="[0-9]{11}" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stOutcome">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="OK" />
-            <xsd:enumeration value="KO" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stOutcome">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="OK" />
+      <xsd:enumeration value="KO" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stNazioneProvincia">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z]{2,2}" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stNazioneProvincia">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z]{2,2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stEntityUniqueIdentifierValue">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="2" />
-            <xsd:maxLength value="16" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stEntityUniqueIdentifierValue">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="2" />
+      <xsd:maxLength value="16" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <xsd:simpleType name="stEntityUniqueIdentifierType">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="F" /> <!-- Persona Fisica -->
-            <xsd:enumeration value="G" /> <!-- Persona Giuridica -->
-            <xsd:length value="1" />
-        </xsd:restriction>
-    </xsd:simpleType>
+  <xsd:simpleType name="stEntityUniqueIdentifierType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="F" /> <!-- Persona Fisica -->
+      <xsd:enumeration value="G" /> <!-- Persona Giuridica -->
+      <xsd:length value="1" />
+    </xsd:restriction>
+  </xsd:simpleType>
 
-    <!--Complex type-->
-    <xsd:complexType name="ctResponse">
-        <xsd:sequence>
-            <xsd:element name="outcome" type="tns:stOutcome" />
-            <xsd:element name="fault" type="tns:ctFaultBean" minOccurs="0" />
-        </xsd:sequence>
-    </xsd:complexType>
+  <!--Complex type-->
+  <xsd:complexType name="ctResponse">
+    <xsd:sequence>
+      <xsd:element name="outcome" type="tns:stOutcome" />
+      <xsd:element name="fault" type="tns:ctFaultBean" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <xsd:complexType name="ctFaultBean">
-        <xsd:sequence>
-            <xsd:element name="faultCode" type="xsd:string" />
-            <xsd:element name="faultString" type="xsd:string" />
-            <xsd:element name="id" type="xsd:string" />
-            <xsd:element name="description" type="xsd:string" minOccurs="0" />
-            <xsd:element name="serial" type="xsd:int" minOccurs="0" />
-            <xsd:element name="originalFaultCode" type="xsd:string" minOccurs="0" />
-            <xsd:element name="originalFaultString" type="xsd:string" minOccurs="0" />
-            <xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
-        </xsd:sequence>
-    </xsd:complexType>
+  <xsd:complexType name="ctFaultBean">
+    <xsd:sequence>
+      <xsd:element name="faultCode" type="xsd:string" />
+      <xsd:element name="faultString" type="xsd:string" />
+      <xsd:element name="id" type="xsd:string" />
+      <xsd:element name="description" type="xsd:string" minOccurs="0" />
+      <xsd:element name="serial" type="xsd:int" minOccurs="0" />
+      <xsd:element name="originalFaultCode" type="xsd:string" minOccurs="0" />
+      <xsd:element name="originalFaultString" type="xsd:string" minOccurs="0" />
+      <xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <xsd:complexType name="ctTransferPA">
-        <xsd:sequence>
-            <xsd:element name="idTransfer" type="tns:stText35" />
-            <xsd:element name="transferAmount" type="tns:stAmount" />
-            <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
-            <xsd:element name="IBAN" type="tns:stIBAN" />
-            <xsd:element name="remittanceInformation" type="tns:stText140" />
-            <xsd:element name="transferCategory" type="tns:stText140" />
-        </xsd:sequence>
-    </xsd:complexType>
+  <xsd:complexType name="ctTransferPA">
+    <xsd:sequence>
+      <xsd:element name="idTransfer" type="tns:stText35" />
+      <xsd:element name="transferAmount" type="tns:stAmount" />
+      <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
+      <xsd:element name="IBAN" type="tns:stIBAN" />
+      <xsd:element name="remittanceInformation" type="tns:stText140" />
+      <xsd:element name="transferCategory" type="tns:stText140" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <xsd:complexType name="ctTransferListPA">
-        <xsd:sequence>
-            <xsd:element name="transfer" type="tns:ctTransferPA" maxOccurs="5" />
-        </xsd:sequence>
-    </xsd:complexType>
+  <xsd:complexType name="ctTransferListPA">
+    <xsd:sequence>
+      <xsd:element name="transfer" type="tns:ctTransferPA" maxOccurs="5" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <xsd:complexType name="ctEntityUniqueIdentifier">
-        <xsd:sequence>
-            <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType" />
-            <xsd:element name="entityUniqueIdentifierValue" type="tns:stEntityUniqueIdentifierValue" />
-        </xsd:sequence>
-    </xsd:complexType>
+  <xsd:complexType name="ctEntityUniqueIdentifier">
+    <xsd:sequence>
+      <xsd:element name="entityUniqueIdentifierType" type="tns:stEntityUniqueIdentifierType" />
+      <xsd:element name="entityUniqueIdentifierValue" type="tns:stEntityUniqueIdentifierValue" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <xsd:complexType name="ctSubject">
-        <xsd:sequence>
-            <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
-            <xsd:element name="fullName" type="tns:stText70" />
-            <xsd:element name="streetName" type="tns:stText70" minOccurs="0" />
-            <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0" />
-            <xsd:element name="postalCode" type="tns:stText16" minOccurs="0" />
-            <xsd:element name="city" type="tns:stText35" minOccurs="0" />
-            <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0" />
-            <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0" />
-            <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0" />
-        </xsd:sequence>
-    </xsd:complexType>
+  <xsd:complexType name="ctSubject">
+    <xsd:sequence>
+      <xsd:element name="uniqueIdentifier" type="tns:ctEntityUniqueIdentifier" />
+      <xsd:element name="fullName" type="tns:stText70" />
+      <xsd:element name="streetName" type="tns:stText70" minOccurs="0" />
+      <xsd:element name="civicNumber" type="tns:stText16" minOccurs="0" />
+      <xsd:element name="postalCode" type="tns:stText16" minOccurs="0" />
+      <xsd:element name="city" type="tns:stText35" minOccurs="0" />
+      <xsd:element name="stateProvinceRegion" type="tns:stText35" minOccurs="0" />
+      <xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0" />
+      <xsd:element name="e-mail" type="tns:stEMail" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <xsd:complexType name="ctPaymentPA">
-        <xsd:sequence>
-            <xsd:element name="segregationCode" type="tns:stSegregationCode" />
-            <xsd:element name="IUVBase" type="tns:stIUVBase" />
-            <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
-            <xsd:element name="paymentAmount" type="tns:stAmount" />
-            <xsd:element name="description" type="tns:stText140" />
-            <xsd:element name="paymentCategory" type="tns:stText140" />
-            <xsd:element name="companyName" type="tns:stText35" />
-            <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
-            <!-- <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" /> -->
-            <xsd:element name="debtor" type="tns:ctSubject" />
-            <xsd:element name="transferList" type="tns:ctTransferListPA" />
-        </xsd:sequence>
-    </xsd:complexType>
+  <xsd:complexType name="ctPaymentPA">
+    <xsd:sequence>
+      <xsd:element name="segregationCode" type="tns:stSegregationCode" />
+      <xsd:element name="IUVBase" type="tns:stIUVBase" />
+      <xsd:element name="IUVCheckDigit" type="tns:stIUVCheckDigit" />
+      <xsd:element name="paymentAmount" type="tns:stAmount" />
+      <xsd:element name="description" type="tns:stText140" />
+      <xsd:element name="paymentCategory" type="tns:stText140" />
+      <xsd:element name="companyName" type="tns:stText35" />
+      <xsd:element name="officeName" type="tns:stText35" minOccurs="0" />
+      <!-- <xsd:element name="paFee" type="tns:stAmount" minOccurs="0" /> -->
+      <xsd:element name="debtor" type="tns:ctSubject" />
+      <xsd:element name="transferList" type="tns:ctTransferListPA" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <xsd:complexType name="sendPaymentReq">
-        <xsd:sequence>
-            <xsd:element name="idPA" type="tns:stText35" />
-            <xsd:element name="idBrokerPA" type="tns:stText35" />
-            <xsd:element name="idStation" type="tns:stText35" />
-            <xsd:element name="password" type="tns:stPassword" />
-            <xsd:element name="paymentToken" type="tns:stPaymentToken" />
-            <xsd:element name="payment" type="tns:ctPaymentPA" />
-        </xsd:sequence>
-    </xsd:complexType>
 
-    <xsd:complexType name="sendPaymentRes">
-        <xsd:complexContent>
-            <xsd:extension base="tns:ctResponse"></xsd:extension>
-        </xsd:complexContent>
-    </xsd:complexType>
+  <xsd:complexType name="sendPaymentReq">
+    <xsd:sequence>
+      <xsd:element name="idPA" type="tns:stText35" />
+      <xsd:element name="idBrokerPA" type="tns:stText35" />
+      <xsd:element name="idStation" type="tns:stText35" />
+      <xsd:element name="password" type="tns:stPassword" />
+      <xsd:element name="paymentToken" type="tns:stPaymentToken" />
+      <xsd:element name="payment" type="tns:ctPaymentPA" />
+    </xsd:sequence>
+  </xsd:complexType>
 
-    <!-- Wrapper Elements -->
-    <xsd:element name="sendPaymentReq" type="tns:sendPaymentReq" />
-    <xsd:element name="sendPaymentRes" type="tns:sendPaymentRes" />
+  <xsd:complexType name="sendPaymentRes">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ctResponse"></xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- Wrapper Elements -->
+  <xsd:element name="sendPaymentReq" type="tns:sendPaymentReq" />
+  <xsd:element name="sendPaymentRes" type="tns:sendPaymentRes" />
 </xsd:schema>

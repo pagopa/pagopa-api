@@ -2,43 +2,49 @@
 
 <wsdl:definitions name="paForNode" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:nfpa="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.wsdl">
 
-    <wsdl:types>
-        <xsd:schema version="1.0.0">
-            <xsd:import schemaLocation="nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" />
-        </xsd:schema>
-    </wsdl:types>
+  <wsdl:types>
+    <xsd:schema version="1.0.0">
+      <xsd:import schemaLocation="nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" />
+    </xsd:schema>
+  </wsdl:types>
 
-    <wsdl:message name="sendPaymentReq">
+  <!-- ******************* -->
+  <!-- REMOVED useless -->
+  <!-- ******************* -->
+
+
+  <!-- <wsdl:message name="sendPaymentReq">
         <wsdl:part name="requestBody" element="nfpa:sendPaymentReq" />
     </wsdl:message>
     <wsdl:message name="sendPaymentRes">
         <wsdl:part name="responseBody" element="nfpa:sendPaymentRes" />
-    </wsdl:message>
+    </wsdl:message> -->
 
-    <wsdl:portType name="nodeForPa_PortType">
+  <!-- <wsdl:portType name="nodeForPa_PortType">
         <wsdl:operation name="sendPayment">
             <wsdl:input message="tns:sendPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPa/sendPaymentReq" />
             <wsdl:output message="tns:sendPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPa/sendPaymentRes" />
         </wsdl:operation>
-    </wsdl:portType>
+    </wsdl:portType> -->
 
-    <wsdl:binding name="nodeForPa_Binding" type="tns:nodeForPa_PortType">
-        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+  <!-- <wsdl:binding name="nodeForPa_Binding" type="tns:nodeForPa_PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
 
-        <wsdl:operation name="sendPayment">
-            <soap:operation soapAction="sendPayment" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-    </wsdl:binding>
+    <wsdl:operation name="sendPayment">
+      <soap:operation soapAction="sendPayment" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding> -->
 
-    <wsdl:service name="nodeForPa_Service">
-        <wsdl:port name="nodeForPa_Port" binding="tns:nodeForPa_Binding">
-            <soap:address location="http://pagopa-api.pagopa.gov.it/service/node/nodeForPa" />
-        </wsdl:port>
-    </wsdl:service>
+  <!-- <wsdl:service name="nodeForPa_Service">
+    <wsdl:port name="nodeForPa_Port" binding="tns:nodeForPa_Binding">
+      <soap:address location="http://pagopa-api.pagopa.gov.it/service/node/nodeForPa" />
+    </wsdl:port>
+  </wsdl:service> -->
+
 </wsdl:definitions>
