@@ -163,7 +163,8 @@
 
   <xsd:simpleType name="stPostalAccount">
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="[0-9]{18}" />
+      <xsd:length value="12"/>
+      <xsd:pattern value="[0-9]{12}"/>
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -353,7 +354,7 @@ the notice number is composed by:
       <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
       <xsd:element name="idChannel" type="tns:stIdChannel" />
       <xsd:element name="password" type="tns:stPassword" />
-      <xsd:element name="ccp" type="tns:stPostalAccount" />
+      <xsd:element name="ccPost" type="tns:stPostalAccount" />
       <xsd:element name="noticeNumber" type="tns:stNoticeNumber" />
     </xsd:sequence>
   </xsd:complexType>
