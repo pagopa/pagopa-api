@@ -426,7 +426,7 @@ the notice number is composed by:
       <xsd:element name="amount" type="tns:stAmount" minOccurs="0" />
       <!-- Data di scadenza del pagamento -->
       <xsd:element name="dueDate" type="tns:stISODate" minOccurs="0" />
-      <xsd:element name="paymentNote" type="tns:stText140" minOccurs="0" />
+      <xsd:element name="paymentNote" type="tns:stText210" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
 
