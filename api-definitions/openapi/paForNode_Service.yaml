@@ -3,7 +3,7 @@ info:
   title: paForNode_Service
   x-logo: 
     backgroundColor: #FFFFFF 
-    url: "https://www.pagopa.gov.it/sites/assets/images/pagopa-logo.png" 
+    url: "https://www.pagopa.gov.it/assets/images/pagopa-logo.png" 
   description: 
     $ref: descriptionPA.md
   x-ibm-name: pafornodeservice
