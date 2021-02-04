@@ -7,7 +7,7 @@ info:
   description: 
     $ref: descriptionPA.md
   x-ibm-name: pafornodeservice
-  version: Beta version 1.0.4 - 20200204
+  version: Beta version 1.0.4 - 20210204
 schemes:
   - https
 basePath: /paForNode_Service
