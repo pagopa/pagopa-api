@@ -3,11 +3,11 @@ info:
   title: paForNode_Service
   x-logo: 
     backgroundColor: #FFFFFF 
-    url: "https://www.cittametropolitana.genova.it/sites/default/files/siti-tematici/Logo%20PagoPA.jpg" 
+    url: "https://www.pagopa.gov.it/sites/assets/images/pagopa-logo.png" 
   description: 
     $ref: descriptionPA.md
   x-ibm-name: pafornodeservice
-  version: Beta version 1.0.3 - 20201218
+  version: Beta version 1.0.4 - 20200204
 schemes:
   - https
 basePath: /paForNode_Service
@@ -363,9 +363,10 @@ definitions:
           <fiscalCode><!-- mandatory -->string</fiscalCode>
           <noticeNumber><!-- mandatory -->string</noticeNumber>
          </qrCode>
-         <amount><!-- mandatory -->999999996.99</amount>
-         <paymentNote><!-- mandatory -->string</paymentNote>
+         <amount>999999996.99</amount>
+         <paymentNote>string</paymentNote>
          <transferType>string</transferType>
+         <dueDate>2016-04-18</dueDate>
         </pafn:paGetPaymentReq>
        </soapenv:Body>
       </soapenv:Envelope>
@@ -421,11 +422,11 @@ definitions:
          <data>
           <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
           <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
-          <dueDate>2016-04-18T14:07:37</dueDate>
+          <dueDate><!-- mandatory -->2016-04-18</dueDate>
           <retentionDate>2016-04-18T14:07:37</retentionDate>
           <lastPayment>true</lastPayment>
           <description><!-- mandatory -->string</description>
-          <paymentCategory><!-- mandatory -->string</paymentCategory>
+          <companyName>string</companyName>
           <officeName>string</officeName>
           <debtor><!-- mandatory -->
            <uniqueIdentifier><!-- mandatory -->
@@ -441,9 +442,9 @@ definitions:
            <country>string</country>
            <e-mail>string</e-mail>
           </debtor>
-          <transferList><!-- mandatory -->
+          <transferList>
            <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-            <idTransfer><!-- mandatory -->string</idTransfer>
+            <idTransfer><!-- mandatory -->3</idTransfer>
             <transferAmount><!-- mandatory -->999999996.99</transferAmount>
             <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
             <IBAN><!-- mandatory -->string</IBAN>
@@ -523,7 +524,6 @@ definitions:
           <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
           <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
           <description><!-- mandatory -->string</description>
-          <paymentCategory><!-- mandatory -->string</paymentCategory>
           <companyName><!-- mandatory -->string</companyName>
           <officeName>string</officeName>
           <debtor><!-- mandatory -->
@@ -542,7 +542,7 @@ definitions:
           </debtor>
           <transferList><!-- mandatory -->
            <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-            <idTransfer><!-- mandatory -->string</idTransfer>
+            <idTransfer><!-- mandatory -->3</idTransfer>
             <transferAmount><!-- mandatory -->999999996.99</transferAmount>
             <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
             <IBAN><!-- mandatory -->string</IBAN>
@@ -551,6 +551,8 @@ definitions:
            </transfer>
           </transferList>
           <idPSP><!-- mandatory -->string</idPSP>
+          <pspFiscalCode>string</pspFiscalCode>
+          <pspPartitaIVA>string</pspPartitaIVA>
           <PSPCompanyName><!-- mandatory -->string</PSPCompanyName>
           <idChannel><!-- mandatory -->string</idChannel>
           <channelDescription><!-- mandatory -->string</channelDescription>
@@ -573,6 +575,12 @@ definitions:
           <paymentDateTime>2016-04-18T14:07:37</paymentDateTime>
           <applicationDate>2016-04-18</applicationDate>
           <transferDate>2016-04-18</transferDate>
+          <metadata>
+           <mapEntry><!-- mandatory --><!-- between 1 and 10 repetitions of this element -->
+            <key><!-- mandatory -->string</key>
+            <value><!-- mandatory -->string</value>
+           </mapEntry>
+          </metadata>
          </receipt>
         </pafn:paSendRTReq>
        </soapenv:Body>
@@ -727,16 +735,16 @@ definitions:
       amount:
         $ref: '#/definitions/stAmount_type_pafn'
       paymentNote:
-        $ref: '#/definitions/stText140_type_pafn'
+        $ref: '#/definitions/stText210_type_pafn'
       transferType:
         $ref: '#/definitions/stTransferType_type_pafn'
+      dueDate:
+        $ref: '#/definitions/stISODate_type_pafn'
     required:
       - idPA
       - idBrokerPA
       - idStation
       - qrCode
-      - amount
-      - paymentNote
     example: >-
 
       <pafn:paGetPaymentReq
@@ -748,9 +756,10 @@ definitions:
         <fiscalCode><!-- mandatory -->string</fiscalCode>
         <noticeNumber><!-- mandatory -->string</noticeNumber>
        </qrCode>
-       <amount><!-- mandatory -->999999996.99</amount>
-       <paymentNote><!-- mandatory -->string</paymentNote>
+       <amount>999999996.99</amount>
+       <paymentNote>string</paymentNote>
        <transferType>string</transferType>
+       <dueDate>2016-04-18</dueDate>
       </pafn:paGetPaymentReq>
   paGetPaymentRes_element_pafn:
     xml:
@@ -781,11 +790,11 @@ definitions:
        <data>
         <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
         <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
-        <dueDate>2016-04-18T14:07:37</dueDate>
+        <dueDate><!-- mandatory -->2016-04-18</dueDate>
         <retentionDate>2016-04-18T14:07:37</retentionDate>
         <lastPayment>true</lastPayment>
         <description><!-- mandatory -->string</description>
-        <paymentCategory><!-- mandatory -->string</paymentCategory>
+        <companyName>string</companyName>
         <officeName>string</officeName>
         <debtor><!-- mandatory -->
          <uniqueIdentifier><!-- mandatory -->
@@ -801,9 +810,9 @@ definitions:
          <country>string</country>
          <e-mail>string</e-mail>
         </debtor>
-        <transferList><!-- mandatory -->
+        <transferList>
          <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-          <idTransfer><!-- mandatory -->string</idTransfer>
+          <idTransfer><!-- mandatory -->3</idTransfer>
           <transferAmount><!-- mandatory -->999999996.99</transferAmount>
           <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
           <IBAN><!-- mandatory -->string</IBAN>
@@ -854,7 +863,6 @@ definitions:
         <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
         <paymentAmount><!-- mandatory -->999999996.99</paymentAmount>
         <description><!-- mandatory -->string</description>
-        <paymentCategory><!-- mandatory -->string</paymentCategory>
         <companyName><!-- mandatory -->string</companyName>
         <officeName>string</officeName>
         <debtor><!-- mandatory -->
@@ -873,7 +881,7 @@ definitions:
         </debtor>
         <transferList><!-- mandatory -->
          <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-          <idTransfer><!-- mandatory -->string</idTransfer>
+          <idTransfer><!-- mandatory -->3</idTransfer>
           <transferAmount><!-- mandatory -->999999996.99</transferAmount>
           <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
           <IBAN><!-- mandatory -->string</IBAN>
@@ -882,6 +890,8 @@ definitions:
          </transfer>
         </transferList>
         <idPSP><!-- mandatory -->string</idPSP>
+        <pspFiscalCode>string</pspFiscalCode>
+        <pspPartitaIVA>string</pspPartitaIVA>
         <PSPCompanyName><!-- mandatory -->string</PSPCompanyName>
         <idChannel><!-- mandatory -->string</idChannel>
         <channelDescription><!-- mandatory -->string</channelDescription>
@@ -904,6 +914,12 @@ definitions:
         <paymentDateTime>2016-04-18T14:07:37</paymentDateTime>
         <applicationDate>2016-04-18</applicationDate>
         <transferDate>2016-04-18</transferDate>
+        <metadata>
+         <mapEntry><!-- mandatory --><!-- between 1 and 10 repetitions of this element -->
+          <key><!-- mandatory -->string</key>
+          <value><!-- mandatory -->string</value>
+         </mapEntry>
+        </metadata>
        </receipt>
       </pafn:paSendRTReq>
   paSendRTRes_element_pafn:
@@ -1013,6 +1029,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: stAmount_type_pafn
+  stText210_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 210
+    x-xsi-type: stText210
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stText210_type_pafn
   stTransferType_type_pafn:
     xml:
       namespace: ''
@@ -1024,6 +1051,16 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: stTransferType_type_pafn
+  stISODate_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    format: date
+    x-xsi-type: stISODate
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stISODate_type_pafn
   ctPaymentPA_type_pafn:
     xml:
       namespace: ''
@@ -1035,10 +1072,7 @@ definitions:
       paymentAmount:
         $ref: '#/definitions/stAmount_type_pafn'
       dueDate:
-        xml:
-          namespace: ''
-        type: string
-        format: date-time
+        $ref: '#/definitions/stISODate_type_pafn'
       retentionDate:
         xml:
           namespace: ''
@@ -1050,10 +1084,10 @@ definitions:
         type: boolean
       description:
         $ref: '#/definitions/stText140_type_pafn'
-      paymentCategory:
+      companyName:
         $ref: '#/definitions/stText140_type_pafn'
       officeName:
-        $ref: '#/definitions/stText35_type_pafn'
+        $ref: '#/definitions/stText140_type_pafn'
       debtor:
         $ref: '#/definitions/ctSubject_type_pafn'
       transferList:
@@ -1063,10 +1097,9 @@ definitions:
     required:
       - creditorReferenceId
       - paymentAmount
+      - dueDate
       - description
-      - paymentCategory
       - debtor
-      - transferList
     x-xsi-type: ctPaymentPA
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
@@ -1094,18 +1127,20 @@ definitions:
         $ref: '#/definitions/stAmount_type_pafn'
       description:
         $ref: '#/definitions/stText140_type_pafn'
-      paymentCategory:
-        $ref: '#/definitions/stText140_type_pafn'
       companyName:
-        $ref: '#/definitions/stText35_type_pafn'
+        $ref: '#/definitions/stText140_type_pafn'
       officeName:
-        $ref: '#/definitions/stText35_type_pafn'
+        $ref: '#/definitions/stText140_type_pafn'
       debtor:
         $ref: '#/definitions/ctSubject_type_pafn'
       transferList:
         $ref: '#/definitions/ctTransferListPA_type_pafn'
       idPSP:
         $ref: '#/definitions/stText35_type_pafn'
+      pspFiscalCode:
+        $ref: '#/definitions/stText70_type_pafn'
+      pspPartitaIVA:
+        $ref: '#/definitions/stText70_type_pafn'
       PSPCompanyName:
         $ref: '#/definitions/stText35_type_pafn'
       idChannel:
@@ -1124,6 +1159,8 @@ definitions:
         $ref: '#/definitions/stISODate_type_pafn'
       transferDate:
         $ref: '#/definitions/stISODate_type_pafn'
+      metadata:
+        $ref: '#/definitions/ctMetadata_type_pafn'
     required:
       - receiptId
       - noticeNumber
@@ -1132,7 +1169,6 @@ definitions:
       - creditorReferenceId
       - paymentAmount
       - description
-      - paymentCategory
       - companyName
       - debtor
       - transferList
@@ -1309,6 +1345,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: ctMetadata_type_pafn
+  stText70_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 70
+    x-xsi-type: stText70
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stText70_type_pafn
   stISODateTime_type_pafn:
     xml:
       namespace: ''
@@ -1319,16 +1366,6 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: stISODateTime_type_pafn
-  stISODate_type_pafn:
-    xml:
-      namespace: ''
-    type: string
-    format: date
-    x-xsi-type: stISODate
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
-      prefix: pafn
-    x-xsi-type-uniquename: stISODate_type_pafn
   stAmountOption_type_pafn:
     xml:
       namespace: ''
@@ -1361,17 +1398,6 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: ctEntityUniqueIdentifier_type_pafn
-  stText70_type_pafn:
-    xml:
-      namespace: ''
-    type: string
-    minLength: 1
-    maxLength: 70
-    x-xsi-type: stText70
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
-      prefix: pafn
-    x-xsi-type-uniquename: stText70_type_pafn
   stText16_type_pafn:
     xml:
       namespace: ''
@@ -1411,7 +1437,7 @@ definitions:
     type: object
     properties:
       idTransfer:
-        $ref: '#/definitions/stText35_type_pafn'
+        $ref: '#/definitions/stIdTransfer_type_pafn'
       transferAmount:
         $ref: '#/definitions/stAmount_type_pafn'
       fiscalCodePA:
@@ -1481,6 +1507,22 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: stEntityUniqueIdentifierValue_type_pafn
+  stIdTransfer_type_pafn:
+    xml:
+      namespace: ''
+    type: integer
+    format: int32
+    enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    x-xsi-type: stIdTransfer
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stIdTransfer_type_pafn
   stIBAN_type_pafn:
     xml:
       namespace: ''

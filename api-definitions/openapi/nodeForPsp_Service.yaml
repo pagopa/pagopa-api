@@ -3,11 +3,11 @@ info:
   title: nodeForPsp_Service
   x-logo: 
     backgroundColor: #FFFFFF 
-    url: "https://www.cittametropolitana.genova.it/sites/default/files/siti-tematici/Logo%20PagoPA.jpg" 
+    url: "https://www.pagopa.gov.it/sites/assets/images/pagopa-logo.png" 
   description: 
-    $ref: description.md
+$ref: description.md
   x-ibm-name: nodeforpspservice
-  version: Beta version 1.0.3 - 20201218
+  version: Beta version 1.0.4 - 20200204
 schemes:
   - https
 basePath: /nodeForPsp_Service
@@ -493,7 +493,7 @@ definitions:
           <fiscalCode><!-- mandatory -->string</fiscalCode>
           <noticeNumber><!-- mandatory -->string</noticeNumber>
          </qrCode>
-         <expirationTime>107997</expirationTime>
+         <expirationTime>1799997</expirationTime>
          <amount>999999996.99</amount>
          <dueDate>2016-04-18</dueDate>
          <paymentNote>string</paymentNote>
@@ -557,13 +557,14 @@ definitions:
          <paymentToken>string</paymentToken>
          <transferList>
           <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-           <idTransfer><!-- mandatory -->string</idTransfer>
+           <idTransfer><!-- mandatory -->3</idTransfer>
            <transferAmount><!-- mandatory -->999999996.99</transferAmount>
            <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
            <IBAN><!-- mandatory -->string</IBAN>
            <remittanceInformation><!-- mandatory -->string</remittanceInformation>
           </transfer>
          </transferList>
+         <creditorReferenceId>string</creditorReferenceId>
         </nfpsp:activatePaymentNoticeRes>
        </soapenv:Body>
       </soapenv:Envelope>
@@ -848,7 +849,7 @@ definitions:
           paymentList:
             $ref: '#/definitions/ctPaymentOptionsDescriptionList_type_nfpsp'
           paymentDescription:
-            $ref: '#/definitions/stText140_type_nfpsp'
+            $ref: '#/definitions/stText210_type_nfpsp'
             description: full text description
           fiscalCodePA:
             $ref: '#/definitions/stFiscalCodePA_type_nfpsp'
@@ -942,7 +943,7 @@ definitions:
       dueDate:
         $ref: '#/definitions/stISODate_type_nfpsp'
       paymentNote:
-        $ref: '#/definitions/stText140_type_nfpsp'
+        $ref: '#/definitions/stText210_type_nfpsp'
     required:
       - idPSP
       - idBrokerPSP
@@ -963,7 +964,7 @@ definitions:
         <fiscalCode><!-- mandatory -->string</fiscalCode>
         <noticeNumber><!-- mandatory -->string</noticeNumber>
        </qrCode>
-       <expirationTime>107997</expirationTime>
+       <expirationTime>1799997</expirationTime>
        <amount>999999996.99</amount>
        <dueDate>2016-04-18</dueDate>
        <paymentNote>string</paymentNote>
@@ -991,6 +992,8 @@ definitions:
             $ref: '#/definitions/stPaymentToken_type_nfpsp'
           transferList:
             $ref: '#/definitions/ctTransferListPSP_type_nfpsp'
+          creditorReferenceId:
+            $ref: '#/definitions/stText35_type_nfpsp'
     example: >-
 
       <nfpsp:activatePaymentNoticeRes
@@ -1014,13 +1017,14 @@ definitions:
        <paymentToken>string</paymentToken>
        <transferList>
         <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-         <idTransfer><!-- mandatory -->string</idTransfer>
+         <idTransfer><!-- mandatory -->3</idTransfer>
          <transferAmount><!-- mandatory -->999999996.99</transferAmount>
          <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
          <IBAN><!-- mandatory -->string</IBAN>
          <remittanceInformation><!-- mandatory -->string</remittanceInformation>
         </transfer>
        </transferList>
+       <creditorReferenceId>string</creditorReferenceId>
       </nfpsp:activatePaymentNoticeRes>
   sendPaymentOutcomeReq_element_nfpsp:
     xml:
@@ -1208,17 +1212,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: ctPaymentOptionsDescriptionList_type_nfpsp
-  stText140_type_nfpsp:
+  stText210_type_nfpsp:
     xml:
       namespace: ''
     type: string
     minLength: 1
-    maxLength: 140
-    x-xsi-type: stText140
+    maxLength: 210
+    x-xsi-type: stText210
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
-    x-xsi-type-uniquename: stText140_type_nfpsp
+    x-xsi-type-uniquename: stText210_type_nfpsp
   stFiscalCodePA_type_nfpsp:
     xml:
       namespace: ''
@@ -1231,6 +1235,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: stFiscalCodePA_type_nfpsp
+  stText140_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 140
+    x-xsi-type: stText140
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stText140_type_nfpsp
   stIdempotencyKey_type_nfpsp:
     xml:
       namespace: ''
@@ -1249,7 +1264,7 @@ definitions:
       namespace: ''
     description: 'expiration time ( ms ), max 30 minute'
     type: number
-    maximum: 108000
+    maximum: 1800000
     x-xsi-type: stExpirationTime
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -1280,11 +1295,7 @@ definitions:
   stPaymentToken_type_nfpsp:
     xml:
       namespace: ''
-    description: |-
-      `PaymentToken`, it has been genearated from nodoSPC.
-                      It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
     type: string
-    pattern: '[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}'
     x-xsi-type: stPaymentToken
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -1309,6 +1320,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: ctTransferListPSP_type_nfpsp
+  stText35_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stText35
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stText35_type_nfpsp
   stOutcome_type_nfpsp:
     xml:
       namespace: ''
@@ -1420,7 +1442,7 @@ definitions:
       dueDate:
         $ref: '#/definitions/stISODate_type_nfpsp'
       paymentNote:
-        $ref: '#/definitions/stText140_type_nfpsp'
+        $ref: '#/definitions/stText210_type_nfpsp'
     required:
       - amount
       - options
@@ -1436,7 +1458,7 @@ definitions:
     type: object
     properties:
       idTransfer:
-        $ref: '#/definitions/stText35_type_nfpsp'
+        $ref: '#/definitions/stIdTransfer_type_nfpsp'
       transferAmount:
         $ref: '#/definitions/stAmount_type_nfpsp'
       fiscalCodePA:
@@ -1531,23 +1553,27 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: stAmountOptionPSP_type_nfpsp
-  stText35_type_nfpsp:
+  stIdTransfer_type_nfpsp:
     xml:
       namespace: ''
-    type: string
-    minLength: 1
-    maxLength: 35
-    x-xsi-type: stText35
+    type: integer
+    format: int32
+    enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    x-xsi-type: stIdTransfer
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
-    x-xsi-type-uniquename: stText35_type_nfpsp
+    x-xsi-type-uniquename: stIdTransfer_type_nfpsp
   stIBAN_type_nfpsp:
     xml:
       namespace: ''
     type: string
-    minLength: 1
-    maxLength: 35
+    pattern: '[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
     x-xsi-type: stIBAN
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'

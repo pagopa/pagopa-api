@@ -193,7 +193,7 @@ definitions:
          <paymentToken><!-- mandatory -->string</paymentToken>
          <transferList><!-- mandatory -->
           <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-           <idTransfer><!-- mandatory -->string</idTransfer>
+           <idTransfer><!-- mandatory -->3</idTransfer>
            <transferAmount><!-- mandatory -->999999996.99</transferAmount>
            <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
            <IBAN><!-- mandatory -->string</IBAN>
@@ -289,7 +289,7 @@ definitions:
        <paymentToken><!-- mandatory -->string</paymentToken>
        <transferList><!-- mandatory -->
         <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-         <idTransfer><!-- mandatory -->string</idTransfer>
+         <idTransfer><!-- mandatory -->3</idTransfer>
          <transferAmount><!-- mandatory -->999999996.99</transferAmount>
          <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
          <IBAN><!-- mandatory -->string</IBAN>
@@ -339,11 +339,7 @@ definitions:
   stPaymentToken_type_pspfn:
     xml:
       namespace: ''
-    description: |-
-      `PaymentToken`, it has been genearated from PA.
-                      It's obtained as concatenation of the PA' fiscal code followed by a `_` and a UUID (unique for PA), that generated it
     type: string
-    pattern: '[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}'
     x-xsi-type: stPaymentToken
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
@@ -445,7 +441,7 @@ definitions:
     type: object
     properties:
       idTransfer:
-        $ref: '#/definitions/stText35_type_pspfn'
+        $ref: '#/definitions/stIdTransfer_type_pspfn'
       transferAmount:
         $ref: '#/definitions/stAmount_type_pspfn'
       fiscalCodePA:
@@ -465,6 +461,22 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: ctTransferPSP_type_pspfn
+  stIdTransfer_type_pspfn:
+    xml:
+      namespace: ''
+    type: integer
+    format: int32
+    enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    x-xsi-type: stIdTransfer
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stIdTransfer_type_pspfn
   stAmount_type_pspfn:
     xml:
       namespace: ''
@@ -492,8 +504,7 @@ definitions:
     xml:
       namespace: ''
     type: string
-    minLength: 1
-    maxLength: 35
+    pattern: '[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
     x-xsi-type: stIBAN
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'

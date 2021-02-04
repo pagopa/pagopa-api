@@ -1,4 +1,4 @@
-<img width="150px"  src="https://www.cittametropolitana.genova.it/sites/default/files/siti-tematici/Logo%20PagoPA.jpg" title="pagoPa" alt="pagoPa"></a>
+<img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa"></a>
 # pagopa-specifichepagamenti-schemi
 
 
