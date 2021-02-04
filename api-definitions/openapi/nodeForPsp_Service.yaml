@@ -5,7 +5,7 @@ info:
     backgroundColor: #FFFFFF 
     url: "https://www.pagopa.gov.it/sites/assets/images/pagopa-logo.png" 
   description: 
-$ref: description.md
+    $ref: description.md
   x-ibm-name: nodeforpspservice
   version: Beta version 1.0.4 - 20200204
 schemes:
