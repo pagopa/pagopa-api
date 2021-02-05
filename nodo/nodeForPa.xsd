@@ -54,6 +54,8 @@
     -->
     <xsd:restriction base="xsd:string">
       <!-- <xsd:pattern value="[0-9]{11}_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" /> -->
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="35" />
     </xsd:restriction>
   </xsd:simpleType>
 
