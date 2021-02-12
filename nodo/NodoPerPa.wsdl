@@ -310,6 +310,7 @@
 					<xsd:element name="listaRPT" type="ppt:tipoListaRPT" />
 					<xsd:element name="requireLightPayment" type="ppt:stZeroUno" minOccurs="0"/>
 					<xsd:element name="codiceConvenzione" type="ppt:stConvenzione" minOccurs="0"/>
+					<xsd:element name="multiBeneficiario" type="ppt:stZeroUno" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:complexType>
 
