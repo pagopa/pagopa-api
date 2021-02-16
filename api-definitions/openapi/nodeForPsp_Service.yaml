@@ -7,22 +7,14 @@ info:
   description: 
     $ref: description.md
   x-ibm-name: nodeforpspservice
-  version: Beta version 1.0.4 - 20210204
+  version: Beta version 1.0.4 - 20210216
 schemes:
   - https
 basePath: /nodeForPsp_Service
 produces:
   - application/xml
 consumes:
-  - text/xml
-securityDefinitions:
-  clientID:
-    type: apiKey
-    name: X-IBM-Client-Id
-    in: header
-    description: ''
-security:
-  - clientID: []
+  - application/xml
 x-ibm-configuration:
   type: wsdl
   phase: realized
@@ -41,13 +33,6 @@ x-ibm-configuration:
       - proxy:
           title: proxy
           target-url: 'http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp'
-  x-ibm-apiconnect-wsdl:
-    package-version: 1.8.31
-    options: {}
-    messages:
-      info: []
-      warning: []
-      error: []
 paths:
   /verifyPaymentNotice:
     post:
@@ -61,17 +46,55 @@ paths:
         payment options desribes the acceptance `amount` values to be used
         requesting a payment activaction ( _see activetePayment_ ).
       operationId: verifyPaymentNotice
-      x-ibm-soap:
-        soap-action: verifyPaymentNotice
-        soap-operation: >-
-          {http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd}verifyPaymentNoticeReq
       parameters:
         - in: body
           name: body
           required: true
           schema:
             $ref: '#/definitions/verifyPaymentNoticeInput'
+          description: >-
+            ```
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nod="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <nod:verifyPaymentNoticeReq>
+                      <idPSP>70000000001</idPSP>
+                      <idBrokerPSP>70000000001</idBrokerPSP>
+                      <idChannel>70000000001_01</idChannel>
+                      <password>**********</password>
+                      <qrCode>
+                          <fiscalCode>77777777777</fiscalCode>
+                          <noticeNumber>311018921337126000</noticeNumber>
+                      </qrCode>
+                    </nod:verifyPaymentNoticeReq>
+                </soapenv:Body>
+              </soapenv:Envelope>            
+            ```
       responses:
+        '200':
+          description: verifyPaymentNoticeRes
+          schema:
+            $ref: '#/definitions/verifyPaymentNoticeOutput'
+          examples:
+            application/xml: >-
+              <soapenv:Envelope xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                    <nfpsp:verifyPaymentNoticeRes>
+                      <outcome>OK</outcome>
+                      <paymentList>
+                          <paymentOptionDescription>
+                            <amount>10.00</amount>
+                            <options>EQ</options>
+                            <paymentNote>test</paymentNote>
+                          </paymentOptionDescription>
+                      </paymentList>
+                      <paymentDescription>test</paymentDescription>
+                      <fiscalCodePA>77777777777</fiscalCodePA>
+                      <companyName>Pa Test</companyName>
+                      <officeName>Office Test</officeName>
+                    </nfpsp:verifyPaymentNoticeRes>
+                </soapenv:Body>
+              </soapenv:Envelope>
         '500':
           description: ''
           schema:
@@ -137,7 +160,57 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/activatePaymentNoticeInput'
+          description: >-
+            ```
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nod="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <nod:activatePaymentNoticeReq>
+                      <idPSP>70000000001</idPSP>
+                      <idBrokerPSP>70000000001</idBrokerPSP>
+                      <idChannel>70000000001_01</idChannel>
+                      <password>**********</password>
+                      <idempotencyKey>70000000001_100149bdWB</idempotencyKey>
+                      <qrCode>
+                          <fiscalCode>77777777777</fiscalCode>
+                          <noticeNumber>311018921337126000</noticeNumber>
+                      </qrCode>
+                      <expirationTime>6000</expirationTime>
+                      <amount>10.00</amount>
+                    </nod:activatePaymentNoticeReq>
+                </soapenv:Body>
+              </soapenv:Envelope>        
+            ```   
       responses:
+        '200':
+          description: activatePaymentNoticeRes
+          schema:
+            $ref: '#/definitions/activatePaymentNoticeOutput'
+          examples:
+            application/xml: >-      
+              <soapenv:Envelope xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                    <nfpsp:activatePaymentNoticeRes>
+                      <outcome>OK</outcome>
+                      <totalAmount>10.00</totalAmount>
+                      <paymentDescription>test</paymentDescription>
+                      <fiscalCodePA>77777777777</fiscalCodePA>
+                      <companyName>Pa Test</companyName>
+                      <officeName>office</officeName>
+                      <paymentToken>c110729d258c4ab1b765fe902aae41d6</paymentToken>
+                      <transferList>
+                          <transfer>
+                            <idTransfer>1</idTransfer>
+                            <transferAmount>10.00</transferAmount>
+                            <fiscalCodePA>77777777777</fiscalCodePA>
+                            <IBAN>IT45R0760103200000000001016</IBAN>
+                            <remittanceInformation>test</remittanceInformation>
+                          </transfer>
+                      </transferList>
+                      <creditorReferenceId>123456789</creditorReferenceId>
+                    </nfpsp:activatePaymentNoticeRes>
+                </soapenv:Body>
+              </soapenv:Envelope>
         '500':
           description: ''
           schema:
@@ -176,7 +249,67 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/sendPaymentOutcomeInput'
+          description: >-
+            ```
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nod="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <nod:sendPaymentOutcomeReq>
+                      <idPSP>70000000001</idPSP>
+                      <idBrokerPSP>70000000001</idBrokerPSP>
+                      <idChannel>70000000001_01</idChannel>
+                      <password>**********</password>
+                      <paymentToken>c110729d258c4ab1b765fe902aae41d6</paymentToken>
+                      <outcome>OK</outcome>
+                      <!--Optional:-->
+                      <details>
+                          <paymentMethod>creditCard</paymentMethod>
+                          <!--Optional:-->
+                          <paymentChannel>app</paymentChannel>
+                          <fee>2.00</fee>
+                          <!--Optional:-->
+                          <payer>
+                            <uniqueIdentifier>
+                                <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
+                                <entityUniqueIdentifierValue>77777777777_01</entityUniqueIdentifierValue>
+                            </uniqueIdentifier>
+                            <fullName>name</fullName>
+                            <!--Optional:-->
+                            <streetName>street</streetName>
+                            <!--Optional:-->
+                            <civicNumber>civic</civicNumber>
+                            <!--Optional:-->
+                            <postalCode>postal</postalCode>
+                            <!--Optional:-->
+                            <city>city</city>
+                            <!--Optional:-->
+                            <stateProvinceRegion>state</stateProvinceRegion>
+                            <!--Optional:-->
+                            <country>IT</country>
+                            <!--Optional:-->
+                            <e-mail>prova@test.it</e-mail>
+                          </payer>
+                          <applicationDate>2021-12-12</applicationDate>
+                          <transferDate>2021-12-11</transferDate>
+                      </details>
+                    </nod:sendPaymentOutcomeReq>
+                </soapenv:Body>
+              </soapenv:Envelope>        
+            ```            
       responses:
+        '200':
+          description: sendPaymentOutcomeRes
+          schema:
+            $ref: '#/definitions/sendPaymentOutcomeOutput'
+          examples:
+            application/xml: >-  
+              <soapenv:Envelope xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                    <nfpsp:sendPaymentOutcomeRes>
+                      <outcome>OK</outcome>
+                    </nfpsp:sendPaymentOutcomeRes>
+                </soapenv:Body>
+              </soapenv:Envelope>
         '500':
           description: ''
           schema:
@@ -257,6 +390,8 @@ definitions:
               prefix: wsu
               attribute: true
             type: string
+  NewMessagePPP:
+    description: opopopopop
   verifyPaymentNoticeInput:
     description: Input message for wsdl operation verifyPaymentNoticeReq
     type: object
@@ -287,38 +422,6 @@ definitions:
       wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
       wsdl-operation: verifyPaymentNoticeReq
       wsdl-message-direction-or-name: verifyPaymentNoticeReqRequest
-    example: >-
-
-      <soapenv:Envelope
-      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-       <soapenv:Header>
-        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
-        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-         <wsse:UsernameToken>
-          <wsse:Username>string</wsse:Username>
-          <wsse:Password>string</wsse:Password>
-          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
-          <wsu:Created>string</wsu:Created>
-         </wsse:UsernameToken>
-         <wsu:Timestamp wsu:Id="string">
-          <wsu:Created>string</wsu:Created>
-          <wsu:Expires>string</wsu:Expires>
-         </wsu:Timestamp>
-        </wsse:Security>
-       </soapenv:Header>
-       <soapenv:Body>
-        <nfpsp:verifyPaymentNoticeReq xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"><!-- mandatory -->
-         <idPSP><!-- mandatory -->string</idPSP>
-         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
-         <idChannel><!-- mandatory -->string</idChannel>
-         <password><!-- mandatory -->string</password>
-         <qrCode><!-- mandatory -->
-          <fiscalCode><!-- mandatory -->string</fiscalCode>
-          <noticeNumber><!-- mandatory -->string</noticeNumber>
-         </qrCode>
-        </nfpsp:verifyPaymentNoticeReq>
-       </soapenv:Body>
-      </soapenv:Envelope>
   verifyPaymentNoticeHeader:
     description: Input headers for wsdl operation verifyPaymentNoticeReq
     type: object
@@ -351,38 +454,6 @@ definitions:
       wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
       wsdl-operation: verifyPaymentNoticeReq
       wsdl-message-direction-or-name: verifyPaymentNoticeReqResponse
-    example: >-
-
-      <soapenv:Envelope
-      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-       <soapenv:Body>
-        <nfpsp:verifyPaymentNoticeRes xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-         <outcome><!-- mandatory -->string</outcome>
-         <fault>
-          <faultCode><!-- mandatory -->string</faultCode>
-          <faultString><!-- mandatory -->string</faultString>
-          <id><!-- mandatory -->string</id>
-          <description>string</description>
-          <serial>3</serial>
-          <originalFaultCode>string</originalFaultCode>
-          <originalFaultString>string</originalFaultString>
-          <originalDescription>string</originalDescription>
-         </fault>
-         <paymentList>
-          <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-           <amount><!-- mandatory -->999999996.99</amount>
-           <options><!-- mandatory -->string</options>
-           <dueDate>2016-04-18</dueDate>
-           <paymentNote>string</paymentNote>
-          </paymentOptionDescription>
-         </paymentList>
-         <paymentDescription>string</paymentDescription>
-         <fiscalCodePA>string</fiscalCodePA>
-         <companyName>string</companyName>
-         <officeName>string</officeName>
-        </nfpsp:verifyPaymentNoticeRes>
-       </soapenv:Body>
-      </soapenv:Envelope>
   verifyPaymentNoticeFault:
     description: Fault message for wsdl operation verifyPaymentNoticeReq
     type: object
@@ -463,43 +534,6 @@ definitions:
       wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
       wsdl-operation: activatePaymentNoticeReq
       wsdl-message-direction-or-name: activatePaymentNoticeReqRequest
-    example: >-
-
-      <soapenv:Envelope
-      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-       <soapenv:Header>
-        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
-        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-         <wsse:UsernameToken>
-          <wsse:Username>string</wsse:Username>
-          <wsse:Password>string</wsse:Password>
-          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
-          <wsu:Created>string</wsu:Created>
-         </wsse:UsernameToken>
-         <wsu:Timestamp wsu:Id="string">
-          <wsu:Created>string</wsu:Created>
-          <wsu:Expires>string</wsu:Expires>
-         </wsu:Timestamp>
-        </wsse:Security>
-       </soapenv:Header>
-       <soapenv:Body>
-        <nfpsp:activatePaymentNoticeReq xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"><!-- mandatory -->
-         <idPSP><!-- mandatory -->string</idPSP>
-         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
-         <idChannel><!-- mandatory -->string</idChannel>
-         <password><!-- mandatory -->string</password>
-         <idempotencyKey><!-- mandatory -->string</idempotencyKey>
-         <qrCode><!-- mandatory -->
-          <fiscalCode><!-- mandatory -->string</fiscalCode>
-          <noticeNumber><!-- mandatory -->string</noticeNumber>
-         </qrCode>
-         <expirationTime>1799997</expirationTime>
-         <amount>999999996.99</amount>
-         <dueDate>2016-04-18</dueDate>
-         <paymentNote>string</paymentNote>
-        </nfpsp:activatePaymentNoticeReq>
-       </soapenv:Body>
-      </soapenv:Envelope>
   activatePaymentNoticeHeader:
     description: Input headers for wsdl operation activatePaymentNoticeReq
     type: object
@@ -528,46 +562,6 @@ definitions:
           - Body
     required:
       - Envelope
-    x-ibm-schema:
-      wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
-      wsdl-operation: activatePaymentNoticeReq
-      wsdl-message-direction-or-name: activatePaymentNoticeReqResponse
-    example: >-
-
-      <soapenv:Envelope
-      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-       <soapenv:Body>
-        <nfpsp:activatePaymentNoticeRes xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-         <outcome><!-- mandatory -->string</outcome>
-         <fault>
-          <faultCode><!-- mandatory -->string</faultCode>
-          <faultString><!-- mandatory -->string</faultString>
-          <id><!-- mandatory -->string</id>
-          <description>string</description>
-          <serial>3</serial>
-          <originalFaultCode>string</originalFaultCode>
-          <originalFaultString>string</originalFaultString>
-          <originalDescription>string</originalDescription>
-         </fault>
-         <totalAmount>999999996.99</totalAmount>
-         <paymentDescription>string</paymentDescription>
-         <fiscalCodePA>string</fiscalCodePA>
-         <companyName>string</companyName>
-         <officeName>string</officeName>
-         <paymentToken>string</paymentToken>
-         <transferList>
-          <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-           <idTransfer><!-- mandatory -->3</idTransfer>
-           <transferAmount><!-- mandatory -->999999996.99</transferAmount>
-           <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
-           <IBAN><!-- mandatory -->string</IBAN>
-           <remittanceInformation><!-- mandatory -->string</remittanceInformation>
-          </transfer>
-         </transferList>
-         <creditorReferenceId>string</creditorReferenceId>
-        </nfpsp:activatePaymentNoticeRes>
-       </soapenv:Body>
-      </soapenv:Envelope>
   activatePaymentNoticeFault:
     description: Fault message for wsdl operation activatePaymentNoticeReq
     type: object
@@ -644,61 +638,6 @@ definitions:
           - Body
     required:
       - Envelope
-    x-ibm-schema:
-      wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
-      wsdl-operation: sendPaymentOutcomeReq
-      wsdl-message-direction-or-name: sendPaymentOutcomeReqRequest
-    example: >-
-
-      <soapenv:Envelope
-      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-       <soapenv:Header>
-        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
-        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-         <wsse:UsernameToken>
-          <wsse:Username>string</wsse:Username>
-          <wsse:Password>string</wsse:Password>
-          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
-          <wsu:Created>string</wsu:Created>
-         </wsse:UsernameToken>
-         <wsu:Timestamp wsu:Id="string">
-          <wsu:Created>string</wsu:Created>
-          <wsu:Expires>string</wsu:Expires>
-         </wsu:Timestamp>
-        </wsse:Security>
-       </soapenv:Header>
-       <soapenv:Body>
-        <nfpsp:sendPaymentOutcomeReq xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"><!-- mandatory -->
-         <idPSP><!-- mandatory -->string</idPSP>
-         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
-         <idChannel><!-- mandatory -->string</idChannel>
-         <password><!-- mandatory -->string</password>
-         <paymentToken><!-- mandatory -->string</paymentToken>
-         <outcome><!-- mandatory -->string</outcome>
-         <details>
-          <paymentMethod><!-- mandatory -->string</paymentMethod>
-          <paymentChannel>string</paymentChannel>
-          <fee><!-- mandatory -->999999996.99</fee>
-          <payer>
-           <uniqueIdentifier><!-- mandatory -->
-            <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
-            <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
-           </uniqueIdentifier>
-           <fullName><!-- mandatory -->string</fullName>
-           <streetName>string</streetName>
-           <civicNumber>string</civicNumber>
-           <postalCode>string</postalCode>
-           <city>string</city>
-           <stateProvinceRegion>string</stateProvinceRegion>
-           <country>string</country>
-           <e-mail>string</e-mail>
-          </payer>
-          <applicationDate><!-- mandatory -->2016-04-18</applicationDate>
-          <transferDate><!-- mandatory -->2016-04-18</transferDate>
-         </details>
-        </nfpsp:sendPaymentOutcomeReq>
-       </soapenv:Body>
-      </soapenv:Envelope>
   sendPaymentOutcomeHeader:
     description: Input headers for wsdl operation sendPaymentOutcomeReq
     type: object
@@ -727,30 +666,6 @@ definitions:
           - Body
     required:
       - Envelope
-    x-ibm-schema:
-      wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
-      wsdl-operation: sendPaymentOutcomeReq
-      wsdl-message-direction-or-name: sendPaymentOutcomeReqResponse
-    example: >-
-
-      <soapenv:Envelope
-      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-       <soapenv:Body>
-        <nfpsp:sendPaymentOutcomeRes xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-         <outcome><!-- mandatory -->string</outcome>
-         <fault>
-          <faultCode><!-- mandatory -->string</faultCode>
-          <faultString><!-- mandatory -->string</faultString>
-          <id><!-- mandatory -->string</id>
-          <description>string</description>
-          <serial>3</serial>
-          <originalFaultCode>string</originalFaultCode>
-          <originalFaultString>string</originalFaultString>
-          <originalDescription>string</originalDescription>
-         </fault>
-        </nfpsp:sendPaymentOutcomeRes>
-       </soapenv:Body>
-      </soapenv:Envelope>
   sendPaymentOutcomeFault:
     description: Fault message for wsdl operation sendPaymentOutcomeReq
     type: object
@@ -824,19 +739,6 @@ definitions:
       - idChannel
       - password
       - qrCode
-    example: >-
-
-      <nfpsp:verifyPaymentNoticeReq
-      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-       <idPSP><!-- mandatory -->string</idPSP>
-       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
-       <idChannel><!-- mandatory -->string</idChannel>
-       <password><!-- mandatory -->string</password>
-       <qrCode><!-- mandatory -->
-        <fiscalCode><!-- mandatory -->string</fiscalCode>
-        <noticeNumber><!-- mandatory -->string</noticeNumber>
-       </qrCode>
-      </nfpsp:verifyPaymentNoticeReq>
   verifyPaymentNoticeRes_element_nfpsp:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -862,34 +764,6 @@ definitions:
           officeName:
             $ref: '#/definitions/stText140_type_nfpsp'
             description: Public Admninistration Department Name
-    example: >-
-
-      <nfpsp:verifyPaymentNoticeRes
-      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-       <outcome><!-- mandatory -->string</outcome>
-       <fault>
-        <faultCode><!-- mandatory -->string</faultCode>
-        <faultString><!-- mandatory -->string</faultString>
-        <id><!-- mandatory -->string</id>
-        <description>string</description>
-        <serial>3</serial>
-        <originalFaultCode>string</originalFaultCode>
-        <originalFaultString>string</originalFaultString>
-        <originalDescription>string</originalDescription>
-       </fault>
-       <paymentList>
-        <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-         <amount><!-- mandatory -->999999996.99</amount>
-         <options><!-- mandatory -->string</options>
-         <dueDate>2016-04-18</dueDate>
-         <paymentNote>string</paymentNote>
-        </paymentOptionDescription>
-       </paymentList>
-       <paymentDescription>string</paymentDescription>
-       <fiscalCodePA>string</fiscalCodePA>
-       <companyName>string</companyName>
-       <officeName>string</officeName>
-      </nfpsp:verifyPaymentNoticeRes>
   handledException_tns:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -909,14 +783,6 @@ definitions:
         xml:
           namespace: ''
         type: string
-    example: >-
-
-      <nfpsp:handledException
-      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-       <originalFaultCode>string</originalFaultCode>
-       <originalFaultString>string</originalFaultString>
-       <originalDescription>string</originalDescription>
-      </nfpsp:handledException>
   activatePaymentNoticeReq_element_nfpsp:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -951,24 +817,6 @@ definitions:
       - password
       - idempotencyKey
       - qrCode
-    example: >-
-
-      <nfpsp:activatePaymentNoticeReq
-      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-       <idPSP><!-- mandatory -->string</idPSP>
-       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
-       <idChannel><!-- mandatory -->string</idChannel>
-       <password><!-- mandatory -->string</password>
-       <idempotencyKey><!-- mandatory -->string</idempotencyKey>
-       <qrCode><!-- mandatory -->
-        <fiscalCode><!-- mandatory -->string</fiscalCode>
-        <noticeNumber><!-- mandatory -->string</noticeNumber>
-       </qrCode>
-       <expirationTime>1799997</expirationTime>
-       <amount>999999996.99</amount>
-       <dueDate>2016-04-18</dueDate>
-       <paymentNote>string</paymentNote>
-      </nfpsp:activatePaymentNoticeReq>
   activatePaymentNoticeRes_element_nfpsp:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -994,38 +842,6 @@ definitions:
             $ref: '#/definitions/ctTransferListPSP_type_nfpsp'
           creditorReferenceId:
             $ref: '#/definitions/stText35_type_nfpsp'
-    example: >-
-
-      <nfpsp:activatePaymentNoticeRes
-      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-       <outcome><!-- mandatory -->string</outcome>
-       <fault>
-        <faultCode><!-- mandatory -->string</faultCode>
-        <faultString><!-- mandatory -->string</faultString>
-        <id><!-- mandatory -->string</id>
-        <description>string</description>
-        <serial>3</serial>
-        <originalFaultCode>string</originalFaultCode>
-        <originalFaultString>string</originalFaultString>
-        <originalDescription>string</originalDescription>
-       </fault>
-       <totalAmount>999999996.99</totalAmount>
-       <paymentDescription>string</paymentDescription>
-       <fiscalCodePA>string</fiscalCodePA>
-       <companyName>string</companyName>
-       <officeName>string</officeName>
-       <paymentToken>string</paymentToken>
-       <transferList>
-        <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
-         <idTransfer><!-- mandatory -->3</idTransfer>
-         <transferAmount><!-- mandatory -->999999996.99</transferAmount>
-         <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
-         <IBAN><!-- mandatory -->string</IBAN>
-         <remittanceInformation><!-- mandatory -->string</remittanceInformation>
-        </transfer>
-       </transferList>
-       <creditorReferenceId>string</creditorReferenceId>
-      </nfpsp:activatePaymentNoticeRes>
   sendPaymentOutcomeReq_element_nfpsp:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -1054,38 +870,6 @@ definitions:
       - password
       - paymentToken
       - outcome
-    example: >-
-
-      <nfpsp:sendPaymentOutcomeReq
-      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-       <idPSP><!-- mandatory -->string</idPSP>
-       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
-       <idChannel><!-- mandatory -->string</idChannel>
-       <password><!-- mandatory -->string</password>
-       <paymentToken><!-- mandatory -->string</paymentToken>
-       <outcome><!-- mandatory -->string</outcome>
-       <details>
-        <paymentMethod><!-- mandatory -->string</paymentMethod>
-        <paymentChannel>string</paymentChannel>
-        <fee><!-- mandatory -->999999996.99</fee>
-        <payer>
-         <uniqueIdentifier><!-- mandatory -->
-          <entityUniqueIdentifierType><!-- mandatory -->string</entityUniqueIdentifierType>
-          <entityUniqueIdentifierValue><!-- mandatory -->string</entityUniqueIdentifierValue>
-         </uniqueIdentifier>
-         <fullName><!-- mandatory -->string</fullName>
-         <streetName>string</streetName>
-         <civicNumber>string</civicNumber>
-         <postalCode>string</postalCode>
-         <city>string</city>
-         <stateProvinceRegion>string</stateProvinceRegion>
-         <country>string</country>
-         <e-mail>string</e-mail>
-        </payer>
-        <applicationDate><!-- mandatory -->2016-04-18</applicationDate>
-        <transferDate><!-- mandatory -->2016-04-18</transferDate>
-       </details>
-      </nfpsp:sendPaymentOutcomeReq>
   sendPaymentOutcomeRes_element_nfpsp:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -1095,22 +879,6 @@ definitions:
       - $ref: '#/definitions/ctResponse_type_nfpsp'
       - type: object
         properties: {}
-    example: >-
-
-      <nfpsp:sendPaymentOutcomeRes
-      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
-       <outcome><!-- mandatory -->string</outcome>
-       <fault>
-        <faultCode><!-- mandatory -->string</faultCode>
-        <faultString><!-- mandatory -->string</faultString>
-        <id><!-- mandatory -->string</id>
-        <description>string</description>
-        <serial>3</serial>
-        <originalFaultCode>string</originalFaultCode>
-        <originalFaultString>string</originalFaultString>
-        <originalDescription>string</originalDescription>
-       </fault>
-      </nfpsp:sendPaymentOutcomeRes>
   stIdPSP_type_nfpsp:
     xml:
       namespace: ''
@@ -1296,6 +1064,8 @@ definitions:
     xml:
       namespace: ''
     type: string
+    minLength: 1
+    maxLength: 35
     x-xsi-type: stPaymentToken
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
