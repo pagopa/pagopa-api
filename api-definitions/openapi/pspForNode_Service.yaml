@@ -340,6 +340,8 @@ definitions:
     xml:
       namespace: ''
     type: string
+    minLength: 1
+    maxLength: 35
     x-xsi-type: stPaymentToken
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
