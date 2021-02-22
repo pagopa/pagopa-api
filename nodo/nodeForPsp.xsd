@@ -322,11 +322,29 @@ the notice number is composed by:
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="ctPaymentOptionBollettinoDescription">
+    <xsd:sequence>
+      <xsd:element name="amount" type="tns:stAmount" />
+      <xsd:element name="options" type="tns:stAmountOptionPSP" />
+      <!-- Data di scadenza del pagamento -->
+      <xsd:element name="dueDate" type="tns:stISODate" minOccurs="0" />
+      <xsd:element name="paymentNote" type="tns:stText210" minOccurs="0" />
+      <xsd:element name="allCCP" type="xsd:boolean" minOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
   <xsd:complexType name="ctPaymentOptionsDescriptionList">
     <xsd:sequence>
       <xsd:element name="paymentOptionDescription" type="tns:ctPaymentOptionDescription" maxOccurs="5" />
     </xsd:sequence>
   </xsd:complexType>
+
+  <xsd:complexType name="ctPaymentOptionsBollettinoDescriptionList">
+    <xsd:sequence>
+      <xsd:element name="paymentOptionDescription" type="tns:ctPaymentOptionBollettinoDescription" maxOccurs="5" />
+    </xsd:sequence>
+  </xsd:complexType>
+
 
   <!-- Transfer List : activate response -->
 
@@ -359,6 +377,60 @@ the notice number is composed by:
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="verificaBollettinoRes">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ctResponse">
+
+        <xsd:sequence>
+          <xsd:element name="paymentBollettinoList" type="tns:ctPaymentOptionsBollettinoDescriptionList" minOccurs="0" />
+          <!-- 
+            if PA OLD configured paymentDescription shall be set as with response:
+            nodoVerificaRPTRisposta" type="ppt:esitoNodoVerificaRPTRisposta
+              > nodoTipoDatiPagamentoPA 
+                > stCausaleVersamento (140)
+                > ctSpezzoniCausaleVersamento:spezzoneCausaleVersamento(35*6)
+          -->
+          <xsd:element name="paymentDescription" type="tns:stText210" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>
+                                full text description
+                            </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>
+                                tax code of the public administration to which the payment notification is made out
+                            </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="noticeNumber" type="tns:stNoticeNumber" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>
+                  notice number requested
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+
+          <xsd:element name="companyName" type="tns:stText140" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>
+                                Public Administration full name
+                            </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="officeName" type="tns:stText140" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>
+                                Public Admninistration Department Name
+                            </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 
   <xsd:complexType name="verifyPaymentNoticeReq">
     <xsd:sequence>
