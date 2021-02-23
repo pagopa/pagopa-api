@@ -217,7 +217,11 @@ definitions:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/FiscalCode"
   OrganizationFiscalCode:
     $ref: 'https://raw.githubusercontent.com/pagopa/io-functions/v0.64.0/api/definitions.yaml#/OrganizationFiscalCode'
-  PaymentNoticeNumber:
+  PaymentNotic
+  
+  
+  
+  ber:
     $ref: "https://raw.githubusercontent.com/teamdigitale/io-functions-commons/master/openapi/definitions.yaml#/PaymentNoticeNumber"
   ProblemJson:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/ProblemJson"
@@ -319,9 +323,9 @@ definitions:
       type:
         type: string
         enum:
-          - PERSON_NATURAL
-          - PERSON_LEGAL
-        description: Payment Status  
+          - F
+          - G
+        description: Type of person (F: PERSON_NATURAL, G: PERSON_LEGAL)
     required:
       - name
       - surname
