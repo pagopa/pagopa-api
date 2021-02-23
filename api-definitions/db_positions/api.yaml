@@ -217,11 +217,7 @@ definitions:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v10.2.3/openapi/definitions.yaml#/FiscalCode"
   OrganizationFiscalCode:
     $ref: 'https://raw.githubusercontent.com/pagopa/io-functions/v0.64.0/api/definitions.yaml#/OrganizationFiscalCode'
-  PaymentNotic
-  
-  
-  
-  ber:
+  PaymentNoticeNumber:
     $ref: "https://raw.githubusercontent.com/teamdigitale/io-functions-commons/master/openapi/definitions.yaml#/PaymentNoticeNumber"
   ProblemJson:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/ProblemJson"
@@ -244,6 +240,12 @@ definitions:
     example: 12345678901-009876543212346543-001
     description: Payment option ID its a union of `Organization fiscal code` + `-` + `Payment Notice Number` + unique counter number
     pattern: "^[0-9]*-[0123][0-9]{17}-[0-9]{3}$"
+  CreditorReferenceId:
+    type: string
+    minLength: 1
+    maxLength: 35
+    example: 13201214660599631
+    description: Payment's Unique Identifier
   DetailResponse:
     type: object
     properties:
@@ -251,11 +253,16 @@ definitions:
         type: string
     required:
       - detail
-  DepartmentName:
+  CompanyName:
     type: string
     description: |-
-      The department inside the organization that runs the service. Will
-      be added to the content of sent messages.
+      The name of the company.
+    minLength: 1
+    example: comune di Roma
+  Name:
+    type: string
+    description: |-
+      The office inside the organization that runs the service.
     minLength: 1
     example: ufficio tributi comune di Roma
   Taxonomy:
@@ -290,6 +297,14 @@ definitions:
         type: string
         minLength: 1
         example: psp1234567890
+      psp_fiscal_code:
+        type: string
+        minLength: 1
+        example: PSP fiscal code
+      psp_vat_number:
+        type: string
+        minLength: 1
+        example: PSP VAT number
       company_name:
         type: string
         minLength: 1
@@ -306,6 +321,8 @@ definitions:
       - id
       - company_name
       - channel_id
+      - psp_fiscal_code
+      - psp_vat_number
       - description
   Debtor:
     type: object
@@ -326,6 +343,29 @@ definitions:
           - F
           - G
         description: Type of person (F: PERSON_NATURAL, G: PERSON_LEGAL)
+      street_name:
+        type: string
+        example: Via Gonin
+      civic_number:
+        type: string
+        description:
+          type: string
+          example: 36
+      postal_code:
+        type: string
+        example: 20124
+      city:
+        type: string
+        example: Milano
+      state_province_region:
+        type: string
+        example: Mi
+      country:
+        type: string
+        example: Italia
+      email:
+        type: string
+        example: example@sia.eu
     required:
       - name
       - surname
@@ -335,27 +375,35 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/PaymentOptionId"
+      creditor_reference_id:
+        $ref: "#/definitions/CreditorReferenceId"
       amount:
         $ref: "#/definitions/Amount"
       due_date:
         $ref: "#/definitions/Timestamp"
+      retention_date:
+        $ref: "#/definitions/Timestamp"
       is_conclusive:
         type: boolean
         default: true
-      payment_description: 
+      metadata:
         type: string
-        minLength: 1
-        example: TARI 2021 soluzione unica
+        maxLength: 3000
+        description: 
+          type: string
+          maxLength: 3000
+          Optional field for metadata (a max of 10 key-value pairs)
       transfers:
         type: array
         items:
           $ref: "#/definitions/Transfer"
     required:
       - id
+      - creditor_reference_id
       - amount
       - due_date
+      - retention_date
       - is_conclusive
-      - payment_description
       - transfers
   Receipts:      
     type: object
@@ -403,9 +451,7 @@ definitions:
       payment_method:
         type: string      
       payment_description:
-        type: string      
-      payment_category:
-        type: string      
+        type: string 
       amount:
         $ref: "#/definitions/Amount"
       fee:
@@ -415,7 +461,17 @@ definitions:
         format: date-time      
       transfer_date:
         type: string
-        format: date-time      
+        format: date-time
+      payment_date_time:
+        type: string
+        format: date-time
+      metadata:
+        type: string
+        maxLength: 3000
+        description: 
+          type: string
+          maxLength: 3000
+          Optional field for metadata (a max of 10 key-value pairs)
       transfers:
         type: array
         items:
@@ -427,11 +483,11 @@ definitions:
       - payer
       - payment_method
       - payment_description
-      - payment_category
       - amount
       - fee
       - application_date
       - transfer_date
+      - payment_date_time
       - transfers
   PaymentPosition:
     type: object
@@ -447,11 +503,15 @@ definitions:
         enum:
           - PAYABLE
           - NOT_PAYABLE
-        description: Payment Status  
-      taxonomy:
-          $ref: "#/definitions/Taxonomy"
-      department:
-        $ref: "#/definitions/DepartmentName"
+        description: Payment Status
+      company_name:
+        $ref: "#/definitions/CompanyName"
+      office_name:
+        $ref: "#/definitions/OfficeName"
+      payment_description: 
+        type: string
+        minLength: 1
+        example: TARI 2021 soluzione unica
       debtor:
         $ref: "#/definitions/Debtor"
       payment_options:
@@ -462,6 +522,7 @@ definitions:
       - id
       - organization_fiscal_code
       - status
-      - taxonomy
-      - department
+      - company_name
+      - office_name
+      - payment_description
       - payment_options
