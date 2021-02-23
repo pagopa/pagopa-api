@@ -259,6 +259,12 @@ definitions:
       The name of the company.
     minLength: 1
     example: comune di Roma
+  OfficeName:
+    type: string
+    description: |-
+      The name of the office.
+    minLength: 1
+    example: Ufficio Tributi del comune di Roma
   Name:
     type: string
     description: |-
@@ -342,15 +348,13 @@ definitions:
         enum:
           - F
           - G
-        description: Type of person (F: PERSON_NATURAL, G: PERSON_LEGAL)
+        description: Type of person (`F` stay for  _PERSON_NATURAL_ and `G` for _PERSON_LEGAL_)
       street_name:
         type: string
         example: Via Gonin
       civic_number:
         type: string
-        description:
-          type: string
-          example: 36
+        example: 36
       postal_code:
         type: string
         example: 20124
@@ -389,10 +393,7 @@ definitions:
       metadata:
         type: string
         maxLength: 3000
-        description: 
-          type: string
-          maxLength: 3000
-          Optional field for metadata (a max of 10 key-value pairs)
+        description: _Optional_ field for metadata (a max of 10 key-value pairs)
       transfers:
         type: array
         items:
@@ -468,10 +469,7 @@ definitions:
       metadata:
         type: string
         maxLength: 3000
-        description: 
-          type: string
-          maxLength: 3000
-          Optional field for metadata (a max of 10 key-value pairs)
+        description: _Optional_ field for metadata (a max of 10 key-value pairs)
       transfers:
         type: array
         items:
