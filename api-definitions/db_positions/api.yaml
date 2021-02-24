@@ -394,6 +394,8 @@ definitions:
         default: true
       metadata:
         type: array
+        items:
+          type: string
         minItems: 1
         maxItems: 20
         description: List of optional fields for metadata (a max of 10 key-value pairs)
@@ -471,6 +473,8 @@ definitions:
         format: date-time
       metadata:
         type: array
+        items:
+          type: string
         minItems: 1
         maxItems: 20
         description: List of optional fields for metadata (a max of 10 key-value pairs)
