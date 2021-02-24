@@ -306,11 +306,12 @@ definitions:
       psp_fiscal_code:
         type: string
         minLength: 1
-        example: PSP fiscal code
+        example: CF70000000001
+        description: PSP fiscal code
       psp_vat_number:
         type: string
         minLength: 1
-        example: PSP VAT number
+        description: PSP VAT number
       company_name:
         type: string
         minLength: 1
@@ -369,6 +370,7 @@ definitions:
         example: Italia
       email:
         type: string
+        format: email
         example: example@sia.eu
     required:
       - name
@@ -391,9 +393,10 @@ definitions:
         type: boolean
         default: true
       metadata:
-        type: string
-        maxLength: 3000
-        description: _Optional_ field for metadata (a max of 10 key-value pairs)
+        type: array
+        minItems: 1
+        maxItems: 20
+        description: List of optional fields for metadata (a max of 10 key-value pairs)
       transfers:
         type: array
         items:
@@ -467,9 +470,10 @@ definitions:
         type: string
         format: date-time
       metadata:
-        type: string
-        maxLength: 3000
-        description: _Optional_ field for metadata (a max of 10 key-value pairs)
+        type: array
+        minItems: 1
+        maxItems: 20
+        description: List of optional fields for metadata (a max of 10 key-value pairs)
       transfers:
         type: array
         items:
