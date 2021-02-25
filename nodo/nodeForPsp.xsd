@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:wsrf-bf="http://docs.oasis-open.org/wsrf/bf-2" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
 
 
   <!--Simple type-->
@@ -174,8 +174,8 @@
 
   <xsd:simpleType name="stPostalAccount">
     <xsd:restriction base="xsd:string">
-      <xsd:length value="12"/>
-      <xsd:pattern value="[0-9]{12}"/>
+      <xsd:length value="12" />
+      <xsd:pattern value="[0-9]{12}" />
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -456,7 +456,6 @@ the notice number is composed by:
   <xsd:complexType name="verifyPaymentNoticeRes">
     <xsd:complexContent>
       <xsd:extension base="tns:ctResponse">
-
         <xsd:sequence>
           <xsd:element name="paymentList" type="tns:ctPaymentOptionsDescriptionList" minOccurs="0" />
           <!-- 
@@ -587,6 +586,8 @@ the notice number is composed by:
 
 
   <!-- Wrapper Elements -->
+  <xsd:element name="verificaBollettinoReq" type="tns:verificaBollettinoReq" />
+  <xsd:element name="verificaBollettinoRes" type="tns:verificaBollettinoRes" />
   <xsd:element name="verifyPaymentNoticeReq" type="tns:verifyPaymentNoticeReq" />
   <xsd:element name="verifyPaymentNoticeRes" type="tns:verifyPaymentNoticeRes" />
   <xsd:element name="activatePaymentNoticeReq" type="tns:activatePaymentNoticeReq" />

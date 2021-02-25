@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="nodeForPsp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl">
+<wsdl:definitions name="nodeForPsp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl">
 
   <wsdl:types>
     <xsd:schema version="1.0.0">
@@ -12,7 +12,7 @@
   </wsdl:message>
 
   <wsdl:message name="verificaBollettinoRes">
-    <wsdl:part name="responseBody" element="nfpsp:verifyPaymentNoticeRes" />
+    <wsdl:part name="responseBody" element="nfpsp:verificaBollettinoRes" />
   </wsdl:message>
 
   <wsdl:message name="verifyPaymentNoticeReq">
@@ -50,11 +50,7 @@
         L'operazione ritorna tutti le possibili opzioni di pagamento disponibili per l'avviso di pagamnto.
       </wsdl:documentation>
       <wsdl:input message="tns:verificaBollettinoReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verificaBollettinoReq" />
-<<<<<<< HEAD
       <wsdl:output message="tns:verificaBollettinoRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verificaBollettinoRes" />
-=======
-      <wsdl:output message="tns:verificaBollettinoRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verifyPaymentNoticeRes" />
->>>>>>> ae7ba8e6e54e3a3824880d5bec19f1aa540b1347
     </wsdl:operation>
 
     <wsdl:operation name="verifyPaymentNotice">
@@ -136,6 +132,18 @@ The idempotency layer compares incoming parameters to those of the original requ
     </wsdl:operation>
     <wsdl:operation name="sendPaymentOutcome">
       <soap:operation soapAction="sendPaymentOutcome" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="handledException">
+        <soap:fault name="handledException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificaBollettino">
+      <soap:operation soapAction="verificaBollettino" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
