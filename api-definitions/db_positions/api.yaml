@@ -192,7 +192,6 @@ parameters:
     minLength: 16
     required: true
     description: The fiscal code of the user, all upper case.
-    maxLength: 50
   PaymentNoticeNumber:
     in: path
     name: paymentnoticenumber
