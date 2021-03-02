@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: Debtor Positions API
   contact:
     name: PagoPA
@@ -83,13 +83,13 @@ paths:
         - $ref: "#/parameters/PaymentNoticeNumber"        
       responses:
         "200":
-          description: payment position details.
-          schema:
-            $ref: "#/definitions/PaymentPosition"
+          description: Operation completed successfully.
         "401":
           description: Wrong or missing function key.
         "404":
           description: No payment position found.
+        "405":
+          description: Method not allowed (existing related payment found).
         "500":
           description: Service unavailable.
           schema:
@@ -115,10 +115,8 @@ paths:
             $ref: "#/definitions/PaymentPosition"
         "401":
           description: Wrong or missing function key.
-        "409":
-          description: "Conflict: pending request found."
-          schema:
-            $ref: "#/definitions/ProblemJson"
+        "404":
+          description: No payment position found.
         "500":
           description: Service unavailable.
           schema:
@@ -146,15 +144,16 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
-  "/organizations/{organizationfiscalcode}/payment-receipts":
+  "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}/payment-receipts":
     get:
       tags: 
         - Receipts
       operationId: getReceipts
       summary: |
-        Get a list of payment receipts.
+        Get a list of payment receipts related to a specific Debt Position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/PaymentNoticeNumber"
       responses:
         "200":
           description: payment receipts 
@@ -168,13 +167,15 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
+           
 parameters:
   ReceiptNumber:
     name: receiptid
     in: path
     type: string
     required: true
-    description: The receipt identification.
+    description: The receipt identification
+    maxLength: 50
   OrganizationFiscalCode:
     name: organizationfiscalcode
     in: path
@@ -182,6 +183,7 @@ parameters:
     x-import: italia-ts-commons/lib/strings
     required: true
     description: Organization fiscal code, the fiscal code of the Organization.
+    maxLength: 50
   FiscalCode:
     name: fiscalcode
     in: path
@@ -190,6 +192,7 @@ parameters:
     minLength: 16
     required: true
     description: The fiscal code of the user, all upper case.
+    maxLength: 50
   PaymentNoticeNumber:
     in: path
     name: paymentnoticenumber
@@ -200,6 +203,7 @@ parameters:
       See [pagoPa specs](https://www.agid.gov.it/sites/default/files/repository_files/specifiche_attuative_pagamenti_1_3_1_0.pdf) for more info on this field and the IUV.
     type: string
     pattern: "^[0123][0-9]{17}$"
+    maxLength: 50
 consumes:
   - application/json
 produces:
@@ -234,12 +238,14 @@ definitions:
     type: string
     pattern: '[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}'
     example: IT60X0542811101000000123456
+    maxLength: 255
   PaymentOptionId:
     type: string
     minLength: 1
     example: 12345678901-009876543212346543-001
     description: Payment option ID its a union of `Organization fiscal code` + `-` + `Payment Notice Number` + unique counter number
     pattern: "^[0-9]*-[0123][0-9]{17}-[0-9]{3}$"
+    maxLength: 22
   CreditorReferenceId:
     type: string
     minLength: 1
@@ -258,24 +264,28 @@ definitions:
     description: |-
       The name of the company.
     minLength: 1
+    maxLength: 140
     example: comune di Roma
   OfficeName:
     type: string
     description: |-
       The name of the office.
     minLength: 1
+    maxLength: 140
     example: Ufficio Tributi del comune di Roma
   Name:
     type: string
     description: |-
       The office inside the organization that runs the service.
     minLength: 1
+    maxLength: 140
     example: ufficio tributi comune di Roma
   Taxonomy:
     type: string
     pattern: "^[0-9]{3}-[a-zA-Z]$"
     example: 010-TARI/TEFA
     description: Payment Tax see [Tabella - Tassonomia dei servizi di incasso](https://docs.google.com/spreadsheets/d/13xOd__Qd4pwKHr3wjE-73NAB2O7UKmIt/edit#gid=1444196601)
+    maxLength: 190
   Transfer:
     type: object
     properties:
@@ -288,7 +298,8 @@ definitions:
       reason:
           type: string
           minLength: 1
-          example: Causale pagamento TARI comune di ROMA 
+          example: Causale pagamento TARI comune di ROMA
+          maxLength: 512
       taxonomy:
           $ref: "#/definitions/Taxonomy"
     required:
@@ -302,27 +313,33 @@ definitions:
       id:
         type: string
         minLength: 1
+        maxLength: 50
         example: psp1234567890
       psp_fiscal_code:
         type: string
         minLength: 1
+        maxLength: 50
         example: CF70000000001
         description: PSP fiscal code
       psp_vat_number:
         type: string
         minLength: 1
+        maxLength: 50
         description: PSP VAT number
       company_name:
         type: string
         minLength: 1
+        maxLength: 140
         example: PSP company name
       channel_id:
         type: string
         minLength: 1
+        maxLength: 50
         example: PSP'channel identification
       description:
         type: string
         minLength: 1
+        maxLength: 50
         example: PSP'description
     required:
       - id
@@ -337,10 +354,12 @@ definitions:
       name:
         type: string
         minLength: 1
+        maxLength: 100
         example: Mario
       surname:
         type: string
         minLength: 1
+        maxLength: 150
         example: Rossi
       fiscal_code:
         $ref: "#/definitions/FiscalCode"
@@ -353,25 +372,32 @@ definitions:
       street_name:
         type: string
         example: Via Gonin
+        maxLength: 255
       civic_number:
         type: string
         example: 36
+        maxLength: 50
       postal_code:
         type: string
         example: 20124
+        maxLength: 50
       city:
         type: string
         example: Milano
+        maxLength: 50
       state_province_region:
         type: string
         example: Mi
+        maxLength: 50
       country:
         type: string
         example: Italia
+        maxLength: 50
       email:
         type: string
         format: email
         example: example@sia.eu
+        maxLength: 256
     required:
       - name
       - surname
@@ -396,6 +422,7 @@ definitions:
         type: array
         items:
           type: string
+          maxLength: 255
         minItems: 1
         maxItems: 20
         description: List of optional fields for metadata (a max of 10 key-value pairs)
@@ -517,6 +544,7 @@ definitions:
       payment_description: 
         type: string
         minLength: 1
+        maxLength: 140
         example: TARI 2021 soluzione unica
       debtor:
         $ref: "#/definitions/Debtor"
