@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: 1.0.1
+  version: 1.0.2
   title: Debtor Positions API
   contact:
     name: PagoPA
@@ -15,15 +15,15 @@ schemes:
 security:
   - ApiKey: []
 tags:
-  - name: Payments
-    description: Everything about Payments
+  - name: Debt Positions
+    description: Everything about Debt Positions
   - name: Receipts
     description: Everything about Receipts 
 paths:
   "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}":
     post:
       tags: 
-        - Payments
+        - Debt Positions
       operationId: createPosition
       summary: |
         The Organization creates a Debt Position
@@ -52,13 +52,13 @@ paths:
             $ref: "#/definitions/ProblemJson"
     get:
       tags: 
-        - Payments
-      operationId: getPosition
+        - Debt Positions
+      operationId: getPositionByNoticeNumber
       summary: |
         Return the details of a specific debt position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/PaymentNoticeNumber"        
+        - $ref: "#/parameters/PaymentNoticeNumber"
       responses:
         "200":
           description: payment position details.
@@ -74,10 +74,10 @@ paths:
             $ref: "#/definitions/ProblemJson"
     delete:
       tags: 
-        - Payments
+        - Debt Positions
       operationId: delPosition
       summary: |
-        Delete the debt positions of the organization
+        Delete a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"        
@@ -96,7 +96,7 @@ paths:
             $ref: "#/definitions/ProblemJson"
     put:
       tags: 
-        - Payments
+        - Debt Positions
       operationId: updatePosition
       summary: |
         Update a Debt Position
@@ -117,15 +117,48 @@ paths:
           description: Wrong or missing function key.
         "404":
           description: No payment position found.
+        "405":
+          description: Method not allowed (existing related payment found).
         "500":
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
+            
+  "/organizations/{organizationfiscalcode}/payment-notices":
+    get:
+      tags: 
+        - Debt Positions
+      operationId: getPositionAll
+      summary: |
+        Return a list of filtered Debt Positions.
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/AmountFrom"
+        - $ref: "#/parameters/AmountTo"
+        - $ref: "#/parameters/DueDateFrom"
+        - $ref: "#/parameters/DueDateTo"
+        - $ref: "#/parameters/Status"
+        - $ref: "#/parameters/Limit"
+        - $ref: "#/parameters/Offset"
+      responses:
+        "200":
+          description: payment position details.
+          schema:
+            $ref: "#/definitions/PaymentPosition"
+        "401":
+          description: Wrong or missing function key.
+        "404":
+          description: No payment found.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+            
   "/organizations/{organizationfiscalcode}/payment-receipts/{receiptid}":
     get:
       tags: 
         - Receipts
-      operationId: getReceipt
+      operationId: getReceiptByReceiptId
       summary: |
         Get a payment receipt by its `receiptid` .
       parameters:
@@ -144,16 +177,47 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
+            
   "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}/payment-receipts":
     get:
       tags: 
         - Receipts
-      operationId: getReceipts
+      operationId: getReceiptsByDebtPosition
       summary: |
         Get a list of payment receipts related to a specific Debt Position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"
+      responses:
+        "200":
+          description: payment receipts 
+          schema:
+            $ref: "#/definitions/Receipts"
+        "401":
+          description: Wrong or missing function key.
+        "404":
+          description: No payment found.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+            
+  "/organizations/{organizationfiscalcode}/payment-receipts":
+    get:
+      tags: 
+        - Receipts
+      operationId: getReceiptsAll
+      summary: |
+        Get a list of filtered payment receipts.
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/AmountFrom"
+        - $ref: "#/parameters/AmountTo"
+        - $ref: "#/parameters/DueDateFrom"
+        - $ref: "#/parameters/DueDateTo"
+        - $ref: "#/parameters/Status"
+        - $ref: "#/parameters/Limit"
+        - $ref: "#/parameters/Offset"
       responses:
         "200":
           description: payment receipts 
@@ -203,6 +267,60 @@ parameters:
     type: string
     pattern: "^[0123][0-9]{17}$"
     maxLength: 50
+  AmountFrom:
+    in: query
+    name: amount_from
+    required: false
+    type: integer
+    description: The mimimum amount to filter from, in Euro cents.
+    minimum: 1
+    maximum: 9999999999
+  AmountTo:
+    in: query
+    name: amount_to
+    required: false
+    type: integer
+    description: The maximum amount to filter to, in Euro cents.
+    minimum: 1
+    maximum: 9999999999
+  DueDateFrom:
+    in: query
+    name: dueDate_from
+    required: false
+    type: string
+    format: date
+    description: The due date to filter from.
+  DueDateTo:
+    in: query
+    name: dueDate_to
+    required: false
+    type: string
+    format: date
+    description: The due date to filter to.
+  Status:
+    in: query
+    name: status
+    required: false
+    type: string
+    description: The status of the receipt (available values:PAYABLE, NOT_PAYABLE).
+    enum: [PAYABLE, NOT_PAYABLE]
+  Limit:
+    in: query
+    name: limit
+    required: false
+    type: integer
+    minimum: 1
+    maximum: 100
+    default: 20
+    description: The numbers of items to return
+  Offset:
+    in: query
+    name: offset
+    required: false
+    type: integer
+    minimum: 0
+    description: The number of items to skip before starting to collect the result set.
+  
 consumes:
   - application/json
 produces:
