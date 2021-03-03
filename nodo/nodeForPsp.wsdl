@@ -51,6 +51,7 @@
       </wsdl:documentation>
       <wsdl:input message="tns:verificaBollettinoReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verificaBollettinoReq" />
       <wsdl:output message="tns:verificaBollettinoRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verificaBollettinoRes" />
+      <wsdl:fault message="tns:handledException" name="handledException" />
     </wsdl:operation>
 
     <wsdl:operation name="verifyPaymentNotice">
