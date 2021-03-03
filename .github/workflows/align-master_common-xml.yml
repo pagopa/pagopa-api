@@ -6,11 +6,29 @@ on:
 jobs:
   align-common-xml:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '15' ]
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v1
 
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: install packages
+        run: npm install oval
+
+      - name: Check API
+        run: npx oval validate -p api-definitions/db_positions/api.yaml
+
+      - name: Run align WSDL
+        run: bash ./scripts/check_dir.sh -a . pagopa-nodo4-common-xml
+        # run: bash ./scripts/check_dir.sh -v -a . pagopa-nodo4-common-xml
+ 
       - name: Set UUID
         id: generate-uuid
         uses: filipstefansson/uuid-action@v1

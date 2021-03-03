@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="nodeForPsp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl">
+<wsdl:definitions name="nodeForPsp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl">
 
   <wsdl:types>
     <xsd:schema version="1.0.0">
@@ -7,9 +7,18 @@
     </xsd:schema>
   </wsdl:types>
 
+  <wsdl:message name="verificaBollettinoReq">
+    <wsdl:part name="requestBody" element="nfpsp:verificaBollettinoReq" />
+  </wsdl:message>
+
+  <wsdl:message name="verificaBollettinoRes">
+    <wsdl:part name="responseBody" element="nfpsp:verificaBollettinoRes" />
+  </wsdl:message>
+
   <wsdl:message name="verifyPaymentNoticeReq">
     <wsdl:part name="requestBody" element="nfpsp:verifyPaymentNoticeReq" />
   </wsdl:message>
+
   <wsdl:message name="verifyPaymentNoticeRes">
     <wsdl:part name="responseBody" element="nfpsp:verifyPaymentNoticeRes" />
   </wsdl:message>
@@ -33,6 +42,18 @@
   </wsdl:message>
 
   <wsdl:portType name="nodeForPsp_PortType">
+    <wsdl:operation name="verificaBollettino">
+      <wsdl:documentation>
+        Interrogazione del bollettino postale PA contenuto all'interno dell'avviso di pagamento.
+        Ogni bollettino postale PA è identificato per mezzo delle informazioni contenute all'interno del [data-matrix](https://docs.italia.it/italia/pagopa/pagopa-specifichepagamenti-docs/it/stabile/_docs/SANP_2.2_Sez3_Cap10_PagamentoPressoPSP.html), ovvero conto corrente postale e numero avviso.
+        
+        L'operazione ritorna tutti le possibili opzioni di pagamento disponibili per l'avviso di pagamnto.
+      </wsdl:documentation>
+      <wsdl:input message="tns:verificaBollettinoReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verificaBollettinoReq" />
+      <wsdl:output message="tns:verificaBollettinoRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/verificaBollettinoRes" />
+      <wsdl:fault message="tns:handledException" name="handledException" />
+    </wsdl:operation>
+
     <wsdl:operation name="verifyPaymentNotice">
       <wsdl:documentation>
 Gets Payment Notice Data; a Payment Notice is identified by its QR-CODE data.
@@ -112,6 +133,18 @@ The idempotency layer compares incoming parameters to those of the original requ
     </wsdl:operation>
     <wsdl:operation name="sendPaymentOutcome">
       <soap:operation soapAction="sendPaymentOutcome" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="handledException">
+        <soap:fault name="handledException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificaBollettino">
+      <soap:operation soapAction="verificaBollettino" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
