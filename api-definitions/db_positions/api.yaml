@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: 1.0.2
+  version: 1.0.3
   title: Debtor Positions API
   contact:
     name: PagoPA
@@ -213,9 +213,8 @@ paths:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/AmountFrom"
         - $ref: "#/parameters/AmountTo"
-        - $ref: "#/parameters/DueDateFrom"
-        - $ref: "#/parameters/DueDateTo"
-        - $ref: "#/parameters/Status"
+        - $ref: "#/parameters/PaymentDateFrom"
+        - $ref: "#/parameters/PaymentDateTo"
         - $ref: "#/parameters/Limit"
         - $ref: "#/parameters/Offset"
       responses:
@@ -271,7 +270,7 @@ parameters:
     name: amount_from
     required: false
     type: integer
-    description: The mimimum amount to filter from, in Euro cents.
+    description: The mimimum amount to filter from, in Euro cents. The value refers to the paymentOption.amount field in the GET/.../payment-notices case, while it refers to the ReceiptAmount.amount field in the GET/.../payment-receipts case.
     minimum: 1
     maximum: 9999999999
   AmountTo:
@@ -296,6 +295,20 @@ parameters:
     type: string
     format: date
     description: The due date to filter to.
+  PaymentDateFrom:
+    in: query
+    name: payment_date_from
+    required: false
+    type: string
+    format: date
+    description: The receipt's payment date to filter from.
+  PaymentDateTo:
+    in: query
+    name: payment_date_to
+    required: false
+    type: string
+    format: date
+    description: The receipt's payment date to filter to.
   Status:
     in: query
     name: status
@@ -311,7 +324,7 @@ parameters:
     minimum: 1
     maximum: 100
     default: 20
-    description: The numbers of items to return
+    description: The number of items to return (from 1 to 100).
   Offset:
     in: query
     name: offset
