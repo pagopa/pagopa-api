@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: 1.0.0
+  version: 1.0.3
   title: Debtor Positions API
   contact:
     name: PagoPA
@@ -15,15 +15,15 @@ schemes:
 security:
   - ApiKey: []
 tags:
-  - name: Payments
-    description: Everything about Payments
+  - name: Debt Positions
+    description: Everything about Debt Positions
   - name: Receipts
     description: Everything about Receipts 
 paths:
   "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}":
     post:
       tags: 
-        - Payments
+        - Debt Positions
       operationId: createPosition
       summary: |
         The Organization creates a Debt Position
@@ -52,13 +52,13 @@ paths:
             $ref: "#/definitions/ProblemJson"
     get:
       tags: 
-        - Payments
-      operationId: getPosition
+        - Debt Positions
+      operationId: getPositionByNoticeNumber
       summary: |
         Return the details of a specific debt position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/PaymentNoticeNumber"        
+        - $ref: "#/parameters/PaymentNoticeNumber"
       responses:
         "200":
           description: payment position details.
@@ -74,29 +74,29 @@ paths:
             $ref: "#/definitions/ProblemJson"
     delete:
       tags: 
-        - Payments
+        - Debt Positions
       operationId: delPosition
       summary: |
-        Delete the debt positions of the organization
+        Delete a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
         - $ref: "#/parameters/PaymentNoticeNumber"        
       responses:
         "200":
-          description: payment position details.
-          schema:
-            $ref: "#/definitions/PaymentPosition"
+          description: Operation completed successfully.
         "401":
           description: Wrong or missing function key.
         "404":
           description: No payment position found.
+        "405":
+          description: Method not allowed (existing related payment found).
         "500":
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
     put:
       tags: 
-        - Payments
+        - Debt Positions
       operationId: updatePosition
       summary: |
         Update a Debt Position
@@ -115,19 +115,50 @@ paths:
             $ref: "#/definitions/PaymentPosition"
         "401":
           description: Wrong or missing function key.
-        "409":
-          description: "Conflict: pending request found."
-          schema:
-            $ref: "#/definitions/ProblemJson"
+        "404":
+          description: No payment position found.
+        "405":
+          description: Method not allowed (existing related payment found).
         "500":
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
+            
+  "/organizations/{organizationfiscalcode}/payment-notices":
+    get:
+      tags: 
+        - Debt Positions
+      operationId: getPositionAll
+      summary: |
+        Return a list of filtered Debt Positions.
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/AmountFrom"
+        - $ref: "#/parameters/AmountTo"
+        - $ref: "#/parameters/DueDateFrom"
+        - $ref: "#/parameters/DueDateTo"
+        - $ref: "#/parameters/Status"
+        - $ref: "#/parameters/Limit"
+        - $ref: "#/parameters/Offset"
+      responses:
+        "200":
+          description: payment position details.
+          schema:
+            $ref: "#/definitions/PaymentPosition"
+        "401":
+          description: Wrong or missing function key.
+        "404":
+          description: No payment found.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+            
   "/organizations/{organizationfiscalcode}/payment-receipts/{receiptid}":
     get:
       tags: 
         - Receipts
-      operationId: getReceipt
+      operationId: getReceiptByReceiptId
       summary: |
         Get a payment receipt by its `receiptid` .
       parameters:
@@ -146,15 +177,17 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
-  "/organizations/{organizationfiscalcode}/payment-receipts":
+            
+  "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}/payment-receipts":
     get:
       tags: 
         - Receipts
-      operationId: getReceipts
+      operationId: getReceiptsByDebtPosition
       summary: |
-        Get a list of payment receipts.
+        Get a list of payment receipts related to a specific Debt Position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/PaymentNoticeNumber"
       responses:
         "200":
           description: payment receipts 
@@ -168,13 +201,44 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"
+            
+  "/organizations/{organizationfiscalcode}/payment-receipts":
+    get:
+      tags: 
+        - Receipts
+      operationId: getReceiptsAll
+      summary: |
+        Get a list of filtered payment receipts.
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/AmountFrom"
+        - $ref: "#/parameters/AmountTo"
+        - $ref: "#/parameters/PaymentDateFrom"
+        - $ref: "#/parameters/PaymentDateTo"
+        - $ref: "#/parameters/Limit"
+        - $ref: "#/parameters/Offset"
+      responses:
+        "200":
+          description: payment receipts 
+          schema:
+            $ref: "#/definitions/Receipts"
+        "401":
+          description: Wrong or missing function key.
+        "404":
+          description: No payment found.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+           
 parameters:
   ReceiptNumber:
     name: receiptid
     in: path
     type: string
     required: true
-    description: The receipt identification.
+    description: The receipt identification
+    maxLength: 50
   OrganizationFiscalCode:
     name: organizationfiscalcode
     in: path
@@ -182,6 +246,7 @@ parameters:
     x-import: italia-ts-commons/lib/strings
     required: true
     description: Organization fiscal code, the fiscal code of the Organization.
+    maxLength: 50
   FiscalCode:
     name: fiscalcode
     in: path
@@ -200,6 +265,74 @@ parameters:
       See [pagoPa specs](https://www.agid.gov.it/sites/default/files/repository_files/specifiche_attuative_pagamenti_1_3_1_0.pdf) for more info on this field and the IUV.
     type: string
     pattern: "^[0123][0-9]{17}$"
+  AmountFrom:
+    in: query
+    name: amount_from
+    required: false
+    type: integer
+    description: The mimimum amount to filter from, in Euro cents. The value refers to the paymentOption.amount field in the GET/.../payment-notices case, while it refers to the ReceiptAmount.amount field in the GET/.../payment-receipts case.
+    minimum: 1
+    maximum: 9999999999
+  AmountTo:
+    in: query
+    name: amount_to
+    required: false
+    type: integer
+    description: The maximum amount to filter to, in Euro cents.
+    minimum: 1
+    maximum: 9999999999
+  DueDateFrom:
+    in: query
+    name: due_date_from
+    required: false
+    type: string
+    format: date
+    description: The due date to filter from.
+  DueDateTo:
+    in: query
+    name: due_date_to
+    required: false
+    type: string
+    format: date
+    description: The due date to filter to.
+  PaymentDateFrom:
+    in: query
+    name: payment_date_from
+    required: false
+    type: string
+    format: date
+    description: The receipt's payment date to filter from.
+  PaymentDateTo:
+    in: query
+    name: payment_date_to
+    required: false
+    type: string
+    format: date
+    description: The receipt's payment date to filter to.
+  Status:
+    in: query
+    name: status
+    required: false
+    type: string
+    description: The status of the receipt (available values:PAYABLE, NOT_PAYABLE).
+    enum: [PAYABLE, NOT_PAYABLE]
+  Limit:
+    in: query
+    name: limit
+    required: false
+    type: integer
+    minimum: 1
+    maximum: 100
+    default: 20
+    description: The number of items to return (from 1 to 100).
+  Offset:
+    in: query
+    name: offset
+    required: false
+    type: integer
+    minimum: 0
+    description: The number of items to skip before starting to collect the result set.
+  
 consumes:
   - application/json
 produces:
@@ -258,18 +391,21 @@ definitions:
     description: |-
       The name of the company.
     minLength: 1
+    maxLength: 140
     example: comune di Roma
   OfficeName:
     type: string
     description: |-
       The name of the office.
     minLength: 1
+    maxLength: 140
     example: Ufficio Tributi del comune di Roma
   Name:
     type: string
     description: |-
       The office inside the organization that runs the service.
     minLength: 1
+    maxLength: 140
     example: ufficio tributi comune di Roma
   Taxonomy:
     type: string
@@ -288,7 +424,8 @@ definitions:
       reason:
           type: string
           minLength: 1
-          example: Causale pagamento TARI comune di ROMA 
+          example: Causale pagamento TARI comune di ROMA
+          maxLength: 512
       taxonomy:
           $ref: "#/definitions/Taxonomy"
     required:
@@ -302,27 +439,33 @@ definitions:
       id:
         type: string
         minLength: 1
+        maxLength: 50
         example: psp1234567890
       psp_fiscal_code:
         type: string
         minLength: 1
+        maxLength: 50
         example: CF70000000001
         description: PSP fiscal code
       psp_vat_number:
         type: string
         minLength: 1
+        maxLength: 50
         description: PSP VAT number
       company_name:
         type: string
         minLength: 1
+        maxLength: 140
         example: PSP company name
       channel_id:
         type: string
         minLength: 1
+        maxLength: 50
         example: PSP'channel identification
       description:
         type: string
         minLength: 1
+        maxLength: 50
         example: PSP'description
     required:
       - id
@@ -337,10 +480,12 @@ definitions:
       name:
         type: string
         minLength: 1
+        maxLength: 100
         example: Mario
       surname:
         type: string
         minLength: 1
+        maxLength: 150
         example: Rossi
       fiscal_code:
         $ref: "#/definitions/FiscalCode"
@@ -353,25 +498,32 @@ definitions:
       street_name:
         type: string
         example: Via Gonin
+        maxLength: 255
       civic_number:
         type: string
         example: 36
+        maxLength: 50
       postal_code:
         type: string
         example: 20124
+        maxLength: 50
       city:
         type: string
         example: Milano
+        maxLength: 50
       state_province_region:
         type: string
         example: Mi
+        maxLength: 50
       country:
         type: string
         example: Italia
+        maxLength: 50
       email:
         type: string
         format: email
         example: example@sia.eu
+        maxLength: 256
     required:
       - name
       - surname
@@ -396,6 +548,7 @@ definitions:
         type: array
         items:
           type: string
+          maxLength: 255
         minItems: 1
         maxItems: 20
         description: List of optional fields for metadata (a max of 10 key-value pairs)
@@ -517,6 +670,7 @@ definitions:
       payment_description: 
         type: string
         minLength: 1
+        maxLength: 140
         example: TARI 2021 soluzione unica
       debtor:
         $ref: "#/definitions/Debtor"
