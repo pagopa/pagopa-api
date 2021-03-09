@@ -15,6 +15,24 @@
           <xsd:maxLength value="35" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:simpleType name="stIdentificativoCarrello">
+        <xsd:annotation>
+          <xsd:documentation>
+						Identificativo univoco della chiamata. 
+						Nel caso di pagamento multi beneficiario (parametro multiBeneficario=true) deve essere necessariamente essere composto 
+						'idDominio(11)numeroAvviso(18)-(1)-Progressivo(5)' 
+
+						
+						Nei casi dove il carrello contiene il pagamento di più posizioni debitorie ( non multi beneficiarie ) è possibile utilizzare la seguente sintassi 
+						'Anno(4)idDominio(11)codiceSorgente(2)Progressivo(18)'
+							
+					</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="35" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:element name="intestazionePPT" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
         <xsd:complexType>
           <xsd:sequence>
@@ -42,25 +60,6 @@
     </xsd:schema>
     <xsd:schema version="1.0" targetNamespace="http://ws.pagamenti.telematici.gov/">
       <xsd:simpleType name="stText35">
-        <xsd:restriction base="xsd:string">
-          <xsd:minLength value="1" />
-          <xsd:maxLength value="35" />
-        </xsd:restriction>
-      </xsd:simpleType>
-
-      <xsd:simpleType name="stIdentificativoCarrello">
-        <xsd:annotation>
-          <xsd:documentation>
-						Identificativo univoco della chiamata. 
-						Nel caso di pagamento multi beneficiario (parametro multiBeneficario=true) deve essere necessariamente essere composto 
-						'idDominio(11)numeroAvviso(18)-(1)-Progressivo(5)' 
-
-						
-						Nei casi dove il carrello contiene il pagamento di più posizioni debitorie ( non multi beneficiarie ) è possibile utilizzare la seguente sintassi 
-						'Anno(4)idDominio(11)codiceSorgente(2)Progressivo(18)'
-							
-					</xsd:documentation>
-        </xsd:annotation>
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="1" />
           <xsd:maxLength value="35" />

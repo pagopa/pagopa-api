@@ -9,6 +9,13 @@
     </xsd:restriction>
   </xsd:simpleType>
 
+  <xsd:simpleType name="stText20">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="20" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:simpleType name="stText35">
     <xsd:restriction base="xsd:string">
       <xsd:minLength value="1" />
@@ -325,7 +332,7 @@
       <xsd:element name="idPSP" type="tns:stText35" />
       <!-- OLD RT : codiceIdentificativoUnivoco + denominazioneAttestante  -->
       <xsd:element name="pspFiscalCode" type="tns:stText70" minOccurs="0" /> <!-- CF_PA ITA : max 11 chars -->
-      <xsd:element name="pspPartitaIVA" type="tns:stText70" minOccurs="0" /> <!-- now empty : da definire sul DB lato LMI -->
+      <xsd:element name="pspPartitaIVA" type="tns:stText20" minOccurs="0" /> <!-- now empty : da definire sul DB lato LMI -->
       <!-- ABI optional al momento non sara' presente nella ricevuta -->
       <xsd:element name="PSPCompanyName" type="tns:stText35" />
       <xsd:element name="idChannel" type="tns:stText35" />
