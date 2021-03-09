@@ -389,8 +389,8 @@
 
   <xsd:complexType name="ctMapEntry">
     <xsd:sequence>
-      <xsd:element name="key" type="xsd:string" />
-      <xsd:element name="value" type="xsd:string" />
+      <xsd:element name="key" type="tns:stText140" />
+      <xsd:element name="value" type="tns:stText140" />
     </xsd:sequence>
   </xsd:complexType>
 
