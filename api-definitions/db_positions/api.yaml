@@ -172,7 +172,7 @@ paths:
         "401":
           description: Wrong or missing function key.
         "404":
-          description: No payment found.
+          description: No receipt found.
         "500":
           description: Service unavailable.
           schema:
@@ -196,7 +196,7 @@ paths:
         "401":
           description: Wrong or missing function key.
         "404":
-          description: No payment found.
+          description: No receipts found.
         "500":
           description: Service unavailable.
           schema:
@@ -225,7 +225,7 @@ paths:
         "401":
           description: Wrong or missing function key.
         "404":
-          description: No payment found.
+          description: No receipts found.
         "500":
           description: Service unavailable.
           schema:
