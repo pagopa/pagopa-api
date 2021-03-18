@@ -191,10 +191,10 @@ then
 
     if [ $isEqual == 1 ]; then
         echo "$SRC and $DST are equal."
-        # exit 0
+        exit 0
     else
         echo "$SRC and $DST are different !!!"
-        # exit 1
+        exit 1
     fi
     echo "Done !"
     echo "*******************************************************"
