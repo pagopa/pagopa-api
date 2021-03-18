@@ -7,7 +7,6 @@ on:
 # on:
 #  schedule:
 #    - cron: "0 * * * *"
-
 jobs:
   verify_version:
     runs-on: ubuntu-latest
