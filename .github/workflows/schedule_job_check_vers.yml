@@ -20,6 +20,9 @@ jobs:
         run: |
           ./scripts/start.sh ${{ secrets.NODOSIT }} ${{ secrets.NODOUAT }} ${{ secrets.NODOPROD }}
           echo "::set-output name=current_vers_check_res::`echo $?`"
+      - shell: bash
+        run: |
+          echo "Check-----------${{ steps.chk_vers.outputs.current_vers_check_res }}-"
       # - if: steps.chk_vers.outputs.current_vers_check_res == 1
       #   name: Crete pull-request and automerge
       #   uses: repo-sync/pull-request@v2
@@ -32,7 +35,8 @@ jobs:
       #     pr_allow_empty: true # Creates pull request even if there are no changes
       #     github_token: ${{ secrets.ALLOW_CLONE }} #
 
-      - if: steps.chk_vers.outputs.current_vers_check_res == 1
+      # - if: steps.chk_vers.outputs.current_vers_check_res == 1
+      - if: 1 == 1
         name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
