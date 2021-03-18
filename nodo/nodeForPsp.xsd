@@ -435,13 +435,6 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:enumeration>
-      <xsd:enumeration value="PPT_TOKEN_SCONOSCIUTO">
-        <xsd:annotation>
-          <xsd:documentation>
-            Unknown Payment Token or Payment Token not associated with the PSP, the operation can not be authorized. It can be returned from  SendPaymentOutcome messages; 
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:enumeration>
       <xsd:enumeration value="PPT_ESITO_GIA_ACQUISITO">
         <xsd:annotation>
           <xsd:documentation>
