@@ -23,16 +23,8 @@ jobs:
         run: |
           echo "Check-----------${{ steps.chk_vers.outputs.current_vers_check_res }}-"
       - if: steps.chk_vers.outputs.current_vers_check_res == 1
-        name: Crete pull-request and automerge
-        uses: repo-sync/pull-request@v2
-        with:
-          source_branch: develop
-          destination_branch: "develop" # If blank, default: master
-          pr_title: "Update version file repo after new NodoSPC realese in SIT,UAT or PROD with new pagopa-api definitions" # Title of pull request
-          pr_label: "automerge, UPD_VERS_ENV_REPO" # Comma-separated list (no spaces)
-          pr_assignee: "pagopa-team" # Comma-separated list (no spaces)
-          pr_allow_empty: true # Creates pull request even if there are no changes
-          github_token: ${{ secrets.ALLOW_CLONE }} #
+        name: Update version file
+        run: git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add ./scripts/resources/vers.txt && git commit -a -m "update file environments version" && git push
 
       - if: steps.chk_vers.outputs.current_vers_check_res == 1
         name: Slack Notification
