@@ -34,7 +34,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: "#/definitions/PaymentPosition"
+            $ref: "#/definitions/PaymentPositionReq"
       responses:
         "201":
           description: Request created.
@@ -107,7 +107,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: "#/definitions/PaymentPosition"
+            $ref: "#/definitions/PaymentPositionReq"
       responses:
         "204":
           description: Request updated.
@@ -144,7 +144,7 @@ paths:
         "200":
           description: payment position details.
           schema:
-            $ref: "#/definitions/PaymentPosition"
+            $ref: "#/definitions/PaymentPositions"
         "401":
           description: Wrong or missing function key.
         "404":
@@ -172,7 +172,7 @@ paths:
         "401":
           description: Wrong or missing function key.
         "404":
-          description: No payment found.
+          description: No receipt found.
         "500":
           description: Service unavailable.
           schema:
@@ -196,7 +196,7 @@ paths:
         "401":
           description: Wrong or missing function key.
         "404":
-          description: No payment found.
+          description: No receipts found.
         "500":
           description: Service unavailable.
           schema:
@@ -225,7 +225,7 @@ paths:
         "401":
           description: Wrong or missing function key.
         "404":
-          description: No payment found.
+          description: No receipts found.
         "500":
           description: Service unavailable.
           schema:
@@ -314,8 +314,8 @@ parameters:
     name: status
     required: false
     type: string
-    description: The status of the receipt (available values:PAYABLE, NOT_PAYABLE).
-    enum: [PAYABLE, NOT_PAYABLE]
+    description: Payment status
+    enum: [INSERTED, PAYING, PAID, NOTIFIED]
   Limit:
     in: query
     name: limit
@@ -368,11 +368,10 @@ definitions:
     pattern: '[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}'
     example: IT60X0542811101000000123456
   PaymentOptionId:
-    type: string
-    minLength: 1
-    example: 12345678901-009876543212346543-001
-    description: Payment option ID its a union of `Organization fiscal code` + `-` + `Payment Notice Number` + unique counter number
-    pattern: "^[0-9]*-[0123][0-9]{17}-[0-9]{3}$"
+    type: integer
+    minimum: 1
+    example: 1
+    description: Payment option ID its a unique identifier for each payment option crated by NodoSPC
   CreditorReferenceId:
     type: string
     minLength: 1
@@ -528,6 +527,39 @@ definitions:
       - name
       - surname
       - type
+  Payment-Option-Req:
+    type: object
+    properties:
+      creditor_reference_id:
+        $ref: "#/definitions/CreditorReferenceId"
+      amount:
+        $ref: "#/definitions/Amount"
+      due_date:
+        $ref: "#/definitions/Timestamp"
+      retention_date:
+        $ref: "#/definitions/Timestamp"
+      is_conclusive:
+        type: boolean
+        default: true
+      metadata:
+        type: array
+        items:
+          type: string
+          maxLength: 255
+        minItems: 1
+        maxItems: 20
+        description: List of optional fields for metadata (a max of 10 key-value pairs)
+      transfers:
+        type: array
+        items:
+          $ref: "#/definitions/Transfer"
+    required:
+      - creditor_reference_id
+      - amount
+      - due_date
+      - retention_date
+      - is_conclusive
+      - transfers
   Payment-Option:
     type: object
     properties:
@@ -648,6 +680,38 @@ definitions:
       - transfer_date
       - payment_date_time
       - transfers
+  PaymentPositionReq:
+    type: object
+    properties:
+      id:
+        $ref: "#/definitions/PaymentNoticeNumber"
+        description: Payment Notice Number
+        example: 009876543212346543
+      company_name:
+        $ref: "#/definitions/CompanyName"
+      office_name:
+        $ref: "#/definitions/OfficeName"
+      payment_description: 
+        type: string
+        minLength: 1
+        maxLength: 140
+        example: TARI 2021 soluzione unica
+      debtor:
+        $ref: "#/definitions/Debtor"
+      payment_options:
+        type: array
+        items:
+          $ref: "#/definitions/Payment-Option-Req"
+    required:
+      - id
+      - company_name
+      - office_name
+      - payment_description
+      - payment_options
+  PaymentPositions:
+    type: array
+    items:
+      $ref: "#/definitions/PaymentPosition"
   PaymentPosition:
     type: object
     properties:
@@ -660,8 +724,10 @@ definitions:
       status:
         type: string
         enum:
-          - PAYABLE
-          - NOT_PAYABLE
+          - INSERTED
+          - PAYING
+          - PAID
+          - NOTIFIED
         description: Payment Status
       company_name:
         $ref: "#/definitions/CompanyName"
