@@ -36,10 +36,10 @@ DIFFERENT=0
 while read line; do
     if [ "$READLINE" = true ] ; then
         VERS=`curl -k ${args[${idx}]} > tmp_.json && python ./scripts/read_vers.py tmp_.json c`
-        if [ $line = $VERS ]; then
-            echo ${VERSIONS[${idx}]} "UGUALI"
-        else
-            echo ${VERSIONS[${idx}]} "DIVERSI"
+        if [ $line != $VERS ]; then
+            #     echo ${VERSIONS[${idx}]} "UGUALI"
+            # else
+            #     echo ${VERSIONS[${idx}]} "DIVERSI"
             DIFFERENT=1;
         fi
         echo $VERS >> "$filenameNew"
@@ -51,7 +51,7 @@ done < $filename
 cp $filenameNew $filename
 rm -f $filenameNew
 
-exit $DIFFERENT
+echo $DIFFERENT
 
 # clone_check_common_xml "SIT" $1 /dev/null 2>&1
 # resS=$?

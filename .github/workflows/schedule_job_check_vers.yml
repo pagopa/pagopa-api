@@ -18,8 +18,7 @@ jobs:
       - shell: bash
         id: chk_vers
         run: |
-          ./scripts/start.sh ${{ secrets.NODOSIT }} ${{ secrets.NODOUAT }} ${{ secrets.NODOPROD }}
-          echo "::set-output name=current_vers_check_res::`echo $?`"
+          echo "::set-output name=current_vers_check_res::`./scripts/start.sh ${{ secrets.NODOSIT }} ${{ secrets.NODOUAT }} ${{ secrets.NODOPROD }}`"
       - shell: bash
         run: |
           echo "Check-----------${{ steps.chk_vers.outputs.current_vers_check_res }}-"
