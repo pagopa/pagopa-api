@@ -1,12 +1,13 @@
 name: schedule_check_pr_dev2branch_by_cron
 
-on:
-  push:
-    branches:
-      - develop
 # on:
-#  schedule:
-#    - cron: "0 * * * *"
+#   push:
+#     branches:
+#       - develop
+on:
+  schedule:
+   - cron: "*/15 * * * *"
+
 jobs:
   verify_version:
     runs-on: ubuntu-latest
