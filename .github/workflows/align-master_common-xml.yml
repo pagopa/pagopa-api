@@ -62,3 +62,5 @@ jobs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_USERNAME: "PagoPa-API"
+        SLACK_ICON: https://www.pagopa.gov.it/assets/images/pagopa-logo.png?size=48
