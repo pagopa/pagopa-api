@@ -1,12 +1,12 @@
 name: schedule_check_pr_dev2branch_by_cron
 
-# on:
-#   push:
-#     branches:
-#       - develop
 on:
- schedule:
-   - cron: "*/10 * * * *"
+  push:
+    branches:
+      - develop
+# on:
+#  schedule:
+#    - cron: "0 * * * *"
 
 jobs:
   verify_version:
