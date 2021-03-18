@@ -19,10 +19,7 @@ jobs:
         id: chk_vers
         run: |
           ./scripts/start.sh ${{ secrets.NODOSIT }} ${{ secrets.NODOUAT }} ${{ secrets.NODOPROD }}
-      - shell: bash
-        run: |
-          echo "Check result >>>${{ steps.chk_vers.outputs.current_vers_check_res }}<<<"
-
+          echo "::set-output name=current_vers_check_res::`echo $?`"
       # - if: steps.chk_vers.outputs.current_vers_check_res == 1
       #   name: Crete pull-request and automerge
       #   uses: repo-sync/pull-request@v2
