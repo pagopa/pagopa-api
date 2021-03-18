@@ -16,3 +16,4 @@ api-definitions/openapi/combined.yaml
 api-definitions/openapi/_SNIPPET.yaml
 *.bak
 file[1|2].txt
+tmp_.json
