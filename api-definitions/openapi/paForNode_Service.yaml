@@ -7,7 +7,7 @@ info:
   description: 
     $ref: descriptionPA.md
   x-ibm-name: pafornodeservice
-  version: PagoPa API 1.2.46 - NodoSPC UAT version 1.1.63
+  version: PagoPa API v1.2.46 - UAT v1.1.63
 schemes:
   - https
 basePath: /paForNode_Service
