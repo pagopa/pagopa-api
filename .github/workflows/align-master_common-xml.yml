@@ -50,17 +50,13 @@ jobs:
         run: bash ./scripts/check_dir.sh -a -e xsd . pagopa-nodo4-common-xml
         # run: bash ./scripts/check_dir.sh -v -a -e xsd . pagopa-nodo4-common-xml
 
+      - name: Create commit reference file
+        run: |
+          git_hash=${GITHUB_SHA}
+          git_branch=${GITHUB_REF#refs/heads/}
+          echo ${git_hash} > commit_vers.txt && echo ${git_branch} >> commit_vers.txt
+          cp commit_vers.txt pagopa-nodo4-common-xml
+
       - name: Git-push branch
         run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_${{ steps.generate-uuid.outputs.uuid }} " && git push
         # run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_new_branch${{ steps.generate-uuid.outputs.uuid }} " && git push --set-upstream origin bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
-
-  # slackNotification:
-  #   name: Slack Notification
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Slack Notification
-  #     uses: rtCamp/action-slack-notify@v2
-  #     env:
-  #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  #       SLACK_USERNAME: "PagoPa-API"
-  #       SLACK_ICON: https://www.pagopa.gov.it/assets/images/pagopa-logo.png?size=48
