@@ -33,7 +33,43 @@ x-ibm-configuration:
       - proxy:
           title: proxy
           target-url: 'http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp'
+  x-ibm-apiconnect-wsdl:
+    package-version: 1.8.31
+    options: {}
+    messages:
+      info: []
+      warning: []
+      error: []
 paths:
+  /verificaBollettino:
+    post:
+      summary: Operation verificaBollettino
+      description: >-
+        Interrogazione del bollettino postale PA contenuto all'interno
+        dell'avviso di pagamento.
+                Ogni bollettino postale PA � identificato per mezzo delle informazioni contenute all'interno del [data-matrix](https://docs.italia.it/italia/pagopa/pagopa-specifichepagamenti-docs/it/stabile/_docs/SANP_2.2_Sez3_Cap10_PagamentoPressoPSP.html), ovvero conto corrente postale e numero avviso.
+                
+                L'operazione ritorna tutti le possibili opzioni di pagamento disponibili per l'avviso di pagamnto.
+      operationId: verificaBollettino
+      x-ibm-soap:
+        soap-action: verificaBollettino
+        soap-operation: >-
+          {http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd}verificaBollettinoReq
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/verificaBollettinoInput'
+      responses:
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/verificaBollettinoFault'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/verificaBollettinoOutput'
   /verifyPaymentNotice:
     post:
       summary: Operation verifyPaymentNotice
@@ -94,7 +130,7 @@ paths:
                       <officeName>Office Test</officeName>
                     </nfpsp:verifyPaymentNoticeRes>
                 </soapenv:Body>
-              </soapenv:Envelope>
+              </soapenv:Envelope>      
         '500':
           description: ''
           schema:
@@ -390,8 +426,182 @@ definitions:
               prefix: wsu
               attribute: true
             type: string
-  NewMessagePPP:
-    description: opopopopop
+  verificaBollettinoInput:
+    description: Input message for wsdl operation verificaBollettinoReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Header:
+            $ref: '#/definitions/verificaBollettinoHeader'
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              verificaBollettinoReq:
+                $ref: '#/definitions/verificaBollettinoReq_element_nfpsp'
+            required:
+              - verificaBollettinoReq
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
+      wsdl-operation: verificaBollettinoReq
+      wsdl-message-direction-or-name: verificaBollettinoReqRequest
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Header>
+        <!-- The Security element should be removed if WS-Security is not enabled on the SOAP target-url -->
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken>
+          <wsse:Username>string</wsse:Username>
+          <wsse:Password>string</wsse:Password>
+          <wsse:Nonce EncodingType="string">string</wsse:Nonce>
+          <wsu:Created>string</wsu:Created>
+         </wsse:UsernameToken>
+         <wsu:Timestamp wsu:Id="string">
+          <wsu:Created>string</wsu:Created>
+          <wsu:Expires>string</wsu:Expires>
+         </wsu:Timestamp>
+        </wsse:Security>
+       </soapenv:Header>
+       <soapenv:Body>
+        <nfpsp:verificaBollettinoReq xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"><!-- mandatory -->
+         <idPSP><!-- mandatory -->string</idPSP>
+         <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+         <idChannel><!-- mandatory -->string</idChannel>
+         <password><!-- mandatory -->string</password>
+         <ccPost><!-- mandatory -->string</ccPost>
+         <noticeNumber><!-- mandatory -->string</noticeNumber>
+        </nfpsp:verificaBollettinoReq>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  verificaBollettinoHeader:
+    description: Input headers for wsdl operation verificaBollettinoReq
+    type: object
+    properties:
+      Security:
+        $ref: '#/definitions/Security'
+  verificaBollettinoOutput:
+    description: Output message for wsdl operation verificaBollettinoReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              verificaBollettinoRes:
+                $ref: '#/definitions/verificaBollettinoRes_element_nfpsp'
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
+      wsdl-operation: verificaBollettinoReq
+      wsdl-message-direction-or-name: verificaBollettinoReqResponse
+    example: >-
+
+      <soapenv:Envelope
+      xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+        <nfpsp:verificaBollettinoRes xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+         <outcome><!-- mandatory -->string</outcome>
+         <fault>
+          <faultCode><!-- mandatory -->string</faultCode>
+          <faultString><!-- mandatory -->string</faultString>
+          <id><!-- mandatory -->string</id>
+          <description>string</description>
+          <serial>3</serial>
+          <originalFaultCode>string</originalFaultCode>
+          <originalFaultString>string</originalFaultString>
+          <originalDescription>string</originalDescription>
+         </fault>
+         <paymentBollettinoList>
+          <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+           <amount><!-- mandatory -->999999996.99</amount>
+           <options><!-- mandatory -->string</options>
+           <dueDate>2016-04-18</dueDate>
+           <paymentNote>string</paymentNote>
+           <allCCP><!-- mandatory -->true</allCCP>
+          </paymentOptionDescription>
+         </paymentBollettinoList>
+         <paymentDescription>string</paymentDescription>
+         <fiscalCodePA>string</fiscalCodePA>
+         <noticeNumber>string</noticeNumber>
+         <companyName>string</companyName>
+         <officeName>string</officeName>
+        </nfpsp:verificaBollettinoRes>
+       </soapenv:Body>
+      </soapenv:Envelope>
+  verificaBollettinoFault:
+    description: Fault message for wsdl operation verificaBollettinoReq
+    type: object
+    properties:
+      Envelope:
+        xml:
+          namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+          prefix: soapenv
+        type: object
+        properties:
+          Body:
+            xml:
+              namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+              prefix: soapenv
+            type: object
+            properties:
+              Fault:
+                xml:
+                  namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+                  prefix: soapenv
+                type: object
+                properties:
+                  faultcode:
+                    xml:
+                      namespace: ''
+                    type: string
+                  faultstring:
+                    xml:
+                      namespace: ''
+                    type: string
+                  faultactor:
+                    xml:
+                      namespace: ''
+                    type: string
+                  detail:
+                    xml:
+                      namespace: ''
+                      prefix: ''
+                    type: object
+                    properties:
+                      handledException:
+                        $ref: '#/definitions/handledException_tns'
+        required:
+          - Body
+    required:
+      - Envelope
+    x-ibm-schema:
+      wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
+      wsdl-operation: verificaBollettinoReq
+      wsdl-message-direction-or-name: handledException
   verifyPaymentNoticeInput:
     description: Input message for wsdl operation verifyPaymentNoticeReq
     type: object
@@ -716,11 +926,11 @@ definitions:
       wsdl-port: '{http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl}nodeForPsp_Port'
       wsdl-operation: sendPaymentOutcomeReq
       wsdl-message-direction-or-name: handledException
-  verifyPaymentNoticeReq_element_nfpsp:
+  verificaBollettinoReq_element_nfpsp:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
-      name: verifyPaymentNoticeReq
+      name: verificaBollettinoReq
     type: object
     properties:
       idPSP:
@@ -731,25 +941,39 @@ definitions:
         $ref: '#/definitions/stIdChannel_type_nfpsp'
       password:
         $ref: '#/definitions/stPassword_type_nfpsp'
-      qrCode:
-        $ref: '#/definitions/ctQrCode_type_nfpsp'
+      ccPost:
+        $ref: '#/definitions/stPostalAccount_type_nfpsp'
+      noticeNumber:
+        $ref: '#/definitions/stNoticeNumber_type_nfpsp'
     required:
       - idPSP
       - idBrokerPSP
       - idChannel
       - password
-      - qrCode
-  verifyPaymentNoticeRes_element_nfpsp:
+      - ccPost
+      - noticeNumber
+    example: >-
+
+      <nfpsp:verificaBollettinoReq
+      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+       <idPSP><!-- mandatory -->string</idPSP>
+       <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
+       <idChannel><!-- mandatory -->string</idChannel>
+       <password><!-- mandatory -->string</password>
+       <ccPost><!-- mandatory -->string</ccPost>
+       <noticeNumber><!-- mandatory -->string</noticeNumber>
+      </nfpsp:verificaBollettinoReq>
+  verificaBollettinoRes_element_nfpsp:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
-      name: verifyPaymentNoticeRes
+      name: verificaBollettinoRes
     allOf:
       - $ref: '#/definitions/ctResponse_type_nfpsp'
       - type: object
         properties:
-          paymentList:
-            $ref: '#/definitions/ctPaymentOptionsDescriptionList_type_nfpsp'
+          paymentBollettinoList:
+            $ref: '#/definitions/ctPaymentOptionsBollettinoDescriptionList_type_nfpsp'
           paymentDescription:
             $ref: '#/definitions/stText210_type_nfpsp'
             description: full text description
@@ -758,12 +982,45 @@ definitions:
             description: >-
               tax code of the public administration to which the payment
               notification is made out
+          noticeNumber:
+            $ref: '#/definitions/stNoticeNumber_type_nfpsp'
+            description: notice number requested
           companyName:
             $ref: '#/definitions/stText140_type_nfpsp'
             description: Public Administration full name
           officeName:
             $ref: '#/definitions/stText140_type_nfpsp'
             description: Public Admninistration Department Name
+    example: >-
+
+      <nfpsp:verificaBollettinoRes
+      xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+       <outcome><!-- mandatory -->string</outcome>
+       <fault>
+        <faultCode><!-- mandatory -->string</faultCode>
+        <faultString><!-- mandatory -->string</faultString>
+        <id><!-- mandatory -->string</id>
+        <description>string</description>
+        <serial>3</serial>
+        <originalFaultCode>string</originalFaultCode>
+        <originalFaultString>string</originalFaultString>
+        <originalDescription>string</originalDescription>
+       </fault>
+       <paymentBollettinoList>
+        <paymentOptionDescription><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
+         <amount><!-- mandatory -->999999996.99</amount>
+         <options><!-- mandatory -->string</options>
+         <dueDate>2016-04-18</dueDate>
+         <paymentNote>string</paymentNote>
+         <allCCP><!-- mandatory -->true</allCCP>
+        </paymentOptionDescription>
+       </paymentBollettinoList>
+       <paymentDescription>string</paymentDescription>
+       <fiscalCodePA>string</fiscalCodePA>
+       <noticeNumber>string</noticeNumber>
+       <companyName>string</companyName>
+       <officeName>string</officeName>
+      </nfpsp:verificaBollettinoRes>
   handledException_tns:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
@@ -927,6 +1184,81 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: stPassword_type_nfpsp
+  stPostalAccount_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[0-9]{12}'
+    minLength: 12
+    maxLength: 12
+    x-xsi-type: stPostalAccount
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stPostalAccount_type_nfpsp
+  stNoticeNumber_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[0-9]{18}'
+    x-xsi-type: stNoticeNumber
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stNoticeNumber_type_nfpsp
+  ctPaymentOptionsBollettinoDescriptionList_type_nfpsp:
+    xml:
+      namespace: ''
+      prefix: ''
+    type: object
+    properties:
+      paymentOptionDescription:
+        type: array
+        minItems: 1
+        maxItems: 5
+        items:
+          $ref: '#/definitions/ctPaymentOptionBollettinoDescription_type_nfpsp'
+    required:
+      - paymentOptionDescription
+    x-xsi-type: ctPaymentOptionsBollettinoDescriptionList
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: ctPaymentOptionsBollettinoDescriptionList_type_nfpsp
+  stText210_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 210
+    x-xsi-type: stText210
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stText210_type_nfpsp
+  stFiscalCodePA_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[0-9]{11}'
+    minLength: 11
+    maxLength: 11
+    x-xsi-type: stFiscalCodePA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stFiscalCodePA_type_nfpsp
+  stText140_type_nfpsp:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 140
+    x-xsi-type: stText140
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stText140_type_nfpsp
   ctQrCode_type_nfpsp:
     xml:
       namespace: ''
@@ -980,40 +1312,6 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: ctPaymentOptionsDescriptionList_type_nfpsp
-  stText210_type_nfpsp:
-    xml:
-      namespace: ''
-    type: string
-    minLength: 1
-    maxLength: 210
-    x-xsi-type: stText210
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
-      prefix: nfpsp
-    x-xsi-type-uniquename: stText210_type_nfpsp
-  stFiscalCodePA_type_nfpsp:
-    xml:
-      namespace: ''
-    type: string
-    pattern: '[0-9]{11}'
-    minLength: 11
-    maxLength: 11
-    x-xsi-type: stFiscalCodePA
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
-      prefix: nfpsp
-    x-xsi-type-uniquename: stFiscalCodePA_type_nfpsp
-  stText140_type_nfpsp:
-    xml:
-      namespace: ''
-    type: string
-    minLength: 1
-    maxLength: 140
-    x-xsi-type: stText140
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
-      prefix: nfpsp
-    x-xsi-type-uniquename: stText140_type_nfpsp
   stIdempotencyKey_type_nfpsp:
     xml:
       namespace: ''
@@ -1189,16 +1487,33 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: ctFaultBean_type_nfpsp
-  stNoticeNumber_type_nfpsp:
+  ctPaymentOptionBollettinoDescription_type_nfpsp:
     xml:
       namespace: ''
-    type: string
-    pattern: '[0-9]{18}'
-    x-xsi-type: stNoticeNumber
+      prefix: ''
+    type: object
+    properties:
+      amount:
+        $ref: '#/definitions/stAmount_type_nfpsp'
+      options:
+        $ref: '#/definitions/stAmountOptionPSP_type_nfpsp'
+      dueDate:
+        $ref: '#/definitions/stISODate_type_nfpsp'
+      paymentNote:
+        $ref: '#/definitions/stText210_type_nfpsp'
+      allCCP:
+        xml:
+          namespace: ''
+        type: boolean
+    required:
+      - amount
+      - options
+      - allCCP
+    x-xsi-type: ctPaymentOptionBollettinoDescription
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
-    x-xsi-type-uniquename: stNoticeNumber_type_nfpsp
+    x-xsi-type-uniquename: ctPaymentOptionBollettinoDescription_type_nfpsp
   ctPaymentOptionDescription_type_nfpsp:
     xml:
       namespace: ''
