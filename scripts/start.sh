@@ -17,7 +17,7 @@ function clone_check_common_xml () {
     ./scripts/check_dir.sh -v -e xsd . "$1vers_"$VERS
     chk_xsd=$?
     echo "XSD ${chk_xsd}"
-    rm -rf "$1vers_"$VERS
+    # rm -rf "$1vers_"$VERS
     return $((chk_wsdl+chk_xsd))
 }
 
@@ -57,9 +57,9 @@ echo $DIFFERENT
 # resS=$?
 # echo "SIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "$resS
 
-# clone_check_common_xml "UAT" $2 /dev/null 2>&1
-# resU=$?
-# echo "UAT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "$resU
+clone_check_common_xml "UAT" $2 /dev/null 2>&1
+resU=$?
+echo "UAT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "$resU
 
 # clone_check_common_xml "PROD" $3 /dev/null 2>&1
 # resP=$?
