@@ -5,9 +5,7 @@ This is the documentation of the pagoPA API for Public Administration. This API 
 
 _Reference API PSP side is available [here](https://pagopa.github.io/pagopa-api/index.html)_
 
-## Warning
-
-**This is an experimental API that is (most probably) going to change as we evolve the pagoPa platform.**
+**Please notice: this API is subject to small changes since it is in final test release**
 
 ## Identification and Authentication
 

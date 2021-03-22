@@ -7,7 +7,7 @@ info:
   description: 
     $ref: descriptionPA.md
   x-ibm-name: pafornodeservice
-  version: Beta version 1.0.4 - 20210204
+  version: PagoPa API v1.2.46 - UAT v1.1.63
 schemes:
   - https
 basePath: /paForNode_Service
@@ -1140,7 +1140,7 @@ definitions:
       pspFiscalCode:
         $ref: '#/definitions/stText70_type_pafn'
       pspPartitaIVA:
-        $ref: '#/definitions/stText70_type_pafn'
+        $ref: '#/definitions/stText20_type_pafn'
       PSPCompanyName:
         $ref: '#/definitions/stText35_type_pafn'
       idChannel:
@@ -1356,6 +1356,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: stText70_type_pafn
+  stText20_type_pafn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 20
+    x-xsi-type: stText20
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stText20_type_pafn
   stISODateTime_type_pafn:
     xml:
       namespace: ''
@@ -1467,13 +1478,9 @@ definitions:
     type: object
     properties:
       key:
-        xml:
-          namespace: ''
-        type: string
+        $ref: '#/definitions/stText140_type_pafn'
       value:
-        xml:
-          namespace: ''
-        type: string
+        $ref: '#/definitions/stText140_type_pafn'
     required:
       - key
       - value
