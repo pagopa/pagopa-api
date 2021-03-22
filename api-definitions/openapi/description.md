@@ -5,9 +5,7 @@ This is the documentation of the pagoPA API for Payment Service Provider. This A
 
 _Reference API PA side is available [here](https://pagopa.github.io/pagopa-api/indexPA.html)_
 
-## Warning
-
-**This is an experimental API that is (most probably) going to change as we evolve the pagoPa platform.**
+**Please notice: this API is subject to small changes since it is in final test release**
 
 ## Identification and Authentication
 
