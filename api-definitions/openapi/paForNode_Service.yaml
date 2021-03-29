@@ -1,13 +1,9 @@
 swagger: '2.0'
 info:
   title: paForNode_Service
-  x-logo: 
-    backgroundColor: #FFFFFF 
-    url: "https://www.pagopa.gov.it/assets/images/pagopa-logo.png" 
-  description: 
-    $ref: descriptionPA.md
+  description: ''
   x-ibm-name: pafornodeservice
-  version: PagoPa API v1.2.46 - UAT v1.1.63
+  version: 1.0.0
 schemes:
   - https
 basePath: /paForNode_Service
