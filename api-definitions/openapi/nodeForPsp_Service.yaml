@@ -115,7 +115,7 @@ paths:
                     <officeName>office</officeName>
                   </nfpsp:verificaBollettinoRes>
                 </soapenv:Body>
-              </soapenv:Envelope>
+              </soapenv:Envelope>  
   /verifyPaymentNotice:
     post:
       summary: Operation verifyPaymentNotice
@@ -859,6 +859,7 @@ definitions:
           <fiscalCode><!-- mandatory -->string</fiscalCode>
           <noticeNumber><!-- mandatory -->string</noticeNumber>
          </qrCode>
+         <expirationTime>1799997</expirationTime>
          <amount>999999996.99</amount>
          <dueDate>2016-04-18</dueDate>
          <paymentNote>string</paymentNote>
@@ -1333,7 +1334,8 @@ definitions:
 
       - `outcome` and _optional_ `fault` (_see below to details_)
 
-      - `paymentList` (_see below to details_)
+      - `paymentList` : the list of all available payment options (_see below to
+      details_)
 
       - `paymentDescription` : 
 
@@ -1455,6 +1457,7 @@ definitions:
         <fiscalCode><!-- mandatory -->string</fiscalCode>
         <noticeNumber><!-- mandatory -->string</noticeNumber>
        </qrCode>
+       <expirationTime>1799997</expirationTime>
        <amount>999999996.99</amount>
        <dueDate>2016-04-18</dueDate>
        <paymentNote>string</paymentNote>
@@ -1496,7 +1499,8 @@ definitions:
 
       - `paymentToken` (_see below to details_)
 
-      - `transferList` (_see below to details_)
+      - `transferList` : : the list of all available transfer (_see below to
+      details_)
 
       - `creditorReferenceId` : it contains a **IUV**. The **IUV** code is
       assigned by PA through the generation rules provided by _SANP_. 
@@ -1908,6 +1912,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
     x-xsi-type-uniquename: stIdempotencyKey_type_nfpsp
+  stExpirationTime_type_nfpsp:
+    xml:
+      namespace: ''
+    description: 'token expiration time ( ms ), max 30 minute'
+    type: number
+    maximum: 1800000
+    x-xsi-type: stExpirationTime
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
+      prefix: nfpsp
+    x-xsi-type-uniquename: stExpirationTime_type_nfpsp
   stAmount_type_nfpsp:
     xml:
       namespace: ''
