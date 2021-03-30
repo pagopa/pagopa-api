@@ -1,22 +1,20 @@
 swagger: '2.0'
 info:
   title: paForNode_Service
-  description: ''
+  x-logo: 
+    backgroundColor: #FFFFFF 
+    url: "https://www.pagopa.gov.it/assets/images/pagopa-logo.png" 
+  description: 
+      $ref: descriptionPA.md
   x-ibm-name: pafornodeservice
-  version: 1.0.0
+  version: PagoPa API v1.2.46 - UAT v1.1.63
 schemes:
   - https
 basePath: /paForNode_Service
 produces:
   - application/xml
 consumes:
-  - text/xml
-securityDefinitions:
-  clientID:
-    type: apiKey
-    name: X-IBM-Client-Id
-    in: header
-    description: ''
+  - application/xml
 security:
   - clientID: []
 x-ibm-configuration:
@@ -48,7 +46,21 @@ paths:
   /paVerifyPaymentNotice:
     post:
       summary: Operation paVerifyPaymentNotice
-      description: ''
+      description: >-
+        Through the primitive `paVerifyPaymentNotice` the PA is interrogated to
+        verify which are the options available to the citizen at the same time.
+
+
+        All available options will then be proposed until one of the following
+        events occurs:
+
+
+        - a payment receipt is notified, therefore the debt position is closed
+        and no payment option will be available anymore.
+
+        - the PA becomes in possession of the notification data, therefore it
+        can update the payment options by entering the correct expiry data for
+        each of the options.
       operationId: paVerifyPaymentNotice
       x-ibm-soap:
         soap-action: paVerifyPaymentNotice
@@ -60,15 +72,89 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/paVerifyPaymentNoticeInput'
+          description: >-
+            ```
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nod="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+                <soapenv:Header />
+                <soapenv:Body>
+                  <nod:paVerifyPaymentNoticeReq>
+                    <idPA>77777777777</idPA>
+                    <idBrokerPA>77777777777</idBrokerPA>
+                    <idStation>77777777777_01</idStation>
+                    <qrCode>
+                      <fiscalCode>77777777777</fiscalCode>
+                      <noticeNumber>311018921337126000</noticeNumber>
+                    </qrCode>
+                  </nod:paVerifyPaymentNoticeReq>
+                </soapenv:Body>
+              </soapenv:Envelope>         
+            ```            
       responses:
-        default:
-          description: ''
+        '200':
+          description: 'paVerifyPaymentNoticeRes'
           schema:
             $ref: '#/definitions/paVerifyPaymentNoticeOutput'
+          examples:
+            application/xml: >-
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:paf="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+                <soapenv:Header />
+                <soapenv:Body>
+                  <paf:paVerifyPaymentNoticeRes>
+                    <outcome>OK</outcome>
+                    <!--Optional:-->
+                    <paymentList>
+                      <!--1 to 5 repetitions:-->
+                      <paymentOptionDescription>
+                        <amount>100.00</amount>
+                        <options>EQ</options>
+                        <!--Optional:-->
+                        <dueDate>2020-01-01</dueDate>
+                        <!--Optional:-->
+                        <detailDescription>?</detailDescription>
+                        <!--Optional:-->
+                        <transferType>POSTAL</transferType>
+                      </paymentOptionDescription>
+                    </paymentList>
+                    <!--Optional:-->
+                    <paymentDescription>?</paymentDescription>
+                    <!--Optional:-->
+                    <fiscalCodePA>12345678900</fiscalCodePA>
+                    <!--Optional:-->
+                    <companyName>?</companyName>
+                    <!--Optional:-->
+                    <officeName>?</officeName>
+                  </paf:paVerifyPaymentNoticeRes>
+                </soapenv:Body>
+              </soapenv:Envelope>
   /paGetPayment:
     post:
       summary: Operation paGetPayment
-      description: ''
+      description: >-
+        A PA connected to the pagoPA Platform must offer a service that returns
+        a payment linked to a debt position through the
+
+        primitive `paGetPayment`.
+
+
+        Each request is specified through the parameters `amount` and
+        `due_date`, which are returned by the `paVerifyPayment`,
+
+        and the `transferType` parameter that defines the type of credit that
+        the PSP would like to have.
+
+        **NOTE** : _(currently the only option is related to necessity of a
+        postal current account)._
+
+
+        If these parameters are not present, the PA will set the real amount.
+
+        In response, the PA returns all the data necessary for the payment.
+
+
+        In addition, the PA can define a validity date for the information sent.
+        If present, the platform will be authorized to manage
+
+        autonomously similar requests without necessarily contacting the PA.
       operationId: paGetPayment
       x-ibm-soap:
         soap-action: paGetPayment
@@ -79,15 +165,132 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/paGetPaymentInput'
+          description: >-
+            ```
+              <soapenv:Envelope xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                    <pafn:paGetPaymentReq>
+                      <idPA>77777777777</idPA>
+                      <idBrokerPA>77777777777</idBrokerPA>
+                      <idStation>77777777777_01</idStation>
+                      <qrCode>
+                          <fiscalCode>77777777777</fiscalCode>
+                          <noticeNumber>311018921337126000</noticeNumber>
+                      </qrCode>
+                      <amount>10.00</amount>
+                    </pafn:paGetPaymentReq>
+                </soapenv:Body>
+              </soapenv:Envelope>
+         
+            ```            
       responses:
-        default:
-          description: ''
+        '200':
+          description: 'paGetPaymentRes'
           schema:
             $ref: '#/definitions/paGetPaymentOutput'
+          examples:
+            application/xml: >-
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:paf="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <paf:paGetPaymentRes>
+                      <outcome>OK</outcome>
+                      <!--Optional:-->
+                      <data>
+                          <creditorReferenceId>123456789</creditorReferenceId>
+                          <paymentAmount>10.00</paymentAmount>
+                          <dueDate>2019-12-12</dueDate>
+                          <!--Optional:-->
+                          <retentionDate>2020-11-11T12:12:11</retentionDate>
+                          <!--Optional:-->
+                          <lastPayment>0</lastPayment>
+                          <description>test</description>
+                          <!--paymentCategory>test</paymentCategory-->
+                          <!--Optional:-->
+                          <companyName>Pa Test</companyName>
+                          <!--Optional:-->
+                          <officeName>office</officeName>
+                          <debtor>
+                            <uniqueIdentifier>
+                                <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
+                                <entityUniqueIdentifierValue>77777777777</entityUniqueIdentifierValue>
+                            </uniqueIdentifier>
+                            <fullName>name</fullName>
+                            <!--Optional:-->
+                            <streetName>street</streetName>
+                            <!--Optional:-->
+                            <civicNumber>12</civicNumber>
+                            <!--Optional:-->
+                            <postalCode>89020</postalCode>
+                            <!--Optional:-->
+                            <city>city</city>
+                            <!--Optional:-->
+                            <stateProvinceRegion>IT</stateProvinceRegion>
+                            <!--Optional:-->
+                            <country>IT</country>
+                            <!--Optional:-->
+                            <e-mail>test.prova@tt.it</e-mail>
+                          </debtor>
+                          <transferList>
+                            <!--1 to 5 repetitions:-->
+                              <transfer>
+                                <idTransfer>1</idTransfer>
+                                <transferAmount>10.00</transferAmount>
+                                <fiscalCodePA>77777777777</fiscalCodePA>
+                                <IBAN>IT45R0760103200000000001016</IBAN>
+                                <remittanceInformation>test</remittanceInformation>
+                                <transferCategory>test</transferCategory>
+                            </transfer>
+                          </transferList>
+                          <!--Optional:-->
+                          <metadata>
+                            <!--1 to 10 repetitions:-->
+                            <mapEntry>
+                                <key>6</key>
+                                <value></value>
+                            </mapEntry>
+                          </metadata>
+                      </data>
+                  </paf:paGetPaymentRes>
+                </soapenv:Body>
+              </soapenv:Envelope>
   /paSendRT:
     post:
       summary: Operation paSendRT
-      description: ''
+      description: >-
+        Following any payment made on the pagoPA, the system'll generate a
+        receipt, and promptly notified it. 
+
+        A receipt certifying the payment made with references to the debt
+        position and related details.
+
+
+        Receipts are sent:
+
+
+        - in the case of online payment to the station requesting the payment
+
+        - in the case of payment by payment notification at the station
+        indicated in the notice
+
+        - to all stations identified as `broadcast` if the entity beneficiary,
+        contained within the payment, is not associated to the stations
+        described above.
+
+
+        In order to receive such receipts, the EC shall implement `paSendRT`
+        service.
+
+
+        The pagoPA Platform will make a maximum of 5 sending attempts of the
+        receipt to PA. 
+
+
+        **Note**: receipts cannot be refused, the existence of the the receipt
+        itself certifies the payment according to the processes
+
+        described and notify future accreditation operations. Any cancellations
+        must be managed directly by the EC.
       operationId: paSendRT
       x-ibm-soap:
         soap-action: paSendRT
@@ -98,11 +301,100 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/paSendRTInput'
+          description: >-
+            ```
+              <soapenv:Envelope xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                  <pafn:paSendRTReq>
+                    <idPA>77777777777</idPA>
+                    <idBrokerPA>77777777777</idBrokerPA>
+                    <idStation>77777777777_01</idStation>
+                    <receipt>
+                      <receiptId>f43cf6263ddb47248222b039f6d1f1f5</receiptId>
+                      <noticeNumber>311018351493172600</noticeNumber>
+                      <fiscalCode>77777777777</fiscalCode>
+                      <outcome>OK</outcome>
+                      <creditorReferenceId>11018351493172600</creditorReferenceId>
+                      <paymentAmount>10.00</paymentAmount>
+                      <description>test</description>
+                      <companyName>company</companyName>
+                      <officeName>office</officeName>
+                      <debtor>
+                        <uniqueIdentifier>
+                          <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
+                          <entityUniqueIdentifierValue>77777777777</entityUniqueIdentifierValue>
+                        </uniqueIdentifier>
+                        <fullName>name</fullName>
+                        <streetName>street</streetName>
+                        <civicNumber>99</civicNumber>
+                        <postalCode>20155</postalCode>
+                        <city>city</city>
+                        <stateProvinceRegion>state</stateProvinceRegion>
+                        <country>IT</country>
+                        <e-mail>prova@test.it</e-mail>
+                      </debtor>
+                      <transferList>
+                        <transfer>
+                          <idTransfer>1</idTransfer>
+                          <transferAmount>10.00</transferAmount>
+                          <fiscalCodePA>77777777777</fiscalCodePA>
+                          <IBAN>IT45R0760103200000000001016</IBAN>
+                          <remittanceInformation>test</remittanceInformation>
+                          <transferCategory>test</transferCategory>
+                        </transfer>
+                      </transferList>
+                      <idPSP>70000000001</idPSP>
+                      <pspFiscalCode>CF70000000001</pspFiscalCode>
+                      <pspPartitaIVA>piva700000000001</pspPartitaIVA>
+                      <PSPCompanyName>Psp Salvo</PSPCompanyName>
+                      <idChannel>70000000001_01</idChannel>
+                      <channelDescription>app</channelDescription>
+                      <payer>
+                        <uniqueIdentifier>
+                          <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
+                          <entityUniqueIdentifierValue>77777777777_01</entityUniqueIdentifierValue>
+                        </uniqueIdentifier>
+                        <fullName>name</fullName>
+                        <streetName>street</streetName>
+                        <civicNumber>civic</civicNumber>
+                        <postalCode>postal</postalCode>
+                        <city>city</city>
+                        <stateProvinceRegion>state</stateProvinceRegion>
+                        <country>IT</country>
+                        <e-mail>prova@test.it</e-mail>
+                      </payer>
+                      <paymentMethod>creditCard</paymentMethod>
+                      <fee>2.00</fee>
+                      <paymentDateTime>2021-03-25T17:48:22</paymentDateTime>
+                      <applicationDate>2021-12-12</applicationDate>
+                      <transferDate>2021-12-11</transferDate>
+                      <metadata>
+                        <mapEntry>
+                          <key>1</key>
+                          <value>22</value>
+                        </mapEntry>
+                      </metadata>
+                    </receipt>
+                  </pafn:paSendRTReq>
+                </soapenv:Body>
+              </soapenv:Envelope>
+         
+            ```            
       responses:
-        default:
-          description: ''
+        '200':
+          description: 'paSendRTRes'
           schema:
             $ref: '#/definitions/paSendRTOutput'
+          examples:
+            application/xml: >-
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:paf="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
+                <soapenv:Header />
+                <soapenv:Body>
+                  <paf:paSendRTRes>
+                    <outcome>OK</outcome>
+                  </paf:paSendRTRes>
+                </soapenv:Body>
+              </soapenv:Envelope> 
 definitions:
   Security:
     xml:
@@ -185,8 +477,6 @@ definitions:
           prefix: soapenv
         type: object
         properties:
-          Header:
-            $ref: '#/definitions/paVerifyPaymentNoticeHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
@@ -311,8 +601,6 @@ definitions:
           prefix: soapenv
         type: object
         properties:
-          Header:
-            $ref: '#/definitions/paGetPaymentHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
@@ -468,8 +756,6 @@ definitions:
           prefix: soapenv
         type: object
         properties:
-          Header:
-            $ref: '#/definitions/paSendRTHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
@@ -638,6 +924,19 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
       name: paVerifyPaymentNoticeReq
+    description: >-
+      The `paVerifyPaymentNotice` request contains :
+
+      - `idPA` : alphanumeric field containing the tax code of the structure
+      sending the payment request.
+
+      - `idBrokerPA` : identification of subject that operates as an
+      intermediary for the PA.
+
+      - `idStation` : identification of the station of the PA into pagoPa
+      system.
+
+      - `qrCode` : is the union of `fiscalCode` and `noticeNumber`
     type: object
     properties:
       idPA:
@@ -670,6 +969,38 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
       name: paVerifyPaymentNoticeRes
+    description: >-
+      Its a response to `paVerifyPaymentNoticeReq` and contains :
+
+
+      - `outcome` and _optional_ `fault` (_see below to details_)
+
+      - `paymentList` : the list of all available payment options (_see below to
+      details_)
+
+      - `paymentDescription` : 
+
+
+      If the Public Administration is configured as _OLD_ (i.e. still uses the
+      old primitives) this field must be set with the data
+      `nodeTipoDatiPagamentoPA` of the` nodeVerificaRPTRanspond` specifically:
+
+      - `causaleVersamento`: represents the extended description of the reason
+      for the payment, or
+
+      - `spezzoniCausaleVersamento`: structure available to Public
+      Administration to specify the payment reasons.
+
+
+      The size of the current field is such as to allow the concatenation of the
+      old information previously described.
+
+
+      - `fiscalCodePA` : Tax code of the public administration
+
+      - `companyName` : Public Administration full name
+
+      - `officeName` : Public Administration Department Name
     allOf:
       - $ref: '#/definitions/ctResponse_type_pafn'
       - type: object
@@ -718,6 +1049,28 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
       name: paGetPaymentReq
+    description: >-
+      The `paVerifyPaymentNotice` request contains :
+
+      - `idPA` : alphanumeric field containing the tax code of the structure
+      sending the payment request.
+
+      - `idBrokerPA` : identification of subject that operates as an
+      intermediary for the PA.
+
+      - `idStation` : identification of the station of the PA into pagoPa
+      system.
+
+      - `qrCode` : is the union of `fiscalCode` and `noticeNumber`
+
+      - `amount` : amount of the payment
+
+      - `paymentNote` : details description of the payment
+
+      - `transferType` : _specific only for POSTE Italiane_
+
+      - `dueDate` : indicates the expiration payment date according to the ISO
+      8601 format `[YYYY]-[MM]-[DD]`.
     type: object
     properties:
       idPA:
@@ -762,6 +1115,11 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
       name: paGetPaymentRes
+    description: |-
+      Its a response to `paGetPaymentReq` and contains :
+
+      - `outcome` and _optional_ `fault` (_see below to details_)
+      - all `data` related to payment (_see below to details_)
     allOf:
       - $ref: '#/definitions/ctResponse_type_pafn'
       - type: object
@@ -829,6 +1187,19 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
       name: paSendRTReq
+    description: >-
+      The `paSendRT` request contains :
+
+      - `idPA` : alphanumeric field containing the tax code of the structure
+      sending the payment request.
+
+      - `idBrokerPA` : identification of subject that operates as an
+      intermediary for the PA.
+
+      - `idStation` : identification of the station of the PA into pagoPa
+      system.
+
+      - `receipt` : the payment receipt (_see below to details_)
     type: object
     properties:
       idPA:
@@ -923,6 +1294,10 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
       name: paSendRTRes
+    description: |-
+      Its a response to `paSendRTReq` and contains :
+
+      - `outcome` and _optional_ `fault` (_see below to details_)
     allOf:
       - $ref: '#/definitions/ctResponse_type_pafn'
       - type: object
@@ -958,6 +1333,26 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: |-
+      Payment Notice **QR-CODE** data.
+      QR-CODE is ISO/IEC 18004:2015 compliant generated with:
+
+      Parameters for generating the QR-CODE
+
+      - Symbol Version : 4
+      - Modules : 33x33
+      - Modules width : 3 pixels
+      - ECC Level: M ( max correction error 15%)
+      - Character set : UTF-8
+
+      QR-CODE contains a string formatted as :
+      `PAGOPA|002|noticeNumber|fiscalCode|amount`
+
+      Where `noticeNumber` is composed by :
+
+      `[auxDigit][segregationCode][IUVBase][IUVCheckDigit]`
+
+      While `fiscalCode` is the creditor tax code.
     type: object
     properties:
       fiscalCode:
@@ -976,6 +1371,30 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: >-
+      Structure containing the details of possible payments relating to the debt
+      position to be paid.
+
+
+      Currently set at 5 eligible payments per single position.
+
+
+      Where each `paymentOptionDescription` items contains :
+
+
+      - `amount` : payment amount
+
+      - `options` : indicates the payment criteria accepted by the institution
+      with respect to the amount, or if it accepts for this payment option other
+      than `amount`.
+
+      - `dueDate` : indicates the expiration payment date according to the ISO
+      8601 format `[YYYY]-[MM]-[DD]`.
+
+      - `detailDescription` : Free text available to describe the payment
+      reasons
+
+      - `transferType` : _specific only for POSTE Italiane_
     type: object
     properties:
       paymentOptionDescription:
@@ -1005,6 +1424,9 @@ definitions:
   stFiscalCodePA_type_pafn:
     xml:
       namespace: ''
+    description: >-
+      Tax code of the public administration to which the payment notification is
+      made out
     type: string
     pattern: '[0-9]{11}'
     minLength: 11
@@ -1017,6 +1439,7 @@ definitions:
   stAmount_type_pafn:
     xml:
       namespace: ''
+    description: Amount of payment in euro
     type: number
     maximum: 999999999.99
     pattern: '\d+\.\d{2}'
@@ -1061,6 +1484,35 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: >-
+      Its contains all payment information :
+
+
+      - `creditorReferenceId` : its equal to **IUV** _Identificativo Univoco
+      Versamento_ 
+
+      - `paymentAmount` : amount
+
+      - `dueDate` : indicates the expiration payment date according to the ISO
+      8601 format `[YYYY]-[MM]-[DD]`.
+
+      - `retentionDate` : indicates the retention payment date according to the
+      ISO 8601 format `[YYYY]-[MM]-[DD]`.
+
+      - `lastPayment` : boolean flag used for in installment payments 
+
+      - `description` : free text available to describe the payment reasons
+
+      - `companyName` : Public Administration full name
+
+      - `officeName` : Public Admninistration Department Name
+
+      - `debtor` : identifies the debtor to whom the debt position refers
+
+      - `transferList` : the list of all available transfer information (_see
+      below to details_)
+
+      - `metadata` : (_see below to details_)
     type: object
     properties:
       creditorReferenceId:
@@ -1105,6 +1557,67 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: >-
+      Its contains all receipt information :
+
+
+      **identifier section**
+
+      - `outcome` : result of receipt **OK**/**KO**
+
+      - `receiptId` : unique identifier of receipt (assigned by pagoPa)
+
+      - `noticeNumber` : notice number
+
+      - `fiscalCode` : Tax code of the public administration
+
+
+      **PA data**
+
+      - `creditorReferenceId` : **IUV** _Identificativo Univoco Versamento_
+
+      - `paymentAmount` : amount
+
+      - `description` : 
+
+      - `companyName` : Public Administration full name
+
+      - `officeName` Public Administration Department Name
+
+      - `debtor` : debtor subject identifier
+
+      - `transferList` : the list of transfers
+
+      - `metadata` : info received in to `paGetPaymentRes`
+
+
+      **PSP data**
+
+      - `idPSP` : PSP Identifier, it has been assigned from pagoPA.
+
+      - `pspFiscalCode` : PSP' fiscal code
+
+      - `pspPartitaIVA` : PSP' _Partita IVA_
+
+      - `PSPCompanyName` : PSP full name
+
+      - `idChannel` : Channel Identifier, it identifies a payment service
+      category and through which the transaction is carried out.
+
+      - `channelDescription` : Channel Identifier description
+
+      - `payer` : who made the payment
+
+      - `paymentMethod` : Method of the payment , i.e. `cash`, `creditCard`,
+      `bancomat` or `other`
+
+      - `fee` : PSP's fee applied
+
+      - `paymentDateTime` : payment execution date by the user
+
+      - `applicationDate` : application date, payment date on the PSP side
+
+      - `transferDate` : transfer date
     type: object
     properties:
       receiptId:
@@ -1180,6 +1693,14 @@ definitions:
   stOutcome_type_pafn:
     xml:
       namespace: ''
+    description: >-
+      The outcome of the operation may contain the following result string
+      code: 
+
+
+      - **OK** : operation performed successfully
+
+      - **KO** : operation terminated with error
     type: string
     enum:
       - OK
@@ -1193,12 +1714,11 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: "- `id` : Subject issuing the error.\nAllowed values \v\vare : \n  - `NodoDeiPagamentiSPC` : constant which identifies the NodoSPC\n  - `[domain identifier]` : domain id of the creditor entity issuing the fault\n  - `[PSP identifier]` : PSP identifier issuing the fault\n\n- `faultCode` : error code (see `stFaultCode` to details)\n\n- `faultString` : Specification of the error code, specific to the subject issuing it. Contains a more talking description relating to the `faultCode`.\n\n- `description` : Additional description of the error set by the NodoSPC, by the creditor or PSP.\n\n- `serial` : Position of the element in the referenced list. Useful when providing a parameter in the form of a vector (for example, in the primitive `SendCarrelloRPT` node).\nIf the error is generated by the EC or by the PSP, the data reported is the value of the `faultBean.serial` data set by the EC or by the PSP.\n\n- `originalFaultCode` : Error code generated by the counterpart. (_Set only it isn't generated by NodoSPC._)\n\n- `originalFaultString` : Specification of the error code generated by the counterpart. (_Set only it isn't generated by NodoSPC._)\n\n- `originalDescription` : Additional description of the error generated by the counterparty. (_Set only it isn't generated by NodoSPC._)"
     type: object
     properties:
       faultCode:
-        xml:
-          namespace: ''
-        type: string
+        $ref: '#/definitions/stFaultCode_type_pafn'
       faultString:
         xml:
           namespace: ''
@@ -1240,6 +1760,10 @@ definitions:
   stNoticeNumber_type_pafn:
     xml:
       namespace: ''
+    description: |-
+      `noticeNumber` is composed by :
+
+      `[auxDigit][segregationCode][IUVBase][IUVCheckDigit]`
     type: string
     pattern: '[0-9]{18}'
     x-xsi-type: stNoticeNumber
@@ -1275,6 +1799,18 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: |-
+      Contains all data for the subject of payment :
+
+      - `uniqueIdentifier` : (_see below to details_)
+      - `fullName` : name of the subject
+      - `streetName` : street name
+      - `civicNumber` : building number
+      - `postalCode` : postal code
+      - `city` : town name
+      - `stateProvinceRegion` : country subdivision
+      - `country` : country name
+      - `e-mail` : remittance location electronic address
     type: object
     properties:
       uniqueIdentifier:
@@ -1307,6 +1843,30 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: >-
+      Structure containing the details of possible tranfer payments.
+
+
+      Currently set at 5 eligible payments per single position.
+
+
+      Where each `transfer` items contains :
+
+
+      - `idTransfer` : index of the list (from `1` to `5`) 
+
+      - `transferAmount` : amount 
+
+      - `fiscalCodePA` : Tax code of the public administration
+
+      - `IBAN` : contains the IBAN of the account to be credited
+
+      - `remittanceInformation` : reason for payment (_alias_
+      `causaleVersamento`)
+
+      - `transferCategory` : contains the union of **CODICE TIPOLOGIA SERVIZIO**
+      following by ***TIPO SERVIZIO* as define in [Tassonomia dei
+      servizi](https://drive.google.com/file/d/13xOd__Qd4pwKHr3wjE-73NAB2O7UKmIt/view)
     type: object
     properties:
       transfer:
@@ -1326,6 +1886,9 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: |-
+      Its a _key/value_ store fields for the exclusive use of the PA. 
+      The data will return in the receipt (`paSendRT`)
     type: object
     properties:
       mapEntry:
@@ -1373,9 +1936,143 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: stISODateTime_type_pafn
+  stFaultCode_type_pafn:
+    xml:
+      namespace: ''
+    description: >-
+      ### Generic Errors
+
+
+      **PPT_SINTASSI_EXTRAXSD** : _Generic error related to any WSDL/XSD syntax
+      error. It can be returned from any message_
+
+
+      **PPT_STAZIONE_INT_PA_ERRORE_RESPONSE** : _Generic error related to any PA
+      error. It can be returned from verifyPaymentNotice and
+      ActivatePaymentNotice messages_
+
+
+      **PPT_STAZIONE_INT_PA_DISABILITATA** : _PA configuration error. It can be
+      returned from VerifyPaymentNotice and ActivatePaymentNotice messages_
+
+
+      **PPT_STAZIONE_INT_PA_IRRAGGIUNGIBILE** : _PA configuration error. It can
+      be returned from VerifyPaymentNotice and ActivatePaymentNotice messages_
+
+
+      **PPT_INTERMEDIARIO_PA_DISABILITATO** : _PA configuration error. It can be
+      returned from VerifyPaymentNotice and ActivatePaymentNotice messages_
+
+
+      **PPT_STAZIONE_INT_PA_TIMEOUT** : _PA information is not available, the
+      operation can not be authorized. It can be returned from
+      VerifyPaymentNotice and ActivatePaymentNotice messages_
+       
+      ### Authentication Errors
+
+
+      **PPT_PSP_SCONOSCIUTO** : _Authentication Error. It can be returned from
+      any messages_
+
+
+      **PPT_PSP_DISABILITATO** : _Authentication Error. It can be returned from
+      any messages_
+
+
+      **PPT_INTERMEDIARIO_PSP_SCONOSCIUTO** : _Authentication Error. It can be
+      returned from any messages_
+
+
+      **PPT_INTERMEDIARIO_PSP_DISABILITATO** : _Authentication Error. It can be
+      returned from any messages_
+
+
+      **PPT_CANALE_SCONOSCIUTO** : _Authentication Error. It can be returned
+      from any messages_
+
+
+      **PPT_CANALE_DISABILITATO** : _Authentication Error. It can be returned
+      from any messages_
+
+
+      **PPT_AUTORIZZAZIONE** : _Authentication Error. It can be returned from
+      any messages_
+
+
+      ### Request Errors
+
+
+      **PPT_DOMINIO_SCONOSCIUTO** : _Request Error. Unknown PA fiscal code. It
+      can be returned from VerifyPaymentNotice and ActivatePaymentNotice
+      messages_
+
+
+      **PPT_DOMINIO_DISABILITATO** : _Request Error. Unknown PA fiscal code. It
+      can be returned from VerifyPaymentNotice and ActivatePaymentNotice
+      messages_
+
+
+      **PPT_INT_PA_SCONOSCIUTA** :  _Notice Number Error. It can be returned
+      from VerifyPaymentNotice messages_
+
+
+      ### Business Errors
+
+
+      **PPT_ERRORE_EMESSO_DA_PAA** : _Operation not authorized. It can be
+      returned from VerifyPaymentNotice and ActivatePaymentNotice messages_
+
+
+      **PPT_SEMANTICA** : _Idempotency key expired. It can be returned from 
+      ActivatePaymentNotice messages; The same fault code can be related to an
+      integration error._
+
+
+      **PPT_PAGAMENTO_IN_CORSO** : _Payment in process, the operation can not be
+      authorized. It can be returned from  ActivatePaymentNotice messages:
+
+
+      **PPT_TOKEN_SCONOSCIUTO** : _Unknown Payment Token, the operation can not
+      be authorized. It can be returned from  SendPaymentOutcome messages_
+
+
+      **PPT_ESITO_GIA_ACQUISITO** : _Idempotency Error, the same request has
+      been already processed with different params. It can be returned from 
+      SendPaymentOutcome messages_
+
+
+      **PPT_TOKEN_SCADUTO** : _Expired payment token, the position debt is still
+      payable. The operation can not be authorized. It can be returned from 
+      SendPaymentOutcome messages_
+
+
+      **PPT_PAGAMENTO_DUPLICATO** : _Expired payment token, the position debt
+      has benn already payed. The operation can not be authorized. It can be
+      returned from  SendPaymentOutcome messages_
+    type: string
+    x-xsi-type: stFaultCode
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stFaultCode_type_pafn
   stAmountOption_type_pafn:
     xml:
       namespace: ''
+    description: >-
+      Indicates the payment criteria accepted by public administration respect
+      to the amount, i.e. if it accepts an `amount` for this payment option
+
+
+      - equals `EQ`
+
+      - less `LT`
+
+      - greater `GT`
+
+      - any `ANY`
+
+
+      than indicated.
     type: string
     enum:
       - EQ
@@ -1488,6 +2185,14 @@ definitions:
   stEntityUniqueIdentifierType_type_pafn:
     xml:
       namespace: ''
+    description: >-
+      Alphanumeric field indicating the nature of the subject; it can assume the
+      following values:
+
+
+      - **F** : Natural person
+
+      - **G** : Legal Person
     type: string
     enum:
       - F
@@ -1502,6 +2207,13 @@ definitions:
   stEntityUniqueIdentifierValue_type_pafn:
     xml:
       namespace: ''
+    description: >-
+      Alphanumeric field that can contain the tax code or, alternatively, the
+      VAT number of the payer.
+
+
+      In applicable cases, when it is not possible to identify for tax purposes
+      the subject, the `ANONIMO` value can be used
     type: string
     minLength: 2
     maxLength: 16
