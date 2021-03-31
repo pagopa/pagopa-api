@@ -86,7 +86,7 @@ Formally, any API request is coming from a broker on behalf of a PSP which is re
 
 | Field   |      Description      |  Example value |
 |:----------:|-------------|------|
-| **idPSP** | Code used in the primitive web service of conversation and in the objects exchanged with the NodoSPC. The code is generally represented by the BIC code of the PSP (in 8 or 11 positions, depending on the case). In the absence of the BIC code, or to handle particular situations, another code can be used, as long as it uniquely identifies the PSP. | AGID_01 |
+| **idPSP** | Code used in the primitive web service of conversation and in the objects exchanged with the NodoSPC. The code is generally represented by the BIC code of the PSP. In the absence of the BIC code, or to handle particular situations, another code can be used, as long as it uniquely identifies the PSP. | AGID_01 |
 | **idBroker** | Identification of the PSP intermediary who provides the specific access (**idChannel**) to the PSP for the delivery of the service. _Notes: The intermediary can coincide with the PSP itself._ | 97735020584 |
 | **idChannel**| channel identifier through which the transaction is carried out. It belongs to only one Intermediary therefore he must be unique with respect to the PSP | 97735020584_02 |
 | **password**| channel password | _assigned by [PagoPa](https://www.pagopa.gov.it/it/pagopa-spa/servizi-psp/)_|
