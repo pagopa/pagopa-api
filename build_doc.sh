@@ -3,6 +3,11 @@
 
 # lsof -i :8080 | grep node | cut -f 5 -d ' ' | xargs kill -9
 # ./build_doc.sh -b -r nodeForPsp
+# ./build_doc.sh -b -r paForNode
+
+# to run only
+# cd api-definitions && yarn start paForNode_Service
+# cd api-definitions && yarn start nodeForPsp_Service
 
 plantuml -tsvg api-definitions/openapi/description.md
 plantuml -tsvg api-definitions/openapi/descriptionPA.md

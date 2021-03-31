@@ -83,10 +83,13 @@ Use of this API is restricted to PA, or 3rd parties ( named as brokers ) which h
 Both PAs and Brokers are identified with an identifier (`idPA`, `idBrokerPA`)  assigned by PagoPA S.p.A.
 
 Formally, any API request is coming from a broker on behalf of a PA which is responsable of the payment.
+  
+| Field   |      Description      |  Example value |
+|:----------:|-------------|------|
+| **idPA** | Alphanumeric field containing the tax code of the PA that manage the payment request.<br>(_in previous versions called_ `identificativoDominio`)| 80215430580 |
+| **idBrokerPA** | Identification of the PA intermediary who provides the specific access (**idStation**) | 88835020584 |
+| **idStation**|  Station identifer related to PA in the SPC Payment Node system | 888020584_01 |
 
-- `idPA` : it represents the PA responsable for a request payment
-- `idBrokerPA` : the sender
-- `idStation` : the pa service
 
 ## Verify Phase
 Below is the detailed diagram of this phase
