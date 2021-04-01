@@ -54,8 +54,8 @@
   <xsd:simpleType name="stAmount">
     <xsd:annotation>
       <xsd:documentation>
-                Amount of payment in euro
-            </xsd:documentation>
+Amount of payment in euro
+      </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:decimal">
       <xsd:pattern value="\d+\.\d{2}" />
@@ -92,7 +92,7 @@
     <xsd:annotation>
       <xsd:documentation>
 Tax code of the public administration to which the payment notification is made out
-</xsd:documentation>
+        </xsd:documentation>
     </xsd:annotation>
 
     <xsd:restriction base="xsd:string">
@@ -191,7 +191,7 @@ Alphanumeric field indicating the nature of the subject; it can assume the follo
 `noticeNumber` is composed by :
 
 `[auxDigit][segregationCode][IUVBase][IUVCheckDigit]`
-</xsd:documentation>
+      </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
       <xsd:pattern value="[0-9]{18}" />
@@ -709,7 +709,7 @@ Its a response to `paGetPaymentReq` and contains :
 - `outcome` and _optional_ `fault` (_see below to details_)
 - all `data` related to payment (_see below to details_)
 
-    </xsd:documentation>
+      </xsd:documentation>
     </xsd:annotation>
 
     <xsd:complexContent>
@@ -747,7 +747,7 @@ Its a response to `paSendRTReq` and contains :
 
 - `outcome` and _optional_ `fault` (_see below to details_)
 
-    </xsd:documentation>
+      </xsd:documentation>
     </xsd:annotation>
 
     <xsd:complexContent>
