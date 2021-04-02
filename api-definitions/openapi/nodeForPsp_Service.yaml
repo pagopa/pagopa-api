@@ -1292,6 +1292,12 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
       name: verifyPaymentNoticeReq
+    description: >-
+      Its a request to verify payment starting from a payment notice.
+
+
+      The PSP shall call it to verify the payment notice and obtains all payment
+      options available for this debt position.
     type: object
     properties:
       idPSP:
@@ -1342,10 +1348,13 @@ definitions:
 
       If the Public Administration is configured as _OLD_ (i.e. still uses the
       old primitives) this field must be set with the data
-      `nodeTipoDatiPagamentoPA` of the` nodeVerificaRPTRanspond` specifically:
+      `nodoTipoDatiPagamentoPA` of the `nodoVerificaRPTRisposta` specifically
+      with:
 
       - `causaleVersamento`: represents the extended description of the reason
-      for the payment, or
+      for the payment 
+
+      or
 
       - `spezzoniCausaleVersamento`: structure available to Public
       Administration to specify the payment reasons.
@@ -1431,6 +1440,8 @@ definitions:
         $ref: '#/definitions/stIdempotencyKey_type_nfpsp'
       qrCode:
         $ref: '#/definitions/ctQrCode_type_nfpsp'
+      expirationTime:
+        $ref: '#/definitions/stExpirationTime_type_nfpsp'
       amount:
         $ref: '#/definitions/stAmount_type_nfpsp'
       dueDate:
@@ -1915,7 +1926,19 @@ definitions:
   stExpirationTime_type_nfpsp:
     xml:
       namespace: ''
-    description: 'token expiration time ( ms ), max 30 minute'
+    description: >-
+      Token expiration time ( ms ), max 30 minute.
+
+
+      The duration of the payment token can be set in 2 ways :
+
+
+      - _Implicitly_ from the **pagoPA** platform, if it isn't set in the
+      request of `activatePaymentNotice` (default value duration = `30` minutes)
+
+
+      - _Explicitly_ from the **PSP**, if it's set in request to the
+      `activatePaymentNotice`
     type: number
     maximum: 1800000
     x-xsi-type: stExpirationTime
