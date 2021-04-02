@@ -1,0 +1,14 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nod="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+  <soapenv:Header />
+  <soapenv:Body>
+    <nod:paVerifyPaymentNoticeReq>
+      <idPA>77777777777</idPA>
+      <idBrokerPA>77777777777</idBrokerPA>
+      <idStation>77777777777_01</idStation>
+      <qrCode>
+        <fiscalCode>77777777777</fiscalCode>
+        <noticeNumber>311018921337126000</noticeNumber>
+      </qrCode>
+    </nod:paVerifyPaymentNoticeReq>
+  </soapenv:Body>
+</soapenv:Envelope>

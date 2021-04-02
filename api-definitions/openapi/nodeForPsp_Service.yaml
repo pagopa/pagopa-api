@@ -45,6 +45,9 @@ paths:
     post:
       summary: Operation verificaBollettino
       description: >-
+        **NOTE** : valid only for [Poste Italiane](https://www.poste.it/)
+
+
         Interrogazione del bollettino postale PA contenuto all'interno
         dell'avviso di pagamento.
 
@@ -68,26 +71,62 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/verificaBollettinoInput'
+          description: >-
+            ```
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nod="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+                  <soapenv:Header />
+                  <soapenv:Body>
+                    <nod:verificaBollettinoReq>
+                      <idPSP>POSTE3</idPSP>
+                      <idBrokerPSP>BANCOPOSTA</idBrokerPSP>
+                      <idChannel>POSTE3</idChannel>
+                      <password>**********</password>
+                      <ccPost>012345678912</ccPost>
+                      <noticeNumber>311123456789012345</noticeNumber>
+                    </nod:verificaBollettinoReq>
+                  </soapenv:Body>
+                </soapenv:Envelope>
+         
+            ```            
       responses:
-        '500':
-          description: ''
-          schema:
-            $ref: '#/definitions/verificaBollettinoFault'
-        default:
-          description: ''
+        '200':
+          description: 'verificaBollettinoRes'
           schema:
             $ref: '#/definitions/verificaBollettinoOutput'
+          examples:
+            application/xml: >-
+              <soapenv:Envelope xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                  <nfpsp:verificaBollettinoRes>
+                    <outcome>OK</outcome>
+                    <paymentBollettinoList>
+                      <paymentOptionDescription>
+                        <amount>10.00</amount>
+                        <options>EQ</options>
+                        <dueDate>2021-12-31</dueDate>
+                        <paymentNote>test</paymentNote>
+                        <allCCP>true</allCCP>
+                      </paymentOptionDescription>
+                    </paymentBollettinoList>
+                    <paymentDescription>test</paymentDescription>
+                    <fiscalCodePA>77777777777</fiscalCodePA>
+                    <noticeNumber>311013731881153800</noticeNumber>
+                    <companyName>company</companyName>
+                    <officeName>office</officeName>
+                  </nfpsp:verificaBollettinoRes>
+                </soapenv:Body>
+              </soapenv:Envelope>  
   /verifyPaymentNotice:
     post:
       summary: Operation verifyPaymentNotice
       description: >-
-        Gets Payment Notice Data; a Payment Notice is identified by its QR-CODE
+        Gets Payment Notice Data. A Payment Notice is identified by its QR-CODE
         data.
 
 
         The operation returns available payment options to the user. Each
-        payment options desribes the acceptance `amount` values to be used
-        requesting a payment activaction ( _see activetePayment_ ).
+        payment options describes the acceptance `amount` values to be used
+        requesting a payment activation ( see _activatePaymentNotice_ ).
       operationId: verifyPaymentNotice
       x-ibm-soap:
         soap-action: verifyPaymentNotice
@@ -142,19 +181,11 @@ paths:
                     </nfpsp:verifyPaymentNoticeRes>
                 </soapenv:Body>
               </soapenv:Envelope>      
-        '500':
-          description: ''
-          schema:
-            $ref: '#/definitions/verifyPaymentNoticeFault'
-        default:
-          description: ''
-          schema:
-            $ref: '#/definitions/verifyPaymentNoticeOutput'
   /activatePaymentNotice:
     post:
       summary: Operation activatePaymentNotice
       description: >-
-        Request a payment activation, it returns a paymentToken.
+        Request a payment activation, it returns a `paymentToken`.
 
 
         Payment amount shall be equal to a payment option returned by
@@ -167,7 +198,7 @@ paths:
 
         The idempontency key works by saving the resulting status code and body
         of the first request made for any given idempotency key if its status is
-        OK.
+        **OK**.
 
         Subsequent request with the same key return the same result, except for
         error codes. 
@@ -189,13 +220,13 @@ paths:
         accidental misuse.
 
 
+        The `paymentToken` is a unique key with no expiration date _( as
+        default, see `expirationTime` definition for details)_ , and allow a PSP
+        to start an user payment session _(see `stPaymentToken` definition for
+        details)_, until the receipt of a `sendPaymentOutcome`.
 
-        The Payment token is a unique key with no expiration date _( as default,
-        see `expirationTime` definition for details)_ , and allow a PSP to start
-        an user payment session. _(see `stPaymentToken` definition for details)_
 
-        Until the receipt of a `sendPaymentOutcome`, any subsequent request for
-        the same payment notice will be denied.
+        Any subsequent request for the same payment notice will be denied.
       operationId: activatePaymentNotice
       x-ibm-soap:
         soap-action: activatePaymentNotice
@@ -258,14 +289,6 @@ paths:
                     </nfpsp:activatePaymentNoticeRes>
                 </soapenv:Body>
               </soapenv:Envelope>
-        '500':
-          description: ''
-          schema:
-            $ref: '#/definitions/activatePaymentNoticeFault'
-        default:
-          description: ''
-          schema:
-            $ref: '#/definitions/activatePaymentNoticeOutput'
   /sendPaymentOutcome:
     post:
       summary: Operation sendPaymentOutcome
@@ -357,14 +380,7 @@ paths:
                     </nfpsp:sendPaymentOutcomeRes>
                 </soapenv:Body>
               </soapenv:Envelope>
-        '500':
-          description: ''
-          schema:
-            $ref: '#/definitions/sendPaymentOutcomeFault'
-        default:
-          description: ''
-          schema:
-            $ref: '#/definitions/sendPaymentOutcomeOutput'
+
 definitions:
   Security:
     xml:
@@ -447,8 +463,6 @@ definitions:
           prefix: soapenv
         type: object
         properties:
-          Header:
-            $ref: '#/definitions/verificaBollettinoHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
@@ -623,8 +637,6 @@ definitions:
           prefix: soapenv
         type: object
         properties:
-          Header:
-            $ref: '#/definitions/verifyPaymentNoticeHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
@@ -799,8 +811,6 @@ definitions:
           prefix: soapenv
         type: object
         properties:
-          Header:
-            $ref: '#/definitions/activatePaymentNoticeHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
@@ -984,8 +994,6 @@ definitions:
           prefix: soapenv
         type: object
         properties:
-          Header:
-            $ref: '#/definitions/sendPaymentOutcomeHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
@@ -1284,6 +1292,12 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
       name: verifyPaymentNoticeReq
+    description: >-
+      Its a request to verify payment starting from a payment notice.
+
+
+      The PSP shall call it to verify the payment notice and obtains all payment
+      options available for this debt position.
     type: object
     properties:
       idPSP:
@@ -1320,6 +1334,39 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
       name: verifyPaymentNoticeRes
+    description: >-
+      Its a response to `verifyPaymentNoticeReq` and contains :
+
+
+      - `outcome` and _optional_ `fault` (_see below to details_)
+
+      - `paymentList` : the list of all available payment options (_see below to
+      details_)
+
+      - `paymentDescription` : 
+
+
+      If the Public Administration is configured as _OLD_ (i.e. still uses the
+      old primitives) this field must be set with the data
+      `nodoTipoDatiPagamentoPA` of the `nodoVerificaRPTRisposta` specifically
+      with:
+
+      - `causaleVersamento`: represents the extended description of the reason
+      for the payment 
+
+      or
+
+      - `spezzoniCausaleVersamento`: structure available to Public
+      Administration to specify the payment reasons.
+
+
+      The size of the current field is such as to allow the concatenation of the
+      old information previously described.
+
+
+      - `companyName` : Public Administration full name
+
+      - `officeName` : Public Administration Department Name
     allOf:
       - $ref: '#/definitions/ctResponse_type_nfpsp'
       - type: object
@@ -1328,18 +1375,12 @@ definitions:
             $ref: '#/definitions/ctPaymentOptionsDescriptionList_type_nfpsp'
           paymentDescription:
             $ref: '#/definitions/stText210_type_nfpsp'
-            description: full text description
           fiscalCodePA:
             $ref: '#/definitions/stFiscalCodePA_type_nfpsp'
-            description: >-
-              tax code of the public administration to which the payment
-              notification is made out
           companyName:
             $ref: '#/definitions/stText140_type_nfpsp'
-            description: Public Administration full name
           officeName:
             $ref: '#/definitions/stText140_type_nfpsp'
-            description: Public Admninistration Department Name
     example: >-
 
       <nfpsp:verifyPaymentNoticeRes
@@ -1373,6 +1414,18 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
       name: activatePaymentNoticeReq
+    description: >-
+      This request permits a PSP starting a payment process. 
+
+
+      The `amount` should not match with `amount` received into
+      `verifyPaymentNotice` response.
+
+
+      If the PA is configured as _OLD_ , if there is no `amount` in input, the
+      system shall return an error to the PSP.
+
+      **NOTE** : _the `amount` is required for `paaAttivaRPT`_
     type: object
     properties:
       idPSP:
@@ -1425,6 +1478,46 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
       name: activatePaymentNoticeRes
+    description: >-
+      Its a response to `activatePaymentNoticeReq` and contains :
+
+
+      - `outcome` and _optional_ `fault` (_see below to details_)
+
+      - `totalAmount` (_see below to details_)
+
+      - `paymentDescription` : 
+
+
+      If the Public Admninistration is configured as _OLD_ (i.e. still uses the
+      old primitives) this field must be set with the data
+      `nodeTipoDatiPagamentoPA` of the` nodeVerificaRPTRanspond` specifically:
+
+      - `causaleVersamento`: represents the extended description of the reason
+      for the payment, or
+
+      - `spezzoniCausaleVersamento`: structure available to Public
+      Administration to specify the payment reasons.
+
+
+      The size of the current field is such as to allow the concatenation of the
+      old information previously described.
+
+
+      - `companyName` : Public Administration full name
+
+      - `officeName` : Public Admninistration Department Name
+
+      - `paymentToken` (_see below to details_)
+
+      - `transferList` : : the list of all available transfer (_see below to
+      details_)
+
+      - `creditorReferenceId` : it contains a **IUV**. The **IUV** code is
+      assigned by PA through the generation rules provided by _SANP_. 
+
+      The **IUV** code constitutes the element through which the PA receives all
+      the information that characterizes the payment.
     allOf:
       - $ref: '#/definitions/ctResponse_type_nfpsp'
       - type: object
@@ -1482,6 +1575,10 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd'
       prefix: nfpsp
       name: sendPaymentOutcomeReq
+    description: |-
+      This request permits a PSP to send a receipt. 
+
+      The `details` field contains the details of the payment made by the user.
     type: object
     properties:
       idPSP:
@@ -1565,7 +1662,20 @@ definitions:
   stIdPSP_type_nfpsp:
     xml:
       namespace: ''
-    description: 'PSP Identifier, it has been assigned from pagoPA.'
+    description: >-
+      PSP Identifier, it has been assigned from pagoPA.
+
+
+      Code used in the primitive web service and in its objects exchanged with
+      the NodoSPC.
+
+
+      The code is generally represented by the **BIC** code (_Bank Identifier
+      Code_) of the PSP.
+
+
+      In the absence of the BIC code, or to handle particular situations,
+      another code can be used, as long as it uniquely identifies the PSP.
     type: string
     minLength: 1
     maxLength: 35
@@ -1577,7 +1687,15 @@ definitions:
   stIdBroker_type_nfpsp:
     xml:
       namespace: ''
-    description: 'Broker Identifier, it has been assigned from pagoPA.'
+    description: >-
+      Broker Identifier, it has been assigned from pagoPA.
+
+
+      Identification of the intermediary/broker of the PSP that provides the
+      specific access (channel) to the PSP for the service delivery.
+
+
+      _Note_: The intermediary/broker can coincide with the PSP itself
     type: string
     minLength: 1
     maxLength: 35
@@ -1589,7 +1707,13 @@ definitions:
   stIdChannel_type_nfpsp:
     xml:
       namespace: ''
-    description: 'Channel Identifier, it identifies a payment service category'
+    description: >-
+      Channel Identifier, it identifies a payment service category and through
+      which the transaction is carried out.
+
+
+      A Channel identifier belongs to only one PSP intermediary/broker and
+      consequently must be unique with respect to the PSP.
     type: string
     minLength: 1
     maxLength: 35
@@ -1625,6 +1749,10 @@ definitions:
   stNoticeNumber_type_nfpsp:
     xml:
       namespace: ''
+    description: |-
+      `noticeNumber` is composed by :
+
+      `[auxDigit][segregationCode][IUVBase][IUVCheckDigit]`
     type: string
     pattern: '[0-9]{18}'
     x-xsi-type: stNoticeNumber
@@ -1665,6 +1793,9 @@ definitions:
   stFiscalCodePA_type_nfpsp:
     xml:
       namespace: ''
+    description: >-
+      Tax code of the public administration to which the payment notification is
+      made out
     type: string
     pattern: '[0-9]{11}'
     minLength: 11
@@ -1690,8 +1821,10 @@ definitions:
       namespace: ''
       prefix: ''
     description: |-
-      Payment Notice QR-CODE data.
+      Payment Notice **QR-CODE** data.
       QR-CODE is ISO/IEC 18004:2015 compliant generated with:
+
+      Parameters for generating the QR-CODE
 
       - Symbol Version : 4
       - Modules : 33x33
@@ -1702,9 +1835,11 @@ definitions:
       QR-CODE contains a string formatted as :
       `PAGOPA|002|noticeNumber|fiscalCode|amount`
 
-      the notice number is composed by:
+      Where `noticeNumber` is composed by :
 
       `[auxDigit][segregationCode][IUVBase][IUVCheckDigit]`
+
+      While `fiscalCode` is the creditor tax code.
     type: object
     properties:
       fiscalCode:
@@ -1723,6 +1858,27 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: >-
+      Structure containing the details of possible payments relating to the debt
+      position to be paid.
+
+
+      Currently set at 5 eligible payments per single position.
+
+
+      Where each `paymentOptionDescription` items contains :
+
+
+      - `amount` : payment amount
+
+      - `options` : indicates the payment criteria accepted by the institution
+      with respect to the amount, or if it accepts for this payment option other
+      than `amount`.
+
+      - `dueDate` : indicates the expiration payment date according to the ISO
+      8601 format `[YYYY]-[MM]-[DD]`.
+
+      - `paymentNote` : Free text available to describe the payment reasons
     type: object
     properties:
       paymentOptionDescription:
@@ -1741,9 +1897,25 @@ definitions:
   stIdempotencyKey_type_nfpsp:
     xml:
       namespace: ''
-    description: |-
-      `IdempotencyKey`, it has been genearated from PSP.
-                      It's obtained as concatenation of the PSP' fiscal code followed by a `_` and a unique random string within PSP, that generated it
+    description: >-
+      `idempotencyKey`, it has been genearated from PSP.
+
+
+      The `activationPaymentNotice` request expects this input parameter,  whose
+      content is a discretion of caller, which makes the call idempotent with
+      respect to the
+
+      same value of `idempotencyKey`, i.e. with the same key the platform will
+      respond with the same response.
+
+
+      It's obtained as concatenation of the PSP' fiscal code followed by a `_`
+      and a unique random string within PSP, that generated it
+
+
+      The system won't check the value of the PSP tax number on the DB, but the
+      above criteria are useful for creating and guaranteeing a unique
+      `idempotencyKey`.
     type: string
     pattern: '[0-9]{11}_[a-zA-Z0-9]{10}'
     x-xsi-type: stIdempotencyKey
@@ -1754,7 +1926,19 @@ definitions:
   stExpirationTime_type_nfpsp:
     xml:
       namespace: ''
-    description: 'expiration time ( ms ), max 30 minute'
+    description: >-
+      Token expiration time ( ms ), max 30 minute.
+
+
+      The duration of the payment token can be set in 2 ways :
+
+
+      - _Implicitly_ from the **pagoPA** platform, if it isn't set in the
+      request of `activatePaymentNotice` (default value duration = `30` minutes)
+
+
+      - _Explicitly_ from the **PSP**, if it's set in request to the
+      `activatePaymentNotice`
     type: number
     maximum: 1800000
     x-xsi-type: stExpirationTime
@@ -1787,6 +1971,16 @@ definitions:
   stPaymentToken_type_nfpsp:
     xml:
       namespace: ''
+    description: >-
+      It is generated by the system during the payment activation phase, it is
+      the correlation identifier to match activation and payment outcome. 
+
+
+      - **PA OLD**: the PA receives it into `CCP` (_CodiceContestoPagamento_)
+      which uniquely identifies a single payment activity started from PSP.
+
+      - **PA NEW**: the PA does not know it, it will receive it as a unique
+      identifier of the receipt.
     type: string
     minLength: 1
     maxLength: 35
@@ -1799,6 +1993,26 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: >-
+      Structure containing the details of possible tranfer payments.
+
+
+      Currently set at 5 eligible payments per single position.
+
+
+      Where each `transfer` items contains :
+
+
+      - `idTransfer` : index of the list
+
+      - `transferAmount` : amount 
+
+      - `fiscalCodePA` : Tax code of the public administration
+
+      - `IBAN` : contains the IBAN of the account to be credited
+
+      - `remittanceInformation` : reason for payment (_alias_
+      `causaleVersamento`)
     type: object
     properties:
       transfer:
@@ -1828,6 +2042,14 @@ definitions:
   stOutcome_type_nfpsp:
     xml:
       namespace: ''
+    description: >-
+      The outcome of the operation may contain the following result string
+      code: 
+
+
+      - **OK** : operation performed successfully
+
+      - **KO** : operation terminated with error
     type: string
     enum:
       - OK
@@ -1841,6 +2063,14 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: >-
+      The outcome details contains a payment method and channel , a PSP's fee,
+      the `payer` subject and two date : 
+
+      - `applicationDate` : when payment is made
+
+      - `transferDate` : transfer order date, the date of effective transfer
+      amount
     type: object
     properties:
       paymentMethod:
@@ -1869,6 +2099,7 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: "- `id` : Subject issuing the error.\nAllowed values \v\vare : \n  - `NodoDeiPagamentiSPC` : constant which identifies the NodoSPC\n  - `[domain identifier]` : domain id of the creditor entity issuing the fault\n  - `[PSP identifier]` : PSP identifier issuing the fault\n\n- `faultCode` : error code (see `stFaultCode` to details)\n\n- `faultString` : Specification of the error code, specific to the subject issuing it. Contains a more talking description relating to the `faultCode`.\n\n- `description` : Additional description of the error set by the NodoSPC, by the creditor or PSP.\n\n- `serial` : Position of the element in the referenced list. Useful when providing a parameter in the form of a vector (for example, in the primitive `SendCarrelloRPT` node).\nIf the error is generated by the EC or by the PSP, the data reported is the value of the `faultBean.serial` data set by the EC or by the PSP.\n\n- `originalFaultCode` : Error code generated by the counterpart. (_Set only it isn't generated by NodoSPC._)\n\n- `originalFaultString` : Specification of the error code generated by the counterpart. (_Set only it isn't generated by NodoSPC._)\n\n- `originalDescription` : Additional description of the error generated by the counterparty. (_Set only it isn't generated by NodoSPC._)"
     type: object
     properties:
       faultCode:
@@ -1990,6 +2221,7 @@ definitions:
   stPaymentMethod_type_nfpsp:
     xml:
       namespace: ''
+    description: 'Method of the payment , i.e. `cash`, `creditCard`, `bancomat` or `other`'
     type: string
     enum:
       - cash
@@ -2004,6 +2236,9 @@ definitions:
   stPaymentChannel_type_nfpsp:
     xml:
       namespace: ''
+    description: >-
+      Channel of the payment , i.e. `frontOffice`, `atm`, `onLine`, `app` or
+      `other`
     type: string
     enum:
       - frontOffice
@@ -2020,6 +2255,18 @@ definitions:
     xml:
       namespace: ''
       prefix: ''
+    description: |-
+      Contains all data for the subject of payment :
+
+      - `uniqueIdentifier` : (_see below to details_)
+      - `fullName` : name of the subject
+      - `streetName` : street name
+      - `civicNumber` : building number
+      - `postalCode` : postal code
+      - `city` : town name
+      - `stateProvinceRegion` : country subdivision
+      - `country` : country name
+      - `e-mail` : remittance location electronic address
     type: object
     properties:
       uniqueIdentifier:
@@ -2170,6 +2417,21 @@ definitions:
   stAmountOptionPSP_type_nfpsp:
     xml:
       namespace: ''
+    description: >-
+      Indicates the payment criteria accepted by public administration respect
+      to the amount, i.e. if it accepts an `amount` for this payment option
+
+
+      - equals `EQ`
+
+      - less `LT`
+
+      - greater `GT`
+
+      - any `ANY`
+
+
+      than indicated.
     type: string
     enum:
       - EQ
@@ -2271,6 +2533,14 @@ definitions:
   stEntityUniqueIdentifierType_type_nfpsp:
     xml:
       namespace: ''
+    description: >-
+      Alphanumeric field indicating the nature of the subject; it can assume the
+      following values:
+
+
+      - **F** : Natural person
+
+      - **G** : Legal Person
     type: string
     enum:
       - F
@@ -2285,6 +2555,13 @@ definitions:
   stEntityUniqueIdentifierValue_type_nfpsp:
     xml:
       namespace: ''
+    description: >-
+      Alphanumeric field that can contain the tax code or, alternatively, the
+      VAT number of the payer.
+
+
+      In applicable cases, when it is not possible to identify for tax purposes
+      the subject, the `ANONIMO` value can be used
     type: string
     minLength: 2
     maxLength: 16
