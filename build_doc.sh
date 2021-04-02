@@ -12,6 +12,7 @@
 plantuml -tsvg api-definitions/openapi/description.md
 plantuml -tsvg api-definitions/openapi/descriptionPA.md
 cp api-definitions/openapi/uml_diag/* api-definitions/web/
+cp api-definitions/openapi/uml_diag/* docs/
 
 BUILD=0
 RUN=0
