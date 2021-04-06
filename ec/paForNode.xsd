@@ -527,7 +527,7 @@ Its contains all payment information :
 
 **identifier section**
 - `outcome` : result of receipt **OK**/**KO**
-- `receiptId` : unique identifier of receipt (assigned by pagoPa)
+- `receiptId` : unique identifier of receipt (assigned by pagoPa) it contains `paymentToken` present in to `activatePaymentNotice` response 
 - `noticeNumber` : notice number
 - `fiscalCode` : Tax code of the public administration
 
