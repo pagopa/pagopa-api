@@ -528,7 +528,7 @@ Its contains all payment information :
         Al momento sempre valorizzata dal nodo : anche se in futuro per le KO potrebbe non esserlo.
         Questo perchè per valorizzare tale campo richiede diversi accessi al DB
       -->
-      <xsd:element name="transferList" type="tns:ctTransferListPA" minOccurs="0" />
+      <xsd:element name="transferList" type="tns:ctTransferListPA" />
       <xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
