@@ -1,3 +1,3 @@
 #!/bin/zsh
 
-xmllint --schema CatalogoDatiInformativi.xsd $1 --noout
+xmllint --schema CatalogoDatiInformativiPerPSP.xsd $1 --noout

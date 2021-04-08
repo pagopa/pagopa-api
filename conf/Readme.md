@@ -2,7 +2,7 @@
 
 La configurazione di un PSP all'interno della piattaforma pagoPA avviene tramite la trasmissione di:
 
-- Il CatalogoDatiInformativi ( CDI) , file xml il cui schema è rappresentato dal file CatalogoDatiInformativi.xsd
+- Il CatalogoDatiInformativiPerPSP ( CDI) , file xml il cui schema è rappresentato dal file `CatalogoDatiInformativiPerPSP.xsd`
 - Report della configurazione, file html dove vengono riassunte le iformazioni essenziali dei servizi configurati
 
 ## Prerequisiti
@@ -22,12 +22,12 @@ git submodule update --init --remote xs3p xsd2html2xml
 all'interno della directory `conf` eseguire i comandi
 
 ```
-xsltproc -o ./out/CatalogoDatiInformativi.html ./xs3p/xs3p.xsl CatalogoDatiInformativi.xsd
+xsltproc -o ./out/CatalogoDatiInformativiPerPSP.html ./xs3p/xs3p.xsl CatalogoDatiInformativiPerPSP.xsd
 ```
 > Per la compilazione della pagina di documentazione del _CDI_.
 
 ```
-xsltproc -o ./out/form_CatalogoDatiInformativi.html ./xsd2html2xml/xsd2html2xml.xsl CatalogoDatiInformativi.xsd
+xsltproc -o ./out/form_CatalogoDatiInformativiPerPSP.html ./xsd2html2xml/xsd2html2xml.xsl CatalogoDatiInformativiPerPSP.xsd
 ```
 > per la creazione di una form dinamica per il _CDI_.
 
@@ -37,21 +37,21 @@ Se tutto va bene 👍 sotto la dir `out` appariranno i seguenti file `html` :
 
 ```
 out/
-├── CatalogoDatiInformativi.html
-└── form_CatalogoDatiInformativi.html
+├── CatalogoDatiInformativiPerPSP.html
+└── form_CatalogoDatiInformativiPerPSP.html
 ```
 
 che possono essere aperti da un qualsiasi browser
 
 ## Documentazione
 
-La documentazione del formato CDI è specificata tramite il file `CatalogodatiInformativi.xsd` , e documentata all'interno della pagina
+La documentazione del formato CDI è specificata tramite il file `CatalogoDatiInformativiPerPSP.xsd` , e documentata all'interno della pagina
 
-`./out/CatalogoDatiInformativi.html`
+`./out/CatalogoDatiInformativiPerPSP.html`
 
 ## Compilazione del Catalogo Dati
 
-Per compilare un catalogo dati è possibile aprire tramite il proprio browser la pagina [form_CatalogoDatiInformativi.html](./out/form_CatalogoDatiInformativi.html), 
+Per compilare un catalogo dati è possibile aprire tramite il proprio browser la pagina [form_CatalogoDatiInformativiPerPSP.html](./out/form_CatalogoDatiInformativiPerPSP.html), 
 compilare il form e premere il tasto **OK**.
 
 Verrà scaricato un file nominato `CDISample.xml`, rinominarlo con lo stesso valore del campo _IdentificativoFlusso_.
