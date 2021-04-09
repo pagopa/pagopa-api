@@ -63,6 +63,20 @@ Amount of payment in euro
     </xsd:restriction>
   </xsd:simpleType>
 
+  <xsd:simpleType name="stAmountNotZero">
+    <xsd:annotation>
+      <xsd:documentation>
+Amount of payment in euro (_it doesn't admit values ​​equal to 0_)
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:pattern value="\d+\.\d{2}" />
+      <xsd:minInclusive value="0.01" /> <!-- force to set value different from 0.-->
+      <xsd:maxInclusive value="999999999.99" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
   <xsd:simpleType name="stUUID">
     <xsd:restriction base="xsd:string">
       <xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
@@ -383,7 +397,7 @@ Where each `paymentOptionDescription` items contains :
   <xsd:complexType name="ctTransferPA">
     <xsd:sequence>
       <xsd:element name="idTransfer" type="tns:stIdTransfer" />
-      <xsd:element name="transferAmount" type="tns:stAmount" />
+      <xsd:element name="transferAmount" type="tns:stAmountNotZero" />
       <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
       <xsd:element name="IBAN" type="tns:stIBAN" />
       <xsd:element name="remittanceInformation" type="tns:stText140" />
@@ -484,7 +498,7 @@ Contains all data for the subject of payment :
 Its contains all payment information :
 
 - `creditorReferenceId` : its equal to **IUV** _Identificativo Univoco Versamento_ 
-- `paymentAmount` : amount
+- `paymentAmount` : amount, it must be equal to the sums of `transferAmount` present in the `transferList`
 - `dueDate` : indicates the expiration payment date according to the ISO 8601 format `[YYYY]-[MM]-[DD]`.
 - `retentionDate` : indicates the retention payment date according to the ISO 8601 format `[YYYY]-[MM]-[DD]`.
 - `lastPayment` : boolean flag used for in installment payments 
@@ -500,7 +514,7 @@ Its contains all payment information :
 
     <xsd:sequence>
       <xsd:element name="creditorReferenceId" type="tns:stText35" /> <!--IUV -->
-      <xsd:element name="paymentAmount" type="tns:stAmount" />
+      <xsd:element name="paymentAmount" type="tns:stAmountNotZero" />
       <xsd:element name="dueDate" type="tns:stISODate" /> <!-- REQUIRED : entro quando è valido il pagamento - expiration data -->
       <xsd:element name="retentionDate" type="xsd:dateTime" minOccurs="0" /> <!-- fino a questa data non ci rigereremo verso la PA -->
       <xsd:element name="lastPayment" type="xsd:boolean" minOccurs="0" /> <!-- last payment : se in rateizzazione -->
@@ -514,7 +528,7 @@ Its contains all payment information :
         Al momento sempre valorizzata dal nodo : anche se in futuro per le KO potrebbe non esserlo.
         Questo perchè per valorizzare tale campo richiede diversi accessi al DB
       -->
-      <xsd:element name="transferList" type="tns:ctTransferListPA" minOccurs="0" />
+      <xsd:element name="transferList" type="tns:ctTransferListPA" />
       <xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
