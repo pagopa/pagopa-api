@@ -1563,7 +1563,7 @@ definitions:
 
       **identifier section**
 
-      - `outcome` : result of receipt **OK**/**KO**
+      - `outcome` : result of receipt **OK** / **KO**
 
       - `receiptId` : unique identifier of receipt (assigned by pagoPa) it
       contains `paymentToken` present in to `activatePaymentNotice` response 
