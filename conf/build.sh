@@ -1,13 +1,13 @@
 #!/bin/zsh
 
-echo "Build creation form for CDI:CatalogoDatiInformativi ..."
-xsltproc -o ./out/form_CatalogoDatiInformativi.html ./xsd2html2xml/xsd2html2xml.xsl CatalogoDatiInformativi.xsd
+echo "Build creation form for CDI:CatalogoDatiInformativiPSP ..."
+xsltproc -o ./out/form_CatalogoDatiInformativiPSP.html ./xsd2html2xml/xsd2html2xml.xsl CatalogoDatiInformativiPSP.xsd
 
-echo "Build creation docuementation for CDI:CatalogoDatiInformativi ..."
-xsltproc -o ./out/CatalogoDatiInformativi.html ./xs3p/xs3p.xsl CatalogoDatiInformativi.xsd
+echo "Build creation docuementation for CDI:CatalogoDatiInformativiPSP ..."
+xsltproc -o ./out/CatalogoDatiInformativiPSP.html ./xs3p/xs3p.xsl CatalogoDatiInformativiPSP.xsd
 
 echo "Done!"
 
 
-open "./out/CatalogoDatiInformativi.html"
-open "./out/form_CatalogoDatiInformativi.html"
+open "./out/CatalogoDatiInformativiPSP.html"
+open "./out/form_CatalogoDatiInformativiPSP.html"
