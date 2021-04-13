@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: 1.0.3
+  version: 1.0.4
   title: Debtor Positions API
   contact:
     name: PagoPA
@@ -20,7 +20,7 @@ tags:
   - name: Receipts
     description: Everything about Receipts 
 paths:
-  "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}":
+  "/organizations/{organizationfiscalcode}/payment-notices/{debtpositionnumber}":
     post:
       tags: 
         - Debt Positions
@@ -29,17 +29,17 @@ paths:
         The Organization creates a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/PaymentNoticeNumber"
-        - name: payment_position
+        - $ref: "#/parameters/DebtPositionNumber"
+        - name: debtposition
           in: body
           required: true
           schema:
-            $ref: "#/definitions/PaymentPositionReq"
+            $ref: "#/definitions/DebtPositionReq"
       responses:
         "201":
           description: Request created.
-          schema:
-            $ref: "#/definitions/PaymentPosition"
+          # schema:
+          #   $ref: "#/definitions/DebtPosition"
         "401":
           description: Wrong or missing function key.
         "409":
@@ -58,12 +58,12 @@ paths:
         Return the details of a specific debt position.
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/PaymentNoticeNumber"
+        - $ref: "#/parameters/DebtPositionNumber"
       responses:
         "200":
           description: payment position details.
           schema:
-            $ref: "#/definitions/PaymentPosition"
+            $ref: "#/definitions/DebtPosition"
         "401":
           description: Wrong or missing function key.
         "404":
@@ -80,7 +80,7 @@ paths:
         Delete a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/PaymentNoticeNumber"        
+        - $ref: "#/parameters/DebtPositionNumber"        
       responses:
         "200":
           description: Operation completed successfully.
@@ -102,17 +102,17 @@ paths:
         Update a Debt Position
       parameters:
         - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/PaymentNoticeNumber"
-        - name: payment_position
+        - $ref: "#/parameters/DebtPositionNumber"
+        - name: debtposition
           in: body
           required: true
           schema:
-            $ref: "#/definitions/PaymentPositionReq"
+            $ref: "#/definitions/DebtPositionReq"
       responses:
         "204":
           description: Request updated.
           schema:
-            $ref: "#/definitions/PaymentPosition"
+            $ref: "#/definitions/DebtPosition"
         "401":
           description: Wrong or missing function key.
         "404":
@@ -144,7 +144,7 @@ paths:
         "200":
           description: payment position details.
           schema:
-            $ref: "#/definitions/PaymentPositions"
+            $ref: "#/definitions/DebtPositions"
         "401":
           description: Wrong or missing function key.
         "404":
@@ -154,83 +154,6 @@ paths:
           schema:
             $ref: "#/definitions/ProblemJson"
             
-  "/organizations/{organizationfiscalcode}/payment-receipts/{receiptid}":
-    get:
-      tags: 
-        - Receipts
-      operationId: getReceiptByReceiptId
-      summary: |
-        Get a payment receipt by its `receiptid` .
-      parameters:
-        - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/ReceiptNumber"        
-      responses:
-        "200":
-          description: payment receipts 
-          schema:
-            $ref: "#/definitions/ReceiptPayment"
-        "401":
-          description: Wrong or missing function key.
-        "404":
-          description: No receipt found.
-        "500":
-          description: Service unavailable.
-          schema:
-            $ref: "#/definitions/ProblemJson"
-            
-  "/organizations/{organizationfiscalcode}/payment-notices/{paymentnoticenumber}/payment-receipts":
-    get:
-      tags: 
-        - Receipts
-      operationId: getReceiptsByDebtPosition
-      summary: |
-        Get a list of payment receipts related to a specific Debt Position.
-      parameters:
-        - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/PaymentNoticeNumber"
-      responses:
-        "200":
-          description: payment receipts 
-          schema:
-            $ref: "#/definitions/Receipts"
-        "401":
-          description: Wrong or missing function key.
-        "404":
-          description: No receipts found.
-        "500":
-          description: Service unavailable.
-          schema:
-            $ref: "#/definitions/ProblemJson"
-            
-  "/organizations/{organizationfiscalcode}/payment-receipts":
-    get:
-      tags: 
-        - Receipts
-      operationId: getReceiptsAll
-      summary: |
-        Get a list of filtered payment receipts.
-      parameters:
-        - $ref: "#/parameters/OrganizationFiscalCode"
-        - $ref: "#/parameters/AmountFrom"
-        - $ref: "#/parameters/AmountTo"
-        - $ref: "#/parameters/PaymentDateFrom"
-        - $ref: "#/parameters/PaymentDateTo"
-        - $ref: "#/parameters/Limit"
-        - $ref: "#/parameters/Offset"
-      responses:
-        "200":
-          description: payment receipts 
-          schema:
-            $ref: "#/definitions/Receipts"
-        "401":
-          description: Wrong or missing function key.
-        "404":
-          description: No receipts found.
-        "500":
-          description: Service unavailable.
-          schema:
-            $ref: "#/definitions/ProblemJson"
-           
 parameters:
   ReceiptNumber:
     name: receiptid
@@ -255,16 +178,14 @@ parameters:
     minLength: 16
     required: true
     description: The fiscal code of the user, all upper case.
-  PaymentNoticeNumber:
+  DebtPositionNumber:
     in: path
-    name: paymentnoticenumber
+    name: debtpositionnumber
     required: true
-    description:
-      The field ["Numero Avviso"](https://pagopa-specifichepagamenti.readthedocs.io/it/latest/_docs/Capitolo7.html#il-numero-avviso-e-larchivio-dei-pagamenti-in-attesa)
-      of pagoPa, needed to identify the payment. Format is `<aux digit (1n)>[<application code> (2n)]<codice IUV (15|17n)>`.
-      See [pagoPa specs](https://www.agid.gov.it/sites/default/files/repository_files/specifiche_attuative_pagamenti_1_3_1_0.pdf) for more info on this field and the IUV.
+    description: IUPD (Unique identifier of the debt position). Format could be `<Organization fiscal code + UUID>` this would make it unique within the new PD management system.
+      It's the responsibility of the EC to guarantee uniqueness. The pagoPa system shall verify that this is `true` and if not, notify the EC.
     type: string
-    pattern: "^[0123][0-9]{17}$"
+    pattern: '^[\w\d]{1,16}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
   AmountFrom:
     in: query
     name: amount_from
@@ -372,12 +293,13 @@ definitions:
     minimum: 1
     example: 1
     description: Payment option ID its a unique identifier for each payment option crated by NodoSPC
-  CreditorReferenceId:
+  IUV:
     type: string
     minLength: 1
     maxLength: 35
     example: 13201214660599631
-    description: Payment's Unique Identifier
+    description: Payment's Unique Identifier, needed to identify the payment, see [here](https://docs.italia.it/italia/pagopa/pagopa-codici-docs/it/stabile/_docs/Capitolo2.html#composizione-del-codice-iuv)
+    pattern: "^[0123][0-9]{17}$"
   DetailResponse:
     type: object
     properties:
@@ -530,8 +452,8 @@ definitions:
   Payment-Option-Req:
     type: object
     properties:
-      creditor_reference_id:
-        $ref: "#/definitions/CreditorReferenceId"
+      iuv:
+        $ref: "#/definitions/IUV"
       amount:
         $ref: "#/definitions/Amount"
       due_date:
@@ -539,6 +461,7 @@ definitions:
       retention_date:
         $ref: "#/definitions/Timestamp"
       is_conclusive:
+        description : indicates if the payment option is part of an installment payment. In case of payment by installments, the associated deb position is to be considered _paid_ if and only if all payments of installments are _paid_
         type: boolean
         default: true
       metadata:
@@ -548,13 +471,13 @@ definitions:
           maxLength: 255
         minItems: 1
         maxItems: 20
-        description: List of optional fields for metadata (a max of 10 key-value pairs)
+        description: List of optional fields for metadata (a max of 10 key-value pairs). This is an optional field allow the organizations to enter information useful to their needs, typically related to accounting reconciliation, management programs alignment, etc.
       transfers:
         type: array
         items:
           $ref: "#/definitions/Transfer"
     required:
-      - creditor_reference_id
+      - iuv
       - amount
       - due_date
       - retention_date
@@ -565,8 +488,8 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/PaymentOptionId"
-      creditor_reference_id:
-        $ref: "#/definitions/CreditorReferenceId"
+      iuv:
+        $ref: "#/definitions/IUV"
       amount:
         $ref: "#/definitions/Amount"
       due_date:
@@ -590,7 +513,7 @@ definitions:
           $ref: "#/definitions/Transfer"
     required:
       - id
-      - creditor_reference_id
+      - iuv
       - amount
       - due_date
       - retention_date
@@ -680,39 +603,39 @@ definitions:
       - transfer_date
       - payment_date_time
       - transfers
-  PaymentPositionReq:
+  DebtPositionReq:
     type: object
     properties:
-      id:
-        $ref: "#/definitions/PaymentNoticeNumber"
-        description: Payment Notice Number
-        example: 009876543212346543
       company_name:
         $ref: "#/definitions/CompanyName"
       office_name:
         $ref: "#/definitions/OfficeName"
-      payment_description: 
+      description: 
         type: string
         minLength: 1
         maxLength: 140
         example: TARI 2021 soluzione unica
+      amount:
+        $ref: "#/definitions/Amount"
       debtor:
         $ref: "#/definitions/Debtor"
+      taxonomy:
+          $ref: "#/definitions/Taxonomy"
       payment_options:
         type: array
         items:
           $ref: "#/definitions/Payment-Option-Req"
     required:
-      - id
       - company_name
       - office_name
       - payment_description
       - payment_options
-  PaymentPositions:
+      - debtor
+  DebtPositions:
     type: array
     items:
-      $ref: "#/definitions/PaymentPosition"
-  PaymentPosition:
+      $ref: "#/definitions/DebtPosition"
+  DebtPosition:
     type: object
     properties:
       id:
