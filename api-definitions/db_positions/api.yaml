@@ -17,8 +17,8 @@ security:
 tags:
   - name: Debt Positions
     description: Everything about Debt Positions
-  - name: Receipts
-    description: Everything about Receipts 
+  # - name: Receipts
+  #   description: Everything about Receipts 
 paths:
   "/organizations/{organizationfiscalcode}/payment-notices/{debtpositionnumber}":
     post:
@@ -111,8 +111,6 @@ paths:
       responses:
         "204":
           description: Request updated.
-          schema:
-            $ref: "#/definitions/DebtPosition"
         "401":
           description: Wrong or missing function key.
         "404":
@@ -639,9 +637,9 @@ definitions:
     type: object
     properties:
       id:
-        $ref: "#/definitions/PaymentNoticeNumber"
-        description: Payment Notice Number
-        example: 009876543212346543
+        description: IUPD (Unique identifier of the debt position). Format could be `<Organization fiscal code + UUID>` this would make it unique within the new PD management system. It's the responsibility of the EC to guarantee uniqueness. The pagoPa system shall verify that this is `true` and if not, notify the E.
+        type: string
+        pattern: '^[\w\d]{1,16}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
       organization_fiscal_code:
         $ref: "#/definitions/OrganizationFiscalCode"
       status:
@@ -656,13 +654,17 @@ definitions:
         $ref: "#/definitions/CompanyName"
       office_name:
         $ref: "#/definitions/OfficeName"
-      payment_description: 
+      description: 
         type: string
         minLength: 1
         maxLength: 140
         example: TARI 2021 soluzione unica
+      amount:
+        $ref: "#/definitions/Amount"
       debtor:
         $ref: "#/definitions/Debtor"
+      taxonomy:
+          $ref: "#/definitions/Taxonomy"
       payment_options:
         type: array
         items:
