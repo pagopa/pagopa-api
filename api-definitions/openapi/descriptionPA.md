@@ -8,7 +8,7 @@ This is the documentation of the pagoPA API for Public Administration. This API 
 The payment process defined below starting from the infrastructures made available by the PSP such as, for example, ATMs, Home banking and mobile payment applications, post offices, etc. The acquisition of the information necessary to communicate with the platform is contained within a `QR-CODE` present in the payment notice which can facilitate data entry. The same information is present in the notice to allow manual entry
 
 ### API NodoSPC payment : **PSP side**
-_Reference API PA side is available [here](https://pagopa.github.io/pagopa-api/index.html)_
+_Reference API PSP side is available [here](https://pagopa.github.io/pagopa-api/index.html)_
 
 ### Payment process activated by the PSP
 
