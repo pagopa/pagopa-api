@@ -860,7 +860,7 @@ definitions:
           <noticeNumber><!-- mandatory -->string</noticeNumber>
          </qrCode>
          <expirationTime>1799997</expirationTime>
-         <amount>999999996.99</amount>
+         <amount><!-- mandatory -->999999996.99</amount>
          <dueDate>2016-04-18</dueDate>
          <paymentNote>string</paymentNote>
         </nfpsp:activatePaymentNoticeReq>
@@ -1455,6 +1455,7 @@ definitions:
       - password
       - idempotencyKey
       - qrCode
+      - amount
     example: >-
 
       <nfpsp:activatePaymentNoticeReq
@@ -1469,7 +1470,7 @@ definitions:
         <noticeNumber><!-- mandatory -->string</noticeNumber>
        </qrCode>
        <expirationTime>1799997</expirationTime>
-       <amount>999999996.99</amount>
+       <amount><!-- mandatory -->999999996.99</amount>
        <dueDate>2016-04-18</dueDate>
        <paymentNote>string</paymentNote>
       </nfpsp:activatePaymentNoticeReq>
