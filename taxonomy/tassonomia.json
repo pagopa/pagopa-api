@@ -1848,6 +1848,34 @@
     "DATA INIZIO VALIDITA": "05/03/2021"
   },
   {
+    "CODICE TIPO ENTE CREDITORE": "02",
+    "TIPO ENTE CREDITORE": "PROVINCIA / CITTA' METROPOLITANA",
+    "Progressivo Macro Area per Ente Creditore": "01",
+    "NOME MACRO AREA": "",
+    "DESCRIZIONE MACRO AREA CODICE": "",
+    "CODICE TIPOLOGIA SERVIZIO": "137",
+    "TIPO SERVIZIO": "Canone Unico Patrimoniale",
+    "Motivo Giuridico della riscossione": "TS",
+    "DESCRIZIONE TIPO SERVIZIO": "La Legge di Bilancio 2020 (Legge n. 160/2019) ha previsto, a decorrere dal 1\u00b0 gennaio 2021, l\u2019istituzione  di un \u201ccanone unico patrimoniale\u201d che unifica in un solo prelievo TOSAP, COSAP, l\u2019imposta comunale sulla PUBBLICIT\u00c0 e AFFISIONI, ed altre imposte locali. ",
+    "VERSIONE TASSONOMIA": "09",
+    "DATI SPECIFICI DI INCASSO": "9/0201137TS/",
+    "DATA INIZIO VALIDITA": "05/03/2021"
+  },
+  {
+    "CODICE TIPO ENTE CREDITORE": "02",
+    "TIPO ENTE CREDITORE": "PROVINCIA / CITTA' METROPOLITANA",
+    "Progressivo Macro Area per Ente Creditore": "01",
+    "NOME MACRO AREA": "",
+    "DESCRIZIONE MACRO AREA CODICE": "",
+    "CODICE TIPOLOGIA SERVIZIO": "138",
+    "TIPO SERVIZIO": "Canone Unico Patrimoniale - CORPORATE ",
+    "Motivo Giuridico della riscossione": "TS",
+    "DESCRIZIONE TIPO SERVIZIO": "(SOLUZIONE CENTRALE GESTITA DA PAGOPA) La Legge di Bilancio 2020 (Legge n. 160/2019) ha previsto, a decorrere dal 1\u00b0 gennaio 2021, l\u2019istituzione  di un \u201ccanone unico patrimoniale\u201d che unifica in un solo prelievo TOSAP, COSAP, l\u2019imposta comunale sulla PUBBLICIT\u00c0 e AFFISIONI, ed altre imposte locali. Questa soluzione \u00e8 gestita centralmente da Pagopa S.p.a.",
+    "VERSIONE TASSONOMIA": "09",
+    "DATI SPECIFICI DI INCASSO": "9/0201138TS/",
+    "DATA INIZIO VALIDITA": "05/03/2021"
+  },
+  {
     "CODICE TIPO ENTE CREDITORE": "03",
     "TIPO ENTE CREDITORE": "REGIONE",
     "Progressivo Macro Area per Ente Creditore": "01",
@@ -2140,6 +2168,34 @@
     "VERSIONE TASSONOMIA": "09",
     "DATI SPECIFICI DI INCASSO": "9/0301120AP/",
     "DATA INIZIO VALIDITA": "01/01/1900"
+  },
+  {
+    "CODICE TIPO ENTE CREDITORE": "03",
+    "TIPO ENTE CREDITORE": "REGIONE",
+    "Progressivo Macro Area per Ente Creditore": "01",
+    "NOME MACRO AREA": "",
+    "DESCRIZIONE MACRO AREA CODICE": "",
+    "CODICE TIPOLOGIA SERVIZIO": "121",
+    "TIPO SERVIZIO": "Canone Unico Patrimoniale",
+    "Motivo Giuridico della riscossione": "TS",
+    "DESCRIZIONE TIPO SERVIZIO": "La Legge di Bilancio 2020 (Legge n. 160/2019) ha previsto, a decorrere dal 1\u00b0 gennaio 2021, l\u2019istituzione  di un \u201ccanone unico patrimoniale\u201d che unifica in un solo prelievo TOSAP, COSAP, l\u2019imposta comunale sulla PUBBLICIT\u00c0 e AFFISIONI, ed altre imposte locali. ",
+    "VERSIONE TASSONOMIA": "09",
+    "DATI SPECIFICI DI INCASSO": "9/0301121TS/",
+    "DATA INIZIO VALIDITA": "05/03/2021"
+  },
+  {
+    "CODICE TIPO ENTE CREDITORE": "03",
+    "TIPO ENTE CREDITORE": "REGIONE",
+    "Progressivo Macro Area per Ente Creditore": "01",
+    "NOME MACRO AREA": "",
+    "DESCRIZIONE MACRO AREA CODICE": "",
+    "CODICE TIPOLOGIA SERVIZIO": "122",
+    "TIPO SERVIZIO": "Canone Unico Patrimoniale - CORPORATE ",
+    "Motivo Giuridico della riscossione": "TS",
+    "DESCRIZIONE TIPO SERVIZIO": "(SOLUZIONE CENTRALE GESTITA DA PAGOPA) La Legge di Bilancio 2020 (Legge n. 160/2019) ha previsto, a decorrere dal 1\u00b0 gennaio 2021, l\u2019istituzione  di un \u201ccanone unico patrimoniale\u201d che unifica in un solo prelievo TOSAP, COSAP, l\u2019imposta comunale sulla PUBBLICIT\u00c0 e AFFISIONI, ed altre imposte locali. Questa soluzione \u00e8 gestita centralmente da Pagopa S.p.a.",
+    "VERSIONE TASSONOMIA": "09",
+    "DATI SPECIFICI DI INCASSO": "9/0301122TS/",
+    "DATA INIZIO VALIDITA": "05/03/2021"
   },
   {
     "CODICE TIPO ENTE CREDITORE": "04",
