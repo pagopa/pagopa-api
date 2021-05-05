@@ -93,22 +93,24 @@ Formally, any API request is coming from a broker on behalf of a PA which is res
 
 ## Verify Phase
 Below is the detailed diagram of this phase
+
+<!-- https://github.com/pagopa/pagopa-analisi/blob/main/PlantUML/Sequence/businessProcess/verifyPaymentNotice.puml -->
 <!-- 
 @startuml uml_diag/verifyPaymentNotice_newPA
-title Verify Payment Notice
+title Verify Payment Notice 
 
-participant PA
-participant Nodo
+participant EC
+participant pagoPA
 participant PSP
 
-PSP -> Nodo: verifyPaymentNotice req
-activate Nodo
-Nodo -> PA: paVerifyPaymentNotice req
-activate PA
-PA -> Nodo: paVerifyPaymentNotice res
-deactivate PA
-Nodo -> PSP: verifyPaymentNotice res
-deactivate Nodo
+PSP -> pagoPA: verifyPaymentNotice req
+activate pagoPA
+pagoPA -> EC: paVerifyPaymentNotice req
+activate EC
+EC -> pagoPA: paVerifyPaymentNotice res
+deactivate EC
+pagoPA -> PSP: verifyPaymentNotice res
+deactivate pagoPA
 
 @enduml
 -->
@@ -117,23 +119,24 @@ deactivate Nodo
 ## Activation Phase
 Below is the detailed diagram of this phase
 
+<!-- https://github.com/pagopa/pagopa-analisi/blob/main/PlantUML/Sequence/businessProcess/activatePaymentNotice.puml -->
 <!-- 
 @startuml uml_diag/activatePaymentNotice_newPA
 title Activate Payment Notice
 
-participant PA
-participant Nodo
+participant EC
+participant pagoPA
 participant PSP
 
-PSP -> Nodo: activatePaymentNotice req
-activate Nodo
-Nodo -> Nodo: token generation (<color blue>token</color>)
-Nodo -> PA: paGetPayment req
-activate PA
-PA -> Nodo: paGetPayment res
-deactivate PA
-Nodo -> PSP: activatePaymentNotice res (<color blue>token</color>)
-deactivate Nodo
+PSP -> pagoPA: activatePaymentNotice req
+activate pagoPA
+pagoPA -> pagoPA: token generation (<color blue>token</color>)
+pagoPA -> EC: paGetPayment req
+activate EC
+EC -> pagoPA: paGetPayment res
+deactivate EC
+pagoPA -> PSP: activatePaymentNotice res (<color blue>token</color>)
+deactivate pagoPA
 
 @enduml
 -->
@@ -142,23 +145,27 @@ deactivate Nodo
 ## Receipt Phase
 Below is the detailed diagram of this phase
 
+<!-- https://github.com/pagopa/pagopa-analisi/blob/main/PlantUML/Sequence/businessProcess/sendPaymentOutcome.puml -->
 <!-- 
 @startuml uml_diag/outcomeOK
-title Outcome
+title Send Payment Outcome
 
-participant PA
-participant Nodo
+participant EC
+participant pagoPA
 participant PSP
 
-PSP -> Nodo: sendPaymentOutcome req
-activate Nodo
-Nodo -> PSP: sendPaymentOutcome res
-deactivate Nodo
-Nodo -> Nodo: RT generation
-Nodo -> PA: paSendRT req
-activate PA
-PA -> Nodo: paSendRT res
-deactivate PA
+PSP -> pagoPA: sendPaymentOutcome req (<color blue>token</color>)
+activate pagoPA
+pagoPA -> PSP: sendPaymentOutcome res
+deactivate pagoPA
+pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
+
+loop for each EC in transfer list
+    pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
+    activate EC
+    EC -> pagoPA: paSendRT res
+    deactivate EC
+end 
 
 @enduml
 -->
