@@ -137,13 +137,7 @@ paths:
 
 
         Each request is specified through the parameters `amount` and
-        `due_date`, which are returned by the `paVerifyPayment`,
-
-        and the `transferType` parameter that defines the type of credit that
-        the PSP would like to have.
-
-        **NOTE** : _(currently the only option is related to necessity of a
-        postal current account)._
+        `due_date`, which are returned by the `paVerifyPayment`.
 
 
         If these parameters are not present, the PA will set the real amount.
@@ -581,7 +575,7 @@ definitions:
            <options><!-- mandatory -->string</options>
            <dueDate>2016-04-18</dueDate>
            <detailDescription>string</detailDescription>
-           <transferType>string</transferType>
+           <allCCP><!-- mandatory -->true</allCCP>
           </paymentOptionDescription>
          </paymentList>
          <paymentDescription>string</paymentDescription>
@@ -726,7 +720,7 @@ definitions:
            <country>string</country>
            <e-mail>string</e-mail>
           </debtor>
-          <transferList>
+          <transferList><!-- mandatory -->
            <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
             <idTransfer><!-- mandatory -->3</idTransfer>
             <transferAmount><!-- mandatory -->999999996.99</transferAmount>
@@ -1036,7 +1030,7 @@ definitions:
          <options><!-- mandatory -->string</options>
          <dueDate>2016-04-18</dueDate>
          <detailDescription>string</detailDescription>
-         <transferType>string</transferType>
+         <allCCP><!-- mandatory -->true</allCCP>
         </paymentOptionDescription>
        </paymentList>
        <paymentDescription>string</paymentDescription>
@@ -1164,7 +1158,7 @@ definitions:
          <country>string</country>
          <e-mail>string</e-mail>
         </debtor>
-        <transferList>
+        <transferList><!-- mandatory -->
          <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
           <idTransfer><!-- mandatory -->3</idTransfer>
           <transferAmount><!-- mandatory -->999999996.99</transferAmount>
@@ -1394,7 +1388,8 @@ definitions:
       - `detailDescription` : Free text available to describe the payment
       reasons
 
-      - `transferType` : _specific only for POSTE Italiane_
+      - `allCCP` : indicates that all transfers are associable to all postal
+      IBAN
     type: object
     properties:
       paymentOptionDescription:
@@ -1491,7 +1486,8 @@ definitions:
       - `creditorReferenceId` : its equal to **IUV** _Identificativo Univoco
       Versamento_ 
 
-      - `paymentAmount` : amount
+      - `paymentAmount` : amount, it must be equal to the sums of
+      `transferAmount` present in the `transferList`
 
       - `dueDate` : indicates the expiration payment date according to the ISO
       8601 format `[YYYY]-[MM]-[DD]`.
@@ -1518,7 +1514,7 @@ definitions:
       creditorReferenceId:
         $ref: '#/definitions/stText35_type_pafn'
       paymentAmount:
-        $ref: '#/definitions/stAmount_type_pafn'
+        $ref: '#/definitions/stAmountNotZero_type_pafn'
       dueDate:
         $ref: '#/definitions/stISODate_type_pafn'
       retentionDate:
@@ -1548,6 +1544,7 @@ definitions:
       - dueDate
       - description
       - debtor
+      - transferList
     x-xsi-type: ctPaymentPA
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
@@ -1786,16 +1783,32 @@ definitions:
         $ref: '#/definitions/stISODate_type_pafn'
       detailDescription:
         $ref: '#/definitions/stText140_type_pafn'
-      transferType:
-        $ref: '#/definitions/stTransferType_type_pafn'
+      allCCP:
+        xml:
+          namespace: ''
+        type: boolean
     required:
       - amount
       - options
+      - allCCP
     x-xsi-type: ctPaymentOptionDescriptionPA
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
       prefix: pafn
     x-xsi-type-uniquename: ctPaymentOptionDescriptionPA_type_pafn
+  stAmountNotZero_type_pafn:
+    xml:
+      namespace: ''
+    description: "Amount of payment in euro (_it doesn't admit values \v\vequal to 0_)"
+    type: number
+    minimum: 0.01
+    maximum: 999999999.99
+    pattern: '\d+\.\d{2}'
+    x-xsi-type: stAmountNotZero
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd'
+      prefix: pafn
+    x-xsi-type-uniquename: stAmountNotZero_type_pafn
   ctSubject_type_pafn:
     xml:
       namespace: ''
@@ -2144,7 +2157,7 @@ definitions:
       idTransfer:
         $ref: '#/definitions/stIdTransfer_type_pafn'
       transferAmount:
-        $ref: '#/definitions/stAmount_type_pafn'
+        $ref: '#/definitions/stAmountNotZero_type_pafn'
       fiscalCodePA:
         $ref: '#/definitions/stFiscalCodePA_type_pafn'
       IBAN:

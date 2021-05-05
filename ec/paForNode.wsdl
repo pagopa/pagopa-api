@@ -45,9 +45,7 @@ All available options will then be proposed until one of the following events oc
 A PA connected to the pagoPA Platform must offer a service that returns a payment linked to a debt position through the
 primitive `paGetPayment`.
 
-Each request is specified through the parameters `amount` and `due_date`, which are returned by the `paVerifyPayment`,
-and the `transferType` parameter that defines the type of credit that the PSP would like to have.
-**NOTE** : _(currently the only option is related to necessity of a postal current account)._
+Each request is specified through the parameters `amount` and `due_date`, which are returned by the `paVerifyPayment`.
 
 If these parameters are not present, the PA will set the real amount.
 In response, the PA returns all the data necessary for the payment.
