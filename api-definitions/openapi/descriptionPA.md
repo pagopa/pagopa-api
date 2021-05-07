@@ -12,63 +12,83 @@ _Reference API PSP side is available [here](https://pagopa.github.io/pagopa-api/
 
 ### Payment process activated by the PSP
 
+<!-- https://github.com/pagopa/pagopa-analisi/blob/main/PlantUML/Sequence/modelli/nuovoModello3_ENG.puml -->
+
 <!-- 
 @startuml uml_diag/seqdiag-wisplightnuovoModello3_newPA
 title Payment process activated by the PSP
 
-participant PA
-participant Nodo
+participant EC
+participant pagoPA
 participant PSP
 actor       User
 
-== verify phase ==
+== verify phase (optional) ==
+
 User [#blue]-> PSP: Payment Notice
-PSP -> Nodo: verifyPaymentNotice req
-note right : The PSP requests the verification of the notice \n (check amount)
-Nodo -> PA: paVerifyPaymentNotice req
-note left #aqua : Debt Position\n STATUS = **Open**
-activate PA
-PA -> Nodo: paVerifyPaymentNotice res
-deactivate PA
-Nodo -> PSP: verifyPaymentNotice res
-deactivate Nodo
+
+alt QR-CODE
+    PSP -> pagoPA: verifyPaymentNotice req
+    note right : The PSP requests the verification of the notice \n (check amount)
+    activate pagoPA
+    pagoPA -> EC: paVerifyPaymentNotice req
+    note left #aqua : Debt Position\n STATUS = **Open**
+    activate EC
+    EC -> pagoPA: paVerifyPaymentNotice res
+    deactivate EC
+    pagoPA -> PSP: verifyPaymentNotice res
+    deactivate pagoPA
+else BARCODE-128-AIM 
+    PSP -> pagoPA: verificaBollettino req
+    activate pagoPA
+    pagoPA -> EC: paVerifyPaymentNotice req
+    note left #aqua : Debt Position\n STATUS = **Open**
+    activate EC
+    EC -> pagoPA: paVerifyPaymentNotice res
+    deactivate EC
+    pagoPA -> PSP: verificaBollettino res
+    deactivate pagoPA
+end
+
 PSP [#blue]-> User: Notice verified and updated
 
 == activate phase ==
 User [#blue]-> PSP: Confirm willingness to pay
-PSP -> Nodo: activatePaymentNotice req
+PSP -> pagoPA: activatePaymentNotice req
 note right : The PSP requires payment activation
-activate Nodo
-Nodo -> Nodo: Token generation
-Nodo -> PA: paGetPayment req (CCP=token)
+activate pagoPA
+pagoPA -> pagoPA: token generation (<color blue>token</color>)
+pagoPA -> EC: paGetPayment req
 note left #aqua : Debt Position\n STATUS = **Open**
-activate PA
-PA -> Nodo: paGetPayment res
-deactivate PA
-Nodo -> PSP: activatePaymentNotice res
+activate EC
+EC -> pagoPA: paGetPayment res
+deactivate EC
+pagoPA -> PSP: activatePaymentNotice res (<color blue>token</color>)
 note right : The PSP has all data \nto allow the payment
-deactivate Nodo
+deactivate pagoPA
 
 PSP [#blue]-> User: Payment page
-note left PA #pink : Newly configured PAs \n**DOES'NT HAVE TO** lock the debt position \nafter activation.
+note left EC #pink : Newly configured ECs \n**DOES'NT HAVE TO** lock the debt position \nafter activation.
 
-== send receipt phase (push) ==
+== send receipt phase ==
 
 User [#blue]-> PSP: Pay
-note right PSP : If payment OK ->  RT +\nIf payment KO -> RT -
+note right PSP : If payment OK ->  Outcome +\nIf payment KO -> Outcome -
 
+PSP -> pagoPA: sendPaymentOutcome req (<color blue>token</color>)
+activate pagoPA
+pagoPA -> PSP: sendPaymentOutcome res
+deactivate pagoPA
+pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
 
-PSP -> Nodo: sendPaymentOutcome req
-activate Nodo
-Nodo -> PSP: sendPaymentOutcome res
-deactivate Nodo
-Nodo -> Nodo: RT generation
-Nodo -> PA: paSendRT req
-activate PA
-PA -> Nodo: paSendRT res
-deactivate PA
-note left #aqua : Debt Position\n STATUS = **Open -> Closed/Open**\n(based on RT result)
+loop for each EC in transfer list
+    pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
+    activate EC
+    EC -> pagoPA: paSendRT res
+    deactivate EC
+end 
 
+note left EC #aqua: Debt Position\n STATUS = **Open -> Closed/Open**\n(based on receipt result)
 
 @enduml
 -->
