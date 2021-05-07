@@ -13,8 +13,7 @@
           <dueDate>2020-01-01</dueDate>
           <!--Optional:-->
           <detailDescription>?</detailDescription>
-          <!--Optional:-->
-          <transferType>POSTAL</transferType>
+          <allCCP>false</allCCP>
         </paymentOptionDescription>
       </paymentList>
       <!--Optional:-->

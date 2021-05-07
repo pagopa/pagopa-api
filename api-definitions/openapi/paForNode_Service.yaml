@@ -112,7 +112,7 @@ paths:
                         <!--Optional:-->
                         <detailDescription>?</detailDescription>
                         <!--Optional:-->
-                        <transferType>POSTAL</transferType>
+                        <allCCP>false</allCCP>
                       </paymentOptionDescription>
                     </paymentList>
                     <!--Optional:-->
