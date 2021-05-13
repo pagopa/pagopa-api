@@ -420,7 +420,13 @@ Where each `transfer` items contains :
 - `fiscalCodePA` : Tax code of the public administration
 - `IBAN` : contains the IBAN of the account to be credited
 - `remittanceInformation` : reason for payment (_alias_ `causaleVersamento`)
-- `transferCategory` : contains the union of **CODICE TIPOLOGIA SERVIZIO** following by ***TIPO SERVIZIO* as define in [Tassonomia dei servizi](https://drive.google.com/file/d/13xOd__Qd4pwKHr3wjE-73NAB2O7UKmIt/view)
+- `transferCategory` : contains taxonomic code, composed by `Codice tipo Ente Creditore`+`Progressivo macro area`+`Codice tipologia servizio`+`Motivo Giuridico` ( ex. `0101002IM` ) 
+| Segment                     | Regex                       |Example |
+|-----------------------------|-----------------------------|--------|
+|Codice tipo Ente Creditore   | `\d{2}`                     | 01     |
+|Progressivo macro area       | `\d{2}`                     | 01     |
+|Codice tipologia servizio    | `\d{2}`                     | 002    |
+|Motivo Giuridico             | `{IM , TS , SP , SA , AP}`  | IM     |
 
       </xsd:documentation>
     </xsd:annotation>
