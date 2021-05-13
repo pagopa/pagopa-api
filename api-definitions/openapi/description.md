@@ -8,9 +8,9 @@ This is the documentation of the pagoPA API for Payment Service Provider. This A
 The payment process defined below starting from the infrastructures made available by the PSP such as, for example, ATMs, Home banking and mobile payment applications, post offices, etc. The acquisition of the information necessary to communicate with the platform is contained within a `QR-CODE` present in the payment notice which can facilitate data entry. The same information is present in the notice to allow manual entry
 
 ### Mock EC environment by [PagoPA](https://www.pagopa.gov.it/) 🧑‍💻
-_to test these new primitives as PSP, PagoPA has made available a PA mock, in a UAT_   All info needed are available [here](https://github.com/pagopa/pagopa-api/blob/develop/mockPA/README.md)
+_to test these new primitives as PSP, PagoPA has made available a PA mock, in a UAT_   
 
-<br>
+See [here](https://github.com/pagopa/pagopa-api/blob/develop/mockPA/README.md) to details.
 
 ### API NodoSPC payment : **PA side**
 _Reference API PA side is available [here](https://pagopa.github.io/pagopa-api/indexPA.html)_
@@ -58,6 +58,7 @@ end
 PSP [#blue]-> User: Notice verified and updated
 
 == activate phase ==
+
 User [#blue]-> PSP: Confirm willingness to pay
 PSP -> pagoPA: activatePaymentNotice req
 note right : The PSP requires payment activation
@@ -84,16 +85,16 @@ PSP -> pagoPA: sendPaymentOutcome req (<color blue>token</color>)
 activate pagoPA
 pagoPA -> PSP: sendPaymentOutcome res
 deactivate pagoPA
-pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
-
-loop for each EC in transfer list
-    pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
-    activate EC
-    EC -> pagoPA: paSendRT res
-    deactivate EC
-end 
-
-note left EC #aqua: Debt Position\n STATUS = **Open -> Closed/Open**\n(based on receipt result)
+opt Only in case of outcome + 
+    pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
+    loop for each EC in transfer list
+        pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
+        activate EC
+        EC -> pagoPA: paSendRT res
+        deactivate EC
+    end 
+    note left EC #aqua: Debt Position\n STATUS = **Open -> Closed
+end
 
 @enduml
 -->

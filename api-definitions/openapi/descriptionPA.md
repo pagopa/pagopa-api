@@ -53,6 +53,7 @@ end
 PSP [#blue]-> User: Notice verified and updated
 
 == activate phase ==
+
 User [#blue]-> PSP: Confirm willingness to pay
 PSP -> pagoPA: activatePaymentNotice req
 note right : The PSP requires payment activation
@@ -79,16 +80,16 @@ PSP -> pagoPA: sendPaymentOutcome req (<color blue>token</color>)
 activate pagoPA
 pagoPA -> PSP: sendPaymentOutcome res
 deactivate pagoPA
-pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
-
-loop for each EC in transfer list
-    pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
-    activate EC
-    EC -> pagoPA: paSendRT res
-    deactivate EC
-end 
-
-note left EC #aqua: Debt Position\n STATUS = **Open -> Closed/Open**\n(based on receipt result)
+opt Only in case of outcome + 
+    pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
+    loop for each EC in transfer list
+        pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
+        activate EC
+        EC -> pagoPA: paSendRT res
+        deactivate EC
+    end 
+    note left EC #aqua: Debt Position\n STATUS = **Open -> Closed
+end
 
 @enduml
 -->
