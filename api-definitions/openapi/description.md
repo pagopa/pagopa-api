@@ -200,23 +200,22 @@ Below is the detailed diagram of this phase
 <!-- 
 @startuml uml_diag/outcomeOK
 title Send Payment Outcome
-
 participant EC
 participant pagoPA
 participant PSP
-
 PSP -> pagoPA: sendPaymentOutcome req (<color blue>token</color>)
 activate pagoPA
 pagoPA -> PSP: sendPaymentOutcome res
 deactivate pagoPA
-pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
-
-loop for each EC in transfer list
-    pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
-    activate EC
-    EC -> pagoPA: paSendRT res
-    deactivate EC
-end 
+opt Only in case of outcome + 
+    pagoPA -> pagoPA: receipt generation (idReceipt=<color blue>token</color>)
+    loop for each EC in transfer list
+        pagoPA -> EC: paSendRT req (idReceipt=<color blue>token</color>)
+        activate EC
+        EC -> pagoPA: paSendRT res
+        deactivate EC
+    end 
+end
 
 @enduml
 -->
