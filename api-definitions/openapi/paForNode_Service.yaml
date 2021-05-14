@@ -1892,7 +1892,7 @@ definitions:
 
       |Codice tipologia servizio    | `\d{2}`                     | 002    |
 
-      |Motivo Giuridico             | `{IM , TS , SP , SA , AP}`  | IM     |
+      |Motivo Giuridico             | `\w{2}`                     | IM     |
     type: object
     properties:
       transfer:

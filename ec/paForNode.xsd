@@ -426,7 +426,7 @@ Where each `transfer` items contains :
 |Codice tipo Ente Creditore   | `\d{2}`                     | 01     |
 |Progressivo macro area       | `\d{2}`                     | 01     |
 |Codice tipologia servizio    | `\d{2}`                     | 002    |
-|Motivo Giuridico             | `{IM , TS , SP , SA , AP}`  | IM     |
+|Motivo Giuridico             | `\w{2}`                     | IM     |
 
       </xsd:documentation>
     </xsd:annotation>
