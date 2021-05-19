@@ -8,9 +8,7 @@ This is the documentation of the pagoPA API for Payment Service Provider. This A
 The payment process defined below starting from the infrastructures made available by the PSP such as, for example, ATMs, Home banking and mobile payment applications, post offices, etc. The acquisition of the information necessary to communicate with the platform is contained within a `QR-CODE` present in the payment notice which can facilitate data entry. The same information is present in the notice to allow manual entry
 
 ### Mock EC environment by [PagoPA](https://www.pagopa.gov.it/) 🧑‍💻
-_to test these new primitives as PSP, PagoPA has made available a PA mock, in a UAT_   
-
-See [here](https://github.com/pagopa/pagopa-api/blob/develop/mockPA/README.md) to details.
+_To test these new primitives as PSP, PagoPA has made available a PA mock, in a UAT_. See <a href="https://github.com/pagopa/pagopa-api/blob/develop/mockPA/README.md" target="_blank">here</a> to details.
 
 ### API NodoSPC payment : **PA side**
 _Reference API PA side is available [here](https://pagopa.github.io/pagopa-api/indexPA.html)_
