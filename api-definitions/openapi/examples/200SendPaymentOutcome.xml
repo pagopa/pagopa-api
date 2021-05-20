@@ -1,7 +1,7 @@
 <soapenv:Envelope xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-   <soapenv:Body>
-      <nfpsp:sendPaymentOutcomeRes>
-         <outcome>OK</outcome>
-      </nfpsp:sendPaymentOutcomeRes>
-   </soapenv:Body>
+  <soapenv:Body>
+    <nfpsp:sendPaymentOutcomeRes>
+      <outcome>OK</outcome>
+    </nfpsp:sendPaymentOutcomeRes>
+  </soapenv:Body>
 </soapenv:Envelope>

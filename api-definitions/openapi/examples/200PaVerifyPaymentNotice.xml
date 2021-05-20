@@ -7,23 +7,23 @@
       <paymentList>
         <!--1 to 5 repetitions:-->
         <paymentOptionDescription>
-          <amount>100.00</amount>
+          <amount>30.00</amount>
           <options>EQ</options>
           <!--Optional:-->
           <dueDate>2020-01-01</dueDate>
           <!--Optional:-->
-          <detailDescription>?</detailDescription>
+          <detailDescription>test</detailDescription>
           <allCCP>false</allCCP>
         </paymentOptionDescription>
       </paymentList>
       <!--Optional:-->
-      <paymentDescription>?</paymentDescription>
+      <paymentDescription>test</paymentDescription>
       <!--Optional:-->
-      <fiscalCodePA>12345678900</fiscalCodePA>
+      <fiscalCodePA>77777777777</fiscalCodePA>
       <!--Optional:-->
-      <companyName>?</companyName>
+      <companyName>test</companyName>
       <!--Optional:-->
-      <officeName>?</officeName>
+      <officeName>test</officeName>
     </paf:paVerifyPaymentNoticeRes>
   </soapenv:Body>
 </soapenv:Envelope>

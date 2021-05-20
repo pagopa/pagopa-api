@@ -4,7 +4,7 @@
       <outcome>OK</outcome>
       <paymentBollettinoList>
         <paymentOptionDescription>
-          <amount>10.00</amount>
+          <amount>30.00</amount>
           <options>EQ</options>
           <dueDate>2021-12-31</dueDate>
           <paymentNote>test</paymentNote>
@@ -13,9 +13,9 @@
       </paymentBollettinoList>
       <paymentDescription>test</paymentDescription>
       <fiscalCodePA>77777777777</fiscalCodePA>
-      <noticeNumber>311013731881153800</noticeNumber>
-      <companyName>company</companyName>
-      <officeName>office</officeName>
+      <noticeNumber>311111111112222222</noticeNumber>
+      <companyName>Pa Test</companyName>
+      <officeName>Office Test</officeName>
     </nfpsp:verificaBollettinoRes>
   </soapenv:Body>
 </soapenv:Envelope>
