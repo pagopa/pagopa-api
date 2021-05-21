@@ -5,8 +5,8 @@
       <totalAmount>30.00</totalAmount>
       <paymentDescription>test</paymentDescription>
       <fiscalCodePA>77777777777</fiscalCodePA>
-      <companyName>Pa Test</companyName>
-      <officeName>Office Test</officeName>
+      <companyName>company EC</companyName>
+      <officeName>office EC</officeName>
       <paymentToken>c110729d258c4ab1b765fe902aae41d6</paymentToken>
       <transferList>
         <transfer>
@@ -14,14 +14,14 @@
           <transferAmount>20.00</transferAmount>
           <fiscalCodePA>77777777777</fiscalCodePA>
           <IBAN>IT0000000000000000000000000</IBAN>
-          <remittanceInformation>test remittanceInformation1</remittanceInformation>
+          <remittanceInformation>remittanceInformation1</remittanceInformation>
         </transfer>
         <transfer>
           <idTransfer>2</idTransfer>
           <transferAmount>10.00</transferAmount>
           <fiscalCodePA>77777777778</fiscalCodePA>
           <IBAN>IT0000000000000000000000001</IBAN>
-          <remittanceInformation>test remittanceInformation2</remittanceInformation>
+          <remittanceInformation>remittanceInformation2</remittanceInformation>
         </transfer>
       </transferList>
       <creditorReferenceId>11111111112222222</creditorReferenceId>

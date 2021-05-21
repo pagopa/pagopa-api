@@ -3,62 +3,46 @@
   <soapenv:Body>
     <paf:paGetPaymentRes>
       <outcome>OK</outcome>
-      <!--Optional:-->
       <data>
         <creditorReferenceId>11111111112222222</creditorReferenceId>
         <paymentAmount>30.00</paymentAmount>
-        <dueDate>2019-12-12</dueDate>
-        <!--Optional:-->
-        <retentionDate>2020-11-11T12:12:11</retentionDate>
-        <!--Optional:-->
+        <dueDate>2021-12-31</dueDate>
+        <retentionDate>2021-12-31T23:59:59</retentionDate>
         <lastPayment>0</lastPayment>
         <description>test</description>
-        <!--paymentCategory>test</paymentCategory-->
-        <!--Optional:-->
-        <companyName>Pa Test</companyName>
-        <!--Optional:-->
-        <officeName>Office Test</officeName>
+        <companyName>company EC</companyName>
+        <officeName>office EC</officeName>
         <debtor>
           <uniqueIdentifier>
-            <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
-            <entityUniqueIdentifierValue>77777777777</entityUniqueIdentifierValue>
+            <entityUniqueIdentifierType>F</entityUniqueIdentifierType>
+            <entityUniqueIdentifierValue>JHNDOE00A01F205N</entityUniqueIdentifierValue>
           </uniqueIdentifier>
-          <fullName>name</fullName>
-          <!--Optional:-->
+          <fullName>John Doe</fullName>
           <streetName>street</streetName>
-          <!--Optional:-->
           <civicNumber>12</civicNumber>
-          <!--Optional:-->
           <postalCode>89020</postalCode>
-          <!--Optional:-->
           <city>city</city>
-          <!--Optional:-->
-          <stateProvinceRegion>IT</stateProvinceRegion>
-          <!--Optional:-->
+          <stateProvinceRegion>MI</stateProvinceRegion>
           <country>IT</country>
-          <!--Optional:-->
-          <e-mail>test.prova@tt.it</e-mail>
+          <e-mail>john.doe@test.it</e-mail>
         </debtor>
         <transferList>
-          <!--1 to 5 repetitions:-->
           <transfer>
             <idTransfer>1</idTransfer>
             <transferAmount>20.00</transferAmount>
             <fiscalCodePA>77777777777</fiscalCodePA>
             <IBAN>IT0000000000000000000000000</IBAN>
-            <remittanceInformation>test remittanceInformation1</remittanceInformation>
+            <remittanceInformation>remittanceInformation1</remittanceInformation>
           </transfer>
           <transfer>
             <idTransfer>2</idTransfer>
             <transferAmount>10.00</transferAmount>
             <fiscalCodePA>77777777778</fiscalCodePA>
             <IBAN>IT0000000000000000000000001</IBAN>
-            <remittanceInformation>test remittanceInformation2</remittanceInformation>
+            <remittanceInformation>remittanceInformation2</remittanceInformation>
           </transfer>
         </transferList>
-        <!--Optional:-->
         <metadata>
-          <!--1 to 10 repetitions:-->
           <mapEntry>
             <key>keytest</key>
             <value>1</value>
