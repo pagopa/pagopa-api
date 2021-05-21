@@ -11,11 +11,11 @@
           <allCCP>true</allCCP>
         </paymentOptionDescription>
       </paymentBollettinoList>
-      <paymentDescription>test</paymentDescription>
+      <paymentDescription>payment</paymentDescription>
       <fiscalCodePA>77777777777</fiscalCodePA>
       <noticeNumber>311111111112222222</noticeNumber>
-      <companyName>Pa Test</companyName>
-      <officeName>Office Test</officeName>
+      <companyName>company EC</companyName>
+      <officeName>office EC</officeName>
     </nfpsp:verificaBollettinoRes>
   </soapenv:Body>
 </soapenv:Envelope>
