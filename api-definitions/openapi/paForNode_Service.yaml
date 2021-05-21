@@ -101,27 +101,19 @@ paths:
                 <soapenv:Body>
                   <paf:paVerifyPaymentNoticeRes>
                     <outcome>OK</outcome>
-                    <!--Optional:-->
                     <paymentList>
-                      <!--1 to 5 repetitions:-->
                       <paymentOptionDescription>
                         <amount>30.00</amount>
                         <options>EQ</options>
-                        <!--Optional:-->
                         <dueDate>2020-01-01</dueDate>
-                        <!--Optional:-->
                         <detailDescription>test</detailDescription>
                         <allCCP>false</allCCP>
                       </paymentOptionDescription>
                     </paymentList>
-                    <!--Optional:-->
-                    <paymentDescription>test</paymentDescription>
-                    <!--Optional:-->
+                    <paymentDescription>payment</paymentDescription>
                     <fiscalCodePA>77777777777</fiscalCodePA>
-                    <!--Optional:-->
-                    <companyName>test</companyName>
-                    <!--Optional:-->
-                    <officeName>test</officeName>
+                    <companyName>company EC</companyName>
+                    <officeName>office EC</officeName>
                   </paf:paVerifyPaymentNoticeRes>
                 </soapenv:Body>
               </soapenv:Envelope>
