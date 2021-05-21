@@ -331,42 +331,32 @@ paths:
                 <soapenv:Header/>
                 <soapenv:Body>
                     <nod:sendPaymentOutcomeReq>
-                      <idPSP>70000000001</idPSP>
-                      <idBrokerPSP>70000000001</idBrokerPSP>
-                      <idChannel>70000000001_01</idChannel>
+                      <idPSP>88888888888</idPSP>
+                      <idBrokerPSP>88888888888</idBrokerPSP>
+                      <idChannel>88888888888_01</idChannel>
                       <password>**********</password>
                       <paymentToken>c110729d258c4ab1b765fe902aae41d6</paymentToken>
                       <outcome>OK</outcome>
-                      <!--Optional:-->
                       <details>
                           <paymentMethod>creditCard</paymentMethod>
-                          <!--Optional:-->
                           <paymentChannel>app</paymentChannel>
                           <fee>2.00</fee>
-                          <!--Optional:-->
                           <payer>
                             <uniqueIdentifier>
-                                <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
-                                <entityUniqueIdentifierValue>77777777777_01</entityUniqueIdentifierValue>
+                                <entityUniqueIdentifierType>F</entityUniqueIdentifierType>
+                                <entityUniqueIdentifierValue>JHNDOE00A01F205N</entityUniqueIdentifierValue>
                             </uniqueIdentifier>
-                            <fullName>name</fullName>
-                            <!--Optional:-->
+                            <fullName>John Doe</fullName>
                             <streetName>street</streetName>
-                            <!--Optional:-->
-                            <civicNumber>civic</civicNumber>
-                            <!--Optional:-->
-                            <postalCode>postal</postalCode>
-                            <!--Optional:-->
+                            <civicNumber>12</civicNumber>
+                            <postalCode>89020</postalCode>
                             <city>city</city>
-                            <!--Optional:-->
-                            <stateProvinceRegion>state</stateProvinceRegion>
-                            <!--Optional:-->
+                            <stateProvinceRegion>MI</stateProvinceRegion>
                             <country>IT</country>
-                            <!--Optional:-->
-                            <e-mail>prova@test.it</e-mail>
+                            <e-mail>john.doe@test.it</e-mail>
                           </payer>
-                          <applicationDate>2021-12-12</applicationDate>
-                          <transferDate>2021-12-11</transferDate>
+                          <applicationDate>2021-10-01</applicationDate>
+                          <transferDate>2021-10-02</transferDate>
                       </details>
                     </nod:sendPaymentOutcomeReq>
                 </soapenv:Body>
