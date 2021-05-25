@@ -5,68 +5,74 @@
       <idBrokerPA>77777777777</idBrokerPA>
       <idStation>77777777777_01</idStation>
       <receipt>
-        <receiptId>f43cf6263ddb47248222b039f6d1f1f5</receiptId>
-        <noticeNumber>311018351493172600</noticeNumber>
+        <receiptId>c110729d258c4ab1b765fe902aae41d6</receiptId>
+        <noticeNumber>311111111112222222</noticeNumber>
         <fiscalCode>77777777777</fiscalCode>
         <outcome>OK</outcome>
-        <creditorReferenceId>11018351493172600</creditorReferenceId>
-        <paymentAmount>10.00</paymentAmount>
+        <creditorReferenceId>11111111112222222</creditorReferenceId>
+        <paymentAmount>30.00</paymentAmount>
         <description>test</description>
-        <companyName>company</companyName>
-        <officeName>office</officeName>
+        <companyName>company EC</companyName>
+        <officeName>office EC</officeName>
         <debtor>
           <uniqueIdentifier>
-            <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
-            <entityUniqueIdentifierValue>77777777777</entityUniqueIdentifierValue>
+            <entityUniqueIdentifierType>F</entityUniqueIdentifierType>
+            <entityUniqueIdentifierValue>JHNDOE00A01F205N</entityUniqueIdentifierValue>
           </uniqueIdentifier>
-          <fullName>name</fullName>
+          <fullName>John Doe</fullName>
           <streetName>street</streetName>
-          <civicNumber>99</civicNumber>
-          <postalCode>20155</postalCode>
+          <civicNumber>12</civicNumber>
+          <postalCode>89020</postalCode>
           <city>city</city>
-          <stateProvinceRegion>state</stateProvinceRegion>
+          <stateProvinceRegion>MI</stateProvinceRegion>
           <country>IT</country>
-          <e-mail>prova@test.it</e-mail>
+          <e-mail>john.doe@test.it</e-mail>
         </debtor>
         <transferList>
           <transfer>
             <idTransfer>1</idTransfer>
-            <transferAmount>10.00</transferAmount>
+            <transferAmount>20.00</transferAmount>
             <fiscalCodePA>77777777777</fiscalCodePA>
-            <IBAN>IT45R0760103200000000001016</IBAN>
-            <remittanceInformation>test</remittanceInformation>
-            <transferCategory>test</transferCategory>
+            <IBAN>IT0000000000000000000000000</IBAN>
+            <remittanceInformation>remittanceInformation1</remittanceInformation>
+          </transfer>
+          <transfer>
+            <idTransfer>2</idTransfer>
+            <transferAmount>10.00</transferAmount>
+            <fiscalCodePA>77777777778</fiscalCodePA>
+            <IBAN>IT0000000000000000000000001</IBAN>
+            <remittanceInformation>remittanceInformation2</remittanceInformation>
           </transfer>
         </transferList>
-        <idPSP>70000000001</idPSP>
-        <pspFiscalCode>CF70000000001</pspFiscalCode>
-        <pspPartitaIVA>piva700000000001</pspPartitaIVA>
-        <PSPCompanyName>Psp Salvo</PSPCompanyName>
-        <idChannel>70000000001_01</idChannel>
+        <idPSP>88888888888</idPSP>
+        <pspFiscalCode>88888888888</pspFiscalCode>
+        <pspPartitaIVA>88888888888</pspPartitaIVA>
+        <PSPCompanyName>PSP name</PSPCompanyName>
+        <idChannel>88888888888_01</idChannel>
         <channelDescription>app</channelDescription>
         <payer>
           <uniqueIdentifier>
-            <entityUniqueIdentifierType>G</entityUniqueIdentifierType>
-            <entityUniqueIdentifierValue>77777777777_01</entityUniqueIdentifierValue>
+            <entityUniqueIdentifierType>F</entityUniqueIdentifierType>
+            <entityUniqueIdentifierValue>JHNDOE00A01F205N</entityUniqueIdentifierValue>
           </uniqueIdentifier>
-          <fullName>name</fullName>
+          <fullName>John Doe</fullName>
           <streetName>street</streetName>
-          <civicNumber>civic</civicNumber>
-          <postalCode>postal</postalCode>
+          <civicNumber>12</civicNumber>
+          <postalCode>89020</postalCode>
           <city>city</city>
-          <stateProvinceRegion>state</stateProvinceRegion>
+          <stateProvinceRegion>MI</stateProvinceRegion>
           <country>IT</country>
-          <e-mail>prova@test.it</e-mail>
+          <e-mail>john.doe@test.it</e-mail>
         </payer>
         <paymentMethod>creditCard</paymentMethod>
         <fee>2.00</fee>
-        <paymentDateTime>2021-03-25T17:48:22</paymentDateTime>
-        <applicationDate>2021-12-12</applicationDate>
-        <transferDate>2021-12-11</transferDate>
+        <paymentDateTime>2021-10-01T17:48:22</paymentDateTime>
+        <applicationDate>2021-10-01</applicationDate>
+        <transferDate>2021-10-02</transferDate>
         <metadata>
           <mapEntry>
-            <key>1</key>
-            <value>22</value>
+            <key>keytest</key>
+            <value>1</value>
           </mapEntry>
         </metadata>
       </receipt>

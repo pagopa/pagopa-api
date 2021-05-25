@@ -7,7 +7,7 @@
       <idStation>77777777777_01</idStation>
       <qrCode>
         <fiscalCode>77777777777</fiscalCode>
-        <noticeNumber>311018921337126000</noticeNumber>
+        <noticeNumber>311111111112222222</noticeNumber>
       </qrCode>
     </nod:paVerifyPaymentNoticeReq>
   </soapenv:Body>

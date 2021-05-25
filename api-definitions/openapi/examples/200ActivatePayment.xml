@@ -1,23 +1,30 @@
 <soapenv:Envelope xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-   <soapenv:Body>
-      <nfpsp:activatePaymentNoticeRes>
-         <outcome>OK</outcome>
-         <totalAmount>10.00</totalAmount>
-         <paymentDescription>test</paymentDescription>
-         <fiscalCodePA>77777777777</fiscalCodePA>
-         <companyName>Pa Test</companyName>
-         <officeName>office</officeName>
-         <paymentToken>c110729d258c4ab1b765fe902aae41d6</paymentToken>
-         <transferList>
-            <transfer>
-               <idTransfer>1</idTransfer>
-               <transferAmount>10.00</transferAmount>
-               <fiscalCodePA>77777777777</fiscalCodePA>
-               <IBAN>IT45R0760103200000000001016</IBAN>
-               <remittanceInformation>test</remittanceInformation>
-            </transfer>
-         </transferList>
-         <creditorReferenceId>123456789</creditorReferenceId>
-      </nfpsp:activatePaymentNoticeRes>
-   </soapenv:Body>
+  <soapenv:Body>
+    <nfpsp:activatePaymentNoticeRes>
+      <outcome>OK</outcome>
+      <totalAmount>30.00</totalAmount>
+      <paymentDescription>test</paymentDescription>
+      <fiscalCodePA>77777777777</fiscalCodePA>
+      <companyName>company EC</companyName>
+      <officeName>office EC</officeName>
+      <paymentToken>c110729d258c4ab1b765fe902aae41d6</paymentToken>
+      <transferList>
+        <transfer>
+          <idTransfer>1</idTransfer>
+          <transferAmount>20.00</transferAmount>
+          <fiscalCodePA>77777777777</fiscalCodePA>
+          <IBAN>IT0000000000000000000000000</IBAN>
+          <remittanceInformation>remittanceInformation1</remittanceInformation>
+        </transfer>
+        <transfer>
+          <idTransfer>2</idTransfer>
+          <transferAmount>10.00</transferAmount>
+          <fiscalCodePA>77777777778</fiscalCodePA>
+          <IBAN>IT0000000000000000000000001</IBAN>
+          <remittanceInformation>remittanceInformation2</remittanceInformation>
+        </transfer>
+      </transferList>
+      <creditorReferenceId>11111111112222222</creditorReferenceId>
+    </nfpsp:activatePaymentNoticeRes>
+  </soapenv:Body>
 </soapenv:Envelope>
