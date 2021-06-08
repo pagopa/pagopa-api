@@ -1,7 +1,7 @@
 TASSONOMIA_SERVIZI_URL = 'https://docs.google.com/uc?export=download&id=13xOd__Qd4pwKHr3wjE-73NAB2O7UKmIt'
 
 tassonomia.xlsx:
-	mkdir ./tmp
+	mkdir -p ./tmp
 	wget --no-check-certificate $(TASSONOMIA_SERVIZI_URL) -O ./tmp/tassonomia.xlsx
 
 tassonomia.csv:
