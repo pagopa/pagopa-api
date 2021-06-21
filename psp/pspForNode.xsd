@@ -118,6 +118,16 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="ctCreditCardPayment">
+    <xsd:sequence>
+      <xsd:element name="rrn" type="xsd:string" />
+      <xsd:element name="esitoTransazioneCarta" type="xsd:string" />
+      <xsd:element name="importoTotalePagato" type="tns:stAmount" />
+      <xsd:element name="timestampOperazione" type="tns:stISODateTime" />
+      <xsd:element name="codiceAutorizzativo" type="tns:stText6" /> 
+    </xsd:sequence>
+  </xsd:complexType>
+
   <!--Element req/res-->
   <xsd:complexType name="pspSendPaymentReq">
     <xsd:sequence>
@@ -125,13 +135,10 @@
       <xsd:element name="idBrokerPSP" type="tns:stText35" />
       <xsd:element name="idChannel" type="tns:stText35" />
       <xsd:element name="paymentToken" type="tns:stPaymentToken" />
+      <xsd:element name="creditorReferenceId" type="tns:stText35"/> 
       <xsd:element name="transferList" type="tns:ctTransferListPSP" />
-      <!-- <xsd:element name="creditorReferenceId" type="tns:stText35"/> 
-      <xsd:element name="rrn" type="xsd:string" />
-      <xsd:element name="esitoTransazioneCarta" type="xsd:string" />
-      <xsd:element name="importoTotalePagato" type="tns:stAmount" />
-      <xsd:element name="timestampOperazione" type="tns:stISODateTime" />
-      <xsd:element name="codiceAutorizzativo" type="tns:stText6" /> -->
+      <xsd:element name="creditCardPayment" type="tns:ctCreditCardPayment" minOccurs="0"/>
+  
     </xsd:sequence>
   </xsd:complexType>
 
