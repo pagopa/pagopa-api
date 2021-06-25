@@ -7,25 +7,25 @@
         </xsd:schema>
     </wsdl:types>
 
-    <wsdl:message name="pspSendPaymentReq">
-        <wsdl:part name="requestBody" element="pspfn:pspSendPaymentReq" />
+    <wsdl:message name="pspNotifyPaymentReq">
+        <wsdl:part name="requestBody" element="pspfn:pspNotifyPaymentReq" />
     </wsdl:message>
-    <wsdl:message name="pspSendPaymentRes">
-        <wsdl:part name="responseBody" element="pspfn:pspSendPaymentRes" />
+    <wsdl:message name="pspNotifyPaymentRes">
+        <wsdl:part name="responseBody" element="pspfn:pspNotifyPaymentRes" />
     </wsdl:message>
 
     <wsdl:portType name="pspForNode_PortType">
-        <wsdl:operation name="pspSendPayment">
-            <wsdl:input message="tns:pspSendPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspSendPaymentReq" />
-            <wsdl:output message="tns:pspSendPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspSendPaymentRes" />
+        <wsdl:operation name="pspNotifyPayment">
+            <wsdl:input message="tns:pspNotifyPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentReq" />
+            <wsdl:output message="tns:pspNotifyPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentRes" />
         </wsdl:operation>
     </wsdl:portType>
 
     <wsdl:binding name="pspForNode_Binding" type="tns:pspForNode_PortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
 
-        <wsdl:operation name="pspSendPayment">
-            <soap:operation soapAction="pspSendPayment" />
+        <wsdl:operation name="pspNotifyPayment">
+            <soap:operation soapAction="pspNotifyPayment" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>

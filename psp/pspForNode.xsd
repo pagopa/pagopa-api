@@ -129,7 +129,7 @@
   </xsd:complexType>
 
   <!--Element req/res-->
-  <xsd:complexType name="pspSendPaymentReq">
+  <xsd:complexType name="pspNotifyPaymentReq">
     <xsd:sequence>
       <xsd:element name="idPSP" type="tns:stText35" />
       <xsd:element name="idBrokerPSP" type="tns:stText35" />
@@ -137,23 +137,20 @@
       <xsd:element name="paymentToken" type="tns:stPaymentToken" />
       <xsd:element name="creditorReferenceId" type="tns:stText35"/> 
       <xsd:element name="transferList" type="tns:ctTransferListPSP" />
-      <xsd:element name="creditCardPayment" type="tns:ctCreditCardPayment" minOccurs="0"/>
-  
+      <!--Choice for future use. In this moment is defined only credit card -->
+      <xsd:choice>
+        <xsd:element name="creditCardPayment" type="tns:ctCreditCardPayment"/>
+      </xsd:choice>
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:complexType name="pspSendPaymentRes">
+  <xsd:complexType name="pspNotifyPaymentRes">
     <xsd:complexContent>
-      <xsd:extension base="tns:ctResponse">
-        <xsd:sequence>
-          <xsd:element name="applicationDate" type="tns:stISODate" minOccurs="0" />
-          <xsd:element name="transferDate" type="tns:stISODate" minOccurs="0" />
-        </xsd:sequence>
-      </xsd:extension>
+      <xsd:extension base="tns:ctResponse"/>
     </xsd:complexContent>
   </xsd:complexType>
 
   <!-- Wrapper Elements -->
-  <xsd:element name="pspSendPaymentReq" type="tns:pspSendPaymentReq" />
-  <xsd:element name="pspSendPaymentRes" type="tns:pspSendPaymentRes" />
+  <xsd:element name="pspNotifyPaymentReq" type="tns:pspNotifyPaymentReq" />
+  <xsd:element name="pspNotifyPaymentRes" type="tns:pspNotifyPaymentRes" />
 </xsd:schema>
