@@ -121,10 +121,12 @@
   <xsd:complexType name="ctCreditCardPayment">
     <xsd:sequence>
       <xsd:element name="rrn" type="xsd:string" />
-      <xsd:element name="esitoTransazioneCarta" type="xsd:string" />
-      <xsd:element name="importoTotalePagato" type="tns:stAmount" />
-      <xsd:element name="timestampOperazione" type="tns:stISODateTime" />
-      <xsd:element name="codiceAutorizzativo" type="tns:stText6" /> 
+      <xsd:element name="outcomePaymentGateway" type="xsd:string" /> <!--esitoTransazioneCarta -->
+      <xsd:element name="totalAmount" type="tns:stAmount" /> <!--fee + debtAmount -->
+      <xsd:element name="fee" type="tns:stAmount" />
+      <xsd:element name="timestampOperation" type="tns:stISODateTime" /> <!--timestampOperazione -->
+      <xsd:element name="authorizationCode" type="tns:stText6" /> <!--codiceAutorizzativo -->
+      <xsd:element name="paymentGateway" type="tns:stText35" minOccurs="0"/> <!-- for future use -->
     </xsd:sequence>
   </xsd:complexType>
 
@@ -135,7 +137,8 @@
       <xsd:element name="idBrokerPSP" type="tns:stText35" />
       <xsd:element name="idChannel" type="tns:stText35" />
       <xsd:element name="paymentToken" type="tns:stPaymentToken" />
-      <xsd:element name="creditorReferenceId" type="tns:stText35"/> 
+      <xsd:element name="creditorReferenceId" type="tns:stText35"/>
+      <xsd:element name="debtAmount" type="tns:stAmount" />
       <xsd:element name="transferList" type="tns:ctTransferListPSP" />
       <!--Choice for future use. In this moment is defined only credit card -->
       <xsd:choice>
