@@ -487,7 +487,7 @@ Where each `transfer` items contains :
           <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
           <!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
           <xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
-          <xsd:element name="transferList" type="tns:ctTransferListPSP" minOccurs="0" />
+          <!-- <xsd:element name="transferList" type="tns:ctTransferListPSP" minOccurs="0" /> -->
           <xsd:element name="creditorReferenceId" type="tns:stText35" minOccurs="0" /> <!--IUV -->
         </xsd:sequence>
       </xsd:extension>
