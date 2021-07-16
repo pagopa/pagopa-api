@@ -12,11 +12,11 @@ Installare i seguenti pacchetti:
 ```
 $ pip install xlsx2csv
 ```
-> Valido per su sistemi UnixLike
+> Valido su sistemi *nix like
 ```
 $ brew install wget
 ```
-> Valido per sistemi MacOs che hanno [brew](https://brew.sh/index_it)
+> Valido per sistemi MacOS che hanno [brew](https://brew.sh/index_it)
 
 ## Conversione 
 
