@@ -15,8 +15,6 @@ Il repository è suddiviso nelle seguenti sezioni:
 
 
 ## How to generate documentation 
-> NOTe : _BETA version_ available only for [Monografia Processo di pagamento presso il PSP con Ente multi-beneficiario](https://docs.google.com/document/d/1qmQ12SfkhjJGss--d5mQwqrcMCb9pF4JHj-k8w8X9jM/view)
-
 
 clone the repo typing:
 ```
