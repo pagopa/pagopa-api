@@ -1,9 +1,0 @@
-[submodule "conf/--force"]
-	path = conf/--force
-	url = https://github.com/gammam/xsd2html2xml.git
-[submodule "conf/xs3p"]
-	path = conf/xs3p
-	url = https://github.com/gammam/xs3p.git
-[submodule "conf/xsd2html2xml"]
-	path = conf/xsd2html2xml
-	url = https://github.com/gammam/xsd2html2xml.git
