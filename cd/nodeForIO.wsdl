@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="nodeForIO" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForIO.xsd" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForIO.wsdl" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForIO.wsdl">
+
+  <wsdl:types>
+    <xsd:schema version="1.0.0">
+      <xsd:import schemaLocation="nodeForIO.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForIO.xsd" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="activateIOPaymentReq">
+    <wsdl:part name="requestBody" element="nfpsp:activateIOPaymentReq" />
+  </wsdl:message>
+  <wsdl:message name="activateIOPaymentRes">
+    <wsdl:part name="responseBody" element="nfpsp:activateIOPaymentRes" />
+  </wsdl:message>
+
+  <wsdl:message name="handledException">
+    <wsdl:part name="fault" element="nfpsp:handledException" />
+  </wsdl:message>
+
+  <wsdl:portType name="nodeForIO_PortType">
+    <wsdl:operation name="activateIOPayment">
+      <wsdl:input message="tns:activateIOPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForIO/activateIOPaymentReq" />
+      <wsdl:output message="tns:activateIOPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForIO/activateIOPaymentRes" />
+      <wsdl:fault message="tns:handledException" name="handledException" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="nodeForIO_Binding" type="tns:nodeForIO_PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+    <wsdl:operation name="activateIOPayment">
+      <soap:operation soapAction="activateIOPayment" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="handledException">
+        <soap:fault name="handledException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="nodeForIO_Service">
+    <wsdl:port name="nodeForIO_Port" binding="tns:nodeForIO_Binding">
+      <soap:address location="http://pagopa-api.pagopa.gov.it/service/node/nodeForIO" />
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

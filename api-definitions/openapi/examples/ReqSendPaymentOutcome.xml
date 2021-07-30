@@ -1,0 +1,34 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nod="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <nod:sendPaymentOutcomeReq>
+         <idPSP>88888888888</idPSP>
+         <idBrokerPSP>88888888888</idBrokerPSP>
+         <idChannel>88888888888_01</idChannel>
+         <password>**********</password>
+         <paymentToken>c110729d258c4ab1b765fe902aae41d6</paymentToken>
+         <outcome>OK</outcome>
+         <details>
+            <paymentMethod>creditCard</paymentMethod>
+            <paymentChannel>app</paymentChannel>
+            <fee>2.00</fee>
+            <payer>
+               <uniqueIdentifier>
+                  <entityUniqueIdentifierType>F</entityUniqueIdentifierType>
+                  <entityUniqueIdentifierValue>JHNDOE00A01F205N</entityUniqueIdentifierValue>
+               </uniqueIdentifier>
+               <fullName>John Doe</fullName>
+               <streetName>street</streetName>
+               <civicNumber>12</civicNumber>
+               <postalCode>89020</postalCode>
+               <city>city</city>
+               <stateProvinceRegion>MI</stateProvinceRegion>
+               <country>IT</country>
+               <e-mail>john.doe@test.it</e-mail>
+            </payer>
+            <applicationDate>2021-10-01</applicationDate>
+            <transferDate>2021-10-02</transferDate>
+         </details>
+      </nod:sendPaymentOutcomeReq>
+   </soapenv:Body>
+</soapenv:Envelope>

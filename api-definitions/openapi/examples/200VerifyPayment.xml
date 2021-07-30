@@ -1,0 +1,18 @@
+<soapenv:Envelope xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:nfpsp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <nfpsp:verifyPaymentNoticeRes>
+      <outcome>OK</outcome>
+      <paymentList>
+        <paymentOptionDescription>
+          <amount>30.00</amount>
+          <options>EQ</options>
+          <paymentNote>test</paymentNote>
+        </paymentOptionDescription>
+      </paymentList>
+      <paymentDescription>payment</paymentDescription>
+      <fiscalCodePA>77777777777</fiscalCodePA>
+      <companyName>company EC</companyName>
+      <officeName>office EC</officeName>
+    </nfpsp:verifyPaymentNoticeRes>
+  </soapenv:Body>
+</soapenv:Envelope>

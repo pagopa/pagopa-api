@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://pagopa-api.pagopa.gov.it/utils/paymentCategory.xsd" 
+    targetNamespace="http://pagopa-api.pagopa.gov.it/utils/paymentCategory.xsd">
+
+
+<xsd:complexType name="ctPaymentCategoryElement">
+    <xsd:annotation>
+        <xsd:documentation>
+
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+        <xsd:element name="id" type="xsd:string" />
+        <xsd:element name="description" type="xsd:string" />
+    </xsd:sequence>
+</xsd:complexType> 
+
+<xsd:simpleType name="stPaymentCategoryType">
+    <xsd:annotation>
+        <xsd:documentation>
+
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+        <!-- -->
+        <xsd:enumeration value="9/0101100IM/"></xsd:enumeration>
+        <xsd:enumeration value="9/0101101IM/"></xsd:enumeration>
+        <xsd:enumeration value="9/0101102TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0101103IM/"></xsd:enumeration>
+        <xsd:enumeration value="9/0101104TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0101105IM/"></xsd:enumeration>
+        <xsd:enumeration value="9/0101106SA/"></xsd:enumeration>
+        <xsd:enumeration value="9/0101107TS/"></xsd:enumeration>
+         <!-- -->
+         <xsd:enumeration value="9/0102100SA/"></xsd:enumeration>
+         <xsd:enumeration value="9/0102101SP/"></xsd:enumeration>
+         <xsd:enumeration value="9/0102102SP/"></xsd:enumeration>
+         <xsd:enumeration value="9/0102103AP/"></xsd:enumeration>
+         <xsd:enumeration value="9/0101104TS/"></xsd:enumeration>
+         <xsd:enumeration value="9/0102104SP/"></xsd:enumeration>
+         <xsd:enumeration value="9/0102105SA/"></xsd:enumeration>
+         <xsd:enumeration value="9/0102106SA/"></xsd:enumeration>
+        <!-- -->
+        <xsd:enumeration value="9/0103100TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0103101AP/"></xsd:enumeration>
+        <!-- -->
+        <xsd:enumeration value="9/0104100TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0104101TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0104102TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0104103SP/"></xsd:enumeration>
+        <!-- -->
+        <xsd:enumeration value="9/0105100SP/"></xsd:enumeration>
+        <xsd:enumeration value="9/0105101TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0105102TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0105103TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0105104SP/"></xsd:enumeration>
+        <xsd:enumeration value="9/0105105AP/"></xsd:enumeration>
+        <xsd:enumeration value="9/0105106AP/"></xsd:enumeration>
+        <xsd:enumeration value="9/0105107TS/"></xsd:enumeration>
+        <!-- -->
+        <xsd:enumeration value="9/0106100TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0106101TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0106102SA/"></xsd:enumeration>
+        <xsd:enumeration value="9/0106103TS/"></xsd:enumeration>
+        <xsd:enumeration value="9/0106104AP/"></xsd:enumeration>
+        <xsd:enumeration value="9/0106105SP/"></xsd:enumeration>
+        <xsd:enumeration value="9/0106106TS/"></xsd:enumeration>
+
+        <!-- RIGA 42-->
+        <xsd:enumeration value="9/PLACEHOLDER/"></xsd:enumeration>
+        <xsd:enumeration value="9/PLACEHOLDER/"></xsd:enumeration>
+        <xsd:enumeration value="9/PLACEHOLDER/"></xsd:enumeration>
+
+    </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name=""></xsd:element>
+</xsd:schema>
