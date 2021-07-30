@@ -13,8 +13,7 @@ Il repository è suddiviso nelle seguenti sezioni:
 * **pda**: contiene i tipi di dati scambiati dai soggetti aderenti con il Portale delle Adesioni.
 * **general**: contiene gli schemi di definizione dei documenti XML scambiati all'interno del sistema.
 
-
-## How to generate documentation 
+<!-- ## How to generate documentation 
 
 clone the repo typing:
 ```
@@ -44,4 +43,4 @@ Created a bundle for openapi/nodeForPsp_Service.yaml successfully
 ```
 
 then click [here](http://127.0.0.1:8080) to show documentation.
-
+ -->
