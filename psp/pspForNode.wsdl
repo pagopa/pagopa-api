@@ -16,6 +16,19 @@
 
     <wsdl:portType name="pspForNode_PortType">
         <wsdl:operation name="pspNotifyPayment">
+            <wsdl:documentation>
+Notify the outcome of a payment transaction started on any PagoPA client and executed on a payment gateway integrated with Payment Manager.
+
+if outcome is OK, the PSP will receive a transfer found on a technical account. Therefore the PSP shall : 
+
+- close the payment by using the *sendPaymentOutcome* message using the *paymentToken* on the request.
+- trasfer founds to the account according to the *transferList* element.
+
+if outcome is KO, the PSP can use this information to balance payment gateway transaction and PSP transfers
+     
+
+            </wsdl:documentation>
+
             <wsdl:input message="tns:pspNotifyPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentReq" />
             <wsdl:output message="tns:pspNotifyPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentRes" />
         </wsdl:operation>
