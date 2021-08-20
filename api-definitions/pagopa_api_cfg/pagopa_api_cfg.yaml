@@ -60,7 +60,165 @@ paths:
           description: Service unavailable.
           schema:
             $ref: "#/definitions/ProblemJson"            
-           
+  "/creditoristitutions/{organizationfiscalcode}/encodings":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetECCodifiche
+      summary: |
+        Get creditor istitution encodings
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/CreditorIstitutionEncodings"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"            
+  "/creditoristitutions/{organizationfiscalcode}/encodings/{encodingcode}":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetECCodifica
+      summary: |
+        Get creditor istitution encoding exists
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/EncodingCode"
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/Result"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"            
+  "/creditoristitutions/{organizationfiscalcode}/ibans":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetECIbans
+      summary: |
+        Get creditor istitution ibans
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/Ibans"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson" 
+  "/creditoristitutions/{organizationfiscalcode}/ibans/{ibancode}":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetECIban
+      summary: |
+        Get creditor istitution iban exists
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+        - $ref: "#/parameters/IbanCode"
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/Result"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"            
+  "/brokersec/":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetBrokersEC
+      summary: |
+        Get creditor brokers list
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/BrokersEC"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+  "/brokersec/{brokercode}":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetBrokerEC
+      summary: |
+        Get creditor broker details
+      parameters:
+        - $ref: "#/parameters/BrokerCode"
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/BrokerDetails"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"            
+  "/stations/":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetStations
+      summary: |
+        Get stations list
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/Stations"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+  "/stations/{stationcode}":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetStation
+      summary: |
+        Get station details
+      parameters:
+        - $ref: "#/parameters/StationCode"
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/StationDetails"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"            
+
 parameters:
   ReceiptNumber:
     name: receiptid
@@ -76,6 +234,38 @@ parameters:
     x-import: italia-ts-commons/lib/strings
     required: true
     description: Organization fiscal code, the fiscal code of the Organization.
+    maxLength: 50
+  IbanCode:
+    name: ibancode
+    in: path
+    type: string
+    x-import: italia-ts-commons/lib/strings
+    required: true
+    description: iban code.
+    maxLength: 50   
+  BrokerCode:
+    name: brokercode
+    in: path
+    type: string
+    x-import: italia-ts-commons/lib/strings
+    required: true
+    description: broker code.
+    maxLength: 50     
+  StationCode:
+    name: stationcode
+    in: path
+    type: string
+    x-import: italia-ts-commons/lib/strings
+    required: true
+    description: station code.
+    maxLength: 50     
+  EncodingCode:
+    name: encodingcode
+    in: path
+    type: string
+    x-import: italia-ts-commons/lib/strings
+    required: true
+    description: Encoding code.
     maxLength: 50
   FiscalCode:
     name: fiscalcode
@@ -176,6 +366,45 @@ securityDefinitions:
 definitions:
   ProblemJson:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/ProblemJson"
+  Result:
+    type: boolean
+    default: true
+  CreditorIstitutionEncodings:
+    type: object
+    properties:
+      econdings:
+        type: array
+        items:
+          $ref: "#/definitions/Encoding"
+  Encoding:
+        type: string
+        example: id_codifica_codice_pa
+        maxLength: 50
+  Iban:
+        type: string
+        example: iban
+        maxLength: 50        
+  Ibans:      
+    type: object
+    properties:
+      ibans:
+        type: array
+        items:
+          $ref: "#/definitions/Iban"
+  Stations:      
+    type: object
+    properties:
+      stations:
+        type: array
+        items:
+          $ref: "#/definitions/Station"
+  Station:
+    type: object
+    properties:
+      description:
+        $ref: "#/definitions/Description"
+    required:
+      - description
   CreditorIstitutions:      
     type: object
     properties:
@@ -193,6 +422,17 @@ definitions:
     required:
       - description
       - company_name
+  BrokersEC:      
+    type: object
+    properties:
+      creditor_istitutions:
+        type: array
+        items:
+          $ref: "#/definitions/Broker"
+  Broker:
+        type: string
+        example: esempio
+        maxLength: 50
   Description:
         type: string
         example: esempio
@@ -209,9 +449,39 @@ definitions:
       company_name:
         $ref: "#/definitions/FiscalCode"
       lista_delle_stazioni:
-        $ref: "#/definitions/FiscalCode"
+        type: array
+        items:
+          $ref: "#/definitions/Station"
     required:
       - description
       - company_name
-        
-  
+  BrokerDetails:
+    type: object
+    properties:
+      description:
+        $ref: "#/definitions/Description"
+    required:
+      - description
+  StationDetails:
+    type: object
+    properties:
+      description:
+        $ref: "#/definitions/Description"
+      ecs:
+        $ref: "#/definitions/Ecs"
+    required:
+      - description
+  Ecs:      
+    type: object
+    properties:
+      ecs:
+        type: array
+        items:
+          $ref: "#/definitions/Ec"
+  Ec:
+        type: string
+        example: esempio
+        maxLength: 50     
+          
+      
+
