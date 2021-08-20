@@ -1,0 +1,217 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: PagoPA API configuration
+  contact:
+    name: PagoPA
+    url: https://www.pagopa.gov.it/
+  x-logo:
+    url: https://www.pagopa.gov.it/assets/images/pagopa-logo.png
+  description: Specification for Debtor Positions API
+host: api.io.italia.it.TOBEDEFINE
+basePath: "/api/v1"
+schemes:
+  - https
+security:
+  - ApiKey: []
+tags:
+  - name: Creditor Istitutions
+    description: Everything about Creditor Istitution info
+  - name: Payment Service Providers
+    description: Everything about PSP
+  - name: Configuration
+    description: Everything about general configuration
+paths:
+  "/creditoristitutions/":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetECs
+      summary: |
+        Get creditor istitutions list
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/CreditorIstitutions"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"
+  "/creditoristitutions/{organizationfiscalcode}":
+    get:
+      tags: 
+        - Creditor Istitutions
+      operationId: GetEC
+      summary: |
+        Get creditor istitution details
+      parameters:
+        - $ref: "#/parameters/OrganizationFiscalCode"
+      responses:
+        "200":
+          description: OK.
+          schema:
+            $ref: "#/definitions/CreditorIstitutionDetails"
+        "403":
+          description: Forbidden client error status.
+        "500":
+          description: Service unavailable.
+          schema:
+            $ref: "#/definitions/ProblemJson"            
+           
+parameters:
+  ReceiptNumber:
+    name: receiptid
+    in: path
+    type: string
+    required: true
+    description: The receipt identification
+    maxLength: 50
+  OrganizationFiscalCode:
+    name: organizationfiscalcode
+    in: path
+    type: string
+    x-import: italia-ts-commons/lib/strings
+    required: true
+    description: Organization fiscal code, the fiscal code of the Organization.
+    maxLength: 50
+  FiscalCode:
+    name: fiscalcode
+    in: path
+    type: string
+    maxLength: 16
+    minLength: 16
+    required: true
+    description: The fiscal code of the user, all upper case.
+  PaymentNoticeNumber:
+    in: path
+    name: paymentnoticenumber
+    required: true
+    description:
+      The field ["Numero Avviso"](https://pagopa-specifichepagamenti.readthedocs.io/it/latest/_docs/Capitolo7.html#il-numero-avviso-e-larchivio-dei-pagamenti-in-attesa)
+      of pagoPa, needed to identify the payment. Format is `<aux digit (1n)>[<application code> (2n)]<codice IUV (15|17n)>`.
+      See [pagoPa specs](https://www.agid.gov.it/sites/default/files/repository_files/specifiche_attuative_pagamenti_1_3_1_0.pdf) for more info on this field and the IUV.
+    type: string
+    pattern: "^[0123][0-9]{17}$"
+  AmountFrom:
+    in: query
+    name: amount_from
+    required: false
+    type: integer
+    description: The mimimum amount to filter from, in Euro cents. The value refers to the paymentOption.amount field in the GET/.../payment-notices case, while it refers to the ReceiptAmount.amount field in the GET/.../payment-receipts case.
+    minimum: 1
+    maximum: 9999999999
+  AmountTo:
+    in: query
+    name: amount_to
+    required: false
+    type: integer
+    description: The maximum amount to filter to, in Euro cents.
+    minimum: 1
+    maximum: 9999999999
+  DueDateFrom:
+    in: query
+    name: due_date_from
+    required: false
+    type: string
+    format: date
+    description: The due date to filter from.
+  DueDateTo:
+    in: query
+    name: due_date_to
+    required: false
+    type: string
+    format: date
+    description: The due date to filter to.
+  PaymentDateFrom:
+    in: query
+    name: payment_date_from
+    required: false
+    type: string
+    format: date
+    description: The receipt's payment date to filter from.
+  PaymentDateTo:
+    in: query
+    name: payment_date_to
+    required: false
+    type: string
+    format: date
+    description: The receipt's payment date to filter to.
+  Status:
+    in: query
+    name: status
+    required: false
+    type: string
+    description: Payment status
+    enum: [INSERTED, PAYING, PAID, NOTIFIED]
+  Limit:
+    in: query
+    name: limit
+    required: false
+    type: integer
+    minimum: 1
+    maximum: 100
+    default: 20
+    description: The number of items to return (from 1 to 100).
+  Offset:
+    in: query
+    name: offset
+    required: false
+    type: integer
+    minimum: 0
+    description: The number of items to skip before starting to collect the result set.
+  
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  ApiKey:
+    type: apiKey
+    name: X-Functions-Key
+    in: header
+    description: The API key to access this function app.
+definitions:
+  ProblemJson:
+    $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/ProblemJson"
+  CreditorIstitutions:      
+    type: object
+    properties:
+      creditor_istitutions:
+        type: array
+        items:
+          $ref: "#/definitions/CreditorIstitution"
+  CreditorIstitution:
+    type: object
+    properties:
+      description:
+        $ref: "#/definitions/Description"
+      company_name:
+        $ref: "#/definitions/FiscalCode"
+    required:
+      - description
+      - company_name
+  Description:
+        type: string
+        example: esempio
+        maxLength: 50
+  FiscalCode:
+        type: string
+        example: esempio
+        maxLength: 50     
+  CreditorIstitutionDetails:
+    type: object
+    properties:
+      description:
+        $ref: "#/definitions/Description"
+      company_name:
+        $ref: "#/definitions/FiscalCode"
+      lista_delle_stazioni:
+        $ref: "#/definitions/FiscalCode"
+    required:
+      - description
+      - company_name
+        
+  
