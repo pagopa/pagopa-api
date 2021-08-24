@@ -16,7 +16,7 @@ security:
   - ApiKey: []
 tags:
   - name: Creditor Istitutions
-    description: Everything about Creditor Istitution info
+    description: Everything about Creditor Istitution
   - name: Payment Service Providers
     description: Everything about PSP
   - name: Configuration
@@ -36,6 +36,8 @@ paths:
             $ref: "#/definitions/CreditorIstitutions"
         "403":
           description: Forbidden client error status.
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
@@ -56,6 +58,10 @@ paths:
             $ref: "#/definitions/CreditorIstitutionDetails"
         "403":
           description: Forbidden client error status.
+        "404":
+          description: Not Found
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
@@ -366,6 +372,76 @@ securityDefinitions:
 definitions:
   ProblemJson:
     $ref: "https://raw.githubusercontent.com/pagopa/io-functions-commons/v18.0.7/openapi/definitions.yaml#/ProblemJson"
+  CreditorIstitutions:      
+    type: object
+    properties:
+      creditor_istitutions:
+        type: array
+        items:
+          $ref: "#/definitions/CreditorIstitution"
+  CreditorIstitution:
+    type: object
+    properties:
+      id_dominio:
+        $ref: "#/definitions/Description"
+      enabled:
+        type: boolean
+        default: true
+        description: creditor istitution enabled
+      business_name:
+        $ref: "#/definitions/Description"
+      address:
+        type: object
+        properties:
+          location:
+            type: string
+            example: Via delle vie 3
+          city:
+            type: string
+            example: Lorem
+          zipCode:
+            $ref: "#/definitions/ZipCode"
+          country_code:
+            type: string
+            pattern: '^\w{2}$'
+            example: "RM"
+      psp_payment:
+        type: boolean
+        default: true
+      reporting_ftp:
+        type: boolean
+        default: false
+      reporting_zip:
+        type: boolean
+        default: false
+      payment_cancellation:
+        type: boolean
+        default: false
+    required:
+      - id_dominio
+      - enabled
+      - business_name
+      - address
+      - psp_payment
+      - reporting_ftp
+      - reporting_zip
+      - payment_cancellation
+  CreditorIstitutionDetails:
+    type: object
+    properties:
+      creditor_istitution:
+        $ref: "#/definitions/CreditorIstitution"
+      stations:
+        type: array
+        items:
+          $ref: "#/definitions/Station"
+    required:
+      - description
+      - stations
+  ZipCode:
+    type: string
+    pattern: '^\d{5}$'
+    example: "00187"
   Result:
     type: boolean
     default: true
@@ -401,27 +477,22 @@ definitions:
   Station:
     type: object
     properties:
-      description:
-        $ref: "#/definitions/Description"
+      id_station:
+        type: string
+        example: '12345678901_00'
+        maxLength: 35
+      enabled:
+        type: boolean
+        default: true
+        description: station enabled
+      version:
+        type: number
+        default: 1
+        description: number version
     required:
-      - description
-  CreditorIstitutions:      
-    type: object
-    properties:
-      creditor_istitutions:
-        type: array
-        items:
-          $ref: "#/definitions/CreditorIstitution"
-  CreditorIstitution:
-    type: object
-    properties:
-      description:
-        $ref: "#/definitions/Description"
-      company_name:
-        $ref: "#/definitions/FiscalCode"
-    required:
-      - description
-      - company_name
+      - id_station
+      - enabled
+      - version
   BrokersEC:      
     type: object
     properties:
@@ -435,26 +506,16 @@ definitions:
         maxLength: 50
   Description:
         type: string
-        example: esempio
-        maxLength: 50
+        example: Comune di Lorem Ipsum
+        maxLength: 70
+  BusinessName:
+        type: string
+        example: Comune di Lorem Ipsum
+        maxLength: 70
   FiscalCode:
         type: string
         example: esempio
         maxLength: 50     
-  CreditorIstitutionDetails:
-    type: object
-    properties:
-      description:
-        $ref: "#/definitions/Description"
-      company_name:
-        $ref: "#/definitions/FiscalCode"
-      lista_delle_stazioni:
-        type: array
-        items:
-          $ref: "#/definitions/Station"
-    required:
-      - description
-      - company_name
   BrokerDetails:
     type: object
     properties:
@@ -479,9 +540,9 @@ definitions:
         items:
           $ref: "#/definitions/Ec"
   Ec:
-        type: string
-        example: esempio
-        maxLength: 50     
+    type: string
+    example: esempio
+    maxLength: 50     
           
       
 
