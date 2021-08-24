@@ -82,10 +82,14 @@ paths:
             $ref: "#/definitions/CreditorIstitutionEncodings"
         "403":
           description: Forbidden client error status.
+        "404":
+          description: Not Found
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"            
+            $ref: "#/definitions/ProblemJson"           
   "/creditoristitutions/{organizationfiscalcode}/encodings/{encodingcode}":
     get:
       tags: 
@@ -103,10 +107,14 @@ paths:
             $ref: "#/definitions/Result"
         "403":
           description: Forbidden client error status.
+        "404":
+          description: Not Found
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"            
+            $ref: "#/definitions/ProblemJson"         
   "/creditoristitutions/{organizationfiscalcode}/ibans":
     get:
       tags: 
@@ -123,6 +131,10 @@ paths:
             $ref: "#/definitions/Ibans"
         "403":
           description: Forbidden client error status.
+        "404":
+          description: Not Found
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
@@ -144,10 +156,14 @@ paths:
             $ref: "#/definitions/Result"
         "403":
           description: Forbidden client error status.
+        "404":
+          description: Not Found
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"            
+            $ref: "#/definitions/ProblemJson"           
   "/brokersec/":
     get:
       tags: 
@@ -162,10 +178,12 @@ paths:
             $ref: "#/definitions/BrokersEC"
         "403":
           description: Forbidden client error status.
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"
+            $ref: "#/definitions/ProblemJson" 
   "/brokersec/{brokercode}":
     get:
       tags: 
@@ -182,10 +200,14 @@ paths:
             $ref: "#/definitions/BrokerDetails"
         "403":
           description: Forbidden client error status.
+        "404":
+          description: Not Found
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"            
+            $ref: "#/definitions/ProblemJson"     
   "/stations/":
     get:
       tags: 
@@ -200,10 +222,12 @@ paths:
             $ref: "#/definitions/Stations"
         "403":
           description: Forbidden client error status.
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"
+            $ref: "#/definitions/ProblemJson" 
   "/stations/{stationcode}":
     get:
       tags: 
@@ -220,10 +244,14 @@ paths:
             $ref: "#/definitions/StationDetails"
         "403":
           description: Forbidden client error status.
+        "404":
+          description: Not Found
+        "429":
+          description: Too many requests          
         "500":
           description: Service unavailable.
           schema:
-            $ref: "#/definitions/ProblemJson"            
+            $ref: "#/definitions/ProblemJson"          
 
 parameters:
   ReceiptNumber:
@@ -383,7 +411,9 @@ definitions:
     type: object
     properties:
       id_dominio:
-        $ref: "#/definitions/Description"
+        type: string
+        example: '1234567890100'
+        maxLength: 35
       enabled:
         type: boolean
         default: true
@@ -444,25 +474,50 @@ definitions:
     example: "00187"
   Result:
     type: boolean
-    default: true
+    default: false
   CreditorIstitutionEncodings:
     type: object
     properties:
+      id_dominio:
+        type: string
+        example: '1234567890100'
+        maxLength: 35
       econdings:
         type: array
         items:
           $ref: "#/definitions/Encoding"
   Encoding:
+    type: object
+    properties:
+      pa_code:
         type: string
-        example: id_codifica_codice_pa
-        maxLength: 50
+        example: '000011050036'
+        maxLength: 35      
+      code_type:
+        enum:
+          - 'BARCODE-GS1-128'
+          - 'QR-CODE'
+          - 'BARCODE-128-AIM'
   Iban:
+    type: object
+    properties:
+      iban:
         type: string
-        example: iban
-        maxLength: 50        
+        example: 'IT99C0222211111000000000000'
+        maxLength: 35
+      validity_date:
+        type: string
+        format: "date-time"
+      publication_date:
+        type: string
+        format: "date-time"
   Ibans:      
     type: object
     properties:
+      id_dominio:
+        type: string
+        example: '1234567890100'
+        maxLength: 35
       ibans:
         type: array
         items:
