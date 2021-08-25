@@ -7,7 +7,7 @@ info:
     url: https://www.pagopa.gov.it/
   x-logo:
     url: https://www.pagopa.gov.it/assets/images/pagopa-logo.png
-  description: Specification for API configuration
+  description: Specification for PagoPA API configuration
 host: api.io.italia.it.TOBEDEFINE
 basePath: "/api/v1"
 schemes:
