@@ -7,7 +7,7 @@ info:
     url: https://www.pagopa.gov.it/
   x-logo:
     url: https://www.pagopa.gov.it/assets/images/pagopa-logo.png
-  description: Specification for Debtor Positions API
+  description: Specification for API configuration
 host: api.io.italia.it.TOBEDEFINE
 basePath: "/api/v1"
 schemes:
@@ -197,7 +197,7 @@ paths:
         "200":
           description: OK.
           schema:
-            $ref: "#/definitions/BrokerDetails"
+            $ref: "#/definitions/Broker"
         "403":
           description: Forbidden client error status.
         "404":
@@ -551,53 +551,55 @@ definitions:
   BrokersEC:      
     type: object
     properties:
-      creditor_istitutions:
+      brokers_ec:
         type: array
         items:
           $ref: "#/definitions/Broker"
   Broker:
+    type: object
+    properties:
+      id_dominio:
         type: string
-        example: esempio
-        maxLength: 50
+        example: '1234567890100'
+        maxLength: 35
+      broker:
+        type: array
+        items:
+          $ref: "#/definitions/BrokerDetails"
   Description:
         type: string
         example: Comune di Lorem Ipsum
         maxLength: 70
-  BusinessName:
-        type: string
-        example: Comune di Lorem Ipsum
-        maxLength: 70
-  FiscalCode:
-        type: string
-        example: esempio
-        maxLength: 50     
   BrokerDetails:
     type: object
     properties:
+      id_broker:
+        type: string
+        example: '223344556677889900'
+        maxLength: 35
+      enabled:
+        type: boolean
       description:
-        $ref: "#/definitions/Description"
+        type: string
+        example: 'Lorem ipsum dolor sit amet'
+        maxLength: 255
     required:
       - description
   StationDetails:
     type: object
     properties:
-      description:
-        $ref: "#/definitions/Description"
-      ecs:
-        $ref: "#/definitions/Ecs"
-    required:
-      - description
-  Ecs:      
-    type: object
-    properties:
+      station:
+        $ref: "#/definitions/Station"
       ecs:
         type: array
         items:
-          $ref: "#/definitions/Ec"
-  Ec:
-    type: string
-    example: esempio
-    maxLength: 50     
+          type: string
+          example: '1234567890100'
+          maxLength: 35
+          description: id_dominio's creditor istituion
+    required:
+      - station
+      - ecs
           
       
 
