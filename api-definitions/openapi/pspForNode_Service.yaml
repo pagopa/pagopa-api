@@ -41,20 +41,21 @@ x-ibm-configuration:
       warning: []
       error: []
 paths:
-  /pspSendPayment:
+  /pspNotifyPayment:
     post:
-      summary: Operation pspSendPayment
+      summary: Operation pspNotifyPayment
       description: ''
-      operationId: pspSendPayment
+      operationId: pspNotifyPayment
       x-ibm-soap:
-        soap-action: pspSendPayment
-        soap-operation: '{http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd}pspSendPaymentReq'
+        soap-action: pspNotifyPayment
+        soap-operation: >-
+          {http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd}pspNotifyPaymentReq
       parameters:
         - in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/pspSendPaymentInput'
+            $ref: '#/definitions/pspNotifyPaymentInput'
           description: >-
             ```
                 <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
@@ -181,8 +182,8 @@ definitions:
               prefix: wsu
               attribute: true
             type: string
-  pspSendPaymentInput:
-    description: Input message for wsdl operation pspSendPaymentReq
+  pspNotifyPaymentInput:
+    description: Input message for wsdl operation pspNotifyPaymentReq
     type: object
     properties:
       Envelope:
@@ -192,25 +193,25 @@ definitions:
         type: object
         properties:
           Header:
-            $ref: '#/definitions/pspSendPaymentHeader'
+            $ref: '#/definitions/pspNotifyPaymentHeader'
           Body:
             xml:
               namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
               prefix: soapenv
             type: object
             properties:
-              pspSendPaymentReq:
-                $ref: '#/definitions/pspSendPaymentReq_element_pspfn'
+              pspNotifyPaymentReq:
+                $ref: '#/definitions/pspNotifyPaymentReq_element_pspfn'
             required:
-              - pspSendPaymentReq
+              - pspNotifyPaymentReq
         required:
           - Body
     required:
       - Envelope
     x-ibm-schema:
       wsdl-port: '{http://pagopa-api.pagopa.gov.it/psp/pspForNode.wsdl}pspForNode_Port'
-      wsdl-operation: pspSendPaymentReq
-      wsdl-message-direction-or-name: pspSendPaymentReqRequest
+      wsdl-operation: pspNotifyPaymentReq
+      wsdl-message-direction-or-name: pspNotifyPaymentReqRequest
     example: >-
 
       <soapenv:Envelope
@@ -231,11 +232,13 @@ definitions:
         </wsse:Security>
        </soapenv:Header>
        <soapenv:Body>
-        <pspfn:pspSendPaymentReq xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"><!-- mandatory -->
+        <pspfn:pspNotifyPaymentReq xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"><!-- mandatory -->
          <idPSP><!-- mandatory -->string</idPSP>
          <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
          <idChannel><!-- mandatory -->string</idChannel>
          <paymentToken><!-- mandatory -->string</paymentToken>
+         <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
+         <debtAmount><!-- mandatory -->999999996.99</debtAmount>
          <transferList><!-- mandatory -->
           <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
            <idTransfer><!-- mandatory -->3</idTransfer>
@@ -245,17 +248,26 @@ definitions:
            <remittanceInformation><!-- mandatory -->string</remittanceInformation>
           </transfer>
          </transferList>
-        </pspfn:pspSendPaymentReq>
+         <creditCardPayment>
+          <rrn><!-- mandatory -->string</rrn>
+          <outcomePaymentGateway><!-- mandatory -->string</outcomePaymentGateway>
+          <totalAmount><!-- mandatory -->999999996.99</totalAmount>
+          <fee><!-- mandatory -->999999996.99</fee>
+          <timestampOperation><!-- mandatory -->2016-04-18T14:07:37</timestampOperation>
+          <authorizationCode><!-- mandatory -->string</authorizationCode>
+          <paymentGateway>string</paymentGateway>
+         </creditCardPayment>
+        </pspfn:pspNotifyPaymentReq>
        </soapenv:Body>
       </soapenv:Envelope>
-  pspSendPaymentHeader:
-    description: Input headers for wsdl operation pspSendPaymentReq
+  pspNotifyPaymentHeader:
+    description: Input headers for wsdl operation pspNotifyPaymentReq
     type: object
     properties:
       Security:
         $ref: '#/definitions/Security'
-  pspSendPaymentOutput:
-    description: Output message for wsdl operation pspSendPaymentReq
+  pspNotifyPaymentOutput:
+    description: Output message for wsdl operation pspNotifyPaymentReq
     type: object
     properties:
       Envelope:
@@ -270,22 +282,22 @@ definitions:
               prefix: soapenv
             type: object
             properties:
-              pspSendPaymentRes:
-                $ref: '#/definitions/pspSendPaymentRes_element_pspfn'
+              pspNotifyPaymentRes:
+                $ref: '#/definitions/pspNotifyPaymentRes_element_pspfn'
         required:
           - Body
     required:
       - Envelope
     x-ibm-schema:
       wsdl-port: '{http://pagopa-api.pagopa.gov.it/psp/pspForNode.wsdl}pspForNode_Port'
-      wsdl-operation: pspSendPaymentReq
-      wsdl-message-direction-or-name: pspSendPaymentReqResponse
+      wsdl-operation: pspNotifyPaymentReq
+      wsdl-message-direction-or-name: pspNotifyPaymentReqResponse
     example: >-
 
       <soapenv:Envelope
       xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
-        <pspfn:pspSendPaymentRes xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
+        <pspfn:pspNotifyPaymentRes xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
          <outcome><!-- mandatory -->string</outcome>
          <fault>
           <faultCode><!-- mandatory -->string</faultCode>
@@ -297,15 +309,14 @@ definitions:
           <originalFaultString>string</originalFaultString>
           <originalDescription>string</originalDescription>
          </fault>
-         <transferDate>2016-04-18</transferDate>
-        </pspfn:pspSendPaymentRes>
+        </pspfn:pspNotifyPaymentRes>
        </soapenv:Body>
       </soapenv:Envelope>
-  pspSendPaymentReq_element_pspfn:
+  pspNotifyPaymentReq_element_pspfn:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
-      name: pspSendPaymentReq
+      name: pspNotifyPaymentReq
     type: object
     properties:
       idPSP:
@@ -316,22 +327,32 @@ definitions:
         $ref: '#/definitions/stText35_type_pspfn'
       paymentToken:
         $ref: '#/definitions/stPaymentToken_type_pspfn'
+      creditorReferenceId:
+        $ref: '#/definitions/stText35_type_pspfn'
+      debtAmount:
+        $ref: '#/definitions/stAmount_type_pspfn'
       transferList:
         $ref: '#/definitions/ctTransferListPSP_type_pspfn'
+      creditCardPayment:
+        $ref: '#/definitions/ctCreditCardPayment_type_pspfn'
     required:
       - idPSP
       - idBrokerPSP
       - idChannel
       - paymentToken
+      - creditorReferenceId
+      - debtAmount
       - transferList
     example: >-
 
-      <pspfn:pspSendPaymentReq
+      <pspfn:pspNotifyPaymentReq
       xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
        <idPSP><!-- mandatory -->string</idPSP>
        <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
        <idChannel><!-- mandatory -->string</idChannel>
        <paymentToken><!-- mandatory -->string</paymentToken>
+       <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
+       <debtAmount><!-- mandatory -->999999996.99</debtAmount>
        <transferList><!-- mandatory -->
         <transfer><!-- mandatory --><!-- between 1 and 5 repetitions of this element -->
          <idTransfer><!-- mandatory -->3</idTransfer>
@@ -341,21 +362,28 @@ definitions:
          <remittanceInformation><!-- mandatory -->string</remittanceInformation>
         </transfer>
        </transferList>
-      </pspfn:pspSendPaymentReq>
-  pspSendPaymentRes_element_pspfn:
+       <creditCardPayment>
+        <rrn><!-- mandatory -->string</rrn>
+        <outcomePaymentGateway><!-- mandatory -->string</outcomePaymentGateway>
+        <totalAmount><!-- mandatory -->999999996.99</totalAmount>
+        <fee><!-- mandatory -->999999996.99</fee>
+        <timestampOperation><!-- mandatory -->2016-04-18T14:07:37</timestampOperation>
+        <authorizationCode><!-- mandatory -->string</authorizationCode>
+        <paymentGateway>string</paymentGateway>
+       </creditCardPayment>
+      </pspfn:pspNotifyPaymentReq>
+  pspNotifyPaymentRes_element_pspfn:
     xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
-      name: pspSendPaymentRes
+      name: pspNotifyPaymentRes
     allOf:
       - $ref: '#/definitions/ctResponse_type_pspfn'
       - type: object
-        properties:
-          transferDate:
-            $ref: '#/definitions/stISODate_type_pspfn'
+        properties: {}
     example: >-
 
-      <pspfn:pspSendPaymentRes
+      <pspfn:pspNotifyPaymentRes
       xmlns:pspfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd">
        <outcome><!-- mandatory -->string</outcome>
        <fault>
@@ -368,8 +396,7 @@ definitions:
         <originalFaultString>string</originalFaultString>
         <originalDescription>string</originalDescription>
        </fault>
-       <transferDate>2016-04-18</transferDate>
-      </pspfn:pspSendPaymentRes>
+      </pspfn:pspNotifyPaymentRes>
   stText35_type_pspfn:
     xml:
       namespace: ''
@@ -392,6 +419,17 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: stPaymentToken_type_pspfn
+  stAmount_type_pspfn:
+    xml:
+      namespace: ''
+    type: number
+    maximum: 999999999.99
+    pattern: '\d+\.\d{2}'
+    x-xsi-type: stAmount
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stAmount_type_pspfn
   ctTransferListPSP_type_pspfn:
     xml:
       namespace: ''
@@ -411,16 +449,42 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: ctTransferListPSP_type_pspfn
-  stISODate_type_pspfn:
+  ctCreditCardPayment_type_pspfn:
     xml:
       namespace: ''
-    type: string
-    format: date
-    x-xsi-type: stISODate
+      prefix: ''
+    type: object
+    properties:
+      rrn:
+        xml:
+          namespace: ''
+        type: string
+      outcomePaymentGateway:
+        xml:
+          namespace: ''
+        type: string
+      totalAmount:
+        $ref: '#/definitions/stAmount_type_pspfn'
+      fee:
+        $ref: '#/definitions/stAmount_type_pspfn'
+      timestampOperation:
+        $ref: '#/definitions/stISODateTime_type_pspfn'
+      authorizationCode:
+        $ref: '#/definitions/stText6_type_pspfn'
+      paymentGateway:
+        $ref: '#/definitions/stText35_type_pspfn'
+    required:
+      - rrn
+      - outcomePaymentGateway
+      - totalAmount
+      - fee
+      - timestampOperation
+      - authorizationCode
+    x-xsi-type: ctCreditCardPayment
     x-xsi-type-xml:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
-    x-xsi-type-uniquename: stISODate_type_pspfn
+    x-xsi-type-uniquename: ctCreditCardPayment_type_pspfn
   stOutcome_type_pspfn:
     xml:
       namespace: ''
@@ -508,6 +572,27 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: ctTransferPSP_type_pspfn
+  stISODateTime_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    format: date-time
+    x-xsi-type: stISODateTime
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stISODateTime_type_pspfn
+  stText6_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 6
+    x-xsi-type: stText6
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stText6_type_pspfn
   stIdTransfer_type_pspfn:
     xml:
       namespace: ''
@@ -524,17 +609,6 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: stIdTransfer_type_pspfn
-  stAmount_type_pspfn:
-    xml:
-      namespace: ''
-    type: number
-    maximum: 999999999.99
-    pattern: '\d+\.\d{2}'
-    x-xsi-type: stAmount
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
-      prefix: pspfn
-    x-xsi-type-uniquename: stAmount_type_pspfn
   stFiscalCodePA_type_pspfn:
     xml:
       namespace: ''
