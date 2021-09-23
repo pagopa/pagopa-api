@@ -44,7 +44,23 @@ paths:
   /pspNotifyPayment:
     post:
       summary: Operation pspNotifyPayment
-      description: ''
+      description: >-
+        Notify the outcome of a payment transaction started on any PagoPA client
+        and executed on a payment gateway integrated with Payment Manager.
+
+
+        if outcome is OK, the PSP will receive a transfer found on a technical
+        account. Therefore the PSP shall : 
+
+
+        - close the payment by using the *sendPaymentOutcome* message using the
+        *paymentToken* on the request.
+
+        - trasfer founds to the account according to the *transferList* element.
+
+
+        if outcome is KO, the PSP can use this information to balance payment
+        gateway transaction and PSP transfers
       operationId: pspNotifyPayment
       x-ibm-soap:
         soap-action: pspNotifyPayment
@@ -64,6 +80,10 @@ paths:
                         <idPSP>88888888888</idPSP>
                         <idBrokerPSP>88888888888</idBrokerPSP>
                         <idChannel>88888888888_01</idChannel>
+                        <paymentDescription>test</paymentDescription>
+                        <fiscalCodePA>77777777777</fiscalCodePA>
+                        <companyName>company EC</companyName>
+                        <officeName>office EC</officeName>                        
                         <paymentToken>ac6536ab9967401fb6cfa98bef88ccf0</paymentToken>
                         <creditorReferenceId>11111111112222222</creditorReferenceId>
                         <debtAmount>30.00</debtAmount>
@@ -71,7 +91,7 @@ paths:
                             <transfer>
                               <idTransfer>1</idTransfer>
                               <transferAmount>20.00</transferAmount>
-                              <fiscalCodePA>77777777778</fiscalCodePA>
+                              <fiscalCodePA>77777777777</fiscalCodePA>
                               <IBAN>IT0000000000000000000000000</IBAN>
                               <remittanceInformation>info remittance</remittanceInformation>
                             </transfer>
@@ -237,6 +257,10 @@ definitions:
          <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
          <idChannel><!-- mandatory -->string</idChannel>
          <paymentToken><!-- mandatory -->string</paymentToken>
+         <paymentDescription><!-- mandatory -->string</paymentDescription>
+         <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
+         <companyName><!-- mandatory -->string</companyName>
+         <officeName>string</officeName>
          <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
          <debtAmount><!-- mandatory -->999999996.99</debtAmount>
          <transferList><!-- mandatory -->
@@ -248,7 +272,7 @@ definitions:
            <remittanceInformation><!-- mandatory -->string</remittanceInformation>
           </transfer>
          </transferList>
-         <creditCardPayment>
+         <creditCardPayment><!-- mandatory -->
           <rrn><!-- mandatory -->string</rrn>
           <outcomePaymentGateway><!-- mandatory -->string</outcomePaymentGateway>
           <totalAmount><!-- mandatory -->999999996.99</totalAmount>
@@ -320,29 +344,45 @@ definitions:
     type: object
     properties:
       idPSP:
-        $ref: '#/definitions/stText35_type_pspfn'
+        $ref: '#/definitions/stIdPSP_type_pspfn'
       idBrokerPSP:
-        $ref: '#/definitions/stText35_type_pspfn'
+        $ref: '#/definitions/stIdBroker_type_pspfn'
       idChannel:
-        $ref: '#/definitions/stText35_type_pspfn'
+        $ref: '#/definitions/stIdChannel_type_pspfn'
       paymentToken:
         $ref: '#/definitions/stPaymentToken_type_pspfn'
+      paymentDescription:
+        $ref: '#/definitions/stText140_type_pspfn'
+      fiscalCodePA:
+        $ref: '#/definitions/stFiscalCodePA_type_pspfn'
+      companyName:
+        $ref: '#/definitions/stText140_type_pspfn'
+      officeName:
+        $ref: '#/definitions/stText140_type_pspfn'
       creditorReferenceId:
         $ref: '#/definitions/stText35_type_pspfn'
       debtAmount:
         $ref: '#/definitions/stAmount_type_pspfn'
+        description: EC services amout ( without fee )
       transferList:
         $ref: '#/definitions/ctTransferListPSP_type_pspfn'
       creditCardPayment:
         $ref: '#/definitions/ctCreditCardPayment_type_pspfn'
+        description: |-
+          It describes an on-line payment with cards ( credit / debit ) . 
+                        Plese see project integration documentation for further details
     required:
       - idPSP
       - idBrokerPSP
       - idChannel
       - paymentToken
+      - paymentDescription
+      - fiscalCodePA
+      - companyName
       - creditorReferenceId
       - debtAmount
       - transferList
+      - creditCardPayment
     example: >-
 
       <pspfn:pspNotifyPaymentReq
@@ -351,6 +391,10 @@ definitions:
        <idBrokerPSP><!-- mandatory -->string</idBrokerPSP>
        <idChannel><!-- mandatory -->string</idChannel>
        <paymentToken><!-- mandatory -->string</paymentToken>
+       <paymentDescription><!-- mandatory -->string</paymentDescription>
+       <fiscalCodePA><!-- mandatory -->string</fiscalCodePA>
+       <companyName><!-- mandatory -->string</companyName>
+       <officeName>string</officeName>
        <creditorReferenceId><!-- mandatory -->string</creditorReferenceId>
        <debtAmount><!-- mandatory -->999999996.99</debtAmount>
        <transferList><!-- mandatory -->
@@ -362,7 +406,7 @@ definitions:
          <remittanceInformation><!-- mandatory -->string</remittanceInformation>
         </transfer>
        </transferList>
-       <creditCardPayment>
+       <creditCardPayment><!-- mandatory -->
         <rrn><!-- mandatory -->string</rrn>
         <outcomePaymentGateway><!-- mandatory -->string</outcomePaymentGateway>
         <totalAmount><!-- mandatory -->999999996.99</totalAmount>
@@ -397,6 +441,113 @@ definitions:
         <originalDescription>string</originalDescription>
        </fault>
       </pspfn:pspNotifyPaymentRes>
+  stIdPSP_type_pspfn:
+    xml:
+      namespace: ''
+    description: >-
+      PSP Identifier, it has been assigned from pagoPA.
+
+
+      Code used in the primitive web service and in its objects exchanged with
+      the NodoSPC.
+
+
+      The code is generally represented by the **BIC** code (_Bank Identifier
+      Code_) of the PSP.
+
+
+      In the absence of the BIC code, or to handle particular situations,
+      another code can be used, as long as it uniquely identifies the PSP.
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIdPSP
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stIdPSP_type_pspfn
+  stIdBroker_type_pspfn:
+    xml:
+      namespace: ''
+    description: >-
+      Broker Identifier, it has been assigned from pagoPA.
+
+
+      Identification of the intermediary/broker of the PSP that provides the
+      specific access (channel) to the PSP for the service delivery.
+
+
+      _Note_: The intermediary/broker can coincide with the PSP itself
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIdBroker
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stIdBroker_type_pspfn
+  stIdChannel_type_pspfn:
+    xml:
+      namespace: ''
+    description: >-
+      Channel Identifier, it identifies a payment service category and through
+      which the transaction is carried out.
+
+
+      A Channel identifier belongs to only one PSP intermediary/broker and
+      consequently must be unique with respect to the PSP.
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stIdChannel
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stIdChannel_type_pspfn
+  stPaymentToken_type_pspfn:
+    xml:
+      namespace: ''
+    description: >-
+      It is generated by the system during the payment activation phase, it is
+      the correlation identifier to match activation and payment outcome. 
+
+
+      - **PA OLD**: the PA receives it into `CCP` (_CodiceContestoPagamento_)
+      which uniquely identifies a single payment activity started from PSP.
+
+      - **PA NEW**: the PA does not know it, it will receive it as a unique
+      identifier of the receipt.
+    type: string
+    minLength: 1
+    maxLength: 35
+    x-xsi-type: stPaymentToken
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stPaymentToken_type_pspfn
+  stText140_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    minLength: 1
+    maxLength: 140
+    x-xsi-type: stText140
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stText140_type_pspfn
+  stFiscalCodePA_type_pspfn:
+    xml:
+      namespace: ''
+    type: string
+    pattern: '[0-9]{11}'
+    minLength: 11
+    maxLength: 11
+    x-xsi-type: stFiscalCodePA
+    x-xsi-type-xml:
+      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
+      prefix: pspfn
+    x-xsi-type-uniquename: stFiscalCodePA_type_pspfn
   stText35_type_pspfn:
     xml:
       namespace: ''
@@ -408,17 +559,6 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: stText35_type_pspfn
-  stPaymentToken_type_pspfn:
-    xml:
-      namespace: ''
-    type: string
-    minLength: 1
-    maxLength: 35
-    x-xsi-type: stPaymentToken
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
-      prefix: pspfn
-    x-xsi-type-uniquename: stPaymentToken_type_pspfn
   stAmount_type_pspfn:
     xml:
       namespace: ''
@@ -462,9 +602,11 @@ definitions:
       outcomePaymentGateway:
         xml:
           namespace: ''
+        description: outcome from the payment gateway
         type: string
       totalAmount:
         $ref: '#/definitions/stAmount_type_pspfn'
+        description: transaction amount  = fee + EC service amount
       fee:
         $ref: '#/definitions/stAmount_type_pspfn'
       timestampOperation:
@@ -473,6 +615,7 @@ definitions:
         $ref: '#/definitions/stText6_type_pspfn'
       paymentGateway:
         $ref: '#/definitions/stText35_type_pspfn'
+        description: Describe the payment gateway used ( es. VPOS )
     required:
       - rrn
       - outcomePaymentGateway
@@ -609,18 +752,6 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: stIdTransfer_type_pspfn
-  stFiscalCodePA_type_pspfn:
-    xml:
-      namespace: ''
-    type: string
-    pattern: '[0-9]{11}'
-    minLength: 11
-    maxLength: 11
-    x-xsi-type: stFiscalCodePA
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
-      prefix: pspfn
-    x-xsi-type-uniquename: stFiscalCodePA_type_pspfn
   stIBAN_type_pspfn:
     xml:
       namespace: ''
@@ -631,17 +762,6 @@ definitions:
       namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
       prefix: pspfn
     x-xsi-type-uniquename: stIBAN_type_pspfn
-  stText140_type_pspfn:
-    xml:
-      namespace: ''
-    type: string
-    minLength: 1
-    maxLength: 140
-    x-xsi-type: stText140
-    x-xsi-type-xml:
-      namespace: 'http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd'
-      prefix: pspfn
-    x-xsi-type-uniquename: stText140_type_pspfn
   ctResponse_type_pspfn:
     xml:
       namespace: ''
