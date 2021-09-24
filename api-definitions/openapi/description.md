@@ -16,6 +16,10 @@ _To test these new primitives as PSP, PagoPA has made available a PA mock, in a 
 
 _Reference API PA side is available [here](https://pagopa.github.io/pagopa-api/indexPA.html)_
 
+### API NodoSPC payment : **PSP side server**
+
+_Reference API PSP side server is available [here](https://pagopa.github.io/pagopa-api/indexPSP.html)_
+
 ### Payment process activated by the PSP
 
 <!-- https://github.com/pagopa/pagopa-analisi/blob/main/PlantUML/Sequence/modelli/nuovoModello3_ENG.puml -->
