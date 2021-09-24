@@ -9,12 +9,9 @@ This is the documentation for Payment Service Provider. This API shall be provid
 The payment process defined below starting from the Client  made available by PagoPA SpA such as, for example, [appIO](http://io.italia.it), PagoPA site.
 The on-line payment is provided by means of a Payment Gateway provided by the PSP itself. All founds are collected into a techical account,  the following interfaces are needed to complete the pagopA payment process in order to transfer founds to the Public Administration.
 
-<<<<<<< HEAD
 ### API NodoSPC payment : **PSP side client**
 _Reference API PSP side is available [here](https://pagopa.github.io/pagopa-api/index.html)_
 
-=======
->>>>>>> cd44b19 (update pspForNode devportal)
 ## Identification and Authentication
 
 Provisioning of this API is restricted to PSP, or 3rd parties ( named as brokers ) which have signed a contract with [PagoPA S.p.A.](https://www.pagopa.gov.it/it/pagopa-spa/) as stated _[here](https://www.pagopa.gov.it/it/prestatori-servizi-di-pagamento/)_
