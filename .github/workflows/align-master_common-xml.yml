@@ -1,62 +1,62 @@
-name: align-common-xml_from_pagopa-api
-on:
-  push:
-    branches: [develop]
+# name: align-common-xml_from_pagopa-api
+# on:
+#   push:
+#     branches: [develop]
 
-jobs:
-  align-common-xml:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ '15' ]
+# jobs:
+#   align-common-xml:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         node: [ '15' ]
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v1
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v1
 
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
+#       - name: Setup node
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: ${{ matrix.node }}
 
-      - name: install packages
-        run: npm install oval
+#       - name: install packages
+#         run: npm install oval
 
-      - name: Check API
-        run: npx oval validate -p api-definitions/db_positions/api.yaml
+#       - name: Check API
+#         run: npx oval validate -p api-definitions/db_positions/api.yaml
  
-      - name: Set UUID
-        id: generate-uuid
-        uses: filipstefansson/uuid-action@v1
-        with:
-          name: ${{ github.sha }}
+#       - name: Set UUID
+#         id: generate-uuid
+#         uses: filipstefansson/uuid-action@v1
+#         with:
+#           name: ${{ github.sha }}
 
-      - name: Checkout common-xml
-        uses: actions/checkout@v2
-        with:
-          repository: pagopa/pagopa-nodo4-common-xml
-          token: ${{ secrets.ALLOW_CLONE }} # `GitHub_PAT` is a secret that contains your PAT
-          path: pagopa-nodo4-common-xml
-          ref: develop
+#       - name: Checkout common-xml
+#         uses: actions/checkout@v2
+#         with:
+#           repository: pagopa/pagopa-nodo4-common-xml
+#           token: ${{ secrets.ALLOW_CLONE }} # `GitHub_PAT` is a secret that contains your PAT
+#           path: pagopa-nodo4-common-xml
+#           ref: develop
 
-      # - name: Create new branch
-      #   run: cd pagopa-nodo4-common-xml && git checkout -b bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
+#       # - name: Create new branch
+#       #   run: cd pagopa-nodo4-common-xml && git checkout -b bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
 
-      - name: Run Check WSDL
-        run: bash ./scripts/check_dir.sh -a . pagopa-nodo4-common-xml
-        # run: bash ./scripts/check_dir.sh -v -a . pagopa-nodo4-common-xml
+#       - name: Run Check WSDL
+#         run: bash ./scripts/check_dir.sh -a . pagopa-nodo4-common-xml
+#         # run: bash ./scripts/check_dir.sh -v -a . pagopa-nodo4-common-xml
 
-      - name: Run Check XSD
-        run: bash ./scripts/check_dir.sh -a -e xsd . pagopa-nodo4-common-xml
-        # run: bash ./scripts/check_dir.sh -v -a -e xsd . pagopa-nodo4-common-xml
+#       - name: Run Check XSD
+#         run: bash ./scripts/check_dir.sh -a -e xsd . pagopa-nodo4-common-xml
+#         # run: bash ./scripts/check_dir.sh -v -a -e xsd . pagopa-nodo4-common-xml
 
-      - name: Create commit reference file
-        run: |
-          git_hash=${GITHUB_SHA}
-          git_branch=${GITHUB_REF#refs/heads/}
-          echo ${git_hash} > commit_vers.txt && echo ${git_branch} >> commit_vers.txt
-          cp commit_vers.txt pagopa-nodo4-common-xml
+#       - name: Create commit reference file
+#         run: |
+#           git_hash=${GITHUB_SHA}
+#           git_branch=${GITHUB_REF#refs/heads/}
+#           echo ${git_hash} > commit_vers.txt && echo ${git_branch} >> commit_vers.txt
+#           cp commit_vers.txt pagopa-nodo4-common-xml
 
-      - name: Git-push branch
-        run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_${{ steps.generate-uuid.outputs.uuid }} " && git push
-        # run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_new_branch${{ steps.generate-uuid.outputs.uuid }} " && git push --set-upstream origin bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
+#       - name: Git-push branch
+#         run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_${{ steps.generate-uuid.outputs.uuid }} " && git push
+#         # run: cd pagopa-nodo4-common-xml && git config user.email "pagopateam" && git config --global user.name "pagopateam" && git add -A && git commit -a -m "update bot_new_branch${{ steps.generate-uuid.outputs.uuid }} " && git push --set-upstream origin bot_new_branch${{ steps.generate-uuid.outputs.uuid }}
