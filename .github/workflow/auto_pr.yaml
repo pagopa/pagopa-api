@@ -1,0 +1,19 @@
+name: Pull Request Action
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "develop"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_label: "auto-align-wsdl"
+          pr_title: "[Align WSDL-XSD] auto-align-wsdl"
