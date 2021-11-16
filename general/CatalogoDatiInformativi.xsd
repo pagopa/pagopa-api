@@ -76,6 +76,7 @@
       <xs:enumeration value="OBEP" /> <!-- Online Banking Electronic Payment -->
       <xs:enumeration value="JIF" /> <!-- Bancomat Pay  -->
       <xs:enumeration value="MYBK" /> <!-- MyBank Seller Bank -->
+      <xs:enumeration value="PPAL" /> <!-- PayPal -->
       <xs:maxLength value="4" />
     </xs:restriction>
   </xs:simpleType>
