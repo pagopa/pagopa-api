@@ -22,5 +22,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_label: "auto-align-wsdl"
           pr_title: "[Align WSDL-XSD] auto-align-wsdl ${{ steps.date.outputs.date }}"
-          pr_reviewer: "pagopa/pagopa-nodo-admin"  # Comma-separated list (no spaces)
+          pr_reviewer: "@pagopa/pagopa-nodo-admin"  # Comma-separated list (no spaces)
 
