@@ -114,6 +114,7 @@
       <xsd:enumeration value="OTH" /> <!-- Altre forme di versamento -->
       <xsd:enumeration value="JIF" /> <!-- Bancomat Pay  -->
       <xsd:enumeration value="MYBK" /> <!-- MyBank Seller Bank -->
+      <xsd:enumeration value="PPAL" /> <!-- PayPal -->
       <xsd:maxLength value="4" />
     </xsd:restriction>
   </xsd:simpleType>
