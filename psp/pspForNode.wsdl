@@ -25,10 +25,9 @@ if outcome is OK, the PSP will receive a transfer found on a technical account. 
 - trasfer founds to the account according to the *transferList* element.
 
 if outcome is KO, the PSP can use this information to balance payment gateway transaction and PSP transfers
-     
 
-            </wsdl:documentation>
 
+            </wsdl:documentation>            
             <wsdl:input message="tns:pspNotifyPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentReq" />
             <wsdl:output message="tns:pspNotifyPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentRes" />
         </wsdl:operation>
