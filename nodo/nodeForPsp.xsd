@@ -780,6 +780,7 @@ The `details` field contains the details of the payment made by the user.
       <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
       <xsd:element name="idChannel" type="tns:stIdChannel" />
       <xsd:element name="password" type="tns:stPassword" />
+      <xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" minOccurs="0" />
       <xsd:element name="paymentToken" type="tns:stPaymentToken" />
       <xsd:element name="outcome" type="tns:stOutcome" />
       <xsd:element name="details" type="tns:ctOutcomeDetails" minOccurs="0" />
