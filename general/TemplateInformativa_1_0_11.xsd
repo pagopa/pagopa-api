@@ -189,6 +189,7 @@
             <xs:element type="stText140" name="dataPubblicazione" />
             <xs:element type="stText140" name="dataInizioValidita" />
             <xs:element type="stText70" name="urlInformazioniPSP" />
+            <xs:element type="stText70" name="urlInformativaPSP" minOccurs="0"/>
             <xs:element type="stZeroUno" name="stornoPagamento" />
             <xs:element type="stZeroUno" name="marcaBolloDigitale" />
             <xs:element type="stText70" name="logoPSP" />
