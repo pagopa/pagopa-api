@@ -43,4 +43,3 @@ deactivate PSP
 @enduml
 -->
 ![](pspNotifyPayment.svg)
-

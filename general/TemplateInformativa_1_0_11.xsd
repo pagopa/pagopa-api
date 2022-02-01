@@ -152,9 +152,12 @@
 
     <xs:complexType name="tplInformativaPSP">
         <xs:sequence>
-            <xs:element type="stText35" name="identificativoFlusso" />
+            <xs:element type="stText140" name="identificativoFlusso" />
             <xs:element type="stText35" name="identificativoPSP" />
             <xs:element type="stText70" name="ragioneSociale" />
+            <xs:element type="stText70" name="codiceABI" />
+            <xs:element type="stText70" name="codiceBIC" />
+            <xs:element type="stText70" name="mybankIDVS" />
             <xs:element type="tplInformativaMaster" name="informativaMaster" />
             <xs:element type="tplListaInformativaDetail" name="listaInformativaDetail" />
         </xs:sequence>
@@ -189,6 +192,8 @@
             <xs:element type="stText140" name="dataPubblicazione" />
             <xs:element type="stText140" name="dataInizioValidita" />
             <xs:element type="stText70" name="urlInformazioniPSP" />
+            <xs:element type="stText70" name="urlInformativaPSP" minOccurs="0"/>
+            <xs:element type="stText70" name="urlConvenzioniPSP" minOccurs="0"/>
             <xs:element type="stZeroUno" name="stornoPagamento" />
             <xs:element type="stZeroUno" name="marcaBolloDigitale" />
             <xs:element type="stText70" name="logoPSP" />
