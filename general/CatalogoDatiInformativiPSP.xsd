@@ -14,6 +14,7 @@
 				- 21/04/2020 - fasce di costi in convenzione
 				- 01/01/2021 - Aggiunte descrizioni e tipizzazioni utili alla documentazione e compilazione del form
                 - 18/11/2021 - Aggiunto stTipoVersamento PPAL
+                - 21/02/2022 - Aggiunto stTipoVersamento BPAY
     </xs:documentation>
   </xs:annotation>
 
