@@ -14,6 +14,7 @@
 				- 21/04/2020 - fasce di costi in convenzione
 				- 01/01/2021 - Aggiunte descrizioni e tipizzazioni utili alla documentazione e compilazione del form
                 - 18/11/2021 - Aggiunto stTipoVersamento PPAL
+                - 21/02/2022 - Aggiunto stTipoVersamento BPAY
     </xs:documentation>
   </xs:annotation>
 
@@ -200,6 +201,7 @@
       <xs:enumeration value="JIF" /> <!-- Bancomat Pay  -->
       <xs:enumeration value="MYBK" /> <!-- MyBank Seller Bank -->
       <xs:enumeration value="PPAL" /> <!-- PayPal -->
+      <xs:enumeration value="BPAY" /> <!-- Bancomat Pay  -->
       <xs:maxLength value="4" />
     </xs:restriction>
   </xs:simpleType>
