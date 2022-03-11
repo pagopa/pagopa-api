@@ -1952,7 +1952,7 @@ definitions:
       namespace: ''
     description: |-
       All fault codes are described
-              <a href="https://docs.google.com/spreadsheets/d/15sJplTLu6kWPomW3jbBzZYvD7QyIswERKktFG0bk1IQ/edit?usp=sharing" target="_blank">here</a>
+              <a href="https://docs.pagopa.it/gestionedeglierrori/" target="_blank">here</a>
     type: string
     x-xsi-type: stFaultCode
     x-xsi-type-xml:
