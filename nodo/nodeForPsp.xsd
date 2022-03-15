@@ -395,7 +395,7 @@ Contains all data for the subject of payment :
     <xsd:annotation>
       <xsd:documentation>
         All fault codes are described
-        <a href="https://docs.pagopa.it/gestionedeglierrori/" target="_blank">here</a>
+        <a href="https://docs.google.com/spreadsheets/d/15sJplTLu6kWPomW3jbBzZYvD7QyIswERKktFG0bk1IQ/edit?usp=sharing" target="_blank">here</a>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string"></xsd:restriction>
