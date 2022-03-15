@@ -140,6 +140,18 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="ctBancomatpayPayment">
+    <xsd:sequence>
+      <xsd:element name="transactionId" type="xsd:string" /> <!--transactionId same value of idPagoPa input  parameter in richiestaPagamentoPagopa  request  -->
+      <xsd:element name="outcomePaymentGateway" type="xsd:string" /> <!--  same value of esitoPagamento input parameter  in ResponseInserimentoRichiestaPagamentoPagoPa request-->
+      <xsd:element name="totalAmount" type="tns:stAmount" /> <!--fee + debtAmount -->
+      <xsd:element name="fee" type="tns:stAmount" />
+      <xsd:element name="timestampOperation" type="tns:stISODateTime" /> <!--timestampOperazione -->
+      <xsd:element name="authorizationCode" type="tns:stText6" /> <!--  same value of endToEndId input parameter in in ResponseInserimentoRichiestaPagamentoPagoPa request -->
+      <xsd:element name="paymentGateway" type="tns:stText35" minOccurs="0"/> <!-- for future use -->
+    </xsd:sequence>
+  </xsd:complexType>
+
   <!--Element req/res-->
   <xsd:complexType name="pspNotifyPaymentReq">
     <xsd:sequence>
@@ -158,6 +170,7 @@
       <xsd:choice>
         <xsd:element name="creditCardPayment" type="tns:ctCreditCardPayment"/>
          <xsd:element name="paypalPayment" type="tns:ctPaypalPayment"/>
+        <xsd:element name="bancomatpayPayment" type="tns:ctBancomatpayPayment"/>
       </xsd:choice>
     </xsd:sequence>
   </xsd:complexType>
