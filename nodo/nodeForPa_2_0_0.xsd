@@ -36,7 +36,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType
-		name="nodoChiediElencoFlussiRendicontazione">
+		name="nodoChiediElencoFlussiRendicontazioneRequest">
 		<xsd:sequence>
 			<xsd:element name="identificativoIntermediarioPA"
 				type="common:stText35" />
@@ -51,7 +51,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType
-		name="nodoChiediElencoFlussiRendicontazioneRisposta">
+		name="nodoChiediElencoFlussiRendicontazioneResponse">
 		<xsd:complexContent>
 			<xsd:extension base="common:risposta">
 				<xsd:sequence>
@@ -62,7 +62,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:complexType name="nodoChiediFlussoRendicontazione">
+	<xsd:complexType name="nodoChiediFlussoRendicontazioneRequest">
 		<xsd:sequence>
 			<xsd:element name="identificativoIntermediarioPA"
 				type="common:stText35" />
@@ -79,7 +79,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType
-		name="nodoChiediFlussoRendicontazioneRisposta">
+		name="nodoChiediFlussoRendicontazioneResponse">
 		<xsd:complexContent>
 			<xsd:extension base="common:risposta">
 				<xsd:sequence>
