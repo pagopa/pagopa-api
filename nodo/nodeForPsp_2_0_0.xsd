@@ -346,4 +346,118 @@
 	</xsd:complexType>
 
 
+	<xsd:complexType
+		name="nodoInviaFlussoRendicontazioneRequest">
+		<xsd:sequence>
+			<xsd:element name="identificativoPSP"
+				type="common:stText35" />
+			<xsd:element name="identificativoIntermediarioPSP"
+				type="common:stText35" />
+			<xsd:element name="identificativoCanale"
+				type="common:stText35" />
+			<xsd:element name="password" type="nfp:stPassword" />
+			<xsd:element name="identificativoDominio"
+				type="common:stText35" />
+			<xsd:element name="identificativoFlusso"
+				type="xsd:string" />
+			<xsd:element name="dataOraFlusso" type="xsd:dateTime" />
+			<xsd:element name="xmlRendicontazione"
+				type="xsd:base64Binary"
+				xmime:expectedContentTypes="application/octet-stream"
+				xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType
+		name="nodoInviaFlussoRendicontazioneResponse">
+		<xsd:complexContent>
+			<xsd:extension base="common:risposta">
+				<xsd:sequence>
+					<xsd:element name="esito" type="xsd:string"
+						minOccurs="1" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="nodoChiediInformativaPARequest">
+		<xsd:sequence>
+			<xsd:element name="identificativoPSP"
+				type="common:stText35" minOccurs="0" />
+			<xsd:element name="identificativoIntermediarioPSP"
+				type="common:stText35" />
+			<xsd:element name="identificativoCanale"
+				type="common:stText35" />
+			<xsd:element name="password" type="nfp:stPassword" />
+			<xsd:element name="identificativoDominio"
+				type="common:stText35" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="nodoChiediInformativaPAResponse">
+		<xsd:complexContent>
+			<xsd:extension base="common:risposta">
+				<xsd:sequence>
+					<xsd:element name="xmlInformativa"
+						type="xsd:base64Binary" minOccurs="0"
+						xmime:expectedContentTypes="application/octet-stream"
+						xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType
+		name="nodoChiediTemplateInformativaPSPRequest">
+		<xsd:sequence>
+			<xsd:element name="identificativoPSP"
+				type="common:stText35" />
+			<xsd:element name="identificativoIntermediarioPSP"
+				type="common:stText35" />
+			<xsd:element name="identificativoCanale"
+				type="common:stText35" />
+			<xsd:element name="password" type="nfp:stPassword" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType
+		name="nodoChiediTemplateInformativaPSPResponse">
+		<xsd:complexContent>
+			<xsd:extension base="common:risposta">
+				<xsd:sequence>
+					<xsd:element name="xmlTemplateInformativa"
+						type="xsd:base64Binary" minOccurs="0"
+						xmime:expectedContentTypes="application/octet-stream"
+						xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="nodoChiediCatalogoServiziRequest">
+		<xsd:sequence>
+			<xsd:element name="identificativoPSP"
+				type="common:stText35" minOccurs="1" />
+			<xsd:element name="identificativoIntermediarioPSP"
+				type="common:stText35" minOccurs="1" />
+			<xsd:element name="identificativoCanale"
+				type="common:stText35" minOccurs="1" />
+			<xsd:element name="password" type="nfp:stPassword"
+				minOccurs="1" />
+			<xsd:element name="identificativoDominio"
+				type="common:stText35" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="nodoChiediCatalogoServiziResponse">
+		<xsd:complexContent>
+			<xsd:extension base="common:risposta">
+				<xsd:sequence>
+					<xsd:element name="xmlCatalogoServizi"
+						type="xsd:base64Binary" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 </schema>

@@ -111,7 +111,7 @@
 				minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
-
+	
 	<xsd:simpleType name="stOutcome">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="OK" />
@@ -124,6 +124,12 @@
 			<xsd:element name="outcome" type="ct:stOutcome" />
 			<xsd:element name="fault" type="ct:ctFaultBean"
 				minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="risposta">
+		<xsd:sequence>
+			<xsd:element name="fault" type="ct:ctFaultBean" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
