@@ -12,7 +12,7 @@
 			<xsd:element name="pspNotifyPaymentResponse" type="imp:pspNotifyPaymentResponse" />
 		</xsd:schema>
 	</wsdl:types>
-	<wsdl:message name="pspNotifyPaymentRequest">
+	<wsdl:message name="pspNotifyPayment">
 		<wsdl:part element="pspNotifyPaymentRequest" name="bodyrequest" />
 	</wsdl:message>
 	<wsdl:message name="pspNotifyPaymentResponse">
@@ -20,7 +20,7 @@
 	</wsdl:message>
 	<wsdl:portType name="pspForNode">
 		<wsdl:operation name="pspNotifyPayment">
-			<wsdl:input message="tns:pspNotifyPaymentRequest" />
+			<wsdl:input message="tns:pspNotifyPayment" />
 			<wsdl:output message="tns:pspNotifyPaymentResponse" />
 		</wsdl:operation>
 	</wsdl:portType>

@@ -58,7 +58,7 @@
 				
 		</xsd:schema>
 	</wsdl:types>
-	<wsdl:message name="demandPaymentNoticeRequest">
+	<wsdl:message name="demandPaymentNotice">
 		<wsdl:part name="bodyrequest"
 			element="demandPaymentNoticeRequest"></wsdl:part>
 	</wsdl:message>
@@ -66,7 +66,7 @@
 		<wsdl:part name="bodyresponse"
 			element="demandPaymentNoticeResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="verificaBollettinoRequest">
+	<wsdl:message name="verificaBollettino">
 		<wsdl:part name="bodyrequest"
 			element="verificaBollettinoRequest"></wsdl:part>
 	</wsdl:message>
@@ -74,7 +74,7 @@
 		<wsdl:part name="bodyresponse"
 			element="verificaBollettinoResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="verifyPaymentNoticeRequest">
+	<wsdl:message name="verifyPaymentNotice">
 		<wsdl:part name="bodyrequest"
 			element="verifyPaymentNoticeRequest"></wsdl:part>
 	</wsdl:message>
@@ -82,7 +82,7 @@
 		<wsdl:part name="bodyresponse"
 			element="verifyPaymentNoticeResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="activatePaymentNoticeRequest">
+	<wsdl:message name="activatePaymentNotice">
 		<wsdl:part name="bodyrequest"
 			element="activatePaymentNoticeRequest"></wsdl:part>
 	</wsdl:message>
@@ -90,7 +90,7 @@
 		<wsdl:part name="bodyresponse"
 			element="activatePaymentNoticeResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="sendPaymentOutcomeRequest">
+	<wsdl:message name="sendPaymentOutcome">
 		<wsdl:part name="bodyrequest"
 			element="sendPaymentOutcomeRequest"></wsdl:part>
 	</wsdl:message>
@@ -98,7 +98,7 @@
 		<wsdl:part name="bodyresponse"
 			element="sendPaymentOutcomeResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoInviaFlussoRendicontazioneRequest">
+	<wsdl:message name="nodoInviaFlussoRendicontazione">
 		<wsdl:part name="bodyrequest"
 			element="nodoInviaFlussoRendicontazioneRequest"></wsdl:part>
 	</wsdl:message>
@@ -108,7 +108,7 @@
 			element="nodoInviaFlussoRendicontazioneResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message
-		name="nodoChiediTemplateInformativaPSPRequest">
+		name="nodoChiediTemplateInformativaPSP">
 		<wsdl:part name="bodyrequest"
 			element="nodoChiediTemplateInformativaPSPRequest"></wsdl:part>
 	</wsdl:message>
@@ -117,7 +117,7 @@
 		<wsdl:part name="bodyresponse"
 			element="nodoChiediTemplateInformativaPSPResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoChiediInformativaPARequest">
+	<wsdl:message name="nodoChiediInformativaPA">
 		<wsdl:part name="bodyrequest"
 			element="nodoChiediInformativaPARequest"></wsdl:part>
 	</wsdl:message>
@@ -125,7 +125,7 @@
 		<wsdl:part name="bodyresponse"
 			element="nodoChiediInformativaPAResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoChiediCatalogoServiziRequest">
+	<wsdl:message name="nodoChiediCatalogoServizi">
 		<wsdl:part name="bodyrequest"
 			element="nodoChiediCatalogoServiziRequest"></wsdl:part>
 	</wsdl:message>
@@ -135,44 +135,44 @@
 	</wsdl:message>
 	<wsdl:portType name="nodeForPsp">
 		<wsdl:operation name="demandPaymentNotice">
-			<wsdl:input message="tns:demandPaymentNoticeRequest" />
+			<wsdl:input message="tns:demandPaymentNotice" />
 			<wsdl:output message="tns:demandPaymentNoticeResponse" />
 		</wsdl:operation>
 		<wsdl:operation name="verificaBollettino">
-			<wsdl:input message="tns:verificaBollettinoRequest"></wsdl:input>
+			<wsdl:input message="tns:verificaBollettino"></wsdl:input>
 			<wsdl:output message="tns:verificaBollettinoResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="verifyPaymentNotice">
-			<wsdl:input message="tns:verifyPaymentNoticeRequest"></wsdl:input>
+			<wsdl:input message="tns:verifyPaymentNotice"></wsdl:input>
 			<wsdl:output message="tns:verifyPaymentNoticeResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="activatePaymentNotice">
-			<wsdl:input message="tns:activatePaymentNoticeRequest"></wsdl:input>
+			<wsdl:input message="tns:activatePaymentNotice"></wsdl:input>
 			<wsdl:output message="tns:activatePaymentNoticeResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="sendPaymentOutcome">
-			<wsdl:input message="tns:sendPaymentOutcomeRequest" />
+			<wsdl:input message="tns:sendPaymentOutcome" />
 			<wsdl:output message="tns:sendPaymentOutcomeResponse" />
 		</wsdl:operation>
 		<wsdl:operation name="nodoInviaFlussoRendicontazione">
 			<wsdl:input
-				message="tns:nodoInviaFlussoRendicontazioneRequest"></wsdl:input>
+				message="tns:nodoInviaFlussoRendicontazione"></wsdl:input>
 			<wsdl:output
 				message="tns:nodoInviaFlussoRendicontazioneResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediTemplateInformativaPSP">
 			<wsdl:input
-				message="tns:nodoChiediTemplateInformativaPSPRequest"></wsdl:input>
+				message="tns:nodoChiediTemplateInformativaPSP"></wsdl:input>
 			<wsdl:output
 				message="tns:nodoChiediTemplateInformativaPSPResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediInformativaPA">
-			<wsdl:input message="tns:nodoChiediInformativaPARequest"></wsdl:input>
+			<wsdl:input message="tns:nodoChiediInformativaPA"></wsdl:input>
 			<wsdl:output
 				message="tns:nodoChiediInformativaPAResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediCatalogoServizi">
-			<wsdl:input message="tns:nodoChiediCatalogoServiziRequest"></wsdl:input>
+			<wsdl:input message="tns:nodoChiediCatalogoServizi"></wsdl:input>
 			<wsdl:output
 				message="tns:nodoChiediCatalogoServiziResponse"></wsdl:output>
 		</wsdl:operation>

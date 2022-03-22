@@ -23,7 +23,7 @@
 				
 		</xsd:schema>
 	</wsdl:types>
-	<wsdl:message name="nodoChiediElencoFlussiRendicontazioneRequest">
+	<wsdl:message name="nodoChiediElencoFlussiRendicontazione">
 		<wsdl:part name="bodyrequest"
 			element="nodoChiediElencoFlussiRendicontazioneRequest"></wsdl:part>
 	</wsdl:message>
@@ -31,7 +31,7 @@
 		<wsdl:part name="bodyresponse"
 			element="nodoChiediElencoFlussiRendicontazioneResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoChiediFlussoRendicontazioneRequest">
+	<wsdl:message name="nodoChiediFlussoRendicontazione">
 		<wsdl:part name="bodyrequest"
 			element="nodoChiediFlussoRendicontazioneRequest"></wsdl:part>
 	</wsdl:message>
@@ -41,11 +41,11 @@
 	</wsdl:message>
 	<wsdl:portType name="nodeForPa">
 		<wsdl:operation name="nodoChiediElencoFlussiRendicontazione">
-			<wsdl:input message="tns:nodoChiediElencoFlussiRendicontazioneRequest" />
+			<wsdl:input message="tns:nodoChiediElencoFlussiRendicontazione" />
 			<wsdl:output message="tns:nodoChiediElencoFlussiRendicontazioneResponse" />
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediFlussoRendicontazione">
-			<wsdl:input message="tns:nodoChiediFlussoRendicontazioneRequest"></wsdl:input>
+			<wsdl:input message="tns:nodoChiediFlussoRendicontazione"></wsdl:input>
 			<wsdl:output message="tns:nodoChiediFlussoRendicontazioneResponse"></wsdl:output>
 		</wsdl:operation>
 	</wsdl:portType>
