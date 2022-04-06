@@ -58,7 +58,7 @@
 
 	<xsd:complexType name="ctPaymentList">
 		<xsd:sequence>
-			<xsd:element name="transfer" type="tns:ctPayment"
+			<xsd:element name="payment" type="tns:ctPayment"
 				maxOccurs="5" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -75,11 +75,6 @@
 			<xsd:element name="idPSP" type="common:stText35" />
 			<xsd:element name="idBrokerPSP" type="common:stText35" />
 			<xsd:element name="idChannel" type="common:stText35" />
-			<xsd:element name="pspTransactionId" type="common:stText35" />
-			<xsd:element name="totalAmount" type="common:stAmount" />
-			<xsd:element name="fee" type="common:stAmount" />
-			<xsd:element name="timestampOperation"
-				type="common:stISODateTime" />
 			<xsd:element name="paymentList"
 				type="tns:ctPaymentList" />
 			<xsd:element name="additionalPaymentInformations"
