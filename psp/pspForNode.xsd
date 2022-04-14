@@ -152,6 +152,12 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="ctAdditionalPaymentInformations">
+    <xsd:sequence>
+      <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
+
   <!--Element req/res-->
   <xsd:complexType name="pspNotifyPaymentReq">
     <xsd:sequence>
@@ -171,6 +177,7 @@
         <xsd:element name="creditCardPayment" type="tns:ctCreditCardPayment"/>
          <xsd:element name="paypalPayment" type="tns:ctPaypalPayment"/>
         <xsd:element name="bancomatpayPayment" type="tns:ctBancomatpayPayment"/>
+        <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
       </xsd:choice>
     </xsd:sequence>
   </xsd:complexType>
