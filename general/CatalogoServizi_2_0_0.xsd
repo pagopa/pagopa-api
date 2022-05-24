@@ -34,7 +34,7 @@
 	<xsd:complexType name="ctElencoSoggettiEroganti">
 		<xsd:sequence>
 			<xsd:element name="soggettoErogante"
-				type="cs:ctSoggettoErogante" minOccurs="1" maxOccurs="unbounded" />
+				type="cs:ctSoggettoErogante" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
