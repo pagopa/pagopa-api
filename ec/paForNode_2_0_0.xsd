@@ -215,6 +215,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="common:ctResponse">
 				<xsd:sequence>
+					<xsd:element name="qrCode" type="common:ctQrCode" />
 					<xsd:element name="paymentList"
 						type="pfn:ctPaymentOptionsDescriptionListPA" minOccurs="0" />
 					<xsd:element name="paymentDescription"
