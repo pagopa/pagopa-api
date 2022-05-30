@@ -186,8 +186,8 @@
 			<xsd:extension base="common:ctResponse">
 				<xsd:sequence>
 					<xsd:element name="qrCode" type="common:ctQrCode" />
-					<xsd:element name="datiSpecificiServizioResponse"
-						type="xsd:base64Binary" minOccurs="0" maxOccurs="1" />
+
+					
 					<xsd:element name="paymentList"
 						type="pfn:ctPaymentOptionsDescriptionListPA" minOccurs="0" maxOccurs="1" />
 					<xsd:element name="paymentDescription"
