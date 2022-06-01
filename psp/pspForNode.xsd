@@ -152,7 +152,25 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <!--Element req/res-->
+  <xsd:complexType name="ctMapEntry">
+    <xsd:sequence>
+      <xsd:element name="key" type="tns:stText140" />
+      <xsd:element name="value" type="tns:stText140" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ctMetadata">
+    <xsd:sequence>
+      <xsd:element name="mapEntry" type="tns:ctMapEntry" minOccurs="1" maxOccurs="10"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ctAdditionalPaymentInformations">
+    <xsd:sequence>
+      <xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
+
   <xsd:complexType name="pspNotifyPaymentReq">
     <xsd:sequence>
       <xsd:element name="idPSP" type="tns:stText35" />
@@ -162,15 +180,15 @@
       <xsd:element name="paymentDescription" type="tns:stText140" />
       <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
       <xsd:element name="companyName" type="tns:stText140" />
-      <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />      
+      <xsd:element name="officeName" type="tns:stText140" minOccurs="0" />
       <xsd:element name="creditorReferenceId" type="tns:stText35"/>
       <xsd:element name="debtAmount" type="tns:stAmount" />
       <xsd:element name="transferList" type="tns:ctTransferListPSP" />
-      <!--Choice for future use. In this moment is defined only credit card -->
       <xsd:choice>
         <xsd:element name="creditCardPayment" type="tns:ctCreditCardPayment"/>
-         <xsd:element name="paypalPayment" type="tns:ctPaypalPayment"/>
+        <xsd:element name="paypalPayment" type="tns:ctPaypalPayment"/>
         <xsd:element name="bancomatpayPayment" type="tns:ctBancomatpayPayment"/>
+        <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations" />
       </xsd:choice>
     </xsd:sequence>
   </xsd:complexType>
