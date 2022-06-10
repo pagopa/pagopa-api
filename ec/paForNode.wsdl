@@ -25,6 +25,12 @@
   <wsdl:message name="paSendRTRes">
     <wsdl:part name="responseBody" element="pafn:paSendRTRes" />
   </wsdl:message>
+  <wsdl:message name="paDemandPaymentNotice">
+    <wsdl:part name="requestBody" element="pafn:paDemandPaymentNoticeRequest" />
+  </wsdl:message>
+  <wsdl:message name="paDemandPaymentNoticeResponse">
+    <wsdl:part name="responseBody" element="pafn:paDemandPaymentNoticeResponse" />
+  </wsdl:message>
 
   <wsdl:portType name="paForNode_PortType">
     <wsdl:operation name="paVerifyPaymentNotice">
@@ -77,6 +83,11 @@ described and notify future accreditation operations. Any cancellations must be 
       <wsdl:input message="tns:paSendRTReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paSendRTReq" />
       <wsdl:output message="tns:paSendRTRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/pa/paForNode/paSendRTRes" />
     </wsdl:operation>
+
+    <wsdl:operation name="paDemandPaymentNotice">
+      <wsdl:input message="tns:paDemandPaymentNotice"></wsdl:input>
+      <wsdl:output message="tns:paDemandPaymentNoticeResponse"></wsdl:output>
+    </wsdl:operation>
   </wsdl:portType>
 
   <wsdl:binding name="paForNode_Binding" type="tns:paForNode_PortType">
@@ -107,6 +118,15 @@ described and notify future accreditation operations. Any cancellations must be 
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="paDemandPaymentNotice">
+      <soap:operation soapAction="paDemandPaymentNotice" />
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
