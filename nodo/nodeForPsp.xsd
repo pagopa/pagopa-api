@@ -344,6 +344,12 @@ than indicated.
     </xsd:restriction>
   </xsd:simpleType>
 
+    <xsd:simpleType name="stIdentificativoServizio">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="5" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
   <!--Complex type-->
 
   <xsd:complexType name="ctEntityUniqueIdentifier">
@@ -796,6 +802,40 @@ The `details` field contains the details of the payment made by the user.
   </xsd:complexType>
 
 
+    <xsd:complexType name="demandPaymentNoticeRequest">
+        <xsd:sequence>
+            <xsd:element name="idPSP" type="tns:stIdPSP" />
+            <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+            <xsd:element name="idChannel" type="tns:stIdChannel" />
+            <xsd:element name="password" type="tns:stPassword" />
+            <xsd:element name="idServizio"
+                         type="tns:stIdentificativoServizio" maxOccurs="1" />
+            <xsd:element name="datiSpecificiServizio"
+                         type="xsd:base64Binary" maxOccurs="1" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="demandPaymentNoticeResponse">
+        <xsd:complexContent>
+            <xsd:extension base="tns:ctResponse">
+                <xsd:sequence>
+                    <xsd:element name="qrCode" type="tns:ctQrCode" minOccurs="0"/>
+                    <xsd:element name="paymentList"
+                                 type="tns:ctPaymentOptionsDescriptionList" minOccurs="0" maxOccurs="1" />
+                    <xsd:element name="paymentDescription"
+                                 type="tns:stText210" minOccurs="0"></xsd:element>
+                    <xsd:element name="fiscalCodePA"
+                                 type="tns:stFiscalCodePA" minOccurs="0"></xsd:element>
+                    <xsd:element name="companyName" type="tns:stText140"
+                                 minOccurs="0"></xsd:element>
+                    <xsd:element name="officeName" type="tns:stText140"
+                                 minOccurs="0"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
   <!-- Wrapper Elements -->
   <xsd:element name="verificaBollettinoReq" type="tns:verificaBollettinoReq" />
   <xsd:element name="verificaBollettinoRes" type="tns:verificaBollettinoRes" />
@@ -807,6 +847,11 @@ The `details` field contains the details of the payment made by the user.
   <xsd:element name="sendPaymentOutcomeRes" type="tns:sendPaymentOutcomeRes" />
   <!-- fault messages -->
   <xsd:element name="handledException" type="tns:ctHandledException" />
+
+  <xsd:element name="demandPaymentNoticeRequest"
+                 type="tns:demandPaymentNoticeRequest" />
+  <xsd:element name="demandPaymentNoticeResponse"
+                 type="tns:demandPaymentNoticeResponse" />
 
 
 </xsd:schema>
