@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd">
 
+  <xsd:simpleType name="stIdentificativoServizio">
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="5" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
   <xsd:simpleType name="stText16">
     <xsd:restriction base="xsd:string">
       <xsd:minLength value="1" />
@@ -485,6 +492,38 @@ Its contains all payment information :
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="paDemandPaymentNoticeRequest">
+    <xsd:sequence>
+      <xsd:element name="idPA" type="tns:stText35" />
+      <xsd:element name="idBrokerPA" type="tns:stText35" />
+      <xsd:element name="idStation" type="tns:stText35" />
+      <xsd:element name="idServizio"
+                   type="tns:stIdentificativoServizio" maxOccurs="1" />
+      <xsd:element name="datiSpecificiServizioRequest"
+                   type="xsd:base64Binary" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="paDemandPaymentNoticeResponse">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ctResponse">
+        <xsd:sequence>
+          <xsd:element name="qrCode" type="tns:ctQrCode" minOccurs="0"/>
+          <xsd:element name="paymentList"
+                       type="tns:ctPaymentOptionsDescriptionListPA" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="paymentDescription"
+                       type="tns:stText140" minOccurs="0" />
+          <xsd:element name="fiscalCodePA"
+                       type="tns:stFiscalCodePA" minOccurs="0" />
+          <xsd:element name="companyName" type="tns:stText140"
+                       minOccurs="0" />
+          <xsd:element name="officeName" type="tns:stText140"
+                       minOccurs="0" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
 
   <xsd:complexType name="ctReceipt">
     <xsd:annotation>
@@ -730,5 +769,8 @@ Its a response to `paSendRTReq` and contains :
 
   <xsd:element name="paSendRTReq" type="tns:paSendRTReq" />
   <xsd:element name="paSendRTRes" type="tns:paSendRTRes" />
+
+  <xsd:element name="paDemandPaymentNoticeRequest" type="tns:paDemandPaymentNoticeRequest" />
+  <xsd:element name="paDemandPaymentNoticeResponse" type="tns:paDemandPaymentNoticeResponse" />
 
 </xsd:schema>
