@@ -48,6 +48,13 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="stCommissione">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Y" />
+			<xsd:enumeration value="N" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:complexType name="ctPaymentOptionDescription">
 		<xsd:sequence>
 			<xsd:element name="amount" type="common:stAmount" />
@@ -447,6 +454,10 @@
 				minOccurs="1" />
 			<xsd:element name="identificativoDominio"
 				type="common:stText35" minOccurs="0" />
+			<xsd:element name="categoria"
+				type="common:stText35" minOccurs="0" />
+			<xsd:element name="commissione"
+				type="nfp:stCommissione" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
