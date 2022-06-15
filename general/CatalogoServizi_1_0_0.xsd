@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:cs="http://PuntoAccessoPSP.spcoop.gov.it/CatalogoServizi"
+	targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/CatalogoServizi">
+
+	<xsd:simpleType name="stText35">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="35" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="stText70">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="70" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="stISODate">
+		<xsd:restriction base="xsd:date"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="stIdentificativoServizio">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="5" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	
+	<xsd:complexType name="ctCatalogoServizi">
+		<xsd:sequence>
+			<xsd:element name="idServizio" type="cs:stIdentificativoServizio"/>
+			<xsd:element name="descrizioneServizio" type="cs:stText70"/>
+			<xsd:element name="elencoSoggettiEroganti" type="cs:ctElencoSoggettiEroganti"/>
+			<xsd:element name="xsdRiferimento" type="cs:stText35"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	 <xsd:complexType name="ctElencoSoggettiEroganti">
+		<xsd:sequence>
+			<xsd:element name="soggettoErogante" type="cs:ctSoggettoErogante" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	 
+	<xsd:complexType name="ctSoggettoErogante">
+		<xsd:sequence>
+			<xsd:element name="idDominio" type="cs:stText35"/>
+			<xsd:element name="denominazioneEnteCreditore" type="cs:stText70"/>
+			<xsd:element name="dataInizioValidita" type="cs:stISODate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ctListaCataloghiServizi">
+		<xsd:sequence>
+			<xsd:element name="catalogoServizi" type="cs:ctCatalogoServizi" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Wrapper elements -->
+	<xsd:element name="listaCatalogoServizi" type="cs:ctListaCataloghiServizi" />
+
+</xsd:schema>
+	
