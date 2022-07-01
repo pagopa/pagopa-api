@@ -32,9 +32,7 @@
 			<xsd:element name="elencoSoggettiEroganti"
 				type="cs:ctElencoSoggettiEroganti" />
 			<xsd:element name="categoria"
-				type="common:stText35" minOccurs="0" />
-			<xsd:element name="commissione"
-				type="cs:stCommissione" minOccurs="0" />			
+				type="common:stText35" minOccurs="0" />		
 			<xsd:element name="xsdRiferimento"
 				type="common:stText35" />
 		</xsd:sequence>
@@ -54,6 +52,10 @@
 				type="common:stText70" />
 			<xsd:element name="dataInizioValidita"
 				type="common:stISODate" />
+			<xsd:element name="dataFineValidita"
+				type="common:stISODate" />
+			<xsd:element name="commissione"
+				type="cs:stCommissione" minOccurs="0" />	
 		</xsd:sequence>
 	</xsd:complexType>
 
