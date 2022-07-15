@@ -16,13 +16,6 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:simpleType name="stCommissione">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="Y" />
-			<xsd:enumeration value="N" />
-		</xsd:restriction>
-	</xsd:simpleType>
-
 	<xsd:complexType name="ctCatalogoServizi">
 		<xsd:sequence>
 			<xsd:element name="idServizio"
@@ -31,9 +24,9 @@
 				type="common:stText70" />
 			<xsd:element name="elencoSoggettiEroganti"
 				type="cs:ctElencoSoggettiEroganti" />
-			<xsd:element name="categoria"
-				type="common:stText35" minOccurs="0" />		
-			<xsd:element name="xsdRiferimento"
+			<xsd:element name="xsdRiferimentoRequest"
+				type="common:stText35" />
+			<xsd:element name="xsdRiferimentoResponse"
 				type="common:stText35" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -41,7 +34,7 @@
 	<xsd:complexType name="ctElencoSoggettiEroganti">
 		<xsd:sequence>
 			<xsd:element name="soggettoErogante"
-				type="cs:ctSoggettoErogante" minOccurs="1" maxOccurs="1" />
+				type="cs:ctSoggettoErogante" minOccurs="1" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -52,10 +45,6 @@
 				type="common:stText70" />
 			<xsd:element name="dataInizioValidita"
 				type="common:stISODate" />
-			<xsd:element name="dataFineValidita"
-				type="common:stISODate" />
-			<xsd:element name="commissione"
-				type="cs:stCommissione" minOccurs="0" />	
 		</xsd:sequence>
 	</xsd:complexType>
 

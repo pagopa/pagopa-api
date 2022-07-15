@@ -48,13 +48,6 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:simpleType name="stCommissione">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="Y" />
-			<xsd:enumeration value="N" />
-		</xsd:restriction>
-	</xsd:simpleType>
-
 	<xsd:complexType name="ctPaymentOptionDescription">
 		<xsd:sequence>
 			<xsd:element name="amount" type="common:stAmount" />
@@ -208,69 +201,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="common:ctResponse">
 				<xsd:sequence>
-					<xsd:element name="qrCode" type="common:ctQrCode" minOccurs="0" />
-					<xsd:element name="paymentList"
-						type="nfp:ctPaymentOptionsDescriptionList" minOccurs="0" maxOccurs="1" />
-					<xsd:element name="paymentDescription"
-						type="common:stText210" minOccurs="0"></xsd:element>
-					<xsd:element name="fiscalCodePA"
-						type="common:stFiscalCodePA" minOccurs="0"></xsd:element>
-					<xsd:element name="companyName" type="common:stText140"
-						minOccurs="0"></xsd:element>
-					<xsd:element name="officeName" type="common:stText140"
-						minOccurs="0"></xsd:element>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="verificaBollettinoRequest">
-		<xsd:sequence>
-			<xsd:element name="idPSP" type="nfp:stIdPSP" />
-			<xsd:element name="idBrokerPSP" type="nfp:stIdBroker" />
-			<xsd:element name="idChannel" type="nfp:stIdChannel" />
-			<xsd:element name="password" type="nfp:stPassword" />
-			<xsd:element name="ccPost" type="common:stPostalAccount" />
-			<xsd:element name="noticeNumber"
-				type="common:stNoticeNumber" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="verificaBollettinoResponse">
-		<xsd:complexContent>
-			<xsd:extension base="common:ctResponse">
-				<xsd:sequence>
-					<xsd:element name="paymentBollettinoList"
-						type="nfp:ctPaymentOptionsBollettinoDescriptionList" minOccurs="0" />
-					<xsd:element name="paymentDescription"
-						type="common:stText210" minOccurs="0" />
-					<xsd:element name="fiscalCodePA"
-						type="common:stFiscalCodePA" minOccurs="0" />
-					<xsd:element name="noticeNumber"
-						type="common:stNoticeNumber" minOccurs="0" />
-					<xsd:element name="companyName" type="common:stText140"
-						minOccurs="0" />
-					<xsd:element name="officeName" type="common:stText140"
-						minOccurs="0" />
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="verifyPaymentNoticeRequest">
-		<xsd:sequence>
-			<xsd:element name="idPSP" type="nfp:stIdPSP" />
-			<xsd:element name="idBrokerPSP" type="nfp:stIdBroker" />
-			<xsd:element name="idChannel" type="nfp:stIdChannel" />
-			<xsd:element name="password" type="nfp:stPassword" />
-			<xsd:element name="qrCode" type="common:ctQrCode" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="verifyPaymentNoticeResponse">
-		<xsd:complexContent>
-			<xsd:extension base="common:ctResponse">
-				<xsd:sequence>
 					<xsd:element name="paymentList"
 						type="nfp:ctPaymentOptionsDescriptionList" minOccurs="0" />
 					<xsd:element name="paymentDescription"
@@ -286,8 +216,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-
-	<xsd:complexType name="activatePaymentNoticeRequest">
+	<xsd:complexType name="activatePaymentNoticeV2Request">
 		<xsd:sequence>
 			<xsd:element name="idPSP" type="nfp:stIdPSP" />
 			<xsd:element name="idBrokerPSP" type="nfp:stIdBroker" />
@@ -306,7 +235,7 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="activatePaymentNoticeResponse">
+	<xsd:complexType name="activatePaymentNoticeV2Response">
 		<xsd:complexContent>
 			<xsd:extension base="common:ctResponse">
 				<xsd:sequence>
@@ -331,7 +260,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:complexType name="sendPaymentOutcomeRequest">
+	<xsd:complexType name="sendPaymentOutcomeV2Request">
 		<xsd:sequence>
 			<xsd:element name="idPSP" type="nfp:stIdPSP" />
 			<xsd:element name="idBrokerPSP" type="nfp:stIdBroker" />
@@ -347,102 +276,13 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="sendPaymentOutcomeResponse">
+	<xsd:complexType name="sendPaymentOutcomeV2Response">
 		<xsd:complexContent>
 			<xsd:extension base="common:ctResponse"></xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 
-
-	<xsd:complexType
-		name="nodoInviaFlussoRendicontazioneRequest">
-		<xsd:sequence>
-			<xsd:element name="identificativoPSP"
-				type="common:stText35" />
-			<xsd:element name="identificativoIntermediarioPSP"
-				type="common:stText35" />
-			<xsd:element name="identificativoCanale"
-				type="common:stText35" />
-			<xsd:element name="password" type="nfp:stPassword" />
-			<xsd:element name="identificativoDominio"
-				type="common:stText35" />
-			<xsd:element name="identificativoFlusso"
-				type="xsd:string" />
-			<xsd:element name="dataOraFlusso" type="xsd:dateTime" />
-			<xsd:element name="xmlRendicontazione"
-				type="xsd:base64Binary"
-				xmime:expectedContentTypes="application/octet-stream"
-				xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType
-		name="nodoInviaFlussoRendicontazioneResponse">
-		<xsd:complexContent>
-			<xsd:extension base="common:risposta">
-				<xsd:sequence>
-					<xsd:element name="esito" type="xsd:string"
-						minOccurs="1" />
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="nodoChiediInformativaPARequest">
-		<xsd:sequence>
-			<xsd:element name="identificativoPSP"
-				type="common:stText35" minOccurs="0" />
-			<xsd:element name="identificativoIntermediarioPSP"
-				type="common:stText35" />
-			<xsd:element name="identificativoCanale"
-				type="common:stText35" />
-			<xsd:element name="password" type="nfp:stPassword" />
-			<xsd:element name="identificativoDominio"
-				type="common:stText35" minOccurs="0" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="nodoChiediInformativaPAResponse">
-		<xsd:complexContent>
-			<xsd:extension base="common:risposta">
-				<xsd:sequence>
-					<xsd:element name="xmlInformativa"
-						type="xsd:base64Binary" minOccurs="0"
-						xmime:expectedContentTypes="application/octet-stream"
-						xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType
-		name="nodoChiediTemplateInformativaPSPRequest">
-		<xsd:sequence>
-			<xsd:element name="identificativoPSP"
-				type="common:stText35" />
-			<xsd:element name="identificativoIntermediarioPSP"
-				type="common:stText35" />
-			<xsd:element name="identificativoCanale"
-				type="common:stText35" />
-			<xsd:element name="password" type="nfp:stPassword" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType
-		name="nodoChiediTemplateInformativaPSPResponse">
-		<xsd:complexContent>
-			<xsd:extension base="common:risposta">
-				<xsd:sequence>
-					<xsd:element name="xmlTemplateInformativa"
-						type="xsd:base64Binary" minOccurs="0"
-						xmime:expectedContentTypes="application/octet-stream"
-						xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="nodoChiediCatalogoServiziRequest">
+	<xsd:complexType name="nodoChiediCatalogoServiziV2Request">
 		<xsd:sequence>
 			<xsd:element name="identificativoPSP"
 				type="common:stText35" minOccurs="1" />
@@ -454,14 +294,10 @@
 				minOccurs="1" />
 			<xsd:element name="identificativoDominio"
 				type="common:stText35" minOccurs="0" />
-			<xsd:element name="categoria"
-				type="common:stText35" minOccurs="0" />
-			<xsd:element name="commissione"
-				type="nfp:stCommissione" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="nodoChiediCatalogoServiziResponse">
+	<xsd:complexType name="nodoChiediCatalogoServiziV2Response">
 		<xsd:complexContent>
 			<xsd:extension base="common:risposta">
 				<xsd:sequence>

@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/pspForNode/v2.0.0/"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/pspForNode/v2.0.0/">
+	targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode">
 	<wsdl:types>
-		<xsd:schema version="1.0.0">
-            <xsd:import schemaLocation="pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v1.0.0/" />
+		<xsd:schema version="1.0.0" xmlns:imp_1="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v1.0.0/">
+            <xsd:import schemaLocation="../xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v1.0.0/" />
+            <xsd:element name="pspNotifyPaymentReq" type="imp_1:pspNotifyPaymentReq" />
+			<xsd:element name="pspNotifyPaymentRes" type="imp_1:pspNotifyPaymentRes" />
         </xsd:schema>
-		<xsd:schema version="2.0.0" xmlns:imp="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v2.0.0/">
-			<xsd:import schemaLocation="pspForNode_2_0_0.xsd" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v2.0.0/" />
-			<xsd:element name="pspNotifyPaymentRequest" type="imp:pspNotifyPaymentRequest" />
-			<xsd:element name="pspNotifyPaymentResponse" type="imp:pspNotifyPaymentResponse" />
+		<xsd:schema version="2.0.0" xmlns:imp_2="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v2.0.0/">
+			<xsd:import schemaLocation="../xsd/pspForNode_2_0_0.xsd" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v2.0.0/" />
+			<xsd:element name="pspNotifyPaymentV2" type="imp_2:pspNotifyPaymentV2" />
+			<xsd:element name="pspNotifyPaymentV2Response" type="imp_2:pspNotifyPaymentV2Response" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="pspNotifyPaymentReq">
-        <wsdl:part element="pspfn:pspNotifyPaymentReq" name="requestBody" />
+        <wsdl:part element="pspNotifyPaymentReq" name="requestBody" />
     </wsdl:message>
     <wsdl:message name="pspNotifyPaymentRes">
-        <wsdl:part element="pspfn:pspNotifyPaymentRes" name="responseBody" />
+        <wsdl:part element="pspNotifyPaymentRes" name="responseBody" />
     </wsdl:message>
 	<wsdl:message name="pspNotifyPaymentV2">
 		<wsdl:part element="pspNotifyPaymentV2" name="bodyrequest" />

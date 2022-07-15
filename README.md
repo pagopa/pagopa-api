@@ -7,8 +7,5 @@
 
 Il repository è suddiviso nelle seguenti sezioni:
 
-* **cd**: contiene la definizione delle interfacce ad uso interno PagoPA.
-* **ec**: contiene la definizione delle interfacce esposte da un ente creditore.
-* **psp**: contiene la definizione delle interfacce esposte da un Psp.
-* **nodo**: contiene la definizione delle interfacce esposte dal sistema.
-* **general**: contiene gli schemi di definizione dei documenti XML scambiati all'interno del sistema.
+* **wsdl**: contiene la definizione delle interfacce SOAP.
+* **xsd**: contiene gli schemi di definizione dei documenti XML scambiati all'interno del sistema.

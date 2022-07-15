@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/paForNode"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode">
+	<wsdl:types>
+
+		<xsd:schema version="1.0.0"
+			xmlns:imp_1="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v1.0.0/">
+			<xsd:import schemaLocation="../xsd/paForNode.xsd"
+				namespace="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v1.0.0/"></xsd:import>
+
+			<xsd:element name="paVeriFyPaymentNoticeReq"
+				type="imp_1:paVerifyPaymentNoticeReq" />
+			<xsd:element name="paVeriFyPaymentNoticeRes"
+				type="imp_1:paVerifyPaymentNoticeRes" />
+
+			<xsd:element name="paGetPaymentReq"
+				type="imp_1:paGetPaymentReq" />
+			<xsd:element name="paGetPaymentRes"
+				type="imp_1:paGetPaymentRes" />
+
+			<xsd:element name="paSendRTReq"
+				type="imp_1:paSendRTReq" />
+			<xsd:element name="paSendRTRes"
+				type="imp_1:paSendRTRes" />
+
+		</xsd:schema>
+		
+		<xsd:schema version="2.0.0"
+			xmlns:imp_2="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/">
+			<xsd:import schemaLocation="../xsd/paForNode_2_0_0.xsd"
+				namespace="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/"></xsd:import>
+
+			<xsd:element name="paDemandPaymentNoticeRequest"
+				type="imp_2:paDemandPaymentNoticeRequest" />
+			<xsd:element name="paDemandPaymentNoticeResponse"
+				type="imp_2:paDemandPaymentNoticeResponse" />
+
+			<xsd:element name="paGetPaymentV2Request"
+				type="imp_2:paGetPaymentV2Request" />
+			<xsd:element name="paGetPaymentV2Response"
+				type="imp_2:paGetPaymentV2Response" />
+
+			<xsd:element name="paSendRTV2Request"
+				type="imp_2:paSendRTV2Request" />
+			<xsd:element name="paSendRTV2Response"
+				type="imp_2:paSendRTV2Response" />
+
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="paDemandPaymentNotice">
+		<wsdl:part name="bodyrequest"
+			element="paDemandPaymentNoticeRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paDemandPaymentNoticeResponse">
+		<wsdl:part name="bodyresponse"
+			element="paDemandPaymentNoticeResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paVeriFyPaymentNoticeReq">
+		<wsdl:part name="bodyrequest"
+			element="paVeriFyPaymentNoticeReq"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paVeriFyPaymentNoticeRes">
+		<wsdl:part name="bodyresponse" element="paVeriFyPaymentNoticeRes"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paGetPaymentReq">
+		<wsdl:part name="bodyrequest" element="paGetPaymentReq"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paGetPaymentRes">
+		<wsdl:part name="bodyresponse" element="paGetPaymentRes"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paGetPaymentV2">
+		<wsdl:part name="bodyrequest" element="paGetPaymentV2Request"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paGetPaymentV2Response">
+		<wsdl:part name="bodyresponse" element="paGetPaymentV2Response"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paSendRTReq">
+		<wsdl:part name="bodyrequest" element="paSendRTReq"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paSendRTRes">
+		<wsdl:part name="bodyresponse" element="paSendRTRes"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paSendRTV2">
+		<wsdl:part name="bodyrequest" element="paSendRTV2Request"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="paSendRTV2Response">
+		<wsdl:part name="bodyresponse" element="paSendRTV2Response"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="paForNode">
+		<wsdl:operation name="paDemandPaymentNotice">
+			<wsdl:input message="tns:paDemandPaymentNotice"></wsdl:input>
+			<wsdl:output message="tns:paDemandPaymentNoticeResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paVeriFyPaymentNotice">
+			<wsdl:input message="tns:paVeriFyPaymentNoticeReq"></wsdl:input>
+			<wsdl:output message="tns:paVeriFyPaymentNoticeRes"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paGetPayment">
+			<wsdl:input message="tns:paGetPaymentReq"></wsdl:input>
+			<wsdl:output message="tns:paGetPaymentRes"></wsdl:output>
+		</wsdl:operation>
+			<wsdl:operation name="paGetPaymentV2">
+			<wsdl:input message="tns:paGetPaymentV2"></wsdl:input>
+			<wsdl:output message="tns:paGetPaymentV2Response"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paSendRT">
+			<wsdl:input message="tns:paSendRTReq"></wsdl:input>
+			<wsdl:output message="tns:paSendRTRes"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paSendRTV2">
+			<wsdl:input message="tns:paSendRTV2"></wsdl:input>
+			<wsdl:output message="tns:paSendRTV2Response"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="paForNodeBinding" type="tns:paForNode">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="paDemandPaymentNotice">
+			<soap:operation
+				soapAction="paDemandPaymentNotice" />
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paVeriFyPaymentNotice">
+			<soap:operation
+				soapAction="paVeriFyPaymentNotice" />
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paGetPayment">
+			<soap:operation
+				soapAction="paGetPayment" />
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paGetPaymentV2">
+			<soap:operation
+				soapAction="paGetPaymentV2" />
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paSendRT">
+			<soap:operation
+				soapAction="paSendRT" />
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="paSendRTV2">
+			<soap:operation
+				soapAction="paSendRTV2" />
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="paForNodeService">
+		<wsdl:port name="paForNodePort"
+			binding="tns:paForNodeBinding">
+			<soap:address location="http://pagopa-api.pagopa.gov.it/service/pa/paForNode" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

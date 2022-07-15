@@ -1,7 +1,7 @@
-<schema version="2.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
+<schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v2.0.0/"
-	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v2.0.0/"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v1.0.0/"
+	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v1.0.0/"
 	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
 	elementFormDefault="qualified">
 
