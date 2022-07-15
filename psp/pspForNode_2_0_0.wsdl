@@ -6,40 +6,62 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/pspForNode/v2.0.0/">
 	<wsdl:types>
+		<xsd:schema version="1.0.0">
+            <xsd:import schemaLocation="pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v1.0.0/" />
+        </xsd:schema>
 		<xsd:schema version="2.0.0" xmlns:imp="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v2.0.0/">
 			<xsd:import schemaLocation="pspForNode_2_0_0.xsd" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v2.0.0/" />
 			<xsd:element name="pspNotifyPaymentRequest" type="imp:pspNotifyPaymentRequest" />
 			<xsd:element name="pspNotifyPaymentResponse" type="imp:pspNotifyPaymentResponse" />
 		</xsd:schema>
 	</wsdl:types>
-	<wsdl:message name="pspNotifyPayment">
-		<wsdl:part element="pspNotifyPaymentRequest" name="bodyrequest" />
+	<wsdl:message name="pspNotifyPaymentReq">
+        <wsdl:part element="pspfn:pspNotifyPaymentReq" name="requestBody" />
+    </wsdl:message>
+    <wsdl:message name="pspNotifyPaymentRes">
+        <wsdl:part element="pspfn:pspNotifyPaymentRes" name="responseBody" />
+    </wsdl:message>
+	<wsdl:message name="pspNotifyPaymentV2">
+		<wsdl:part element="pspNotifyPaymentV2" name="bodyrequest" />
 	</wsdl:message>
-	<wsdl:message name="pspNotifyPaymentResponse">
-		<wsdl:part element="pspNotifyPaymentResponse" name="bodyresponse" />
+	<wsdl:message name="pspNotifyPaymentV2Response">
+		<wsdl:part element="pspNotifyPaymentV2Response" name="bodyresponse" />
 	</wsdl:message>
 	<wsdl:portType name="pspForNode">
-		<wsdl:operation name="pspNotifyPayment">
-			<wsdl:input message="tns:pspNotifyPayment" />
-			<wsdl:output message="tns:pspNotifyPaymentResponse" />
+        <wsdl:operation name="pspNotifyPayment">          
+            <wsdl:input message="tns:pspNotifyPaymentReq" />
+            <wsdl:output message="tns:pspNotifyPaymentRes" />
+        </wsdl:operation>
+		<wsdl:operation name="pspNotifyPaymentV2">
+			<wsdl:input message="tns:pspNotifyPaymentV2" />
+			<wsdl:output message="tns:pspNotifyPaymentV2Response" />
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="pspForNodeBinding" type="tns:pspForNode">
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
-		<wsdl:operation name="pspNotifyPayment">
-			<soap:operation soapAction="http://pagopa-api.pagopa.gov.itg/pspForNode/v2.0.0/pspNotifyPayment" />
+        <wsdl:operation name="pspNotifyPayment">
+            <soap:operation soapAction="pspNotifyPayment" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+		<wsdl:operation name="pspNotifyPaymentV2">
+			<soap:operation soapAction="pspNotifyPaymentV2" />
 			<wsdl:input>
-				<soap:body use="literal" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/v2.0.0/" />
+				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output>
-				<soap:body use="literal" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/v2.0.0/" />
+				<soap:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
 	<wsdl:service name="pspForNodeService">
 		<wsdl:port binding="tns:pspForNodeBinding" name="pspForNodePort">
-			<soap:address location="http://pagopa-api.pagopa.gov.it/" />
+			<soap:address location="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
