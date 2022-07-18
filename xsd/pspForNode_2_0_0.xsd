@@ -27,6 +27,8 @@
 			<xsd:element name="IBAN" type="common:stIBAN" />
 			<xsd:element name="remittanceInformation"
 				type="common:stText140" />
+			<xsd:element name="metadata" type="common:ctMetadata"
+				minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -82,6 +84,8 @@
 				type="common:stISODateTime" />
 			<xsd:element name="paymentList"
 				type="tns:ctPaymentList" />
+			<xsd:element name="metadata" type="common:ctMetadata"
+				minOccurs="0" />
 			<xsd:element name="additionalPaymentInformations"
 				type="tns:ctAdditionalPaymentInformations" />
 		</xsd:sequence>
