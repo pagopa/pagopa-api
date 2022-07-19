@@ -181,8 +181,6 @@
 				type="common:stText140" />
 			<xsd:element name="metadata" type="common:ctMetadata"
 				minOccurs="0" />
-			<xsd:element name="metadata" type="common:ctMetadata"
-				minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
