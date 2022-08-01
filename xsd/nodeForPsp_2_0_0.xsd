@@ -230,7 +230,7 @@
 			<xsd:element name="idChannel" type="nfp:stIdChannel" />
 			<xsd:element name="password" type="nfp:stPassword" />
 			<xsd:element name="idempotencyKey"
-				type="nfp:stIdempotencyKey" minOccurs="0" />
+				type="nfp:stIdempotencyKey" minOccurs="1" />
 			<xsd:element name="qrCode" type="common:ctQrCode" />
 			<xsd:element name="expirationTime"
 				type="nfp:stExpirationTime" minOccurs="0" />
@@ -276,7 +276,7 @@
 			<xsd:element name="idChannel" type="nfp:stIdChannel" />
 			<xsd:element name="password" type="nfp:stPassword" />
 			<xsd:element name="idempotencyKey"
-				type="nfp:stIdempotencyKey" minOccurs="0" />
+				type="nfp:stIdempotencyKey" minOccurs="1" />
 			<xsd:element name="paymentTokens"
 				type="nfp:stPaymentTokens" />
 			<xsd:element name="outcome" type="common:stOutcome" />
