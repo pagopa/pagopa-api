@@ -55,6 +55,8 @@
 			<xsd:element name="debtAmount" type="common:stAmount" />
 			<xsd:element name="transferList"
 				type="tns:ctTransferListPSP" />
+			<xsd:element name="metadata" type="common:ctMetadata"
+				minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -84,8 +86,6 @@
 				type="common:stISODateTime" />
 			<xsd:element name="paymentList"
 				type="tns:ctPaymentList" />
-			<xsd:element name="metadata" type="common:ctMetadata"
-				minOccurs="0" />
 			<xsd:element name="additionalPaymentInformations"
 				type="tns:ctAdditionalPaymentInformations" />
 		</xsd:sequence>
