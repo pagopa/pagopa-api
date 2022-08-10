@@ -67,13 +67,6 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="ctAdditionalPaymentInformations">
-		<xsd:sequence>
-			<xsd:element name="additionalPaymentList" type="common:ctMetadata"
-				minOccurs="0" />
-		</xsd:sequence>
-	</xsd:complexType>
-
 	<xsd:complexType name="pspNotifyPaymentV2">
 		<xsd:sequence>
 			<xsd:element name="idPSP" type="common:stText35" />
@@ -87,7 +80,7 @@
 			<xsd:element name="paymentList"
 				type="tns:ctPaymentList" />
 			<xsd:element name="additionalPaymentInformations"
-				type="tns:ctAdditionalPaymentInformations" />
+				type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 

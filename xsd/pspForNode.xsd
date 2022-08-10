@@ -184,7 +184,7 @@
 
 	<xsd:complexType name="ctAdditionalPaymentInformations">
 		<xsd:sequence>
-			<xsd:element name="additionalPaymentList" type="common:ctMetadata"
+			<xsd:element name="metadata" type="common:ctMetadata"
 				minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
