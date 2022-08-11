@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:service="http://PuntoAccessoPSP.spcoop.gov.it/GeneralService"
+            targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/GeneralService">
+
+    <xsd:complexType name="ctRootService">
+        <xsd:sequence>
+            <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Root element -->
+    <xsd:element name="service" type="service:ctRootService" />
+
+</xsd:schema>

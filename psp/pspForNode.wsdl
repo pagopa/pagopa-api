@@ -13,6 +13,12 @@
     <wsdl:message name="pspNotifyPaymentRes">
         <wsdl:part name="responseBody" element="pspfn:pspNotifyPaymentRes" />
     </wsdl:message>
+    <wsdl:message name="pspNotifyPaymentV2">
+        <wsdl:part name="requestBody" element="pspfn:pspNotifyPaymentV2" />
+    </wsdl:message>
+    <wsdl:message name="pspNotifyPaymentV2Res">
+        <wsdl:part name="responseBody" element="pspfn:pspNotifyPaymentV2Res" />
+    </wsdl:message>
 
     <wsdl:portType name="pspForNode_PortType">
         <wsdl:operation name="pspNotifyPayment">
