@@ -113,7 +113,7 @@
 				minOccurs="0" />
 			<xsd:element name="description" type="common:stText140" />
 			<xsd:element name="companyName" type="common:stText140"
-				minOccurs="0" />
+				minOccurs="1" />
 			<xsd:element name="officeName" type="common:stText140"
 				minOccurs="0" />
 			<xsd:element name="debtor" type="pfn:ctSubject" />
