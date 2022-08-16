@@ -138,7 +138,7 @@
 	<xsd:complexType name="stPaymentTokens">
 		<xsd:sequence>
 			<xsd:element name="paymentToken"
-				type="common:stPaymentToken" />
+				type="common:stPaymentToken" minOccurs="1" maxOccurs="5"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
