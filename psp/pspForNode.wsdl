@@ -13,13 +13,19 @@
     <wsdl:message name="pspNotifyPaymentRes">
         <wsdl:part name="responseBody" element="pspfn:pspNotifyPaymentRes" />
     </wsdl:message>
+    <wsdl:message name="pspNotifyPaymentV2">
+        <wsdl:part name="requestBody" element="pspfn:pspNotifyPaymentV2" />
+    </wsdl:message>
+    <wsdl:message name="pspNotifyPaymentV2Res">
+        <wsdl:part name="responseBody" element="pspfn:pspNotifyPaymentV2Res" />
+    </wsdl:message>
 
     <wsdl:portType name="pspForNode_PortType">
         <wsdl:operation name="pspNotifyPayment">
             <wsdl:documentation>
 Notify the outcome of a payment transaction started on any PagoPA client and executed on a payment gateway integrated with Payment Manager.
 
-if outcome is OK, the PSP will receive a transfer found on a technical account. Therefore the PSP shall : 
+if outcome is OK, the PSP will receive a transfer found on a technical account. Therefore the PSP shall :
 
 - close the payment by using the *sendPaymentOutcome* message using the *paymentToken* on the request.
 - trasfer founds to the account according to the *transferList* element.
@@ -31,6 +37,22 @@ if outcome is KO, the PSP can use this information to balance payment gateway tr
             <wsdl:input message="tns:pspNotifyPaymentReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentReq" />
             <wsdl:output message="tns:pspNotifyPaymentRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentRes" />
         </wsdl:operation>
+        <wsdl:operation name="pspNotifyPaymentV2">
+            <wsdl:documentation>
+                Notify the outcome of a payment transaction started on any PagoPA client and executed on a payment gateway integrated with Payment Manager.
+
+                if outcome is OK, the PSP will receive a transfer found on a technical account. Therefore the PSP shall :
+
+                - close the payment by using the *sendPaymentOutcome* message using the *paymentToken* on the request.
+                - trasfer founds to the account according to the *transferList* element.
+
+                if outcome is KO, the PSP can use this information to balance payment gateway transaction and PSP transfers
+
+
+            </wsdl:documentation>
+            <wsdl:input message="tns:pspNotifyPaymentV2" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentReq" />
+            <wsdl:output message="tns:pspNotifyPaymentV2Res" wsam:Action="http://pagopa-api.pagopa.gov.it/service/psp/pspForNode/pspNotifyPaymentRes" />
+        </wsdl:operation>
     </wsdl:portType>
 
     <wsdl:binding name="pspForNode_Binding" type="tns:pspForNode_PortType">
@@ -38,6 +60,15 @@ if outcome is KO, the PSP can use this information to balance payment gateway tr
 
         <wsdl:operation name="pspNotifyPayment">
             <soap:operation soapAction="pspNotifyPayment" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="pspNotifyPaymentV2">
+            <soap:operation soapAction="pspNotifyPaymentV2" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
