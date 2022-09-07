@@ -109,6 +109,7 @@
       <xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
       <xsd:element name="IBAN" type="tns:stIBAN" />
       <xsd:element name="remittanceInformation" type="tns:stText140" />
+      <xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
     </xsd:sequence>
   </xsd:complexType>
 
@@ -171,6 +172,34 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="ctPayment">
+    <xsd:sequence>
+      <xsd:element name="paymentToken"
+                   type="tns:stPaymentToken" />
+      <xsd:element name="paymentDescription"
+                   type="tns:stText140" />
+      <xsd:element name="fiscalCodePA"
+                   type="tns:stFiscalCodePA" />
+      <xsd:element name="companyName" type="tns:stText140" />
+      <xsd:element name="officeName" type="tns:stText140"
+                   minOccurs="0" />
+      <xsd:element name="creditorReferenceId"
+                   type="tns:stText35" />
+      <xsd:element name="debtAmount" type="tns:stAmount" />
+      <xsd:element name="transferList"
+                   type="tns:ctTransferListPSP" />
+      <xsd:element name="metadata" type="tns:ctMetadata"
+                   minOccurs="0" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ctPaymentList">
+    <xsd:sequence>
+      <xsd:element name="transfer" type="tns:ctPayment"
+                   maxOccurs="5" />
+    </xsd:sequence>
+  </xsd:complexType>
+
   <xsd:complexType name="pspNotifyPaymentReq">
     <xsd:sequence>
       <xsd:element name="idPSP" type="tns:stText35" />
@@ -193,6 +222,29 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="pspNotifyPaymentV2">
+    <xsd:sequence>
+      <xsd:element name="idPSP" type="tns:stText35" />
+      <xsd:element name="idBrokerPSP" type="tns:stText35" />
+      <xsd:element name="idChannel" type="tns:stText35" />
+      <xsd:element name="pspTransactionId" type="tns:stText35" />
+      <xsd:element name="totalAmount" type="tns:stAmount" />
+      <xsd:element name="fee" type="tns:stAmount" />
+      <xsd:element name="timestampOperation"
+                   type="tns:stISODateTime" />
+      <xsd:element name="paymentList"
+                   type="tns:ctPaymentList" />
+      <xsd:element name="additionalPaymentInformations"
+                   type="tns:ctAdditionalPaymentInformations" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="pspNotifyPaymentV2Response">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ctResponse" />
+    </xsd:complexContent>
+  </xsd:complexType>
+
   <xsd:complexType name="pspNotifyPaymentRes">
     <xsd:complexContent>
       <xsd:extension base="tns:ctResponse"/>
@@ -202,4 +254,6 @@
   <!-- Wrapper Elements -->
   <xsd:element name="pspNotifyPaymentReq" type="tns:pspNotifyPaymentReq" />
   <xsd:element name="pspNotifyPaymentRes" type="tns:pspNotifyPaymentRes" />
+  <xsd:element name="pspNotifyPaymentV2" type="tns:pspNotifyPaymentV2" />
+  <xsd:element name="pspNotifyPaymentV2Res" type="tns:pspNotifyPaymentV2Response" />
 </xsd:schema>
