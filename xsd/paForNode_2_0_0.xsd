@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema version="2.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/"
-	xmlns:pfn="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/"
-	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified">
+<schema version="2.0.0" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/" xmlns:pfn="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/" xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
-	<xs:import
-		namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
-		schemaLocation="common-types_2_0_0.xsd"
-		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/" schemaLocation="common-types_2_0_0.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
 	<xsd:simpleType name="stUUID">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern
-				value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+			<xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
@@ -31,20 +22,15 @@
 		<xsd:sequence>
 			<xsd:element name="amount" type="common:stAmount" />
 			<xsd:element name="options" type="pfn:stAmountOption" />
-			<xsd:element name="dueDate" type="common:stISODate"
-				minOccurs="0" />
-			<xsd:element name="detailDescription"
-				type="common:stText140" minOccurs="0" />
-			<xsd:element name="allCCP" type="xsd:boolean"
-				minOccurs="1" />
+			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" />
+			<xsd:element name="detailDescription" type="common:stText140" minOccurs="0" />
+			<xsd:element name="allCCP" type="xsd:boolean" minOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType
-		name="ctPaymentOptionsDescriptionListPA">
+	<xsd:complexType name="ctPaymentOptionsDescriptionListPA">
 		<xsd:sequence>
-			<xsd:element name="paymentOptionDescription"
-				type="pfn:ctPaymentOptionDescriptionPA" maxOccurs="1" />
+			<xsd:element name="paymentOptionDescription" type="pfn:ctPaymentOptionDescriptionPA" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -57,70 +43,48 @@
 	<xsd:complexType name="ctTransferPA">
 		<xsd:sequence>
 			<xsd:element name="idTransfer" type="common:stIdTransfer" />
-			<xsd:element name="transferAmount"
-				type="common:stAmountNotZero" />
-			<xsd:element name="fiscalCodePA"
-				type="common:stFiscalCodePA" />
+			<xsd:element name="transferAmount" type="common:stAmountNotZero" />
+			<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" />
 			<xsd:element name="IBAN" type="common:stIBAN" />
-			<xsd:element name="remittanceInformation"
-				type="common:stText140" />
-			<xsd:element name="transferCategory"
-				type="common:stText140" />
-			<xsd:element name="metadata" type="common:ctMetadata"
-				minOccurs="0" />
+			<xsd:element name="remittanceInformation" type="common:stText140" />
+			<xsd:element name="transferCategory" type="common:stText140" />
+			<xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="ctTransferListPA">
 		<xsd:sequence>
-			<xsd:element name="transfer" type="pfn:ctTransferPA"
-				maxOccurs="5" />
+			<xsd:element name="transfer" type="pfn:ctTransferPA" maxOccurs="5" />
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="ctSubject">
 		<xsd:sequence>
-			<xsd:element name="uniqueIdentifier"
-				type="common:ctEntityUniqueIdentifier" />
+			<xsd:element name="uniqueIdentifier" type="common:ctEntityUniqueIdentifier" />
 			<xsd:element name="fullName" type="common:stText70" />
-			<xsd:element name="streetName" type="common:stText70"
-				minOccurs="0" />
-			<xsd:element name="civicNumber" type="common:stText16"
-				minOccurs="0" />
-			<xsd:element name="postalCode" type="common:stText16"
-				minOccurs="0" />
-			<xsd:element name="city" type="common:stText35"
-				minOccurs="0" />
-			<xsd:element name="stateProvinceRegion"
-				type="common:stText35" minOccurs="0" />
-			<xsd:element name="country"
-				type="common:stNazioneProvincia" minOccurs="0" />
-			<xsd:element name="e-mail" type="common:stEMail"
-				minOccurs="0" />
+			<xsd:element name="streetName" type="common:stText70" minOccurs="0" />
+			<xsd:element name="civicNumber" type="common:stText16" minOccurs="0" />
+			<xsd:element name="postalCode" type="common:stText16" minOccurs="0" />
+			<xsd:element name="city" type="common:stText35" minOccurs="0" />
+			<xsd:element name="stateProvinceRegion" type="common:stText35" minOccurs="0" />
+			<xsd:element name="country" type="common:stNazioneProvincia" minOccurs="0" />
+			<xsd:element name="e-mail" type="common:stEMail" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="ctPaymentPA">
 		<xsd:sequence>
-			<xsd:element name="creditorReferenceId"
-				type="common:stText35" /> <!--IUV -->
-			<xsd:element name="paymentAmount"
-				type="common:stAmountNotZero" />
+			<xsd:element name="creditorReferenceId" type="common:stText35" /> <!--IUV -->
+			<xsd:element name="paymentAmount" type="common:stAmountNotZero" />
 			<xsd:element name="dueDate" type="common:stISODate" />
-			<xsd:element name="retentionDate" type="xsd:dateTime"
-				minOccurs="0" />
-			<xsd:element name="lastPayment" type="xsd:boolean"
-				minOccurs="0" />
+			<xsd:element name="retentionDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="lastPayment" type="xsd:boolean" minOccurs="0" />
 			<xsd:element name="description" type="common:stText140" />
-			<xsd:element name="companyName" type="common:stText140"
-				minOccurs="1" />
-			<xsd:element name="officeName" type="common:stText140"
-				minOccurs="0" />
+			<xsd:element name="companyName" type="common:stText140" minOccurs="1" />
+			<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
 			<xsd:element name="debtor" type="pfn:ctSubject" />
-			<xsd:element name="transferList"
-				type="pfn:ctTransferListPA" />
-			<xsd:element name="metadata" type="common:ctMetadata"
-				minOccurs="0" />
+			<xsd:element name="transferList" type="pfn:ctTransferListPA" />
+			<xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -128,44 +92,32 @@
 
 		<xsd:sequence>
 			<xsd:element name="receiptId" type="xsd:string" />
-			<xsd:element name="noticeNumber"
-				type="common:stNoticeNumber" />
-			<xsd:element name="fiscalCode"
-				type="common:stFiscalCodePA" />
+			<xsd:element name="noticeNumber" type="common:stNoticeNumber" />
+			<xsd:element name="fiscalCode" type="common:stFiscalCodePA" />
 			<xsd:element name="outcome" type="common:stOutcome" />
-			<xsd:element name="creditorReferenceId"
-				type="common:stText35" /> <!-- IUV -->
+			<xsd:element name="creditorReferenceId" type="common:stText35" /> <!-- IUV -->
 			<xsd:element name="paymentAmount" type="common:stAmount" />
 			<xsd:element name="description" type="common:stText140" />
 			<xsd:element name="companyName" type="common:stText140" />
-			<xsd:element name="officeName" type="common:stText140"
-				minOccurs="0" />
+			<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
 			<xsd:element name="debtor" type="pfn:ctSubject" />
-			<xsd:element name="transferList"
-				type="pfn:ctTransferListPA" />
+			<xsd:element name="transferList" type="pfn:ctTransferListPA" />
 			<xsd:element name="idPSP" type="common:stText35" />
-			<xsd:element name="pspFiscalCode" type="common:stText70"
-				minOccurs="0" />
-			<xsd:element name="pspPartitaIVA" type="common:stText20"
-				minOccurs="0" />
+			<xsd:element name="pspFiscalCode" type="common:stText70" minOccurs="0" />
+			<xsd:element name="pspPartitaIVA" type="common:stText20" minOccurs="0" />
 			<xsd:element name="PSPCompanyName" type="common:stText70" />
 			<xsd:element name="idChannel" type="common:stText35" />
-			<xsd:element name="channelDescription"
-				type="common:stText35" />
-			<xsd:element name="payer" type="pfn:ctSubject"
-				minOccurs="0" />
-			<xsd:element name="paymentMethod" type="common:stText35"
-				minOccurs="0" />
-			<xsd:element name="fee" type="common:stAmount"
-				minOccurs="0" />
-			<xsd:element name="paymentDateTime"
-				type="common:stISODateTime" minOccurs="0" />
-			<xsd:element name="applicationDate"
-				type="common:stISODate" minOccurs="0" />
-			<xsd:element name="transferDate" type="common:stISODate"
-				minOccurs="0" />
-			<xsd:element name="metadata" type="common:ctMetadata"
-				minOccurs="0" />
+			<xsd:element name="channelDescription" type="common:stText35" />
+			<xsd:element name="payer" type="pfn:ctSubject" minOccurs="0" />
+			<xsd:element name="paymentMethod" type="common:stText35" minOccurs="0" />
+			<xsd:element name="fee" type="common:stAmount" minOccurs="0" />
+			<xsd:element name="primaryCiIncurredFee" type="common:stAmount" minOccurs="0" />
+			<xsd:element name="idBundle" type="common:stText70" minOccurs="0" />
+			<xsd:element name="idCiBundle" type="common:stFiscalCodePA" minOccurs="0" />
+			<xsd:element name="paymentDateTime" type="common:stISODateTime" minOccurs="0" />
+			<xsd:element name="applicationDate" type="common:stISODate" minOccurs="0" />
+			<xsd:element name="transferDate" type="common:stISODate" minOccurs="0" />
+			<xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -174,10 +126,8 @@
 			<xsd:element name="idPA" type="common:stText35" />
 			<xsd:element name="idBrokerPA" type="common:stText35" />
 			<xsd:element name="idStation" type="common:stText35" />
-			<xsd:element name="idServizio"
-				type="common:stIdentificativoServizio" maxOccurs="1" />
-			<xsd:element name="datiSpecificiServizioRequest"
-				type="xsd:base64Binary" maxOccurs="1" />
+			<xsd:element name="idServizio" type="common:stIdentificativoServizio" maxOccurs="1" />
+			<xsd:element name="datiSpecificiServizioRequest" type="xsd:base64Binary" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -185,18 +135,12 @@
 		<xsd:complexContent>
 			<xsd:extension base="common:ctResponse">
 				<xsd:sequence>
-					<xsd:element name="datiSpecificiServizioResponse"
-						type="xsd:base64Binary" minOccurs="0" maxOccurs="1" />
-					<xsd:element name="paymentList"
-						type="pfn:ctPaymentOptionsDescriptionListPA" minOccurs="0" maxOccurs="1"/>
-					<xsd:element name="paymentDescription"
-						type="common:stText140" minOccurs="0" />
-					<xsd:element name="fiscalCodePA"
-						type="common:stFiscalCodePA" minOccurs="0" />
-					<xsd:element name="companyName" type="common:stText140"
-						minOccurs="0" />
-					<xsd:element name="officeName" type="common:stText140"
-						minOccurs="0" />
+					<xsd:element name="datiSpecificiServizioResponse" type="xsd:base64Binary" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="paymentList" type="pfn:ctPaymentOptionsDescriptionListPA" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="paymentDescription" type="common:stText140" minOccurs="0" />
+					<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" minOccurs="0" />
+					<xsd:element name="companyName" type="common:stText140" minOccurs="0" />
+					<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -208,14 +152,10 @@
 			<xsd:element name="idBrokerPA" type="common:stText35" />
 			<xsd:element name="idStation" type="common:stText35" />
 			<xsd:element name="qrCode" type="common:ctQrCode" />
-			<xsd:element name="amount" type="common:stAmount"
-				minOccurs="0" />
-			<xsd:element name="paymentNote" type="common:stText210"
-				minOccurs="0" />
-			<xsd:element name="transferType"
-				type="pfn:stTransferType" minOccurs="0" />
-			<xsd:element name="dueDate" type="common:stISODate"
-				minOccurs="0" />
+			<xsd:element name="amount" type="common:stAmount" minOccurs="0" />
+			<xsd:element name="paymentNote" type="common:stText210" minOccurs="0" />
+			<xsd:element name="transferType" type="pfn:stTransferType" minOccurs="0" />
+			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -223,8 +163,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="common:ctResponse">
 				<xsd:sequence>
-					<xsd:element name="data" type="pfn:ctPaymentPA"
-						minOccurs="0"></xsd:element>
+					<xsd:element name="data" type="pfn:ctPaymentPA" minOccurs="0"></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
