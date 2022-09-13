@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema version="2.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
-	xmlns:ct="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified">
+<schema version="2.0.0" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/" xmlns:ct="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
 	<xsd:simpleType name="stText16">
 		<xsd:restriction base="xsd:string">
@@ -55,6 +51,30 @@
 		<xsd:restriction base="xsd:date" />
 	</xsd:simpleType>
 
+	<xsd:simpleType name="stPaymentMethod">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BBT" /> <!-- Bonifico Bancario di Tesoreria -->
+			<xsd:enumeration value="BP" /> <!-- Bollettino Postale -->
+			<xsd:enumeration value="AD" /> <!-- Addebito Diretto -->
+			<xsd:enumeration value="CP" /> <!-- Carta di Pagamento -->
+			<xsd:enumeration value="PO" /> <!-- Pagamento attivato presso PSP  -->
+			<xsd:enumeration value="OBEP" /> <!-- Online Banking Electronic Payment -->
+			<xsd:enumeration value="JIF" /> <!-- Bancomat Pay  -->
+			<xsd:enumeration value="MYBK" /> <!-- MyBank Seller Bank -->
+			<xsd:enumeration value="PPAL" /> <!-- PayPal -->
+			<xsd:maxLength value="4" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stTouchpoint">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="IO" />
+			<xsd:enumeration value="WISP" />
+			<xsd:enumeration value="CHECKOUT" />
+			<xsd:enumeration value="PSP" /> <!-- Pagamento presso PSP  -->
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:simpleType name="stAmount">
 		<xsd:restriction base="xsd:decimal">
 			<xsd:pattern value="\d+\.\d{2}" />
@@ -72,8 +92,7 @@
 
 	<xsd:simpleType name="stEMail">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern
-				value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
+			<xsd:pattern value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
 			<xsd:maxLength value="256" />
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -100,18 +119,14 @@
 			<xsd:element name="faultCode" type="ct:stFaultCode" />
 			<xsd:element name="faultString" type="xsd:string" />
 			<xsd:element name="id" type="xsd:string" />
-			<xsd:element name="description" type="xsd:string"
-				minOccurs="0" />
+			<xsd:element name="description" type="xsd:string" minOccurs="0" />
 			<xsd:element name="serial" type="xsd:int" minOccurs="0" />
-			<xsd:element name="originalFaultCode" type="xsd:string"
-				minOccurs="0" />
-			<xsd:element name="originalFaultString" type="xsd:string"
-				minOccurs="0" />
-			<xsd:element name="originalDescription" type="xsd:string"
-				minOccurs="0" />
+			<xsd:element name="originalFaultCode" type="xsd:string" minOccurs="0" />
+			<xsd:element name="originalFaultString" type="xsd:string" minOccurs="0" />
+			<xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
-	
+
 	<xsd:simpleType name="stOutcome">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="OK" />
@@ -122,8 +137,7 @@
 	<xsd:complexType name="ctResponse">
 		<xsd:sequence>
 			<xsd:element name="outcome" type="ct:stOutcome" />
-			<xsd:element name="fault" type="ct:ctFaultBean"
-				minOccurs="0" />
+			<xsd:element name="fault" type="ct:ctFaultBean" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -149,8 +163,7 @@
 
 	<xsd:complexType name="ctMetadata">
 		<xsd:sequence>
-			<xsd:element name="mapEntry" type="ct:ctMapEntry"
-				minOccurs="1" maxOccurs="10"></xsd:element>
+			<xsd:element name="mapEntry" type="ct:ctMapEntry" minOccurs="1" maxOccurs="10"></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -214,10 +227,8 @@
 
 	<xsd:complexType name="ctEntityUniqueIdentifier">
 		<xsd:sequence>
-			<xsd:element name="entityUniqueIdentifierType"
-				type="ct:stEntityUniqueIdentifierType" />
-			<xsd:element name="entityUniqueIdentifierValue"
-				type="ct:stEntityUniqueIdentifierValue" />
+			<xsd:element name="entityUniqueIdentifierType" type="ct:stEntityUniqueIdentifierType" />
+			<xsd:element name="entityUniqueIdentifierValue" type="ct:stEntityUniqueIdentifierValue" />
 		</xsd:sequence>
 	</xsd:complexType>
 </schema>
