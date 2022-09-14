@@ -113,7 +113,7 @@
 			<xsd:element name="fee" type="common:stAmount" minOccurs="0" />
 			<xsd:element name="primaryCiIncurredFee" type="common:stAmount" minOccurs="0" />
 			<xsd:element name="idBundle" type="common:stText70" minOccurs="0" />
-			<xsd:element name="idCiBundle" type="common:stFiscalCodePA" minOccurs="0" />
+			<xsd:element name="idCiBundle" type="common:stText70" minOccurs="0" />
 			<xsd:element name="paymentDateTime" type="common:stISODateTime" minOccurs="0" />
 			<xsd:element name="applicationDate" type="common:stISODate" minOccurs="0" />
 			<xsd:element name="transferDate" type="common:stISODate" minOccurs="0" />
