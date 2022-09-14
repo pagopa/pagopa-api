@@ -72,6 +72,7 @@
 			<xsd:enumeration value="WISP" />
 			<xsd:enumeration value="CHECKOUT" />
 			<xsd:enumeration value="PSP" /> <!-- Pagamento presso PSP  -->
+			<xsd:maxLength value="10" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
