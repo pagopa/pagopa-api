@@ -71,7 +71,11 @@
 			<xsd:enumeration value="IO" />
 			<xsd:enumeration value="WISP" />
 			<xsd:enumeration value="CHECKOUT" />
-			<xsd:enumeration value="PSP" /> <!-- Pagamento presso PSP  -->
+			<xsd:enumeration value="PSP" /> <!-- Pagamento presso PSP  generico -->
+			<xsd:enumeration value="ATM" /> <!-- Pagamento presso PSP  ATM -->
+			<xsd:enumeration value="BETTING" /> <!-- Pagamento presso PSP  ricevitoria -->
+			<xsd:enumeration value="TS" /> <!-- Pagamento presso PSP  tabaccheria -->
+			<xsd:enumeration value="HB" /> <!-- Pagamento presso PSP  home banking -->
 			<xsd:maxLength value="10" />
 		</xsd:restriction>
 	</xsd:simpleType>
