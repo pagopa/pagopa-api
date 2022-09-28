@@ -7,47 +7,39 @@
 	targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode">
 	<wsdl:types>
 
-		<xsd:schema version="1.0.0"
-			xmlns:imp_1="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v1.0.0/">
+		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/paForNode.xsd"
 				namespace="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v1.0.0/"></xsd:import>
 
 			<xsd:element name="paVeriFyPaymentNoticeReq"
-				type="imp_1:paVerifyPaymentNoticeReq" />
+				type="paVerifyPaymentNoticeReq" />
 			<xsd:element name="paVeriFyPaymentNoticeRes"
-				type="imp_1:paVerifyPaymentNoticeRes" />
+				type="paVerifyPaymentNoticeRes" />
 
 			<xsd:element name="paGetPaymentReq"
-				type="imp_1:paGetPaymentReq" />
+				type="paGetPaymentReq" />
 			<xsd:element name="paGetPaymentRes"
-				type="imp_1:paGetPaymentRes" />
+				type="paGetPaymentRes" />
 
 			<xsd:element name="paSendRTReq"
-				type="imp_1:paSendRTReq" />
+				type="paSendRTReq" />
 			<xsd:element name="paSendRTRes"
-				type="imp_1:paSendRTRes" />
-
-		</xsd:schema>
-		
-		<xsd:schema version="2.0.0"
-			xmlns:imp_2="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/">
-			<xsd:import schemaLocation="../xsd/paForNode_2_0_0.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v2.0.0/"></xsd:import>
+				type="paSendRTRes" />
 
 			<xsd:element name="paDemandPaymentNoticeRequest"
-				type="imp_2:paDemandPaymentNoticeRequest" />
+				type="paDemandPaymentNoticeRequest" />
 			<xsd:element name="paDemandPaymentNoticeResponse"
-				type="imp_2:paDemandPaymentNoticeResponse" />
+				type="paDemandPaymentNoticeResponse" />
 
 			<xsd:element name="paGetPaymentV2Request"
-				type="imp_2:paGetPaymentV2Request" />
+				type="paGetPaymentV2Request" />
 			<xsd:element name="paGetPaymentV2Response"
-				type="imp_2:paGetPaymentV2Response" />
+				type="paGetPaymentV2Response" />
 
 			<xsd:element name="paSendRTV2Request"
-				type="imp_2:paSendRTV2Request" />
+				type="paSendRTV2Request" />
 			<xsd:element name="paSendRTV2Response"
-				type="imp_2:paSendRTV2Response" />
+				type="paSendRTV2Response" />
 
 		</xsd:schema>
 	</wsdl:types>

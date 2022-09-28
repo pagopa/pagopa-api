@@ -6,72 +6,63 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPsp">
 	<wsdl:types>
-		<xsd:schema version="1.0.0"
-			xmlns:imp_1="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/v1.0.0/">
-			<xsd:import schemaLocation="../xsd/nodeForPsp.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/v1.0.0/"></xsd:import>
+		<xsd:schema>
+			<xsd:import schemaLocation="../xsd/nodeForPsp.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" />
 
 			<xsd:element name="verificaBollettinoReq"
-				type="imp_1:verificaBollettinoReq" />
+				type="verificaBollettinoReq" />
 			<xsd:element name="verificaBollettinoRes"
-				type="imp_1:verificaBollettinoRes" />
+				type="verificaBollettinoRes" />
 
 			<xsd:element name="verifyPaymentNoticeReq"
-				type="imp_1:verifyPaymentNoticeReq" />
+				type="verifyPaymentNoticeReq" />
 			<xsd:element name="verifyPaymentNoticeRes"
-				type="imp_1:verifyPaymentNoticeRes" />
+				type="verifyPaymentNoticeRes" />
 
 			<xsd:element name="activatePaymentNoticeReq"
-				type="imp_1:activatePaymentNoticeReq" />
+				type="activatePaymentNoticeReq" />
 			<xsd:element name="activatePaymentNoticeRes"
-				type="imp_1:activatePaymentNoticeRes" />
+				type="activatePaymentNoticeRes" />
 
 			<xsd:element name="sendPaymentOutcomeReq"
-				type="imp_1:sendPaymentOutcomeReq" />
+				type="sendPaymentOutcomeReq" />
 			<xsd:element name="sendPaymentOutcomeRes"
-				type="imp_1:sendPaymentOutcomeRes" />
+				type="sendPaymentOutcomeRes" />
 
 			<xsd:element name="nodoInviaFlussoRendicontazioneRequest"
-				type="imp_1:nodoInviaFlussoRendicontazioneRequest" />
+				type="nodoInviaFlussoRendicontazioneRequest" />
 			<xsd:element name="nodoInviaFlussoRendicontazioneResponse"
-				type="imp_1:nodoInviaFlussoRendicontazioneResponse" />
+				type="nodoInviaFlussoRendicontazioneResponse" />
 				
 			<xsd:element name="nodoChiediTemplateInformativaPSPRequest"
-				type="imp_1:nodoChiediTemplateInformativaPSPRequest" />
+				type="nodoChiediTemplateInformativaPSPRequest" />
 			<xsd:element name="nodoChiediTemplateInformativaPSPResponse"
-				type="imp_1:nodoChiediTemplateInformativaPSPResponse" />
+				type="nodoChiediTemplateInformativaPSPResponse" />
 				
 			<xsd:element name="nodoChiediInformativaPARequest"
-				type="imp_1:nodoChiediInformativaPARequest" />
+				type="nodoChiediInformativaPARequest" />
 			<xsd:element name="nodoChiediInformativaPAResponse"
-				type="imp_1:nodoChiediInformativaPAResponse" />
+				type="nodoChiediInformativaPAResponse" />
 				
-				
-		</xsd:schema>
-		<xsd:schema version="2.0.0"
-			xmlns:imp_2="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/v2.0.0/">
-			<xsd:import schemaLocation="../xsd/nodeForPsp_2_0_0.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/v2.0.0/"></xsd:import>
-
 			<xsd:element name="demandPaymentNoticeRequest"
-				type="imp_2:demandPaymentNoticeRequest" />
+				type="demandPaymentNoticeRequest" />
 			<xsd:element name="demandPaymentNoticeResponse"
-				type="imp_2:demandPaymentNoticeResponse" />
+				type="demandPaymentNoticeResponse" />
 
 			<xsd:element name="activatePaymentNoticeV2Request"
-				type="imp_2:activatePaymentNoticeV2Request" />
+				type="activatePaymentNoticeV2Request" />
 			<xsd:element name="activatePaymentNoticeV2Response"
-				type="imp_2:activatePaymentNoticeV2Response" />
+				type="activatePaymentNoticeV2Response" />
 
 			<xsd:element name="sendPaymentOutcomeV2Request"
-				type="imp_2:sendPaymentOutcomeV2Request" />
+				type="sendPaymentOutcomeV2Request" />
 			<xsd:element name="sendPaymentOutcomeV2Response"
-				type="imp_2:sendPaymentOutcomeV2Response" />
+				type="sendPaymentOutcomeV2Response" />
 				
 			<xsd:element name="nodoChiediCatalogoServiziV2Request"
-				type="imp_2:nodoChiediCatalogoServiziV2Request" />
+				type="nodoChiediCatalogoServiziV2Request" />
 			<xsd:element name="nodoChiediCatalogoServiziV2Response"
-				type="imp_2:nodoChiediCatalogoServiziV2Response" />
+				type="nodoChiediCatalogoServiziV2Response" />
 				
 		</xsd:schema>
 	</wsdl:types>

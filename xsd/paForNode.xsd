@@ -154,6 +154,13 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:complexType name="ctResponse">
+		<xsd:sequence>
+			<xsd:element name="outcome" type="stOutcome" />
+			<xsd:element name="fault" type="ctFaultBean" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
 	<xsd:simpleType name="stIdTransfer">
 		<xsd:restriction base="xsd:int">
 			<xsd:enumeration value="1" />
@@ -263,14 +270,6 @@
 				type="tns:stEntityUniqueIdentifierType" />
 			<xsd:element name="entityUniqueIdentifierValue"
 				type="tns:stEntityUniqueIdentifierValue" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="ctResponse">
-		<xsd:sequence>
-			<xsd:element name="outcome" type="tns:stOutcome" />
-			<xsd:element name="fault" type="tns:ctFaultBean"
-				minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -847,5 +846,68 @@
 
 	<xsd:element name="paSendRTReq" type="tns:paSendRTReq" />
 	<xsd:element name="paSendRTRes" type="tns:paSendRTRes" />
+
+	<xsd:complexType name="paDemandPaymentNoticeRequest">
+		<xsd:sequence>
+			<xsd:element name="idPA" type="stText35" />
+			<xsd:element name="idBrokerPA" type="stText35" />
+			<xsd:element name="idStation" type="stText35" />
+			<xsd:element name="idServizio" type="stIdentificativoServizio" maxOccurs="1" />
+			<xsd:element name="datiSpecificiServizioRequest" type="xsd:base64Binary" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="paDemandPaymentNoticeResponse">
+		<xsd:complexContent>
+			<xsd:extension base="tns:ctResponse">
+				<xsd:sequence>
+					<xsd:element name="datiSpecificiServizioResponse" type="xsd:base64Binary" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="paymentList" type="tns:ctPaymentOptionsDescriptionListPA" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="paymentDescription" type="stText140" minOccurs="0" />
+					<xsd:element name="fiscalCodePA" type="stFiscalCodePA" minOccurs="0" />
+					<xsd:element name="companyName" type="stText140" minOccurs="0" />
+					<xsd:element name="officeName" type="stText140" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="paGetPaymentV2Request">
+		<xsd:sequence>
+			<xsd:element name="idPA" type="stText35" />
+			<xsd:element name="idBrokerPA" type="stText35" />
+			<xsd:element name="idStation" type="stText35" />
+			<xsd:element name="qrCode" type="ctQrCode" />
+			<xsd:element name="amount" type="stAmount" minOccurs="0" />
+			<xsd:element name="paymentNote" type="stText210" minOccurs="0" />
+			<xsd:element name="transferType" type="tns:stTransferType" minOccurs="0" />
+			<xsd:element name="dueDate" type="stISODate" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="paGetPaymentV2Response">
+		<xsd:complexContent>
+			<xsd:extension base="tns:ctResponse">
+				<xsd:sequence>
+					<xsd:element name="data" type="tns:ctPaymentPA" minOccurs="0"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="paSendRTV2Request">
+		<xsd:sequence>
+			<xsd:element name="idPA" type="stText35" />
+			<xsd:element name="idBrokerPA" type="stText35" />
+			<xsd:element name="idStation" type="stText35" />
+			<xsd:element name="receipt" type="tns:ctReceipt" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="paSendRTV2Response">
+		<xsd:complexContent>
+			<xsd:extension base="tns:ctResponse"></xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 
 </xsd:schema>

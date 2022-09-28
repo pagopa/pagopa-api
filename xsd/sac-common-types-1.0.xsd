@@ -42,11 +42,10 @@
 
 	<xsd:complexType name="ctMetadata">
 		<xsd:sequence>
-			<xsd:element name="mapEntry" type="ctMapEntry"
-				minOccurs="1" maxOccurs="10"></xsd:element>
+			<xsd:element name="mapEntry" type="ctMapEntry" minOccurs="1" maxOccurs="10"></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
-	
+
 	<xsd:simpleType name="stCausaleVersamento">
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="140" />
@@ -86,8 +85,7 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:simpleType
-		name="stIdentificativoMessaggioRichiesta">
+	<xsd:simpleType name="stIdentificativoMessaggioRichiesta">
 		<xsd:restriction base="xsd:string">
 			<xsd:minLength value="1" />
 			<xsd:maxLength value="20" />
@@ -110,8 +108,7 @@
 
 	<xsd:simpleType name="stEMail">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern
-				value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
+			<xsd:pattern value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
 			<xsd:maxLength value="256" />
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -134,14 +131,12 @@
 			<xsd:element name="faultCode" type="xsd:string" />
 			<xsd:element name="faultString" type="xsd:string" />
 			<xsd:element name="id" type="xsd:string" />
-			<xsd:element name="description" type="xsd:string"
-				minOccurs="0" />
+			<xsd:element name="description" type="xsd:string" minOccurs="0" />
 			<xsd:element name="serial" type="xsd:int" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType
-		name="ctIdentificativoUnivocoPersonaFG">
+	<xsd:complexType name="ctIdentificativoUnivocoPersonaFG">
 		<xsd:sequence>
 			<xsd:element name="tipoIdentificativoUnivoco" type="stTipoIdentificativoUnivocoPersFG" minOccurs="1">
 				<xsd:annotation>
@@ -151,8 +146,7 @@
 					<xsd:documentation>G - Persona Giuridica</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="codiceIdentificativoUnivoco"
-				type="stText35" minOccurs="1">
+			<xsd:element name="codiceIdentificativoUnivoco" type="stText35" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Campo alfanumerico che può contenere il codice
 						fiscale o, in alternativa, la partita IVA del soggetto.
@@ -164,15 +158,13 @@
 
 	<xsd:complexType name="ctSoggettoPagatore">
 		<xsd:sequence>
-			<xsd:element name="anagraficaPagatore" type="stText70"
-				minOccurs="1">
+			<xsd:element name="anagraficaPagatore" type="stText70" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Indica il nominativo o la ragione sociale del
 						pagatore.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="identificativoUnivocoPagatore"
-				type="ctIdentificativoUnivocoPersonaFG" minOccurs="1">
+			<xsd:element name="identificativoUnivocoPagatore" type="ctIdentificativoUnivocoPersonaFG" minOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Aggregazione che riporta le informazioni
 						concernenti l’identificazione fiscale
@@ -185,8 +177,7 @@
 
 	<xsd:complexType name="ctRisposta">
 		<xsd:sequence>
-			<xsd:element name="fault" type="ctFaultBean"
-				minOccurs="0" />
+			<xsd:element name="fault" type="ctFaultBean" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -205,8 +196,7 @@
 
 	<xsd:simpleType name="stIBANIdentifier">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern
-				value="[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}" />
+			<xsd:pattern value="[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}" />
 		</xsd:restriction>
 	</xsd:simpleType>
 

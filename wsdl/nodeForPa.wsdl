@@ -6,20 +6,19 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="nodeForPa"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa">
 	<wsdl:types>
-		<xsd:schema version="1.0.0"
-			xmlns:imp="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v1.0.0/">
+		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/nodeForPa.xsd"
 				namespace="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v1.0.0/"></xsd:import>
 
 			<xsd:element name="nodoChiediElencoFlussiRendicontazioneRequest"
-				type="imp:nodoChiediElencoFlussiRendicontazioneRequest" />
+				type="nodoChiediElencoFlussiRendicontazioneRequest" />
 			<xsd:element name="nodoChiediElencoFlussiRendicontazioneResponse"
-				type="imp:nodoChiediElencoFlussiRendicontazioneResponse" />
+				type="nodoChiediElencoFlussiRendicontazioneResponse" />
 
 			<xsd:element name="nodoChiediFlussoRendicontazioneRequest"
-				type="imp:nodoChiediFlussoRendicontazioneRequest" />
+				type="nodoChiediFlussoRendicontazioneRequest" />
 			<xsd:element name="nodoChiediFlussoRendicontazioneResponse"
-				type="imp:nodoChiediFlussoRendicontazioneResponse" />
+				type="nodoChiediFlussoRendicontazioneResponse" />
 				
 		</xsd:schema>
 	</wsdl:types>
@@ -77,8 +76,7 @@
 	<wsdl:service name="nodeForPaService">
 		<wsdl:port binding="tns:nodeForPaBinding"
 			name="nodeForPaPort">
-			<soap:address
-				<soap:address location="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa" />
+			<soap:address location="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

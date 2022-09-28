@@ -119,6 +119,34 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:complexType name="ctPaymentList">
+		<xsd:sequence>
+			<xsd:element name="payment" type="tns:ctPayment"
+				maxOccurs="5" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ctPayment">
+		<xsd:sequence>
+			<xsd:element name="paymentToken"
+				type="tns:stPaymentToken" />
+			<xsd:element name="paymentDescription"
+				type="common:stText140" />
+			<xsd:element name="fiscalCodePA"
+				type="tns:stFiscalCodePA" />
+			<xsd:element name="companyName" type="common:stText140" />
+			<xsd:element name="officeName" type="common:stText140"
+				minOccurs="0" />
+			<xsd:element name="creditorReferenceId"
+				type="common:stText35" />
+			<xsd:element name="debtAmount" type="tns:stAmount" />
+			<xsd:element name="transferList"
+				type="tns:ctTransferListPSP" />
+			<xsd:element name="metadata" type="common:ctMetadata"
+				minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
 	<xsd:complexType name="ctTransferPSP">
 		<xsd:sequence>
 			<xsd:element name="idTransfer" type="tns:stIdTransfer" />
@@ -229,5 +257,27 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:complexType name="pspNotifyPaymentV2">
+		<xsd:sequence>
+			<xsd:element name="idPSP" type="common:stText35" />
+			<xsd:element name="idBrokerPSP" type="common:stText35" />
+			<xsd:element name="idChannel" type="common:stText35" />
+			<xsd:element name="transactionId" type="common:stText35" />
+			<xsd:element name="totalAmount" type="tns:stAmount" />
+			<xsd:element name="fee" type="tns:stAmount" />
+			<xsd:element name="timestampOperation"
+				type="common:stISODateTime" />
+			<xsd:element name="paymentList"
+				type="tns:ctPaymentList" />
+			<xsd:element name="additionalPaymentInformations"
+				type="common:ctMetadata" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="pspNotifyPaymentV2Response">
+		<xsd:complexContent>
+			<xsd:extension base="tns:ctResponse" />
+		</xsd:complexContent>
+	</xsd:complexType>
 		
 </schema>
