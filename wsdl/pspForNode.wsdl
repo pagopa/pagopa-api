@@ -4,14 +4,15 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:pfn="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode">
 	<wsdl:types>
 		<xsd:schema>
-            <xsd:import schemaLocation="../xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v1.0.0/" />
-            <xsd:element name="pspNotifyPaymentReq" type="pspNotifyPaymentReq" />
-			<xsd:element name="pspNotifyPaymentRes" type="pspNotifyPaymentRes" />
-			<xsd:element name="pspNotifyPaymentV2" type="pspNotifyPaymentV2" />
-			<xsd:element name="pspNotifyPaymentV2Response" type="pspNotifyPaymentV2Response" />
+            <xsd:import schemaLocation="../xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd" />
+            <xsd:element name="pspNotifyPaymentReq" type="pfn:pspNotifyPaymentReq" />
+			<xsd:element name="pspNotifyPaymentRes" type="pfn:pspNotifyPaymentRes" />
+			<xsd:element name="pspNotifyPaymentV2" type="pfn:pspNotifyPaymentV2" />
+			<xsd:element name="pspNotifyPaymentV2Response" type="pfn:pspNotifyPaymentV2Response" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="pspNotifyPaymentReq">

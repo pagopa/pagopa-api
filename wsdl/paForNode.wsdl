@@ -4,42 +4,43 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/paForNode"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:pafn="http://pagopa-api.pagopa.gov.it/node/paForNode.xsd"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode">
 	<wsdl:types>
 
 		<xsd:schema version="1.0.0">
-			<xsd:import schemaLocation="../xsd/paForNode.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/paForNode/xsd/v1.0.0/"></xsd:import>
+			<xsd:import schemaLocation="../xsd/paForNode.xsd" 
+				namespace="http://pagopa-api.pagopa.gov.it/node/paForNode.xsd"></xsd:import>
 
 			<xsd:element name="paVeriFyPaymentNoticeReq"
-				type="paVerifyPaymentNoticeReq" />
+				type="pafn:paVerifyPaymentNoticeReq" />
 			<xsd:element name="paVeriFyPaymentNoticeRes"
-				type="paVerifyPaymentNoticeRes" />
+				type="pafn:paVerifyPaymentNoticeRes" />
 
 			<xsd:element name="paGetPaymentReq"
-				type="paGetPaymentReq" />
+				type="pafn:paGetPaymentReq" />
 			<xsd:element name="paGetPaymentRes"
-				type="paGetPaymentRes" />
+				type="pafn:paGetPaymentRes" />
 
 			<xsd:element name="paSendRTReq"
-				type="paSendRTReq" />
+				type="pafn:paSendRTReq" />
 			<xsd:element name="paSendRTRes"
-				type="paSendRTRes" />
+				type="pafn:paSendRTRes" />
 
 			<xsd:element name="paDemandPaymentNoticeRequest"
-				type="paDemandPaymentNoticeRequest" />
+				type="pafn:paDemandPaymentNoticeRequest" />
 			<xsd:element name="paDemandPaymentNoticeResponse"
-				type="paDemandPaymentNoticeResponse" />
+				type="pafn:paDemandPaymentNoticeResponse" />
 
 			<xsd:element name="paGetPaymentV2Request"
-				type="paGetPaymentV2Request" />
+				type="pafn:paGetPaymentV2Request" />
 			<xsd:element name="paGetPaymentV2Response"
-				type="paGetPaymentV2Response" />
+				type="pafn:paGetPaymentV2Response" />
 
 			<xsd:element name="paSendRTV2Request"
-				type="paSendRTV2Request" />
+				type="pafn:paSendRTV2Request" />
 			<xsd:element name="paSendRTV2Response"
-				type="paSendRTV2Response" />
+				type="pafn:paSendRTV2Response" />
 
 		</xsd:schema>
 	</wsdl:types>

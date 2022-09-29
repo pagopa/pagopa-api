@@ -4,65 +4,66 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/nodeForPsp"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:nfp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPsp">
 	<wsdl:types>
 		<xsd:schema>
 			<xsd:import schemaLocation="../xsd/nodeForPsp.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" />
 
 			<xsd:element name="verificaBollettinoReq"
-				type="verificaBollettinoReq" />
+				type="nfp:verificaBollettinoReq" />
 			<xsd:element name="verificaBollettinoRes"
-				type="verificaBollettinoRes" />
+				type="nfp:verificaBollettinoRes" />
 
 			<xsd:element name="verifyPaymentNoticeReq"
-				type="verifyPaymentNoticeReq" />
+				type="nfp:verifyPaymentNoticeReq" />
 			<xsd:element name="verifyPaymentNoticeRes"
-				type="verifyPaymentNoticeRes" />
+				type="nfp:verifyPaymentNoticeRes" />
 
 			<xsd:element name="activatePaymentNoticeReq"
-				type="activatePaymentNoticeReq" />
+				type="nfp:activatePaymentNoticeReq" />
 			<xsd:element name="activatePaymentNoticeRes"
-				type="activatePaymentNoticeRes" />
+				type="nfp:activatePaymentNoticeRes" />
 
 			<xsd:element name="sendPaymentOutcomeReq"
-				type="sendPaymentOutcomeReq" />
+				type="nfp:sendPaymentOutcomeReq" />
 			<xsd:element name="sendPaymentOutcomeRes"
-				type="sendPaymentOutcomeRes" />
+				type="nfp:sendPaymentOutcomeRes" />
 
 			<xsd:element name="nodoInviaFlussoRendicontazioneRequest"
-				type="nodoInviaFlussoRendicontazioneRequest" />
+				type="nfp:nodoInviaFlussoRendicontazioneRequest" />
 			<xsd:element name="nodoInviaFlussoRendicontazioneResponse"
-				type="nodoInviaFlussoRendicontazioneResponse" />
+				type="nfp:nodoInviaFlussoRendicontazioneResponse" />
 				
 			<xsd:element name="nodoChiediTemplateInformativaPSPRequest"
-				type="nodoChiediTemplateInformativaPSPRequest" />
+				type="nfp:nodoChiediTemplateInformativaPSPRequest" />
 			<xsd:element name="nodoChiediTemplateInformativaPSPResponse"
-				type="nodoChiediTemplateInformativaPSPResponse" />
+				type="nfp:nodoChiediTemplateInformativaPSPResponse" />
 				
 			<xsd:element name="nodoChiediInformativaPARequest"
-				type="nodoChiediInformativaPARequest" />
+				type="nfp:nodoChiediInformativaPARequest" />
 			<xsd:element name="nodoChiediInformativaPAResponse"
-				type="nodoChiediInformativaPAResponse" />
+				type="nfp:nodoChiediInformativaPAResponse" />
 				
 			<xsd:element name="demandPaymentNoticeRequest"
-				type="demandPaymentNoticeRequest" />
+				type="nfp:demandPaymentNoticeRequest" />
 			<xsd:element name="demandPaymentNoticeResponse"
-				type="demandPaymentNoticeResponse" />
+				type="nfp:demandPaymentNoticeResponse" />
 
 			<xsd:element name="activatePaymentNoticeV2Request"
-				type="activatePaymentNoticeV2Request" />
+				type="nfp:activatePaymentNoticeV2Request" />
 			<xsd:element name="activatePaymentNoticeV2Response"
-				type="activatePaymentNoticeV2Response" />
+				type="nfp:activatePaymentNoticeV2Response" />
 
 			<xsd:element name="sendPaymentOutcomeV2Request"
-				type="sendPaymentOutcomeV2Request" />
+				type="nfp:sendPaymentOutcomeV2Request" />
 			<xsd:element name="sendPaymentOutcomeV2Response"
-				type="sendPaymentOutcomeV2Response" />
+				type="nfp:sendPaymentOutcomeV2Response" />
 				
 			<xsd:element name="nodoChiediCatalogoServiziV2Request"
-				type="nodoChiediCatalogoServiziV2Request" />
+				type="nfp:nodoChiediCatalogoServiziV2Request" />
 			<xsd:element name="nodoChiediCatalogoServiziV2Response"
-				type="nodoChiediCatalogoServiziV2Response" />
+				type="nfp:nodoChiediCatalogoServiziV2Response" />
 				
 		</xsd:schema>
 	</wsdl:types>

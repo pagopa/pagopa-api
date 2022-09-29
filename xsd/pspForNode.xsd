@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v1.0.0/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/pspForNode/xsd/v1.0.0/"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd"
 	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
 	elementFormDefault="qualified">
 	
@@ -170,43 +169,40 @@
 		<xsd:sequence>
 			<xsd:element name="rrn" type="xsd:string" />
 			<xsd:element name="outcomePaymentGateway"
-				type="xsd:string" /> <!--esitoTransazioneCarta -->
-			<xsd:element name="totalAmount" type="tns:stAmount" /> <!--fee + debtAmount -->
+				type="xsd:string" /> 
+			<xsd:element name="totalAmount" type="tns:stAmount" />
 			<xsd:element name="fee" type="tns:stAmount" />
 			<xsd:element name="timestampOperation"
-				type="tns:stISODateTime" /> <!--timestampOperazione -->
-			<xsd:element name="authorizationCode" type="tns:stText6" /> <!--codiceAutorizzativo -->
+				type="tns:stISODateTime" /> 
+			<xsd:element name="authorizationCode" type="tns:stText6" /> 
 			<xsd:element name="paymentGateway" type="tns:stText35"
-				minOccurs="0" /> <!-- for future use -->
+				minOccurs="0" /> 
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="ctPaypalPayment">
 		<xsd:sequence>
-			<xsd:element name="transactionId" type="xsd:string" /> <!-- identificativo univoco della transazione sulla piattafoma pagoPA -->
-			<xsd:element name="pspTransactionId" type="xsd:string" /> <!-- identificativo univoco esterno , generato dal servizio esterno al PSP -->
-			<xsd:element name="totalAmount" type="tns:stAmount" /> <!--fee + debtAmount -->
+			<xsd:element name="transactionId" type="xsd:string" /> 
+			<xsd:element name="pspTransactionId" type="xsd:string" /> 
+			<xsd:element name="totalAmount" type="tns:stAmount" /> 
 			<xsd:element name="fee" type="tns:stAmount" />
 			<xsd:element name="timestampOperation"
-				type="tns:stISODateTime" /> <!--timestampOperazione -->
+				type="tns:stISODateTime" />
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="ctBancomatpayPayment">
 		<xsd:sequence>
-			<xsd:element name="transactionId" type="xsd:string" /> <!--transactionId same value of idPagoPa input parameter in richiestaPagamentoPagopa 
-				request -->
+			<xsd:element name="transactionId" type="xsd:string" /> 
 			<xsd:element name="outcomePaymentGateway"
-				type="xsd:string" /> <!-- same value of esitoPagamento input parameter in ResponseInserimentoRichiestaPagamentoPagoPa 
-				request -->
-			<xsd:element name="totalAmount" type="tns:stAmount" /> <!--fee + debtAmount -->
+				type="xsd:string" /> 
+			<xsd:element name="totalAmount" type="tns:stAmount" /> 
 			<xsd:element name="fee" type="tns:stAmount" />
 			<xsd:element name="timestampOperation"
-				type="tns:stISODateTime" /> <!--timestampOperazione -->
-			<xsd:element name="authorizationCode" type="tns:stText6" /> <!-- same value of endToEndId input parameter in in ResponseInserimentoRichiestaPagamentoPagoPa 
-				request -->
+				type="tns:stISODateTime" /> 
+			<xsd:element name="authorizationCode" type="tns:stText6" /> 
 			<xsd:element name="paymentGateway" type="tns:stText35"
-				minOccurs="0" /> <!-- for future use -->
+				minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -237,7 +233,6 @@
 			<xsd:element name="debtAmount" type="tns:stAmount" />
 			<xsd:element name="transferList"
 				type="tns:ctTransferListPSP" />
-			<!--Choice for future use. In this moment is defined only credit card -->
 			<xsd:choice>
 				<xsd:element name="creditCardPayment"
 					type="tns:ctCreditCardPayment" />

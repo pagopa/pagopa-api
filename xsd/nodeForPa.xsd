@@ -1,15 +1,14 @@
 <schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v1.0.0/"
-	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v1.0.0/"
-	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
+	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
 	elementFormDefault="qualified">
 
 	<xs:import
-		namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
-		schemaLocation="common-types_2_0_0.xsd"
+		namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
+		schemaLocation="sac-common-types-1.0.xsd"
 		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
-
 
 	<xsd:simpleType name="stPassword">
 		<xsd:restriction base="xsd:string">
@@ -22,7 +21,7 @@
 		<xsd:sequence>
 			<xsd:element name="totRestituiti" type="xsd:int" />
 			<xsd:element name="idRendicontazione"
-				type="nfpa:tipoIdRendicontazione" nillable="true" minOccurs="0"
+				type="tns:tipoIdRendicontazione" nillable="true" minOccurs="0"
 				maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -42,7 +41,7 @@
 				type="common:stText35" />
 			<xsd:element name="identificativoStazioneIntermediarioPA"
 				type="common:stText35" />
-			<xsd:element name="password" type="nfpa:stPassword" />
+			<xsd:element name="password" type="tns:stPassword" />
 			<xsd:element name="identificativoDominio"
 				type="common:stText35" minOccurs="0" />
 			<xsd:element name="identificativoPSP"
@@ -53,10 +52,10 @@
 	<xsd:complexType
 		name="nodoChiediElencoFlussiRendicontazioneResponse">
 		<xsd:complexContent>
-			<xsd:extension base="common:risposta">
+			<xsd:extension base="common:ctRisposta">
 				<xsd:sequence>
 					<xsd:element name="elencoFlussiRendicontazione"
-						type="nfpa:tipoElencoFlussiRendicontazione" minOccurs="0" />
+						type="tns:tipoElencoFlussiRendicontazione" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -68,7 +67,7 @@
 				type="common:stText35" />
 			<xsd:element name="identificativoStazioneIntermediarioPA"
 				type="common:stText35" />
-			<xsd:element name="password" type="nfpa:stPassword" />
+			<xsd:element name="password" type="tns:stPassword" />
 			<xsd:element name="identificativoDominio"
 				type="common:stText35" minOccurs="0" />
 			<xsd:element name="identificativoPSP"
@@ -81,7 +80,7 @@
 	<xsd:complexType
 		name="nodoChiediFlussoRendicontazioneResponse">
 		<xsd:complexContent>
-			<xsd:extension base="common:risposta">
+			<xsd:extension base="common:ctRisposta">
 				<xsd:sequence>
 					<xsd:element name="xmlRendicontazione"
 						type="xsd:base64Binary" minOccurs="0"

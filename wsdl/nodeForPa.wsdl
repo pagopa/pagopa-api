@@ -3,22 +3,23 @@
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="nodeForPa"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa">
 	<wsdl:types>
 		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/nodeForPa.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/nodeForPa/xsd/v1.0.0/"></xsd:import>
+				namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"></xsd:import>
 
 			<xsd:element name="nodoChiediElencoFlussiRendicontazioneRequest"
-				type="nodoChiediElencoFlussiRendicontazioneRequest" />
+				type="nfpa:nodoChiediElencoFlussiRendicontazioneRequest" />
 			<xsd:element name="nodoChiediElencoFlussiRendicontazioneResponse"
-				type="nodoChiediElencoFlussiRendicontazioneResponse" />
+				type="nfpa:nodoChiediElencoFlussiRendicontazioneResponse" />
 
 			<xsd:element name="nodoChiediFlussoRendicontazioneRequest"
-				type="nodoChiediFlussoRendicontazioneRequest" />
+				type="nfpa:nodoChiediFlussoRendicontazioneRequest" />
 			<xsd:element name="nodoChiediFlussoRendicontazioneResponse"
-				type="nodoChiediFlussoRendicontazioneResponse" />
+				type="nfpa:nodoChiediFlussoRendicontazioneResponse" />
 				
 		</xsd:schema>
 	</wsdl:types>
