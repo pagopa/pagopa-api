@@ -1,14 +1,6 @@
-<schema version="1.0.0" 
-	xmlns="http://www.w3.org/2001/XMLSchema" 
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-	targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" 
-	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" elementFormDefault="qualified">
+<schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" elementFormDefault="qualified">
 
-	<xs:import
-		namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
-		schemaLocation="sac-common-types-1.0.xsd"
-		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="sac-common-types-1.0.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
 	<xsd:simpleType name="stText16">
 		<xsd:restriction base="xsd:string">
@@ -406,7 +398,7 @@
 			<xsd:length value="5" />
 		</xsd:restriction>
 	</xsd:simpleType>
-	
+
 	<!--Element req/res -->
 
 	<xsd:complexType name="verificaBollettinoReq">
@@ -426,17 +418,12 @@
 
 				<xsd:sequence>
 					<xsd:element name="paymentBollettinoList" type="tns:ctPaymentOptionsBollettinoDescriptionList" minOccurs="0" />
-					<xsd:element name="paymentDescription" type="tns:stText210" minOccurs="0">
-					</xsd:element>
-					<xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0">
-					</xsd:element>
-					<xsd:element name="noticeNumber" type="tns:stNoticeNumber" minOccurs="0">
-					</xsd:element>
+					<xsd:element name="paymentDescription" type="tns:stText210" minOccurs="0"></xsd:element>
+					<xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0"></xsd:element>
+					<xsd:element name="noticeNumber" type="tns:stNoticeNumber" minOccurs="0"></xsd:element>
 
-					<xsd:element name="companyName" type="tns:stText140" minOccurs="0">
-					</xsd:element>
-					<xsd:element name="officeName" type="tns:stText140" minOccurs="0">
-					</xsd:element>
+					<xsd:element name="companyName" type="tns:stText140" minOccurs="0"></xsd:element>
+					<xsd:element name="officeName" type="tns:stText140" minOccurs="0"></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -602,26 +589,6 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-
-	<!-- Wrapper Elements -->
-	<xsd:element name="verificaBollettinoReq" type="tns:verificaBollettinoReq" />
-	<xsd:element name="verificaBollettinoRes" type="tns:verificaBollettinoRes" />
-	<xsd:element name="verifyPaymentNoticeReq" type="tns:verifyPaymentNoticeReq" />
-	<xsd:element name="verifyPaymentNoticeRes" type="tns:verifyPaymentNoticeRes" />
-	<xsd:element name="activatePaymentNoticeReq" type="tns:activatePaymentNoticeReq" />
-	<xsd:element name="activatePaymentNoticeRes" type="tns:activatePaymentNoticeRes" />
-	<xsd:element name="sendPaymentOutcomeReq" type="tns:sendPaymentOutcomeReq" />
-	<xsd:element name="sendPaymentOutcomeRes" type="tns:sendPaymentOutcomeRes" />
-
-	<xsd:element name="nodoInviaFlussoRendicontazioneRequest" type="tns:nodoInviaFlussoRendicontazioneRequest" />
-	<xsd:element name="nodoInviaFlussoRendicontazioneResponse" type="tns:nodoInviaFlussoRendicontazioneResponse" />
-
-	<xsd:element name="nodoChiediTemplateInformativaPSPRequest" type="tns:nodoChiediTemplateInformativaPSPRequest" />
-	<xsd:element name="nodoChiediTemplateInformativaPSPResponse" type="tns:nodoChiediTemplateInformativaPSPResponse" />
-
-	<xsd:element name="nodoChiediInformativaPARequest" type="tns:nodoChiediInformativaPARequest" />
-	<xsd:element name="nodoChiediInformativaPAResponse" type="tns:nodoChiediInformativaPAResponse" />
-
 	<xsd:complexType name="demandPaymentNoticeRequest">
 		<xsd:sequence>
 			<xsd:element name="idPSP" type="tns:stIdPSP" />
@@ -727,4 +694,35 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+		<!-- Wrapper Elements -->
+		<xsd:element name="verificaBollettinoReq" type="tns:verificaBollettinoReq" />
+		<xsd:element name="verificaBollettinoRes" type="tns:verificaBollettinoRes" />
+		<xsd:element name="verifyPaymentNoticeReq" type="tns:verifyPaymentNoticeReq" />
+		<xsd:element name="verifyPaymentNoticeRes" type="tns:verifyPaymentNoticeRes" />
+		<xsd:element name="activatePaymentNoticeReq" type="tns:activatePaymentNoticeReq" />
+		<xsd:element name="activatePaymentNoticeRes" type="tns:activatePaymentNoticeRes" />
+		<xsd:element name="sendPaymentOutcomeReq" type="tns:sendPaymentOutcomeReq" />
+		<xsd:element name="sendPaymentOutcomeRes" type="tns:sendPaymentOutcomeRes" />
+	
+		<xsd:element name="nodoInviaFlussoRendicontazioneRequest" type="tns:nodoInviaFlussoRendicontazioneRequest" />
+		<xsd:element name="nodoInviaFlussoRendicontazioneResponse" type="tns:nodoInviaFlussoRendicontazioneResponse" />
+	
+		<xsd:element name="nodoChiediTemplateInformativaPSPRequest" type="tns:nodoChiediTemplateInformativaPSPRequest" />
+		<xsd:element name="nodoChiediTemplateInformativaPSPResponse" type="tns:nodoChiediTemplateInformativaPSPResponse" />
+	
+		<xsd:element name="nodoChiediInformativaPARequest" type="tns:nodoChiediInformativaPARequest" />
+		<xsd:element name="nodoChiediInformativaPAResponse" type="tns:nodoChiediInformativaPAResponse" />
+	
+		<xsd:element name="demandPaymentNoticeRequest" type="tns:demandPaymentNoticeRequest" />
+		<xsd:element name="demandPaymentNoticeResponse" type="tns:demandPaymentNoticeResponse" />
+	
+		<xsd:element name="activatePaymentNoticeV2Request" type="tns:activatePaymentNoticeV2Request" />
+		<xsd:element name="activatePaymentNoticeV2Response" type="tns:activatePaymentNoticeV2Response" />
+	
+		<xsd:element name="sendPaymentOutcomeV2Request" type="tns:sendPaymentOutcomeV2Request" />
+		<xsd:element name="sendPaymentOutcomeV2Response" type="tns:sendPaymentOutcomeV2Response" />
+	
+		<xsd:element name="nodoChiediCatalogoServiziV2Request" type="tns:nodoChiediCatalogoServiziV2Request" />
+		<xsd:element name="nodoChiediCatalogoServiziV2Response" type="tns:nodoChiediCatalogoServiziV2Response" />
+		
 </schema>

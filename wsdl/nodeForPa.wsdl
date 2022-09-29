@@ -9,35 +9,24 @@
 	<wsdl:types>
 		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/nodeForPa.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"></xsd:import>
-
-			<xsd:element name="nodoChiediElencoFlussiRendicontazioneRequest"
-				type="nfpa:nodoChiediElencoFlussiRendicontazioneRequest" />
-			<xsd:element name="nodoChiediElencoFlussiRendicontazioneResponse"
-				type="nfpa:nodoChiediElencoFlussiRendicontazioneResponse" />
-
-			<xsd:element name="nodoChiediFlussoRendicontazioneRequest"
-				type="nfpa:nodoChiediFlussoRendicontazioneRequest" />
-			<xsd:element name="nodoChiediFlussoRendicontazioneResponse"
-				type="nfpa:nodoChiediFlussoRendicontazioneResponse" />
-				
+				namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"></xsd:import>			
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="nodoChiediElencoFlussiRendicontazione">
 		<wsdl:part name="bodyrequest"
-			element="nodoChiediElencoFlussiRendicontazioneRequest"></wsdl:part>
+			element="nfpa:nodoChiediElencoFlussiRendicontazioneRequest"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediElencoFlussiRendicontazioneResponse">
 		<wsdl:part name="bodyresponse"
-			element="nodoChiediElencoFlussiRendicontazioneResponse"></wsdl:part>
+			element="nfpa:nodoChiediElencoFlussiRendicontazioneResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediFlussoRendicontazione">
 		<wsdl:part name="bodyrequest"
-			element="nodoChiediFlussoRendicontazioneRequest"></wsdl:part>
+			element="nfpa:nodoChiediFlussoRendicontazioneRequest"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediFlussoRendicontazioneResponse">
 		<wsdl:part name="bodyresponse"
-			element="nodoChiediFlussoRendicontazioneResponse"></wsdl:part>
+			element="nfpa:nodoChiediFlussoRendicontazioneResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:portType name="nodeForPa">
 		<wsdl:operation name="nodoChiediElencoFlussiRendicontazione">

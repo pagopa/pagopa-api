@@ -275,4 +275,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 		
+	<xsd:element name="pspNotifyPaymentReq" type="tns:pspNotifyPaymentReq" />
+	<xsd:element name="pspNotifyPaymentRes" type="tns:pspNotifyPaymentRes" />
+	<xsd:element name="pspNotifyPaymentV2" type="tns:pspNotifyPaymentV2" />
+	<xsd:element name="pspNotifyPaymentV2Response" type="tns:pspNotifyPaymentV2Response" />
+
 </schema>

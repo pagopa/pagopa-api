@@ -11,78 +11,47 @@
 		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/paForNode.xsd" 
 				namespace="http://pagopa-api.pagopa.gov.it/node/paForNode.xsd"></xsd:import>
-
-			<xsd:element name="paVeriFyPaymentNoticeReq"
-				type="pafn:paVerifyPaymentNoticeReq" />
-			<xsd:element name="paVeriFyPaymentNoticeRes"
-				type="pafn:paVerifyPaymentNoticeRes" />
-
-			<xsd:element name="paGetPaymentReq"
-				type="pafn:paGetPaymentReq" />
-			<xsd:element name="paGetPaymentRes"
-				type="pafn:paGetPaymentRes" />
-
-			<xsd:element name="paSendRTReq"
-				type="pafn:paSendRTReq" />
-			<xsd:element name="paSendRTRes"
-				type="pafn:paSendRTRes" />
-
-			<xsd:element name="paDemandPaymentNoticeRequest"
-				type="pafn:paDemandPaymentNoticeRequest" />
-			<xsd:element name="paDemandPaymentNoticeResponse"
-				type="pafn:paDemandPaymentNoticeResponse" />
-
-			<xsd:element name="paGetPaymentV2Request"
-				type="pafn:paGetPaymentV2Request" />
-			<xsd:element name="paGetPaymentV2Response"
-				type="pafn:paGetPaymentV2Response" />
-
-			<xsd:element name="paSendRTV2Request"
-				type="pafn:paSendRTV2Request" />
-			<xsd:element name="paSendRTV2Response"
-				type="pafn:paSendRTV2Response" />
-
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="paDemandPaymentNotice">
 		<wsdl:part name="bodyrequest"
-			element="paDemandPaymentNoticeRequest">
+			element="pafn:paDemandPaymentNoticeRequest">
 		</wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paDemandPaymentNoticeResponse">
 		<wsdl:part name="bodyresponse"
-			element="paDemandPaymentNoticeResponse"></wsdl:part>
+			element="pafn:paDemandPaymentNoticeResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paVeriFyPaymentNoticeReq">
 		<wsdl:part name="bodyrequest"
-			element="paVeriFyPaymentNoticeReq"></wsdl:part>
+			element="pafn:paVeriFyPaymentNoticeReq"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paVeriFyPaymentNoticeRes">
-		<wsdl:part name="bodyresponse" element="paVeriFyPaymentNoticeRes"></wsdl:part>
+		<wsdl:part name="bodyresponse" element="pafn:paVeriFyPaymentNoticeRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paGetPaymentReq">
-		<wsdl:part name="bodyrequest" element="paGetPaymentReq"></wsdl:part>
+		<wsdl:part name="bodyrequest" element="pafn:paGetPaymentReq"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paGetPaymentRes">
-		<wsdl:part name="bodyresponse" element="paGetPaymentRes"></wsdl:part>
+		<wsdl:part name="bodyresponse" element="pafn:paGetPaymentRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paGetPaymentV2">
-		<wsdl:part name="bodyrequest" element="paGetPaymentV2Request"></wsdl:part>
+		<wsdl:part name="bodyrequest" element="pafn:paGetPaymentV2Request"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paGetPaymentV2Response">
-		<wsdl:part name="bodyresponse" element="paGetPaymentV2Response"></wsdl:part>
+		<wsdl:part name="bodyresponse" element="pafn:paGetPaymentV2Response"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paSendRTReq">
-		<wsdl:part name="bodyrequest" element="paSendRTReq"></wsdl:part>
+		<wsdl:part name="bodyrequest" element="pafn:paSendRTReq"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paSendRTRes">
-		<wsdl:part name="bodyresponse" element="paSendRTRes"></wsdl:part>
+		<wsdl:part name="bodyresponse" element="pafn:paSendRTRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paSendRTV2">
-		<wsdl:part name="bodyrequest" element="paSendRTV2Request"></wsdl:part>
+		<wsdl:part name="bodyrequest" element="pafn:paSendRTV2Request"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paSendRTV2Response">
-		<wsdl:part name="bodyresponse" element="paSendRTV2Response"></wsdl:part>
+		<wsdl:part name="bodyresponse" element="pafn:paSendRTV2Response"></wsdl:part>
 	</wsdl:message>
 	<wsdl:portType name="paForNode">
 		<wsdl:operation name="paDemandPaymentNotice">

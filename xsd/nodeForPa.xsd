@@ -91,4 +91,8 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:element name="nodoChiediElencoFlussiRendicontazioneRequest" type="tns:nodoChiediElencoFlussiRendicontazioneRequest" />
+	<xsd:element name="nodoChiediElencoFlussiRendicontazioneResponse" type="tns:nodoChiediElencoFlussiRendicontazioneResponse" />
+	<xsd:element name="nodoChiediFlussoRendicontazioneRequest" type="tns:nodoChiediFlussoRendicontazioneRequest" />
+	<xsd:element name="nodoChiediFlussoRendicontazioneResponse" type="tns:nodoChiediFlussoRendicontazioneResponse" />
 </schema>

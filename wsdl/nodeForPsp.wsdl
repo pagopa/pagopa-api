@@ -9,154 +9,98 @@
 	<wsdl:types>
 		<xsd:schema>
 			<xsd:import schemaLocation="../xsd/nodeForPsp.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" />
-
-			<xsd:element name="verificaBollettinoReq"
-				type="nfp:verificaBollettinoReq" />
-			<xsd:element name="verificaBollettinoRes"
-				type="nfp:verificaBollettinoRes" />
-
-			<xsd:element name="verifyPaymentNoticeReq"
-				type="nfp:verifyPaymentNoticeReq" />
-			<xsd:element name="verifyPaymentNoticeRes"
-				type="nfp:verifyPaymentNoticeRes" />
-
-			<xsd:element name="activatePaymentNoticeReq"
-				type="nfp:activatePaymentNoticeReq" />
-			<xsd:element name="activatePaymentNoticeRes"
-				type="nfp:activatePaymentNoticeRes" />
-
-			<xsd:element name="sendPaymentOutcomeReq"
-				type="nfp:sendPaymentOutcomeReq" />
-			<xsd:element name="sendPaymentOutcomeRes"
-				type="nfp:sendPaymentOutcomeRes" />
-
-			<xsd:element name="nodoInviaFlussoRendicontazioneRequest"
-				type="nfp:nodoInviaFlussoRendicontazioneRequest" />
-			<xsd:element name="nodoInviaFlussoRendicontazioneResponse"
-				type="nfp:nodoInviaFlussoRendicontazioneResponse" />
-				
-			<xsd:element name="nodoChiediTemplateInformativaPSPRequest"
-				type="nfp:nodoChiediTemplateInformativaPSPRequest" />
-			<xsd:element name="nodoChiediTemplateInformativaPSPResponse"
-				type="nfp:nodoChiediTemplateInformativaPSPResponse" />
-				
-			<xsd:element name="nodoChiediInformativaPARequest"
-				type="nfp:nodoChiediInformativaPARequest" />
-			<xsd:element name="nodoChiediInformativaPAResponse"
-				type="nfp:nodoChiediInformativaPAResponse" />
-				
-			<xsd:element name="demandPaymentNoticeRequest"
-				type="nfp:demandPaymentNoticeRequest" />
-			<xsd:element name="demandPaymentNoticeResponse"
-				type="nfp:demandPaymentNoticeResponse" />
-
-			<xsd:element name="activatePaymentNoticeV2Request"
-				type="nfp:activatePaymentNoticeV2Request" />
-			<xsd:element name="activatePaymentNoticeV2Response"
-				type="nfp:activatePaymentNoticeV2Response" />
-
-			<xsd:element name="sendPaymentOutcomeV2Request"
-				type="nfp:sendPaymentOutcomeV2Request" />
-			<xsd:element name="sendPaymentOutcomeV2Response"
-				type="nfp:sendPaymentOutcomeV2Response" />
-				
-			<xsd:element name="nodoChiediCatalogoServiziV2Request"
-				type="nfp:nodoChiediCatalogoServiziV2Request" />
-			<xsd:element name="nodoChiediCatalogoServiziV2Response"
-				type="nfp:nodoChiediCatalogoServiziV2Response" />
-				
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="demandPaymentNotice">
 		<wsdl:part name="bodyrequest"
-			element="demandPaymentNoticeRequest"></wsdl:part>
+			element="nfp:demandPaymentNoticeRequest"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="demandPaymentNoticeResponse">
 		<wsdl:part name="bodyresponse"
-			element="demandPaymentNoticeResponse"></wsdl:part>
+			element="nfp:demandPaymentNoticeResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="verificaBollettinoReq">
 		<wsdl:part name="bodyrequest"
-			element="verificaBollettinoReq"></wsdl:part>
+			element="nfp:verificaBollettinoReq"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="verificaBollettinoRes">
 		<wsdl:part name="bodyresponse"
-			element="verificaBollettinoRes"></wsdl:part>
+			element="nfp:verificaBollettinoRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="verifyPaymentNoticeReq">
 		<wsdl:part name="bodyrequest"
-			element="verifyPaymentNoticeReq"></wsdl:part>
+			element="nfp:verifyPaymentNoticeReq"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="verifyPaymentNoticeRes">
 		<wsdl:part name="bodyresponse"
-			element="verifyPaymentNoticeRes"></wsdl:part>
+			element="nfp:verifyPaymentNoticeRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="activatePaymentNoticeReq">
 		<wsdl:part name="bodyrequest"
-			element="activatePaymentNoticeReq"></wsdl:part>
+			element="nfp:activatePaymentNoticeReq"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="activatePaymentNoticeRes">
 		<wsdl:part name="bodyresponse"
-			element="activatePaymentNoticeRes"></wsdl:part>
+			element="nfp:activatePaymentNoticeRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="activatePaymentNoticeV2">
 		<wsdl:part name="bodyrequest"
-			element="activatePaymentNoticeV2Request"></wsdl:part>
+			element="nfp:activatePaymentNoticeV2Request"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="activatePaymentNoticeV2Response">
 		<wsdl:part name="bodyresponse"
-			element="activatePaymentNoticeV2Response"></wsdl:part>
+			element="nfp:activatePaymentNoticeV2Response"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="sendPaymentOutcomeReq">
 		<wsdl:part name="bodyrequest"
-			element="sendPaymentOutcomeReq"></wsdl:part>
+			element="nfp:sendPaymentOutcomeReq"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="sendPaymentOutcomeRes">
 		<wsdl:part name="bodyresponse"
-			element="sendPaymentOutcomeRes"></wsdl:part>
+			element="nfp:sendPaymentOutcomeRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="sendPaymentOutcomeV2">
 		<wsdl:part name="bodyrequest"
-			element="sendPaymentOutcomeV2Request"></wsdl:part>
+			element="nfp:sendPaymentOutcomeV2Request"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="sendPaymentOutcomeV2Response">
 		<wsdl:part name="bodyresponse"
-			element="sendPaymentOutcomeV2Response"></wsdl:part>
+			element="nfp:sendPaymentOutcomeV2Response"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoInviaFlussoRendicontazione">
 		<wsdl:part name="bodyrequest"
-			element="nodoInviaFlussoRendicontazioneRequest"></wsdl:part>
+			element="nfp:nodoInviaFlussoRendicontazioneRequest"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message
 		name="nodoInviaFlussoRendicontazioneResponse">
 		<wsdl:part name="bodyresponse"
-			element="nodoInviaFlussoRendicontazioneResponse"></wsdl:part>
+			element="nfp:nodoInviaFlussoRendicontazioneResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message
 		name="nodoChiediTemplateInformativaPSP">
 		<wsdl:part name="bodyrequest"
-			element="nodoChiediTemplateInformativaPSPRequest"></wsdl:part>
+			element="nfp:nodoChiediTemplateInformativaPSPRequest"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message
 		name="nodoChiediTemplateInformativaPSPResponse">
 		<wsdl:part name="bodyresponse"
-			element="nodoChiediTemplateInformativaPSPResponse"></wsdl:part>
+			element="nfp:nodoChiediTemplateInformativaPSPResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediInformativaPA">
 		<wsdl:part name="bodyrequest"
-			element="nodoChiediInformativaPARequest"></wsdl:part>
+			element="nfp:nodoChiediInformativaPARequest"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediInformativaPAResponse">
 		<wsdl:part name="bodyresponse"
-			element="nodoChiediInformativaPAResponse"></wsdl:part>
+			element="nfp:nodoChiediInformativaPAResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediCatalogoServiziV2">
 		<wsdl:part name="bodyrequest"
-			element="nodoChiediCatalogoServiziV2Request"></wsdl:part>
+			element="nfp:nodoChiediCatalogoServiziV2Request"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediCatalogoServiziV2Response">
 		<wsdl:part name="bodyresponse"
-			element="nodoChiediCatalogoServiziV2Response"></wsdl:part>
+			element="nfp:nodoChiediCatalogoServiziV2Response"></wsdl:part>
 	</wsdl:message>
 	<wsdl:portType name="nodeForPsp">
 		<wsdl:operation name="demandPaymentNotice">

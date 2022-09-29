@@ -9,23 +9,19 @@
 	<wsdl:types>
 		<xsd:schema>
             <xsd:import schemaLocation="../xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd" />
-            <xsd:element name="pspNotifyPaymentReq" type="pfn:pspNotifyPaymentReq" />
-			<xsd:element name="pspNotifyPaymentRes" type="pfn:pspNotifyPaymentRes" />
-			<xsd:element name="pspNotifyPaymentV2" type="pfn:pspNotifyPaymentV2" />
-			<xsd:element name="pspNotifyPaymentV2Response" type="pfn:pspNotifyPaymentV2Response" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="pspNotifyPaymentReq">
-        <wsdl:part element="pspNotifyPaymentReq" name="requestBody" />
+        <wsdl:part element="pfn:pspNotifyPaymentReq" name="requestBody" />
     </wsdl:message>
     <wsdl:message name="pspNotifyPaymentRes">
-        <wsdl:part element="pspNotifyPaymentRes" name="responseBody" />
+        <wsdl:part element="pfn:pspNotifyPaymentRes" name="responseBody" />
     </wsdl:message>
 	<wsdl:message name="pspNotifyPaymentV2">
-		<wsdl:part element="pspNotifyPaymentV2" name="bodyrequest" />
+		<wsdl:part element="pfn:pspNotifyPaymentV2" name="bodyrequest" />
 	</wsdl:message>
 	<wsdl:message name="pspNotifyPaymentV2Response">
-		<wsdl:part element="pspNotifyPaymentV2Response" name="bodyresponse" />
+		<wsdl:part element="pfn:pspNotifyPaymentV2Response" name="bodyresponse" />
 	</wsdl:message>
 	<wsdl:portType name="pspForNode">
         <wsdl:operation name="pspNotifyPayment">          
