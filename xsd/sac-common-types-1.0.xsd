@@ -139,19 +139,8 @@
 	<xsd:complexType name="ctIdentificativoUnivocoPersonaFG">
 		<xsd:sequence>
 			<xsd:element name="tipoIdentificativoUnivoco" type="stTipoIdentificativoUnivocoPersFG" minOccurs="1">
-				<xsd:annotation>
-					<xsd:documentation>Campo alfanumerico che indica la natura del soggetto, può assumere i seguenti valori:
-					</xsd:documentation>
-					<xsd:documentation>F - Persona Fisica</xsd:documentation>
-					<xsd:documentation>G - Persona Giuridica</xsd:documentation>
-				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="codiceIdentificativoUnivoco" type="stText35" minOccurs="1">
-				<xsd:annotation>
-					<xsd:documentation>Campo alfanumerico che può contenere il codice
-						fiscale o, in alternativa, la partita IVA del soggetto.
-					</xsd:documentation>
-				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -159,18 +148,8 @@
 	<xsd:complexType name="ctSoggettoPagatore">
 		<xsd:sequence>
 			<xsd:element name="anagraficaPagatore" type="stText70" minOccurs="1">
-				<xsd:annotation>
-					<xsd:documentation>Indica il nominativo o la ragione sociale del
-						pagatore.</xsd:documentation>
-				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="identificativoUnivocoPagatore" type="ctIdentificativoUnivocoPersonaFG" minOccurs="1">
-				<xsd:annotation>
-					<xsd:documentation>Aggregazione che riporta le informazioni
-						concernenti l’identificazione fiscale
-						del pagatore.
-					</xsd:documentation>
-				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
