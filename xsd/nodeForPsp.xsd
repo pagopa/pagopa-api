@@ -1,4 +1,5 @@
-<schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" elementFormDefault="qualified">
+<schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"
+xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
 
 	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="sac-common-types-1.0.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
@@ -361,6 +362,11 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+    <xsd:simpleType name="stIdentificativoSoggettoServizio">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="5" />
+        </xsd:restriction>
+    </xsd:simpleType>
 
 	<!-- Transfer List : activate response -->
 
@@ -371,6 +377,7 @@
 			<xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" />
 			<xsd:element name="IBAN" type="tns:stIBAN" />
 			<xsd:element name="remittanceInformation" type="tns:stText140" />
+			<xsd:element name="metadata" type="tns:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -497,15 +504,17 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="ctOutcomeDetails">
-		<xsd:sequence>
-			<xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
-			<xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
-			<!-- <xsd:element name="chargePA" type="tns:stAmount" minOccurs="0" /> -->
-			<xsd:element name="fee" type="tns:stAmount" />
-			<xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
-			<xsd:element name="applicationDate" type="tns:stISODate" /> <!--data applicativa -->
-			<xsd:element name="transferDate" type="tns:stISODate" /> <!--data di disposizione bonifico -->
-		</xsd:sequence>
+    <xsd:sequence>
+      <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
+      <xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
+      <xsd:element name="fee" type="tns:stAmount" />
+      <xsd:element name="primaryCiIncurredFee" type="tns:stAmount" minOccurs="0" />
+      <xsd:element name="idBundle" type="tns:stText70" minOccurs="0" />
+      <xsd:element name="idCiBundle" type="tns:stText70" minOccurs="0" />
+      <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
+      <xsd:element name="applicationDate" type="tns:stISODate" /> <!--data applicativa-->
+      <xsd:element name="transferDate" type="tns:stISODate" /> <!--data di disposizione bonifico-->
+    </xsd:sequence>
 
 	</xsd:complexType>
 	<xsd:complexType name="sendPaymentOutcomeReq">
@@ -590,21 +599,25 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="demandPaymentNoticeRequest">
-		<xsd:sequence>
-			<xsd:element name="idPSP" type="tns:stIdPSP" />
-			<xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
-			<xsd:element name="idChannel" type="tns:stIdChannel" />
-			<xsd:element name="password" type="tns:stPassword" />
-			<xsd:element name="idServizio" type="tns:stIdentificativoServizio" maxOccurs="1" />
-			<xsd:element name="datiSpecificiServizio" type="xsd:base64Binary" maxOccurs="1" />
-		</xsd:sequence>
+		        <xsd:sequence>
+                    <xsd:element name="idPSP" type="tns:stIdPSP" />
+                    <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+                    <xsd:element name="idChannel" type="tns:stIdChannel" />
+                    <xsd:element name="password" type="tns:stPassword" />
+                    <xsd:element name="idSoggettoServizio"
+                                 type="tns:stIdentificativoSoggettoServizio" maxOccurs="1" />
+                    <xsd:element name="datiSpecificiServizio"
+                                 type="xsd:base64Binary" maxOccurs="1" />
+                </xsd:sequence>
 	</xsd:complexType>
+
 
 	<xsd:complexType name="demandPaymentNoticeResponse">
 		<xsd:complexContent>
 			<xsd:extension base="tns:ctResponse">
 				<xsd:sequence>
-					<xsd:element name="paymentList" type="tns:ctPaymentOptionsDescriptionList" minOccurs="0" />
+				    <xsd:element name="qrCode" type="tns:ctQrCode" minOccurs="0"/>
+					<xsd:element name="paymentList" type="tns:ctPaymentOptionsDescriptionList" minOccurs="0" maxOccurs="1" />
 					<xsd:element name="paymentDescription" type="tns:stText210" minOccurs="0"></xsd:element>
 					<xsd:element name="fiscalCodePA" type="tns:stFiscalCodePA" minOccurs="0"></xsd:element>
 					<xsd:element name="companyName" type="tns:stText140" minOccurs="0"></xsd:element>
@@ -614,22 +627,22 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:complexType name="activatePaymentNoticeV2Request">
-		<xsd:sequence>
-			<xsd:element name="idPSP" type="tns:stIdPSP" />
-			<xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
-			<xsd:element name="idChannel" type="tns:stIdChannel" />
-			<xsd:element name="password" type="tns:stPassword" />
-			<xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" minOccurs="1" />
-			<xsd:element name="qrCode" type="tns:ctQrCode" />
-			<xsd:element name="expirationTime" type="tns:stExpirationTime" minOccurs="0" />
-			<xsd:element name="amount" type="tns:stAmount" />
-			<xsd:element name="dueDate" type="tns:stISODate" minOccurs="0" />
-			<xsd:element name="paymentNote" type="tns:stText210" minOccurs="0" />
-			<xsd:element name="paymentMethod" type="tns:stPaymentMethodFee" minOccurs="0" />
-			<xsd:element name="touchPoint" type="tns:stTouchpointFee" minOccurs="0" />
-		</xsd:sequence>
-	</xsd:complexType>
+<xsd:complexType name="activatePaymentNoticeV2Request">
+        <xsd:sequence>
+            <xsd:element name="idPSP" type="tns:stIdPSP" />
+            <xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
+            <xsd:element name="idChannel" type="tns:stIdChannel" />
+            <xsd:element name="password" type="tns:stPassword" />
+            <xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" minOccurs="0" />
+            <xsd:element name="qrCode" type="tns:ctQrCode" />
+            <xsd:element name="expirationTime" type="tns:stExpirationTime" minOccurs="0" />
+            <xsd:element name="amount" type="tns:stAmount" />
+            <xsd:element name="dueDate" type="tns:stISODate" minOccurs="0" />
+            <xsd:element name="paymentNote" type="tns:stText210" minOccurs="0" />
+            <xsd:element name="paymentMethod" type="tns:stPaymentMethodFee" minOccurs="0" />
+            <xsd:element name="touchPoint" type="tns:stTouchpointFee" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
 
 	<xsd:complexType name="activatePaymentNoticeV2Response">
 		<xsd:complexContent>
@@ -659,7 +672,7 @@
 			<xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
 			<xsd:element name="idChannel" type="tns:stIdChannel" />
 			<xsd:element name="password" type="tns:stPassword" />
-			<xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" minOccurs="1" />
+			<xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" minOccurs="0" />
 			<xsd:element name="paymentTokens" type="tns:stPaymentTokens" />
 			<xsd:element name="outcome" type="tns:stOutcome" />
 			<xsd:element name="details" type="tns:ctOutcomeDetails" minOccurs="0" />
@@ -686,7 +699,7 @@
 
 	<xsd:complexType name="nodoChiediCatalogoServiziV2Response">
 		<xsd:complexContent>
-			<xsd:extension base="tns:risposta">
+			<xsd:extension base="tns:ctResponse">
 				<xsd:sequence>
 					<xsd:element name="xmlCatalogoServizi" type="xsd:base64Binary" minOccurs="0" />
 				</xsd:sequence>

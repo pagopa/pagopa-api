@@ -4,7 +4,7 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:pfn="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd"
+	xmlns:pfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode">
 	<wsdl:types>
 		<xsd:schema>
@@ -20,8 +20,8 @@
 	<wsdl:message name="pspNotifyPaymentV2">
 		<wsdl:part element="pfn:pspNotifyPaymentV2" name="bodyrequest" />
 	</wsdl:message>
-	<wsdl:message name="pspNotifyPaymentV2Response">
-		<wsdl:part element="pfn:pspNotifyPaymentV2Response" name="bodyresponse" />
+	<wsdl:message name="pspNotifyPaymentV2Res">
+		<wsdl:part element="pfn:pspNotifyPaymentV2Res" name="bodyresponse" />
 	</wsdl:message>
 	<wsdl:portType name="pspForNode">
         <wsdl:operation name="pspNotifyPayment">          
@@ -30,7 +30,7 @@
         </wsdl:operation>
 		<wsdl:operation name="pspNotifyPaymentV2">
 			<wsdl:input message="tns:pspNotifyPaymentV2" />
-			<wsdl:output message="tns:pspNotifyPaymentV2Response" />
+			<wsdl:output message="tns:pspNotifyPaymentV2Res" />
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="pspForNodeBinding" type="tns:pspForNode">

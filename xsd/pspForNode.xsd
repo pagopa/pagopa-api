@@ -1,9 +1,8 @@
 <schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd"
-	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
-	elementFormDefault="qualified">
+	targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"
+	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 	
 	<xs:import
 		namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
@@ -155,6 +154,7 @@
 			<xsd:element name="IBAN" type="tns:stIBAN" />
 			<xsd:element name="remittanceInformation"
 				type="tns:stText140" />
+            <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -264,12 +264,12 @@
 				type="common:stISODateTime" />
 			<xsd:element name="paymentList"
 				type="tns:ctPaymentList" />
-			<xsd:element name="additionalPaymentInformations"
-				type="common:ctMetadata" minOccurs="0" />
+      <xsd:element name="additionalPaymentInformations"
+                   type="tns:ctAdditionalPaymentInformations" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="pspNotifyPaymentV2Response">
+	<xsd:complexType name="pspNotifyPaymentV2Res">
 		<xsd:complexContent>
 			<xsd:extension base="tns:ctResponse" />
 		</xsd:complexContent>
@@ -278,6 +278,6 @@
 	<xsd:element name="pspNotifyPaymentReq" type="tns:pspNotifyPaymentReq" />
 	<xsd:element name="pspNotifyPaymentRes" type="tns:pspNotifyPaymentRes" />
 	<xsd:element name="pspNotifyPaymentV2" type="tns:pspNotifyPaymentV2" />
-	<xsd:element name="pspNotifyPaymentV2Response" type="tns:pspNotifyPaymentV2Response" />
+	<xsd:element name="pspNotifyPaymentV2Res" type="tns:pspNotifyPaymentV2Res" />
 
 </schema>

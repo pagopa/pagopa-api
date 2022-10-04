@@ -4,13 +4,13 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/paForNode"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:pafn="http://pagopa-api.pagopa.gov.it/node/paForNode.xsd"
+	xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode">
 	<wsdl:types>
 
 		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/paForNode.xsd" 
-				namespace="http://pagopa-api.pagopa.gov.it/node/paForNode.xsd"></xsd:import>
+				namespace="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"></xsd:import>
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="paDemandPaymentNotice">
@@ -22,12 +22,12 @@
 		<wsdl:part name="bodyresponse"
 			element="pafn:paDemandPaymentNoticeResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="paVeriFyPaymentNoticeReq">
+	<wsdl:message name="paVerifyPaymentNoticeReq">
 		<wsdl:part name="bodyrequest"
-			element="pafn:paVeriFyPaymentNoticeReq"></wsdl:part>
+			element="pafn:paVerifyPaymentNoticeReq"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="paVeriFyPaymentNoticeRes">
-		<wsdl:part name="bodyresponse" element="pafn:paVeriFyPaymentNoticeRes"></wsdl:part>
+	<wsdl:message name="paVerifyPaymentNoticeRes">
+		<wsdl:part name="bodyresponse" element="pafn:paVerifyPaymentNoticeRes"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="paGetPaymentReq">
 		<wsdl:part name="bodyrequest" element="pafn:paGetPaymentReq"></wsdl:part>
@@ -58,9 +58,9 @@
 			<wsdl:input message="tns:paDemandPaymentNotice"></wsdl:input>
 			<wsdl:output message="tns:paDemandPaymentNoticeResponse"></wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="paVeriFyPaymentNotice">
-			<wsdl:input message="tns:paVeriFyPaymentNoticeReq"></wsdl:input>
-			<wsdl:output message="tns:paVeriFyPaymentNoticeRes"></wsdl:output>
+		<wsdl:operation name="paVerifyPaymentNotice">
+			<wsdl:input message="tns:paVerifyPaymentNoticeReq"></wsdl:input>
+			<wsdl:output message="tns:paVerifyPaymentNoticeRes"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="paGetPayment">
 			<wsdl:input message="tns:paGetPaymentReq"></wsdl:input>
@@ -92,9 +92,9 @@
 				<soap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="paVeriFyPaymentNotice">
+		<wsdl:operation name="paVerifyPaymentNotice">
 			<soap:operation
-				soapAction="paVeriFyPaymentNotice" />
+				soapAction="paVerifyPaymentNotice" />
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>

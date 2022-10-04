@@ -3,22 +3,22 @@
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
+	xmlns:nfpa="http://ws.pagamenti.telematici.gov/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="nodeForPa"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa">
 	<wsdl:types>
 		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/nodeForPa.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"></xsd:import>			
+				namespace="http://ws.pagamenti.telematici.gov/"></xsd:import>
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="nodoChiediElencoFlussiRendicontazione">
 		<wsdl:part name="bodyrequest"
-			element="nfpa:nodoChiediElencoFlussiRendicontazioneRequest"></wsdl:part>
+			element="nfpa:nodoChiediElencoFlussiRendicontazione"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoChiediElencoFlussiRendicontazioneResponse">
+	<wsdl:message name="nodoChiediElencoFlussiRendicontazioneRisposta">
 		<wsdl:part name="bodyresponse"
-			element="nfpa:nodoChiediElencoFlussiRendicontazioneResponse"></wsdl:part>
+			element="nfpa:nodoChiediElencoFlussiRendicontazioneRisposta"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediFlussoRendicontazione">
 		<wsdl:part name="bodyrequest"
@@ -31,7 +31,7 @@
 	<wsdl:portType name="nodeForPa">
 		<wsdl:operation name="nodoChiediElencoFlussiRendicontazione">
 			<wsdl:input message="tns:nodoChiediElencoFlussiRendicontazione" />
-			<wsdl:output message="tns:nodoChiediElencoFlussiRendicontazioneResponse" />
+			<wsdl:output message="tns:nodoChiediElencoFlussiRendicontazioneRisposta" />
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediFlussoRendicontazione">
 			<wsdl:input message="tns:nodoChiediFlussoRendicontazione"></wsdl:input>
