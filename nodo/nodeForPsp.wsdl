@@ -30,6 +30,13 @@
     <wsdl:part name="responseBody" element="nfpsp:activatePaymentNoticeRes" />
   </wsdl:message>
 
+  <wsdl:message name="activatePaymentNoticeV2">
+    <wsdl:part name="requestBody" element="nfpsp:activatePaymentNoticeV2Request" />
+  </wsdl:message>
+  <wsdl:message name="activatePaymentNoticeV2Response">
+    <wsdl:part name="responseBody" element="nfpsp:activatePaymentNoticeV2Response" />
+  </wsdl:message>
+
   <wsdl:message name="handledException">
     <wsdl:part name="fault" element="nfpsp:handledException" />
   </wsdl:message>
@@ -39,6 +46,31 @@
   </wsdl:message>
   <wsdl:message name="sendPaymentOutcomeRes">
     <wsdl:part name="responseBody" element="nfpsp:sendPaymentOutcomeRes" />
+  </wsdl:message>
+
+  <wsdl:message name="sendPaymentOutcomeV2">
+    <wsdl:part name="requestBody"
+               element="nfpsp:sendPaymentOutcomeV2Request"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendPaymentOutcomeV2Response">
+    <wsdl:part name="responseBody"
+               element="nfpsp:sendPaymentOutcomeV2Response"></wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="demandPaymentNotice">
+    <wsdl:part name="requestBody"
+               element="nfpsp:demandPaymentNoticeRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="demandPaymentNoticeResponse">
+    <wsdl:part name="responseBody"
+               element="nfpsp:demandPaymentNoticeResponse"></wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="nodoChiediCatalogoServiziV2">
+    <wsdl:part name="requestBody" element="nfpsp:nodoChiediCatalogoServiziV2Request"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="nodoChiediCatalogoServiziV2Response">
+    <wsdl:part name="responseBody" element="nfpsp:nodoChiediCatalogoServiziV2Response"></wsdl:part>
   </wsdl:message>
 
   <wsdl:portType name="nodeForPsp_PortType">
@@ -91,6 +123,12 @@ Any subsequent request for the same payment notice will be denied.
       <wsdl:output message="tns:activatePaymentNoticeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/activatePaymentNoticeRes" />
       <wsdl:fault message="tns:handledException" name="handledException" />
     </wsdl:operation>
+
+    <wsdl:operation name="activatePaymentNoticeV2">
+      <wsdl:input message="tns:activatePaymentNoticeV2" />
+      <wsdl:output message="tns:activatePaymentNoticeV2Response" />
+    </wsdl:operation>
+
     <wsdl:operation name="sendPaymentOutcome">
       <wsdl:documentation>
 Close payment session associated with the paymentToken.
@@ -104,6 +142,20 @@ The idempotency layer compares incoming parameters to those of the original requ
             </wsdl:documentation>
       <wsdl:input message="tns:sendPaymentOutcomeReq" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeReq" />
       <wsdl:output message="tns:sendPaymentOutcomeRes" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/sendPaymentOutcomeRes" />
+      <wsdl:fault message="tns:handledException" name="handledException" />
+    </wsdl:operation>
+    <wsdl:operation name="sendPaymentOutcomeV2">
+      <wsdl:input message="tns:sendPaymentOutcomeV2" />
+      <wsdl:output message="tns:sendPaymentOutcomeV2Response" />
+    </wsdl:operation>
+    <wsdl:operation name="demandPaymentNotice">
+      <wsdl:input message="tns:demandPaymentNotice" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/demandPaymentNotice"/>
+      <wsdl:output message="tns:demandPaymentNoticeResponse" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/demandPaymentNoticeResponse"/>
+      <wsdl:fault message="tns:handledException" name="handledException" />
+    </wsdl:operation>
+    <wsdl:operation name="nodoChiediCatalogoServiziV2">
+      <wsdl:input message="tns:nodoChiediCatalogoServiziV2" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/nodoChiediCatalogoServiziV2" />
+      <wsdl:output message="tns:nodoChiediCatalogoServiziV2Response" wsam:Action="http://pagopa-api.pagopa.gov.it/service/node/nodeForPsp/nodoChiediCatalogoServiziV2Response" />
       <wsdl:fault message="tns:handledException" name="handledException" />
     </wsdl:operation>
   </wsdl:portType>
@@ -135,6 +187,18 @@ The idempotency layer compares incoming parameters to those of the original requ
         <soap:fault name="handledException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="activatePaymentNoticeV2">
+      <soap:operation soapAction="activatePaymentNoticeV2" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="handledException">
+        <soap:fault name="handledException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="sendPaymentOutcome">
       <soap:operation soapAction="sendPaymentOutcome" />
       <wsdl:input>
@@ -147,8 +211,44 @@ The idempotency layer compares incoming parameters to those of the original requ
         <soap:fault name="handledException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="sendPaymentOutcomeV2">
+      <soap:operation soapAction="sendPaymentOutcomeV2" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="handledException">
+        <soap:fault name="handledException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="verificaBollettino">
       <soap:operation soapAction="verificaBollettino" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="handledException">
+        <soap:fault name="handledException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="demandPaymentNotice">
+      <soap:operation soapAction="demandPaymentNotice" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="handledException">
+        <soap:fault name="handledException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="nodoChiediCatalogoServiziV2">
+      <soap:operation soapAction="nodoChiediCatalogoServiziV2" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
