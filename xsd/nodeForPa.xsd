@@ -9,13 +9,6 @@
 		schemaLocation="sac-common-types-1.0.xsd"
 		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
-	<xsd:simpleType name="stPassword">
-		<xsd:restriction base="xsd:string">
-			<xsd:minLength value="8" />
-			<xsd:maxLength value="15" />
-		</xsd:restriction>
-	</xsd:simpleType>
-
 	<xsd:complexType name="tipoElencoFlussiRendicontazione">
 		<xsd:sequence>
 			<xsd:element name="totRestituiti" type="xsd:int" />
@@ -40,7 +33,7 @@
 				type="common:stText35" />
 			<xsd:element name="identificativoStazioneIntermediarioPA"
 				type="common:stText35" />
-			<xsd:element name="password" type="tns:stPassword" />
+			<xsd:element name="password" type="common:stPassword" />
 			<xsd:element name="identificativoDominio"
 				type="common:stText35" minOccurs="0" />
 			<xsd:element name="identificativoPSP"
@@ -66,7 +59,7 @@
 				type="common:stText35" />
 			<xsd:element name="identificativoStazioneIntermediarioPA"
 				type="common:stText35" />
-			<xsd:element name="password" type="tns:stPassword" />
+			<xsd:element name="password" type="common:stPassword" />
 			<xsd:element name="identificativoDominio"
 				type="common:stText35" minOccurs="0" />
 			<xsd:element name="identificativoPSP"
