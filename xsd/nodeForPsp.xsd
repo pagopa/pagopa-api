@@ -387,19 +387,30 @@ xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" xmlns:tn
 	</xsd:complexType>
 
 	<xsd:complexType name="ctOutcomeDetails">
-    <xsd:sequence>
-      <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
-      <xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
-      <xsd:element name="fee" type="common:stAmount" />
-      <xsd:element name="primaryCiIncurredFee" type="common:stAmount" minOccurs="0" />
-      <xsd:element name="idBundle" type="common:stText70" minOccurs="0" />
-      <xsd:element name="idCiBundle" type="common:stText70" minOccurs="0" />
-      <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
-      <xsd:element name="applicationDate" type="common:stISODate" /> <!--data applicativa-->
-      <xsd:element name="transferDate" type="common:stISODate" /> <!--data di disposizione bonifico-->
-    </xsd:sequence>
-
+        <xsd:sequence>
+          <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
+          <xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
+          <xsd:element name="fee" type="common:stAmount" />
+          <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
+          <xsd:element name="applicationDate" type="common:stISODate" /> <!--data applicativa-->
+          <xsd:element name="transferDate" type="common:stISODate" /> <!--data di disposizione bonifico-->
+        </xsd:sequence>
 	</xsd:complexType>
+
+    <xsd:complexType name="ctOutcomeDetailsV2">
+        <xsd:sequence>
+          <xsd:element name="paymentMethod" type="tns:stPaymentMethod" />
+          <xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
+          <xsd:element name="fee" type="common:stAmount" />
+          <xsd:element name="primaryCiIncurredFee" type="common:stAmount" minOccurs="0" />
+          <xsd:element name="idBundle" type="common:stText70" minOccurs="0" />
+          <xsd:element name="idCiBundle" type="common:stText70" minOccurs="0" />
+          <xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
+          <xsd:element name="applicationDate" type="common:stISODate" /> <!--data applicativa-->
+          <xsd:element name="transferDate" type="common:stISODate" /> <!--data di disposizione bonifico-->
+        </xsd:sequence>
+    </xsd:complexType>
+
 	<xsd:complexType name="sendPaymentOutcomeReq">
 		<xsd:sequence>
 			<xsd:element name="idPSP" type="tns:stIdPSP" />
@@ -558,7 +569,7 @@ xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" xmlns:tn
 			<xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" minOccurs="0" />
 			<xsd:element name="paymentTokens" type="tns:stPaymentTokens" />
 			<xsd:element name="outcome" type="common:stOutcome" />
-			<xsd:element name="details" type="tns:ctOutcomeDetails" minOccurs="0" />
+			<xsd:element name="details" type="tns:ctOutcomeDetailsV2" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 

@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema version="2.0.0" elementFormDefault="qualified"
+<xsd:schema version="2.0.0"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:cs="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/CatalogoServizi"
-	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/CatalogoServizi">
-
-	<xs:import
-		namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v2.0.0/"
-		schemaLocation="common-types_2_0_0.xsd"
-		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
 	<xsd:simpleType name="stText35">
 		<xsd:restriction base="xsd:string">
