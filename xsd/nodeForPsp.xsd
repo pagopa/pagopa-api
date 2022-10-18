@@ -85,16 +85,9 @@
 
 	<xsd:complexType name="stPaymentTokens">
 		<xsd:sequence>
-			<xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="1" maxOccurs="5" />
+			<xsd:element name="paymentToken" type="common:stPaymentToken" minOccurs="1" maxOccurs="5" />
 		</xsd:sequence>
 	</xsd:complexType>
-
-	<xsd:simpleType name="stPaymentToken">
-		<xsd:restriction base="xsd:string">
-			<xsd:minLength value="1" />
-			<xsd:maxLength value="35" />
-		</xsd:restriction>
-	</xsd:simpleType>
 
 	<xsd:simpleType name="stCommissione">
 		<xsd:restriction base="xsd:string">
@@ -147,12 +140,6 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:simpleType name="stNazioneProvincia">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="[A-Z]{2,2}" />
-		</xsd:restriction>
-	</xsd:simpleType>
-
 	<xsd:simpleType name="stEntityUniqueIdentifierValue">
 		<xsd:restriction base="xsd:string">
 			<xsd:minLength value="2" />
@@ -195,7 +182,7 @@
 			<xsd:element name="postalCode" type="common:stText16" minOccurs="0" />
 			<xsd:element name="city" type="common:stText35" minOccurs="0" />
 			<xsd:element name="stateProvinceRegion" type="common:stText35" minOccurs="0" />
-			<xsd:element name="country" type="tns:stNazioneProvincia" minOccurs="0" />
+			<xsd:element name="country" type="common:stNazioneProvincia" minOccurs="0" />
 			<xsd:element name="e-mail" type="common:stEMail" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -288,7 +275,10 @@
 			<xsd:element name="idTransfer" type="tns:stIdTransfer" />
 			<xsd:element name="transferAmount" type="common:stAmount" />
 			<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" />
-			<xsd:element name="IBAN" type="tns:stIBAN" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="IBAN" type="tns:stIBAN" />
+				<xsd:element name="richiestaMarcaDaBollo" type="common:ctRichiestaMarcaDaBollo" />
+			</xsd:choice>
 			<xsd:element name="remittanceInformation" type="common:stText140" />
 			<xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
@@ -305,6 +295,20 @@
 			<xsd:length value="5" />
 		</xsd:restriction>
 	</xsd:simpleType>
+
+	<xsd:complexType name="ctMarcaDaBollo">
+		<xsd:sequence>
+			<xsd:element name="paymentToken" type="common:stPaymentToken" />
+			<xsd:element name="idTransfer" type="tns:stIdTransfer" />
+			<xsd:element name="MBDAttachment" type="xsd:base64Binary" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ctListaMarcheDaBollo">
+		<xsd:sequence>
+			<xsd:element name="marcaDaBollo" type="tns:ctMarcaDaBollo" maxOccurs="25" />
+		</xsd:sequence>
+	</xsd:complexType>
 
 	<!--Element req/res -->
 
@@ -395,7 +399,7 @@
 					<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
 					<!-- <xsd:element name="chargePA" type="common:stAmount" minOccurs="0"
 						/> -->
-					<xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
+					<xsd:element name="paymentToken" type="common:stPaymentToken" minOccurs="0" />
 					<xsd:element name="transferList" type="tns:ctTransferListPSP" minOccurs="0" />
 					<xsd:element name="creditorReferenceId" type="common:stText35" minOccurs="0" /> <!--IUV -->
 				</xsd:sequence>
@@ -425,6 +429,7 @@
 			<xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
 			<xsd:element name="applicationDate" type="common:stISODate" /> <!--data applicativa-->
 			<xsd:element name="transferDate" type="common:stISODate" /> <!--data di disposizione bonifico-->
+			<xsd:element name="marcheDaBollo" type="tns:ctListaMarcheDaBollo" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -435,7 +440,7 @@
 			<xsd:element name="idChannel" type="tns:stIdChannel" />
 			<xsd:element name="password" type="common:stPassword" />
 			<xsd:element name="idempotencyKey" type="tns:stIdempotencyKey" minOccurs="0" />
-			<xsd:element name="paymentToken" type="tns:stPaymentToken" />
+			<xsd:element name="paymentToken" type="common:stPaymentToken" />
 			<xsd:element name="outcome" type="common:stOutcome" />
 			<xsd:element name="details" type="tns:ctOutcomeDetails" minOccurs="0" />
 		</xsd:sequence>
@@ -456,7 +461,7 @@
 			<xsd:element name="identificativoDominio" type="common:stText35" />
 			<xsd:element name="identificativoFlusso" type="xsd:string" />
 			<xsd:element name="dataOraFlusso" type="xsd:dateTime" />
-			<xsd:element name="xmlRendicontazione" type="xsd:base64Binary" xmime:expectedContentTypes="application/octet-stream" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
+			<xsd:element name="xmlRendicontazione" type="xsd:base64Binary" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -484,7 +489,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="tns:risposta">
 				<xsd:sequence>
-					<xsd:element name="xmlInformativa" type="xsd:base64Binary" minOccurs="0" xmime:expectedContentTypes="application/octet-stream" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
+					<xsd:element name="xmlInformativa" type="xsd:base64Binary" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -503,7 +508,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="tns:risposta">
 				<xsd:sequence>
-					<xsd:element name="xmlTemplateInformativa" type="xsd:base64Binary" minOccurs="0" xmime:expectedContentTypes="application/octet-stream" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
+					<xsd:element name="xmlTemplateInformativa" type="xsd:base64Binary" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -564,7 +569,7 @@
 					<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" minOccurs="0" />
 					<xsd:element name="companyName" type="common:stText140" minOccurs="0" />
 					<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
-					<xsd:element name="paymentToken" type="tns:stPaymentToken" minOccurs="0" />
+					<xsd:element name="paymentToken" type="common:stPaymentToken" minOccurs="0" />
 					<xsd:element name="transferList" type="tns:ctTransferListPSPV2" minOccurs="0" />
 					<xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 					<xsd:element name="creditorReferenceId" type="common:stText35" minOccurs="0" />

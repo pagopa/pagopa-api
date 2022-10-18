@@ -5,6 +5,40 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 
+	<xsd:complexType name="ctRichiestaMarcaDaBollo">
+		<xsd:sequence>
+			<xsd:element name="hashDocumento" type="stBase64Binary72" />
+			<xsd:element name="tipoBollo" type="stTipoBolloDigitale" />
+			<xsd:element name="provinciaResidenza" type="stNazioneProvincia" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="stPaymentToken">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="35"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stBase64Binary72">
+		<xsd:restriction base="xsd:base64Binary">
+			<xsd:pattern value=".{4,72}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stTipoBolloDigitale">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="01" />
+			<xsd:length value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stNazioneProvincia">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Z]{2,2}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
     <xsd:simpleType name="stPassword">
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="8" />
