@@ -354,13 +354,6 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="ctMarcaDaBollo">
-		<xsd:sequence>
-			<xsd:element name="tipoBollo" type="common:stTipoBolloDigitale" />
-			<xsd:element name="MBDAttachment" type="xsd:base64Binary" />
-		</xsd:sequence>
-	</xsd:complexType>
-
 	<xsd:complexType name="ctTransferPAReceiptV2">
 		<xsd:sequence>
 			<xsd:element name="idTransfer" type="tns:stIdTransfer" />
@@ -368,7 +361,7 @@
 			<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" />
 			<xsd:choice>
 				<xsd:element name="IBAN" type="tns:stIBAN" />
-				<xsd:element name="marcaDaBollo" type="tns:ctMarcaDaBollo" />
+				<xsd:element name="MBDAttachment" type="xsd:base64Binary" />
 			</xsd:choice>
 			<xsd:element name="remittanceInformation" type="common:stText140" />
 			<xsd:element name="transferCategory" type="common:stText140" />
