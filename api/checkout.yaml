@@ -159,7 +159,7 @@ definitions:
       companyName:
         type: string
         maxLength: 140 # as companyName for paForNode
-      subject:
+      description:
         type: string
         maxLength: 140 # as paymentDescription for paForNode
   CartResponse:
