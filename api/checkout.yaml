@@ -128,7 +128,7 @@ definitions:
         required: 
           - returnOkUrl
           - returnCancelUrl
-          - retunErrorOk
+          - retunErrorUrl 
         properties:
           returnOkUrl:
             type: string
