@@ -11,14 +11,6 @@ host: api.platform.pagopa.it
 basePath: /checkout/v1
 schemes:
   - https
-securityDefinitions:
-   APIKeyHeader:
-     type: apiKey
-     in: header
-     name: Ocp-Apim-Subscription-Key
-# Global security (applies to all operations):
-security:
-  - APIKeyHeader: []
 paths:
   /carts:
     post:
@@ -31,10 +23,13 @@ paths:
           schema:
             $ref: '#/definitions/CartRequest'
       responses:
-        '200':
-          description: Cart created
-          schema:
-            $ref: '#/definitions/CartResponse'
+        '302':
+          description: Redirect 
+          headers:
+            location:
+             description: CheckOut Url
+             type: string
+             format: uri
         '400':
           description: Bad request
           schema:
@@ -45,8 +40,6 @@ paths:
                                 "status":400,
                                 "detail":"missing fiscalCode",
                               }
-        '403':
-          description: forbidden
         '422':
           description: Unprocessable Entity
           schema:
@@ -113,7 +106,7 @@ definitions:
     type: object
     required:
       - paymentNotices
-      - returnurls
+      - returnUrls
     properties:
       emailNotice:
         type: string
@@ -130,12 +123,12 @@ definitions:
             fiscalCode: "7777777777"
           - noticeNumber: "302012387654312385"
             fiscalCode: "7777777777"
-      returnurls:
+      returnUrls:
         type: object
         required: 
           - returnOkUrl
           - returnCancelUrl
-          - retunErrorOk
+          - retunErrorUrl 
         properties:
           returnOkUrl:
             type: string
@@ -160,6 +153,15 @@ definitions:
         type: string
         minLength: 11
         maxLength: 11
+      amount:
+        type: integer
+        minimum: 1
+      companyName:
+        type: string
+        maxLength: 140 # as companyName for paForNode
+      description:
+        type: string
+        maxLength: 140 # as paymentDescription for paForNode
   CartResponse:
     type: object
     properties:
