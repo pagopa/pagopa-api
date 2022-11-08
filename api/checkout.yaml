@@ -4,10 +4,15 @@ info:
   title: pagoPA checkout-EC API
   contact:
     name: pagoPA checkout team
-    url: https://portal.uat.platform.pagopa.it
+    url: https://portal.platform.pagopa.it
+  # contact for UAT environment
+  #  contact:
+  #  name: pagoPA checkout team
+  #  url: https://portal.platform.pagopa.it
   description: |
     Documentation of the pagoPA checkout API here.
 host: api.platform.pagopa.it
+# UAT host: api.uat.platform.pagopa.it
 basePath: /checkout/v1
 schemes:
   - https
