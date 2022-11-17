@@ -192,7 +192,7 @@
             </xsd:element>
             <xsd:element name="identificativoUnivocoRiscossione" type="pay_i:stText35" minOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>Riferimento univoco dell’operazione assegnato al pagamento dal Prestatore dei servizi di Pagamento. Può coincidere con il CRO ovvero TRN nel caso di Bonifico Bancario o con il CODELINE nel caso di versamento su c/c  postale.</xsd:documentation>
+                    <xsd:documentation>Riferimento univoco dell’operazione assegnato al pagamento dal Prestatore dei servizi di Pagamento.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="indiceDatiSingoloPagamento" type="pay_i:stIndice" minOccurs="0">
