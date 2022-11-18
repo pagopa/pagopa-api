@@ -164,6 +164,12 @@ components:
               example: www.comune.di.prova.it/pagopa/error.html
     PaymentNotice:
       type: object
+      required:
+        - noticeNumber
+        - fiscalCode
+        - amount
+        - companyName
+        - description
       properties:
         noticeNumber:
           type: string
