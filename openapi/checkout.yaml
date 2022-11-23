@@ -140,15 +140,21 @@ components:
           maxItems: 5
           example:
             - noticeNumber: "302012387654312384"
-              fiscalCode: "7777777777"
+              fiscalCode: "77777777777"
+              amount: 10000
+              companyName: "companyName"
+              description: "description"
             - noticeNumber: "302012387654312385"
-              fiscalCode: "7777777777"
+              fiscalCode: "77777777777"
+              amount: 5000
+              companyName: "companyName"
+              description: "description"
         returnUrls:
           type: object
           required:
             - returnOkUrl
             - returnCancelUrl
-            - retunErrorUrl
+            - returnErrorUrl
           properties:
             returnOkUrl:
               type: string
@@ -164,22 +170,33 @@ components:
               example: www.comune.di.prova.it/pagopa/error.html
     PaymentNotice:
       type: object
+      required:
+        - noticeNumber
+        - fiscalCode
+        - amount
+        - companyName
+        - description
       properties:
         noticeNumber:
+          description: notice number 
           type: string
           minLength: 18
           maxLength: 18
         fiscalCode:
+          description: Public Administration tax code
           type: string
           minLength: 11
           maxLength: 11
         amount:
+          description: amount ( in euro cents ) of the payment notice  
           type: integer
           minimum: 1
         companyName:
+          description: Public Administration company name
           type: string
           maxLength: 140
         description:
+          description: subject of payment 
           type: string
           maxLength: 140
     CartResponse:
