@@ -74,6 +74,13 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="stText140">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="stTipoIdentificativoUnivoco">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="G" /> <!-- Persona Giuridica -->
@@ -172,7 +179,7 @@
                     <xsd:documentation>Aggregazione che riporta le informazioni concernenti l’identificazione fiscale dell’ente creditore che riceve il flusso.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="denominazioneRicevente" type="pay_i:stText70" minOccurs="0">
+            <xsd:element name="denominazioneRicevente" type="pay_i:stText140" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>Contiene la denominazione dell’ente creditore che riceve il flusso.</xsd:documentation>
                 </xsd:annotation>
