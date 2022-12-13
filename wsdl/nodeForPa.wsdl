@@ -3,13 +3,12 @@
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:nfpa="http://ws.pagamenti.telematici.gov/"
+	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="nodeForPa"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa">
 	<wsdl:types>
 		<xsd:schema version="1.0.0">
-			<xsd:import schemaLocation="../xsd/nodeForPa.xsd"
-				namespace="http://ws.pagamenti.telematici.gov/"></xsd:import>
+			<xsd:import schemaLocation="../xsd/nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="nodoChiediElencoFlussiRendicontazione">
