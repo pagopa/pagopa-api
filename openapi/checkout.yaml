@@ -159,15 +159,15 @@ components:
             returnOkUrl:
               type: string
               format: uri
-              example: www.comune.di.prova.it/pagopa/success.html
+              example: https://www.comune.di.prova.it/pagopa/success.html
             returnCancelUrl:
               type: string
               format: uri
-              example: www.comune.di.prova.it/pagopa/cancel.html
+              example: https://www.comune.di.prova.it/pagopa/cancel.html
             returnErrorUrl:
               type: string
               format: uri
-              example: www.comune.di.prova.it/pagopa/error.html
+              example: https://www.comune.di.prova.it/pagopa/error.html
     PaymentNotice:
       type: object
       required:
