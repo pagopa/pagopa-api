@@ -4,7 +4,7 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/nodeForPsp"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:nfp="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"
+	xmlns:nfp="http://pagopa-api.pagopa.gov.it/nodeForPsp"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPsp">
 	<wsdl:types>
 		<xsd:schema>

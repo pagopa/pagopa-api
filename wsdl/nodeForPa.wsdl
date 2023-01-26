@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/nodeForPa"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
+	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/nodeForPa"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="nodeForPa"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa">
+	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPa">
 	<wsdl:types>
 		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="../xsd/nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" />

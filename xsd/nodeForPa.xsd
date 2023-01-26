@@ -1,7 +1,8 @@
 <schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/service/node/NodeForPa"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPa"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/nodeForPa"
+	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/nodeForPa"
 	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 
 	<xs:import
