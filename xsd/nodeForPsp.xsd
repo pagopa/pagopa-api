@@ -1,7 +1,12 @@
-<schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd"
-		xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd">
+<schema version="1.0.0"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPsp"
+	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/nodeForPsp">
 
-	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="sac-common-types-1.0.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="sac-common-types-1.0.xsd"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
 	<xsd:simpleType name="stIBAN">
 		<xsd:restriction base="xsd:string">
@@ -11,15 +16,24 @@
 
 	<xsd:simpleType name="stPaymentMethodFee">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="BBT" /> <!-- Bonifico Bancario di Tesoreria -->
-			<xsd:enumeration value="BP" /> <!-- Bollettino Postale -->
-			<xsd:enumeration value="AD" /> <!-- Addebito Diretto -->
-			<xsd:enumeration value="CP" /> <!-- Carta di Pagamento -->
-			<xsd:enumeration value="PO" /> <!-- Pagamento attivato presso PSP  -->
-			<xsd:enumeration value="OBEP" /> <!-- Online Banking Electronic Payment -->
-			<xsd:enumeration value="JIF" /> <!-- Bancomat Pay  -->
-			<xsd:enumeration value="MYBK" /> <!-- MyBank Seller Bank -->
-			<xsd:enumeration value="PPAL" /> <!-- PayPal -->
+			<xsd:enumeration value="BBT" />
+			<!-- Bonifico Bancario di Tesoreria -->
+			<xsd:enumeration value="BP" />
+			<!-- Bollettino Postale -->
+			<xsd:enumeration value="AD" />
+			<!-- Addebito Diretto -->
+			<xsd:enumeration value="CP" />
+			<!-- Carta di Pagamento -->
+			<xsd:enumeration value="PO" />
+			<!-- Pagamento attivato presso PSP  -->
+			<xsd:enumeration value="OBEP" />
+			<!-- Online Banking Electronic Payment -->
+			<xsd:enumeration value="JIF" />
+			<!-- Bancomat Pay  -->
+			<xsd:enumeration value="MYBK" />
+			<!-- MyBank Seller Bank -->
+			<xsd:enumeration value="PPAL" />
+			<!-- PayPal -->
 			<xsd:maxLength value="4" />
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -29,11 +43,16 @@
 			<xsd:enumeration value="IO" />
 			<xsd:enumeration value="WISP" />
 			<xsd:enumeration value="CHECKOUT" />
-			<xsd:enumeration value="PSP" /> <!-- Pagamento presso PSP  generico -->
-			<xsd:enumeration value="ATM" /> <!-- Pagamento presso PSP  ATM -->
-			<xsd:enumeration value="BETTING" /> <!-- Pagamento presso PSP  ricevitoria -->
-			<xsd:enumeration value="TS" /> <!-- Pagamento presso PSP  tabaccheria -->
-			<xsd:enumeration value="HB" /> <!-- Pagamento presso PSP  home banking -->
+			<xsd:enumeration value="PSP" />
+			<!-- Pagamento presso PSP  generico -->
+			<xsd:enumeration value="ATM" />
+			<!-- Pagamento presso PSP  ATM -->
+			<xsd:enumeration value="BETTING" />
+			<!-- Pagamento presso PSP  ricevitoria -->
+			<xsd:enumeration value="TS" />
+			<!-- Pagamento presso PSP  tabaccheria -->
+			<xsd:enumeration value="HB" />
+			<!-- Pagamento presso PSP  home banking -->
 			<xsd:maxLength value="10" />
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -149,18 +168,20 @@
 
 	<xsd:simpleType name="stEntityUniqueIdentifierType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="F" /> <!-- Persona Fisica -->
-			<xsd:enumeration value="G" /> <!-- Persona Giuridica -->
+			<xsd:enumeration value="F" />
+			<!-- Persona Fisica -->
+			<xsd:enumeration value="G" />
+			<!-- Persona Giuridica -->
 			<xsd:length value="1" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
 	<xsd:simpleType name="stAmountOptionPSP">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="EQ"></xsd:enumeration> <!-- is equal to -->
-			<xsd:enumeration value="LS"></xsd:enumeration> <!-- is greater than -->
-			<xsd:enumeration value="GT"></xsd:enumeration> <!-- is less than -->
-			<xsd:enumeration value="ANY"></xsd:enumeration> <!-- -->
+			<xsd:enumeration value="EQ"></xsd:enumeration>			<!-- is equal to -->
+			<xsd:enumeration value="LS"></xsd:enumeration>			<!-- is greater than -->
+			<xsd:enumeration value="GT"></xsd:enumeration>			<!-- is less than -->
+			<xsd:enumeration value="ANY"></xsd:enumeration>			<!-- -->
 		</xsd:restriction>
 	</xsd:simpleType>
 
@@ -218,7 +239,8 @@
 		<xsd:sequence>
 			<xsd:element name="amount" type="common:stAmount" />
 			<xsd:element name="options" type="tns:stAmountOptionPSP" />
-			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" /> <!-- Data di scadenza del pagamento -->
+			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" />
+			<!-- Data di scadenza del pagamento -->
 			<xsd:element name="paymentNote" type="tns:stText210" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -227,7 +249,8 @@
 		<xsd:sequence>
 			<xsd:element name="amount" type="common:stAmount" />
 			<xsd:element name="options" type="tns:stAmountOptionPSP" />
-			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" /> <!-- Data di scadenza del pagamento -->
+			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" />
+			<!-- Data di scadenza del pagamento -->
 			<xsd:element name="paymentNote" type="tns:stText210" minOccurs="0" />
 			<xsd:element name="allCCP" type="xsd:boolean" minOccurs="1" />
 		</xsd:sequence>
@@ -359,8 +382,7 @@
 					<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" minOccurs="0"></xsd:element>
 					<xsd:element name="companyName" type="common:stText140" minOccurs="0"></xsd:element>
 					<xsd:element name="officeName" type="common:stText140" minOccurs="0"></xsd:element>
-					<!-- <xsd:element name="chargePA" type="common:stAmount" minOccurs="0"
-						/> -->
+					<!-- <xsd:element name="chargePA" type="common:stAmount" minOccurs="0" /> -->
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -393,15 +415,16 @@
 			<xsd:extension base="common:ctResponse">
 				<xsd:sequence>
 					<xsd:element name="totalAmount" type="common:stAmount" minOccurs="0" />
-					<xsd:element name="paymentDescription" type="common:stText140" minOccurs="0" /> <!-- TODOPS -->
+					<xsd:element name="paymentDescription" type="common:stText140" minOccurs="0" />
+					<!-- TODOPS -->
 					<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" minOccurs="0" />
 					<xsd:element name="companyName" type="common:stText140" minOccurs="0" />
 					<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
-					<!-- <xsd:element name="chargePA" type="common:stAmount" minOccurs="0"
-						/> -->
+					<!-- <xsd:element name="chargePA" type="common:stAmount" minOccurs="0" /> -->
 					<xsd:element name="paymentToken" type="common:stPaymentToken" minOccurs="0" />
 					<xsd:element name="transferList" type="tns:ctTransferListPSP" minOccurs="0" />
-					<xsd:element name="creditorReferenceId" type="common:stText35" minOccurs="0" /> <!--IUV -->
+					<xsd:element name="creditorReferenceId" type="common:stText35" minOccurs="0" />
+					<!--IUV -->
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -413,8 +436,10 @@
 			<xsd:element name="paymentChannel" type="tns:stPaymentChannel" minOccurs="0" />
 			<xsd:element name="fee" type="common:stAmount" />
 			<xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
-			<xsd:element name="applicationDate" type="common:stISODate" /> <!--data applicativa-->
-			<xsd:element name="transferDate" type="common:stISODate" /> <!--data di disposizione bonifico-->
+			<xsd:element name="applicationDate" type="common:stISODate" />
+			<!--data applicativa-->
+			<xsd:element name="transferDate" type="common:stISODate" />
+			<!--data di disposizione bonifico-->
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -427,8 +452,10 @@
 			<xsd:element name="idBundle" type="common:stText70" minOccurs="0" />
 			<xsd:element name="idCiBundle" type="common:stText70" minOccurs="0" />
 			<xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
-			<xsd:element name="applicationDate" type="common:stISODate" /> <!--data applicativa-->
-			<xsd:element name="transferDate" type="common:stISODate" /> <!--data di disposizione bonifico-->
+			<xsd:element name="applicationDate" type="common:stISODate" />
+			<!--data applicativa-->
+			<xsd:element name="transferDate" type="common:stISODate" />
+			<!--data di disposizione bonifico-->
 			<xsd:element name="marcheDaBollo" type="tns:ctListaMarcheDaBollo" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -520,10 +547,8 @@
 			<xsd:element name="idBrokerPSP" type="tns:stIdBroker" />
 			<xsd:element name="idChannel" type="tns:stIdChannel" />
 			<xsd:element name="password" type="common:stPassword" />
-			<xsd:element name="idSoggettoServizio"
-						 type="tns:stIdentificativoSoggettoServizio" maxOccurs="1" />
-			<xsd:element name="datiSpecificiServizio"
-						 type="xsd:base64Binary" maxOccurs="1" />
+			<xsd:element name="idSoggettoServizio" type="tns:stIdentificativoSoggettoServizio" maxOccurs="1" />
+			<xsd:element name="datiSpecificiServizio" type="xsd:base64Binary" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
