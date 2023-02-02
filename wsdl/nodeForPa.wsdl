@@ -8,7 +8,7 @@
 	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPa">
 	<wsdl:types>
 		<xsd:schema version="1.0.0">
-			<xsd:import schemaLocation="../xsd/nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa" />
+			<xsd:import schemaLocation="../xsd/nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/nodeForPa" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="nodoChiediElencoFlussiRendicontazione">
