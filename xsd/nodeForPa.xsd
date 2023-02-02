@@ -1,8 +1,8 @@
 <schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://ws.pagamenti.telematici.gov"
-	xmlns:tns="http://ws.pagamenti.telematici.gov"
-	xmlns:nfpa="http://ws.pagamenti.telematici.gov"
+	targetNamespace="http://ws.pagamenti.telematici.gov/"
+	xmlns:tns="http://ws.pagamenti.telematici.gov/"
+	xmlns:nfpa="http://ws.pagamenti.telematici.gov/"
 	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 
 	<xs:import
