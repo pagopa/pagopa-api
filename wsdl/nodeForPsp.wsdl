@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:tns="http://ws.pagamenti.telematici.gov"
+	xmlns:tns="http://ws.pagamenti.telematici.gov/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:nfp="http://ws.pagamenti.telematici.gov"
-	targetNamespace="http://ws.pagamenti.telematici.gov">
+	xmlns:nfp="http://ws.pagamenti.telematici.gov/"
+	targetNamespace="http://ws.pagamenti.telematici.gov/">
 	<wsdl:types>
 		<xsd:schema>
-			<xsd:import schemaLocation="../xsd/nodeForPsp.xsd" namespace="http://ws.pagamenti.telematici.gov" />
+			<xsd:import schemaLocation="../xsd/nodeForPsp.xsd" namespace="http://ws.pagamenti.telematici.gov/" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="demandPaymentNotice">
