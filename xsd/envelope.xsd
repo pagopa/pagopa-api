@@ -62,6 +62,11 @@ The name and trademarks of copyright holders may NOT be used in advertising or p
             <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
         </xs:sequence>
         <xs:anyAttribute namespace="##any" processContents="lax" >
+            <xs:annotation>
+                <xs:documentation>
+                    Prose in the spec does not specify that attributes are allowed on the Body element
+                </xs:documentation>
+            </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>
 
@@ -77,6 +82,11 @@ The name and trademarks of copyright holders may NOT be used in advertising or p
     <xs:attribute name="actor" type="xs:anyURI" />
 
     <xs:simpleType name="encodingStyle" >
+        <xs:annotation>
+            <xs:documentation>
+                'encodingStyle' indicates any canonicalization conventions followed in the contents of the containing element.  For example, the value 'http://schemas.xmlsoap.org/soap/encoding/' indicates the pattern described in SOAP specification
+            </xs:documentation>
+        </xs:annotation>
         <xs:list itemType="xs:anyURI" />
     </xs:simpleType>
 
@@ -87,6 +97,11 @@ The name and trademarks of copyright holders may NOT be used in advertising or p
 
     <xs:element name="Fault" type="tns:Fault" />
     <xs:complexType name="Fault" final="extension" >
+        <xs:annotation>
+            <xs:documentation>
+                Fault reporting structure
+            </xs:documentation>
+        </xs:annotation>
         <xs:sequence>
             <xs:element name="faultcode" type="xs:QName" />
             <xs:element name="faultstring" type="xs:string" />
@@ -103,3 +118,9 @@ The name and trademarks of copyright holders may NOT be used in advertising or p
     </xs:complexType>
 
 </xs:schema>
+
+
+
+
+
+

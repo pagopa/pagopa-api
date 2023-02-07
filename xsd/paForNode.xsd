@@ -1,12 +1,7 @@
-<xsd:schema version="1.0.0"
-	xmlns="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-	targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/paForNode"
-	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
+<xsd:schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"
+			xmlns:tns="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd" xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 
-	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="sac-common-types-1.0.xsd"
-		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="sac-common-types-1.0.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
 	<xsd:simpleType name="stText20">
 		<xsd:restriction base="xsd:string">
@@ -31,8 +26,7 @@
 	<xsd:simpleType name="stAmountNotZero">
 		<xsd:restriction base="xsd:decimal">
 			<xsd:pattern value="\d+\.\d{2}" />
-			<xsd:minInclusive value="0.01" />
-			<!-- force to set value different from 0. -->
+			<xsd:minInclusive value="0.01" /> <!-- force to set value different from 0. -->
 			<xsd:maxInclusive value="999999999.99" />
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -76,10 +70,8 @@
 
 	<xsd:simpleType name="stEntityUniqueIdentifierType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="F" />
-			<!-- Persona Fisica -->
-			<xsd:enumeration value="G" />
-			<!-- Persona Giuridica -->
+			<xsd:enumeration value="F" /> <!-- Persona Fisica -->
+			<xsd:enumeration value="G" /> <!-- Persona Giuridica -->
 			<xsd:length value="1" />
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -89,14 +81,10 @@
 	<!-- usato dal PSP nell'activate -->
 	<xsd:simpleType name="stAmountOption">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="EQ"/>
-			<!-- is equal to -->
-			<xsd:enumeration value="LS"/>
-			<!-- is greater than -->
-			<xsd:enumeration value="GT"/>
-			<!-- is less than -->
-			<xsd:enumeration value="ANY"/>
-			<!-- -->
+			<xsd:enumeration value="EQ"/> <!-- is equal to -->
+			<xsd:enumeration value="LS"/> <!-- is greater than -->
+			<xsd:enumeration value="GT"/> <!-- is less than -->
+			<xsd:enumeration value="ANY"/> <!-- -->
 		</xsd:restriction>
 	</xsd:simpleType>
 
