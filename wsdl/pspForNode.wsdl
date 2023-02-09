@@ -4,11 +4,11 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:pfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode"
+	xmlns:pfn="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode">
 	<wsdl:types>
 		<xsd:schema>
-            <xsd:import schemaLocation="../xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode" />
+            <xsd:import schemaLocation="../xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="pspNotifyPaymentReq">
