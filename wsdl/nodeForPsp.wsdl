@@ -67,33 +67,6 @@
 		<wsdl:part name="bodyresponse"
 			element="nfp:sendPaymentOutcomeV2Response"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoInviaFlussoRendicontazione">
-		<wsdl:part name="bodyrequest"
-			element="nfp:nodoInviaFlussoRendicontazioneRequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message
-		name="nodoInviaFlussoRendicontazioneResponse">
-		<wsdl:part name="bodyresponse"
-			element="nfp:nodoInviaFlussoRendicontazioneResponse"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message
-		name="nodoChiediTemplateInformativaPSP">
-		<wsdl:part name="bodyrequest"
-			element="nfp:nodoChiediTemplateInformativaPSPRequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message
-		name="nodoChiediTemplateInformativaPSPResponse">
-		<wsdl:part name="bodyresponse"
-			element="nfp:nodoChiediTemplateInformativaPSPResponse"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="nodoChiediInformativaPA">
-		<wsdl:part name="bodyrequest"
-			element="nfp:nodoChiediInformativaPARequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="nodoChiediInformativaPAResponse">
-		<wsdl:part name="bodyresponse"
-			element="nfp:nodoChiediInformativaPAResponse"></wsdl:part>
-	</wsdl:message>
 	<wsdl:message name="nodoChiediCatalogoServiziV2">
 		<wsdl:part name="bodyrequest"
 			element="nfp:nodoChiediCatalogoServiziV2Request"></wsdl:part>
@@ -130,23 +103,6 @@
 		<wsdl:operation name="sendPaymentOutcomeV2">
 			<wsdl:input message="tns:sendPaymentOutcomeV2" />
 			<wsdl:output message="tns:sendPaymentOutcomeV2Response" />
-		</wsdl:operation>
-		<wsdl:operation name="nodoInviaFlussoRendicontazione">
-			<wsdl:input
-				message="tns:nodoInviaFlussoRendicontazione"></wsdl:input>
-			<wsdl:output
-				message="tns:nodoInviaFlussoRendicontazioneResponse"></wsdl:output>
-		</wsdl:operation>
-		<wsdl:operation name="nodoChiediTemplateInformativaPSP">
-			<wsdl:input
-				message="tns:nodoChiediTemplateInformativaPSP"></wsdl:input>
-			<wsdl:output
-				message="tns:nodoChiediTemplateInformativaPSPResponse"></wsdl:output>
-		</wsdl:operation>
-		<wsdl:operation name="nodoChiediInformativaPA">
-			<wsdl:input message="tns:nodoChiediInformativaPA"></wsdl:input>
-			<wsdl:output
-				message="tns:nodoChiediInformativaPAResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediCatalogoServiziV2">
 			<wsdl:input message="tns:nodoChiediCatalogoServiziV2"></wsdl:input>
@@ -226,36 +182,6 @@
 			</wsdl:input>
 			<wsdl:output>
 				<soap:body use="literal"/>
-			</wsdl:output>
-		</wsdl:operation>
-		<wsdl:operation name="nodoInviaFlussoRendicontazione">
-			<soap:operation
-				soapAction="nodoInviaFlussoRendicontazione" />
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-		</wsdl:operation>
-		<wsdl:operation name="nodoChiediTemplateInformativaPSP">
-			<soap:operation
-				soapAction="nodoChiediTemplateInformativaPSP" />
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-		</wsdl:operation>
-		<wsdl:operation name="nodoChiediInformativaPA">
-			<soap:operation
-				soapAction="nodoChiediInformativaPA" />
-			<wsdl:input>
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediCatalogoServiziV2">
