@@ -18,3 +18,4 @@ file[1|2].txt
 tmp_.json
 commit_vers.txt
 scripts/show_vers.sh
+.idea
