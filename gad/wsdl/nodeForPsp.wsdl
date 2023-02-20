@@ -67,15 +67,6 @@
 		<wsdl:part name="bodyresponse"
 			element="nfp:sendPaymentOutcomeV2Response"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoInviaFlussoRendicontazione">
-		<wsdl:part name="bodyrequest"
-			element="nfp:nodoInviaFlussoRendicontazioneRequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message
-		name="nodoInviaFlussoRendicontazioneResponse">
-		<wsdl:part name="bodyresponse"
-			element="nfp:nodoInviaFlussoRendicontazioneResponse"></wsdl:part>
-	</wsdl:message>
 	<wsdl:message
 		name="nodoChiediTemplateInformativaPSP">
 		<wsdl:part name="bodyrequest"
@@ -130,12 +121,6 @@
 		<wsdl:operation name="sendPaymentOutcomeV2">
 			<wsdl:input message="tns:sendPaymentOutcomeV2" />
 			<wsdl:output message="tns:sendPaymentOutcomeV2Response" />
-		</wsdl:operation>
-		<wsdl:operation name="nodoInviaFlussoRendicontazione">
-			<wsdl:input
-				message="tns:nodoInviaFlussoRendicontazione"></wsdl:input>
-			<wsdl:output
-				message="tns:nodoInviaFlussoRendicontazioneResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediTemplateInformativaPSP">
 			<wsdl:input
@@ -221,16 +206,6 @@
 		<wsdl:operation name="activatePaymentNoticeV2">
 			<soap:operation
 				soapAction="activatePaymentNoticeV2" />
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-		</wsdl:operation>
-		<wsdl:operation name="nodoInviaFlussoRendicontazione">
-			<soap:operation
-				soapAction="nodoInviaFlussoRendicontazione" />
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>

@@ -1,71 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0.14">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0.14">
 
   <xs:annotation>
-    <xs:documentation>
-      # Schema Catalogo dati informativi
-
-      Questo XSD definisce uno schema per la definizione di un XML che rappresenta una richiesta di configurazione di uno o più PSP alla piattaforma pagoPA
-
-      Changelog:
-
-      - 24/10/2015 - allineamento a versione 1.7 dell'Allegato B
-      - 27/10/2016 - adeguamento per versione 1.3 WISP
-      - 21/04/2020 - fasce di costi in convenzione
-      - 01/01/2021 - Aggiunte descrizioni e tipizzazioni utili alla documentazione e compilazione del form
-      - 18/11/2021 - Aggiunto stTipoVersamento PPAL
-      - 21/02/2022 - Aggiunto stTipoVersamento BPAY
-    </xs:documentation>
+    <xs:documentation> # Schema Catalogo dati informativi Questo XSD definisce uno schema per la
+      definizione di un XML che rappresenta una richiesta di configurazione di uno o più PSP alla
+      piattaforma pagoPA Changelog: - 24/10/2015 - allineamento a versione 1.7 dell'Allegato B -
+      27/10/2016 - adeguamento per versione 1.3 WISP - 21/04/2020 - fasce di costi in convenzione -
+      01/01/2021 - Aggiunte descrizioni e tipizzazioni utili alla documentazione e compilazione del
+      form - 18/11/2021 - Aggiunto stTipoVersamento PPAL - 21/02/2022 - Aggiunto stTipoVersamento
+      BPAY </xs:documentation>
   </xs:annotation>
 
   <xs:element name="listaInformativePSP" type="ctListaInformativePSP">
-    <xs:annotation>
-      <xs:documentation>
-        All'interno di questa lista vengono raccolte le configurazioni dei diversi PSP
-      </xs:documentation>
-    </xs:annotation>
   </xs:element>
-
 
   <xs:element name="informativaPSP" type="ctInformativaPSP">
-    <xs:annotation>
-      <xs:documentation>
-        All'interno di questo elemento viene descritta la configurazione di un singolo PSP
-      </xs:documentation>
-    </xs:annotation>
   </xs:element>
-
 
   <!-- Simple Types  -->
 
   <xs:simpleType name="stAbiCode">
-    <xs:annotation>
-      <xs:documentation>
-        Codice Associazione Bancaria Italiana che rapresenta l'istituto di credito
-      </xs:documentation>
-    </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:pattern value="[0-9]{5}"></xs:pattern>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="stBicCode">
-    <xs:annotation>
-      <xs:documentation>
-        codice BIC (ISO9362), o codice SWIFT.
-      </xs:documentation>
-    </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:pattern value="[0-9A-Z]{8,11}"></xs:pattern>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="stMyBankIdVs">
-    <xs:annotation>
-      <xs:documentation>
-        Participant ID MyBank del PSP (To Be Confirmed )
-      </xs:documentation>
-    </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:pattern value="[0-9A-Z]{1,15}"></xs:pattern>
     </xs:restriction>
@@ -111,37 +78,6 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <!-- <xs:simpleType name="stIdentificativoIntermediario">
-    <xs:annotation>
-      <xs:documentation>
-				Identificativo dell'intermediario, identificato tramite il suo codice fiscale
-		</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="[0-9]{11}"></xs:pattern>
-    </xs:restriction>
-  </xs:simpleType> -->
-
-  <!-- <xs:simpleType name="stIdentificativoCanale">
-    <xs:annotation>
-      <xs:documentation>
-				formato di identificazione del canale composto da codice fiscale (11 cifre ) seguito da una tassonomia definita come:
-
-					- WEB : rappresenta un servizio offerto on-line
-					- ATM : rappresenta un servizio offerto tramite sportello automatico
-					- APP : rappresenta un servizio offerto tramite applicazione mobile
-					- PAGOPA : rappresenta un servizio di pagamento non carte integrato all'interno del  WISP / appIO
-					- ON_US : rappresenta un servizio di pagamento come acquirer dedicato alle transazioni delle proprie carte
-					- CARD : rappresente un servizio di pagamento come acquirer dedicato alle transazioni per le carte non emesse dal PSP
-
-					Per retrocompatibilità vengono ammessi anche codici numerici a 2 cifre dopo il codice fiscale.
-			</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="[0-9]{11}_([0-9]{2})?(_)?(WEB|ATM|APP|PAGOPA|ONUS|CARD)?"></xs:pattern>
-    </xs:restriction>
-  </xs:simpleType> -->
-
   <xs:simpleType name="stImporto">
     <xs:restriction base="xs:decimal">
       <xs:minInclusive value="0.01" />
@@ -158,39 +94,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <!-- <xs:simpleType name="stImportoMassimoFascia">
-    <xs:restriction base="xs:decimal">
-      <xs:enumeration value="5.00"></xs:enumeration>
-      <xs:enumeration value="10.00"></xs:enumeration>
-      <xs:enumeration value="30.00"></xs:enumeration>
-
-      <xs:enumeration value="50.00"></xs:enumeration>
-      <xs:enumeration value="100.00"></xs:enumeration>
-
-      <xs:enumeration value="150.00"></xs:enumeration>
-      <xs:enumeration value="200.00"></xs:enumeration>
-
-      <xs:enumeration value="250.00"></xs:enumeration>
-      <xs:enumeration value="500.00"></xs:enumeration>
-      <xs:enumeration value="1000.00"></xs:enumeration>
-      <xs:enumeration value="1500.00"></xs:enumeration>
-      <xs:enumeration value="2000.00"></xs:enumeration>
-      <xs:enumeration value="999999999.99"></xs:enumeration>
-
-    </xs:restriction>
-  </xs:simpleType> -->
-
   <xs:simpleType name="stTipoVersamento">
-    <xs:annotation>
-      <xs:documentation>
-        Il tipo versamento specifica l'utilizzo del canale all'interno della piattaforma.
-        Sono possibili i seguenti valori:
-        - CP : il canale è utilizzato per ricevere pagamenti effettuati tramite un acquirer
-        - JIF : il canale è utilizzato per ricevere pagamenti effettuati tramite BancomatPay
-        - MYBK : il canale è utilizzato per ricevere pagamenti effettuati come Banca Seller di MyBank
-        - PO : il canale è utilizzato per inizializzare pagamenti presso un qualsiasi servizio del PSP
-      </xs:documentation>
-    </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="BBT" /> <!-- Bonifico Bancario di Tesoreria -->
       <xs:enumeration value="BP" /> <!-- Bollettino Postale -->
@@ -284,30 +188,16 @@
   </xs:simpleType>
 
   <xs:simpleType name="stIdentificativoFlusso">
-    <xs:annotation>
-      <xs:documentation>
-        Identificativo della richiesta di configurazione, contiene l'identificativo del PSP e la data di richiesta.
-      </xs:documentation>
-    </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:pattern value="[0-9A-Z]{6,14}_[0-9]{2}-[0-9]{2}-[0-9]{4}"></xs:pattern>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="stIdentificativoPSP">
-    <xs:annotation>
-      <xs:documentation>
-        Identificativo del PSP all'interno della piattaforma.
-        Viene assegnato a seguito della sottoscrizione del contratto.
-
-        Per un PSP Italiano l'identificativo è composto dal triletterale ABI seguito dal codice ABI ( 5 caratteri )
-      </xs:documentation>
-    </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:pattern value="[A-Z0-9]{6,14}"></xs:pattern>
     </xs:restriction>
   </xs:simpleType>
-
 
   <!-- Complex Types -->
 
@@ -327,91 +217,38 @@
   <xs:complexType name="ctInformativaPSP">
     <xs:sequence>
       <xs:element type="stIdentificativoFlusso" name="identificativoFlusso">
-        <xs:annotation>
-          <xs:documentation>
-            identificativo della richiesta
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stIdentificativoPSP" name="identificativoPSP">
-        <xs:annotation>
-          <xs:documentation>
-            identificativo del PSP
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stText70" name="ragioneSociale">
-        <xs:annotation>
-          <xs:documentation>
-            Ragione Sociale del PSP
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stAbiCode" name="codiceABI" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            Identificativo del PSP all'interno dell'Associazione Bancaria Italiana
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stBicCode" name="codiceBIC" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            codice indetificativo internazionale
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
-
       <xs:element type="stMyBankIdVs" name="mybankIDVS" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            identificativo del PSP all'interno del servizio MyBank.
-            Dato necessario qualora si disponga di un canale di tipo MYBK
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
-
       <xs:element type="ctInformativaMaster" name="informativaMaster">
-        <xs:annotation>
-          <xs:documentation>
-            Tale campo descrive informazioni generali
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
-
       <xs:element type="ctListaInformativaDetail" name="listaInformativaDetail">
-        <xs:annotation>
-          <xs:documentation>
-            Configurazione dei servizi di pagamento
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ctListaInformativaDetail">
-    <xs:annotation>
-      <xs:documentation>
-        Descrizione dettagliata dei singoli servizi di pagamento offerti.
-        i valori di default sono quelli da utilizzare con intermediario CBILL
-      </xs:documentation>
-    </xs:annotation>
     <xs:sequence>
-      <xs:element type="ctInformativaDetail" name="informativaDetail" maxOccurs="unbounded" minOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Configurazione dei canali</xs:documentation>
-        </xs:annotation>
+      <xs:element type="ctInformativaDetail" name="informativaDetail" maxOccurs="unbounded"
+        minOccurs="1">
       </xs:element>
     </xs:sequence>
-
   </xs:complexType>
 
   <xs:complexType name="ctListaInformazioniServizio">
     <xs:sequence>
-      <xs:element type="ctInformazioniServizio" name="informazioniServizio" maxOccurs="unbounded" minOccurs="1" />
+      <xs:element type="ctInformazioniServizio" name="informazioniServizio" maxOccurs="unbounded"
+        minOccurs="1" />
     </xs:sequence>
   </xs:complexType>
-
 
   <xs:complexType name="ctListaParoleChiave">
     <xs:sequence>
@@ -421,67 +258,28 @@
 
   <xs:complexType name="ctListaFasceCostoServizio">
     <xs:sequence>
-      <xs:element type="ctFasciaCostoServizio" name="fasciaCostoServizio" maxOccurs="unbounded" minOccurs="1" />
+      <xs:element type="ctFasciaCostoServizio" name="fasciaCostoServizio" maxOccurs="unbounded"
+        minOccurs="1" />
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ctInformativaMaster">
     <xs:sequence>
       <xs:element type="stDateTimeGiornoOra" name="dataPubblicazione">
-        <xs:annotation>
-          <xs:documentation>
-            Data richiesta di lavorazione della richiesta di configurazione
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stDateTimeGiornoOra" name="dataInizioValidita">
-        <xs:annotation>
-          <xs:documentation>
-            Data di disponibilità del PSP in produzione
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stUrlInformazioni" name="urlInformazioniPSP">
-        <xs:annotation>
-          <xs:documentation>
-            Url generica del PSP per pagoPA. Potrà essere resa visibile all'utente
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stUrlInformativa" name="urlInformativaPSP" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            Url generica alle informative del PSP per pagoPA. Potrà essere resa visibile all'utente
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stUrlConvenzioni" name="urlConvenzioniPSP" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            Url generica alle convenzioni del PSP per pagoPA. Potrà essere resa visibile all'utente
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stZeroUno" name="stornoPagamento">
-        <xs:annotation>
-          <xs:documentation>
-            Abilitazione allo Storno (deprecato  =0 )
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stZeroUno" name="marcaBolloDigitale">
-        <xs:annotation>
-          <xs:documentation>
-            Abilitazione alla vendita di marche da bollo digitali ( @e.bollo ) da parte di Agenzia delle Entrate
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="xs:base64Binary" name="logoPSP">
-        <xs:annotation>
-          <xs:documentation>
-            logo del PSP in formato PNG, con sfondo trasparente e senza margini interni
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -490,26 +288,10 @@
   <xs:complexType name="ctInformativaDetail">
     <xs:sequence>
       <xs:element type="stText35" name="identificativoIntermediario">
-        <xs:annotation>
-          <xs:documentation>
-            identificativo dell'intermediario utilizzato.
-          </xs:documentation>
-          <xs:appinfo>
-            Nel caso di assenza di intermediario inserire il codice fiscale del PSP stesso
-          </xs:appinfo>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stText35" name="identificativoCanale">
-        <xs:annotation>
-          <xs:documentation>
-            Identificativo del canale di pagamento integrato alla piattaforma.
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stTipoVersamento" name="tipoVersamento" default="PO">
-        <xs:annotation>
-          <xs:documentation>Tipologia di canale ( default pagamento presso PSP) </xs:documentation>
-        </xs:annotation>
       </xs:element>
       <xs:element type="stModelloPagamento" name="modelloPagamento" default="4" />
       <xs:element type="xs:int" name="priorita" default="0" />
@@ -526,22 +308,11 @@
   <xs:complexType name="ctListaConvenzioni">
     <xs:sequence>
       <xs:element type="xs:string" name="codiceConvenzione" maxOccurs="unbounded" minOccurs="1">
-        <xs:annotation>
-          <xs:documentation>
-            Codice convenzione
-          </xs:documentation>
-        </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
 
-
   <xs:complexType name="ctCostiServizio">
-    <xs:annotation>
-      <xs:documentation>
-        Descrizione dei costi del servizio
-      </xs:documentation>
-    </xs:annotation>
     <xs:sequence>
       <xs:element type="stUno" name="tipoCostoTransazione" />
       <xs:element type="stZero" name="tipoCommissione" />
@@ -553,20 +324,15 @@
   </xs:complexType>
 
   <xs:complexType name="ctInformazioniServizio">
-    <xs:annotation>
-      <xs:documentation>
-        Descrizione di un servizio specifica in base alla lingua supportata
-      </xs:documentation>
-    </xs:annotation>
     <xs:sequence>
       <xs:element type="stCodiceLingua" name="codiceLingua" default="IT"></xs:element>
-      <xs:element type="stText140" name="descrizioneServizio" minOccurs="0" default="Pagamento con CBILL" />
+      <xs:element type="stText140" name="descrizioneServizio" minOccurs="0"
+        default="Pagamento con CBILL" />
       <xs:element type="stText140" name="disponibilitaServizio" default="24/7/7" />
       <xs:element type="stText140" name="limitazioniServizio" minOccurs="0" />
       <xs:element type="stUrlInformazioni" name="urlInformazioniCanale" minOccurs="0"></xs:element>
     </xs:sequence>
   </xs:complexType>
-
 
   <xs:complexType name="ctFasciaCostoServizio">
     <xs:sequence>
