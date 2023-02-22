@@ -8,7 +8,7 @@
 	targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode">
 	<wsdl:types>
 		<xsd:schema>
-            <xsd:import schemaLocation="../xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd" />
+            <xsd:import schemaLocation="xsd/pspForNode.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/pspForNode.xsd" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="pspNotifyPaymentReq">

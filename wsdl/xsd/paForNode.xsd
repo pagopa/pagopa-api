@@ -5,7 +5,7 @@
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/paForNode"
 	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 
-	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="sac-common-types-1.0.xsd"
+	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="../../xsd-common/sac-common-types-1.0.xsd"
 		xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
 	<xsd:simpleType name="stText20">
