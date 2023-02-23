@@ -273,7 +273,7 @@
 		<wsdl:port binding="tns:nodeForPspBinding"
 			name="nodeForPspPort">
 			<soap:address
-				location="http://pagopa-api.pagopa.gov.it/service/node/NodeForPsp" />
+				location="https://api.uat.platform.pagopa.it/nodo-auth/node-for-psp/v1" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
