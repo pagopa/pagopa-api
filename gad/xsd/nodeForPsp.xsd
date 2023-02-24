@@ -479,45 +479,6 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:complexType name="nodoChiediInformativaPARequest">
-		<xsd:sequence>
-			<xsd:element name="identificativoPSP" type="common:stText35" minOccurs="0" />
-			<xsd:element name="identificativoIntermediarioPSP" type="common:stText35" />
-			<xsd:element name="identificativoCanale" type="common:stText35" />
-			<xsd:element name="password" type="common:stPassword" />
-			<xsd:element name="identificativoDominio" type="common:stText35" minOccurs="0" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="nodoChiediInformativaPAResponse">
-		<xsd:complexContent>
-			<xsd:extension base="tns:risposta">
-				<xsd:sequence>
-					<xsd:element name="xmlInformativa" type="xsd:base64Binary" minOccurs="0" />
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="nodoChiediTemplateInformativaPSPRequest">
-		<xsd:sequence>
-			<xsd:element name="identificativoPSP" type="common:stText35" />
-			<xsd:element name="identificativoIntermediarioPSP" type="common:stText35" />
-			<xsd:element name="identificativoCanale" type="common:stText35" />
-			<xsd:element name="password" type="common:stPassword" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="nodoChiediTemplateInformativaPSPResponse">
-		<xsd:complexContent>
-			<xsd:extension base="tns:risposta">
-				<xsd:sequence>
-					<xsd:element name="xmlTemplateInformativa" type="xsd:base64Binary" minOccurs="0" />
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-
 	<xsd:complexType name="demandPaymentNoticeRequest">
 		<xsd:sequence>
 			<xsd:element name="idPSP" type="tns:stIdPSP" />
@@ -528,7 +489,6 @@
 			<xsd:element name="datiSpecificiServizio" type="xsd:base64Binary" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
-
 
 	<xsd:complexType name="demandPaymentNoticeResponse">
 		<xsd:complexContent>
@@ -634,12 +594,6 @@
 	<xsd:element name="activatePaymentNoticeRes" type="tns:activatePaymentNoticeRes" />
 	<xsd:element name="sendPaymentOutcomeReq" type="tns:sendPaymentOutcomeReq" />
 	<xsd:element name="sendPaymentOutcomeRes" type="tns:sendPaymentOutcomeRes" />
-
-	<xsd:element name="nodoChiediTemplateInformativaPSPRequest" type="tns:nodoChiediTemplateInformativaPSPRequest" />
-	<xsd:element name="nodoChiediTemplateInformativaPSPResponse" type="tns:nodoChiediTemplateInformativaPSPResponse" />
-
-	<xsd:element name="nodoChiediInformativaPARequest" type="tns:nodoChiediInformativaPARequest" />
-	<xsd:element name="nodoChiediInformativaPAResponse" type="tns:nodoChiediInformativaPAResponse" />
 
 	<xsd:element name="demandPaymentNoticeRequest" type="tns:demandPaymentNoticeRequest" />
 	<xsd:element name="demandPaymentNoticeResponse" type="tns:demandPaymentNoticeResponse" />
