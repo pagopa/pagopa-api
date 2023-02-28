@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:ppt="http://ws.pagamenti.telematici.gov/"
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/nodeForPsp"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -9,6 +10,7 @@
 	<wsdl:types>
 		<xsd:schema>
 			<xsd:import schemaLocation="xsd/nodeForPsp.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" />
+			<xsd:import schemaLocation="xsd/nodoInviaFlussoRendicontazione.xsd" namespace="http://ws.pagamenti.telematici.gov/" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="demandPaymentNotice">
@@ -67,14 +69,11 @@
 		<wsdl:part name="bodyresponse"
 			element="nfp:sendPaymentOutcomeV2Response"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoInviaFlussoRendicontazione">
-		<wsdl:part name="bodyrequest"
-			element="nfp:nodoInviaFlussoRendicontazioneRequest"></wsdl:part>
+	<wsdl:message name="nodoInviaFlussoRendicontazioneRequest">
+		<wsdl:part name="bodyrequest" element="ppt:nodoInviaFlussoRendicontazione"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message
-		name="nodoInviaFlussoRendicontazioneResponse">
-		<wsdl:part name="bodyresponse"
-			element="nfp:nodoInviaFlussoRendicontazioneResponse"></wsdl:part>
+	<wsdl:message name="nodoInviaFlussoRendicontazioneResponse">
+		<wsdl:part name="bodyresponse" element="ppt:nodoInviaFlussoRendicontazioneRisposta"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message
 		name="nodoChiediTemplateInformativaPSP">
@@ -132,10 +131,8 @@
 			<wsdl:output message="tns:sendPaymentOutcomeV2Response" />
 		</wsdl:operation>
 		<wsdl:operation name="nodoInviaFlussoRendicontazione">
-			<wsdl:input
-				message="tns:nodoInviaFlussoRendicontazione"></wsdl:input>
-			<wsdl:output
-				message="tns:nodoInviaFlussoRendicontazioneResponse"></wsdl:output>
+			<wsdl:input message="tns:nodoInviaFlussoRendicontazioneRequest"></wsdl:input>
+			<wsdl:output message="tns:nodoInviaFlussoRendicontazioneResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediTemplateInformativaPSP">
 			<wsdl:input

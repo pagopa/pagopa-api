@@ -1,0 +1,55 @@
+<schema version="1.0.0"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://ws.pagamenti.telematici.gov/"
+        xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
+        xmlns:tns="http://ws.pagamenti.telematici.gov/">
+
+    <xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="../../xsd-common/sac-common-types-1.0.xsd"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+
+    <!-- nodoInviaFlussoRendicontazione Definitions -->
+    <xsd:complexType name="nodoInviaFlussoRendicontazione" xmlns:ppt="http://ws.pagamenti.telematici.gov/">
+        <xsd:sequence>
+            <xsd:element name="identificativoPSP" type="common:stText35" />
+            <xsd:element name="identificativoIntermediarioPSP" type="common:stText35" />
+            <xsd:element name="identificativoCanale" type="common:stText35" />
+            <xsd:element name="password" type="common:stPassword" />
+            <xsd:element name="identificativoDominio" type="common:stText35" />
+            <xsd:element name="identificativoFlusso" type="xsd:string" />
+            <xsd:element name="dataOraFlusso" type="xsd:dateTime" />
+            <xsd:element name="xmlRendicontazione" type="xsd:base64Binary" xmime:expectedContentTypes="application/octet-stream" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="nodoInviaFlussoRendicontazioneRisposta" xmlns:ppt="http://ws.pagamenti.telematici.gov/">
+        <xsd:complexContent>
+            <xsd:extension base="tns:risposta">
+                <xsd:sequence>
+                    <xsd:element name="esito" type="xsd:string" minOccurs="1" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="nodoInviaFlussoRendicontazione" type="tns:nodoInviaFlussoRendicontazione" />
+    <xsd:element name="nodoInviaFlussoRendicontazioneRisposta" type="tns:nodoInviaFlussoRendicontazioneRisposta" />
+
+    <xsd:complexType name="risposta">
+        <xsd:sequence>
+            <xsd:element name="fault" type="tns:faultBean" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="faultBean">
+        <xsd:sequence>
+            <xsd:element name="faultCode" type="xsd:string" />
+            <xsd:element name="faultString" type="xsd:string" />
+            <xsd:element name="id" type="xsd:string" />
+            <xsd:element name="description" type="xsd:string" minOccurs="0" />
+            <xsd:element name="serial" type="xsd:int" minOccurs="0" />
+            <xsd:element name="originalFaultCode" type="xsd:string"  minOccurs="0"  />
+            <xsd:element name="originalFaultString" type="xsd:string"  minOccurs="0"  />
+            <xsd:element name="originalDescription" type="xsd:string" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+</schema>
