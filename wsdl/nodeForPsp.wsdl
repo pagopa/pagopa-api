@@ -10,7 +10,7 @@
 	<wsdl:types>
 		<xsd:schema>
 			<xsd:import schemaLocation="xsd/nodeForPsp.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPsp.xsd" />
-			<xsd:import schemaLocation="xsd/nodoInviaFlussoRendicontazione.xsd" namespace="http://ws.pagamenti.telematici.gov/" />
+			<xsd:import schemaLocation="xsd/nodoPerPsp.xsd" namespace="http://ws.pagamenti.telematici.gov/" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="demandPaymentNotice">
@@ -86,12 +86,10 @@
 			element="nfp:nodoChiediTemplateInformativaPSPResponse"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediInformativaPA">
-		<wsdl:part name="bodyrequest"
-			element="nfp:nodoChiediInformativaPARequest"></wsdl:part>
+		<wsdl:part name="bodyrequest" element="ppt:nodoChiediInformativaPA"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediInformativaPAResponse">
-		<wsdl:part name="bodyresponse"
-			element="nfp:nodoChiediInformativaPAResponse"></wsdl:part>
+		<wsdl:part name="bodyresponse" element="ppt:nodoChiediInformativaPARisposta"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediCatalogoServiziV2">
 		<wsdl:part name="bodyrequest"
@@ -142,8 +140,7 @@
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediInformativaPA">
 			<wsdl:input message="tns:nodoChiediInformativaPA"></wsdl:input>
-			<wsdl:output
-				message="tns:nodoChiediInformativaPAResponse"></wsdl:output>
+			<wsdl:output message="tns:nodoChiediInformativaPAResponse"></wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediCatalogoServiziV2">
 			<wsdl:input message="tns:nodoChiediCatalogoServiziV2"></wsdl:input>
