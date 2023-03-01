@@ -1,6 +1,3 @@
-# <img src="_doc/media/under_construction.png" width="35px"> &nbsp; versione DRAFT
-Versione in lavorazione che verrà consolidata contestualmente allla pubblicazione delle SANP3.3.1
-<br>
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
 # pagopa-specifichepagamenti-schemi
