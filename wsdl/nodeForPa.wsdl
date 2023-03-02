@@ -3,12 +3,12 @@
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:nfpa="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
+	xmlns:nfpa="http://ws.pagamenti.telematici.gov/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="nodeForPa"
 	targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd">
 	<wsdl:types>
 		<xsd:schema version="1.0.0">
-			<xsd:import schemaLocation="xsd/nodeForPa.xsd" namespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd" />
+			<xsd:import schemaLocation="xsd/nodeForPa.xsd" namespace="http://ws.pagamenti.telematici.gov/" />
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="nodoChiediElencoFlussiRendicontazione">
@@ -18,10 +18,10 @@
 		<wsdl:part name="bodyresponse" element="nfpa:nodoChiediElencoFlussiRendicontazioneRisposta"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="nodoChiediFlussoRendicontazione">
-		<wsdl:part name="bodyrequest" element="nfpa:nodoChiediFlussoRendicontazioneRequest"></wsdl:part>
+		<wsdl:part name="bodyrequest" element="nfpa:nodoChiediFlussoRendicontazione"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="nodoChiediFlussoRendicontazioneResponse">
-		<wsdl:part name="bodyresponse" element="nfpa:nodoChiediFlussoRendicontazioneResponse"></wsdl:part>
+	<wsdl:message name="nodoChiediFlussoRendicontazioneRisposta">
+		<wsdl:part name="bodyresponse" element="nfpa:nodoChiediFlussoRendicontazioneRisposta"></wsdl:part>
 	</wsdl:message>
 	<wsdl:portType name="nodeForPa">
 		<wsdl:operation name="nodoChiediElencoFlussiRendicontazione">
@@ -30,7 +30,7 @@
 		</wsdl:operation>
 		<wsdl:operation name="nodoChiediFlussoRendicontazione">
 			<wsdl:input message="tns:nodoChiediFlussoRendicontazione"></wsdl:input>
-			<wsdl:output message="tns:nodoChiediFlussoRendicontazioneResponse"></wsdl:output>
+			<wsdl:output message="tns:nodoChiediFlussoRendicontazioneRisposta"></wsdl:output>
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="nodeForPaBinding"

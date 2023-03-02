@@ -1,7 +1,7 @@
 <schema version="1.0.0" xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
+	targetNamespace="http://ws.pagamenti.telematici.gov/"
+	xmlns:tns="http://ws.pagamenti.telematici.gov/"
 	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 
 	<xs:import
@@ -53,7 +53,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:complexType name="nodoChiediFlussoRendicontazioneRequest">
+	<xsd:complexType name="nodoChiediFlussoRendicontazione">
 		<xsd:sequence>
 			<xsd:element name="identificativoIntermediarioPA"
 				type="common:stText35" />
@@ -70,7 +70,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType
-		name="nodoChiediFlussoRendicontazioneResponse">
+		name="nodoChiediFlussoRendicontazioneRisposta">
 		<xsd:complexContent>
 			<xsd:extension base="common:ctRisposta">
 				<xsd:sequence>
@@ -85,6 +85,6 @@
 
 	<xsd:element name="nodoChiediElencoFlussiRendicontazione" type="tns:nodoChiediElencoFlussiRendicontazione" />
 	<xsd:element name="nodoChiediElencoFlussiRendicontazioneRisposta" type="tns:nodoChiediElencoFlussiRendicontazioneRisposta" />
-	<xsd:element name="nodoChiediFlussoRendicontazioneRequest" type="tns:nodoChiediFlussoRendicontazioneRequest" />
-	<xsd:element name="nodoChiediFlussoRendicontazioneResponse" type="tns:nodoChiediFlussoRendicontazioneResponse" />
+	<xsd:element name="nodoChiediFlussoRendicontazione" type="tns:nodoChiediFlussoRendicontazione" />
+	<xsd:element name="nodoChiediFlussoRendicontazioneRisposta" type="tns:nodoChiediFlussoRendicontazioneRisposta" />
 </schema>
