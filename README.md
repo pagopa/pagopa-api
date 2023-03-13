@@ -1,3 +1,6 @@
+<img width="150px"  src="_doc/media/under_construnction.png" title="pagoPa" alt="pagoPa"> 
+Il branch corrente è associata alla versione 3.4.0 delle SANP, fin quando non saranno pubblicate anche il presente contenuto non sarà valido
+
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
 # pagopa-specifichepagamenti-schemi
