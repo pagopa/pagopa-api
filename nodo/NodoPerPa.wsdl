@@ -8,7 +8,7 @@
 <wsdl:definitions xmlns:ppt="http://ws.pagamenti.telematici.gov/" xmlns:ppthead="http://ws.pagamenti.telematici.gov/ppthead" xmlns:tns="http://NodoPagamentiSPC.spcoop.gov.it/servizi/PagamentiTelematiciRPT" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="PagamentiTelematiciRPTservice" targetNamespace="http://NodoPagamentiSPC.spcoop.gov.it/servizi/PagamentiTelematiciRPT">
   <wsdl:types>
     <xsd:schema version="2.1.2" targetNamespace="http://ws.pagamenti.telematici.gov/ppthead">
-      <xsd:import schemaLocation="envelope.xsd" namespace="http://schemas.xmlsoap.org/soap/envelope/" />
+      <xsd:import schemaLocation="../general/envelope.xsd" namespace="http://schemas.xmlsoap.org/soap/envelope/" />
       <xsd:simpleType name="stText35">
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="1" />

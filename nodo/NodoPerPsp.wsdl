@@ -20,13 +20,13 @@
 	<wsdl:types>
 		<xsd:schema version="2.1.2" targetNamespace="http://ws.pagamenti.telematici.gov/">
 			
-			<xsd:include schemaLocation="sac-common-types-1.0.xsd" />
+			<xsd:include schemaLocation="../general/sac-common-types-1.0.xsd" />
 			
-			<xsd:import schemaLocation="PagInf_RPT_RT_6_2_0.xsd" namespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/" />
+			<xsd:import schemaLocation="../general/PagInf_RPT_RT_6_2_0.xsd" namespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/" />
 			<!-- <xsd:import schemaLocation="ACK_PagamentiTelematici_6_0_1.xsd" namespace="http://www.cnipa.gov.it/schemas/2010/Pagamenti/Ack_1_0/" /> -->
-			<xsd:import schemaLocation="IdRPT_128_AIM_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/Code_128_AIM_USS-128_tipo_C" />
-			<xsd:import schemaLocation="IdRPT_GS1_128_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/BarCode_GS1_128_Modified" />
-			<xsd:import schemaLocation="IdRPT_QR_Code_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/QrCode"/>
+			<xsd:import schemaLocation="../general/IdRPT_128_AIM_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/Code_128_AIM_USS-128_tipo_C" />
+			<xsd:import schemaLocation="../general/IdRPT_GS1_128_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/BarCode_GS1_128_Modified" />
+			<xsd:import schemaLocation="../general/IdRPT_QR_Code_v04.xsd" namespace="http://PuntoAccessoPSP.spcoop.gov.it/QrCode"/>
 			
 			<xsd:simpleType name="stText25">
 				<xsd:restriction base="xsd:string">
