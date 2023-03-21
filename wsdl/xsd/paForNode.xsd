@@ -28,6 +28,12 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="stIdentificativoSoggettoServizio">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="5" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:simpleType name="stAmountNotZero">
 		<xsd:restriction base="xsd:decimal">
 			<xsd:pattern value="\d+\.\d{2}" />
@@ -332,6 +338,7 @@
 			<xsd:element name="idBrokerPA" type="common:stText35" />
 			<xsd:element name="idStation" type="common:stText35" />
 			<xsd:element name="idServizio" type="tns:stIdentificativoServizio" maxOccurs="1" />
+			<xsd:element name="idSoggettoServizio" type="tns:stIdentificativoSoggettoServizio" maxOccurs="1" />
 			<xsd:element name="datiSpecificiServizioRequest" type="xsd:base64Binary" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
