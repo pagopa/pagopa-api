@@ -53,8 +53,6 @@
 			<!-- Pagamento presso PSP  tabaccheria -->
 			<xsd:enumeration value="HB" />
 			<!-- Pagamento presso PSP  home banking -->
-			<xsd:enumeration value="POS" />
-			<!-- Pagamento tramite POS Fisico -->
 			<xsd:maxLength value="10" />
 		</xsd:restriction>
 	</xsd:simpleType>
