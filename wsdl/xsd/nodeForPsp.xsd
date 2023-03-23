@@ -305,6 +305,7 @@
 				<xsd:element name="richiestaMarcaDaBollo" type="common:ctRichiestaMarcaDaBollo" />
 			</xsd:choice>
 			<xsd:element name="remittanceInformation" type="common:stText140" />
+			<xsd:element name="transferCategory" type="common:stText140" />
 			<xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
