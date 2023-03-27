@@ -187,6 +187,9 @@
             <xsd:element name="transactionId" type="common:stText35"/>
             <xsd:element name="totalAmount" type="common:stAmount"/>
             <xsd:element name="fee" type="common:stAmount"/>
+            <xsd:element name="primaryCiIncurredFee" type="common:stAmount" minOccurs="0" />
+			<xsd:element name="idBundle" type="common:stText70" minOccurs="0" />
+			<xsd:element name="idCiBundle" type="common:stText70" minOccurs="0" />
             <xsd:element name="timestampOperation" type="common:stISODateTime"/>
             <xsd:element name="paymentList" type="tns:ctPaymentListV2"/>
             <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
