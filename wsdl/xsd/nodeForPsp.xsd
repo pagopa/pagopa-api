@@ -312,7 +312,7 @@
 
 	<xsd:complexType name="ctTransferListPSPV2">
 		<xsd:sequence>
-			<xsd:element name="transfer" type="tns:ctTransferPSPV2" maxOccurs="5" />
+			<xsd:element name="transfer" type="tns:ctTransferPSPV2" minOccurs="1" maxOccurs="5" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -605,6 +605,7 @@
 					<xsd:element name="suggestedPaFee" type="common:stAmount" minOccurs="0" />
 					<xsd:element name="suggestedIdBundle" type="common:stText70" minOccurs="0" />
 					<xsd:element name="suggestedIdCiBundle" type="common:stText70" minOccurs="0" />
+					<xsd:element name="allCCP" type="xsd:boolean" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
