@@ -3,7 +3,7 @@
 
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
-# pagopa-specifichepagamenti-schemi
+# pagopa-specifichepagamenti-schemi 
 > definizione di tutte le interfacce (esposte e richieste) per la connessione con il sistema pagoPA.
 > Tutti gli schemi XSD, WSDL e swagger seguono release diverse dalle SANP
 
