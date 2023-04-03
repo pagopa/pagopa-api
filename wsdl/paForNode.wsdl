@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/paForNode"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/pa/paForNode"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"
-	targetNamespace="http://pagopa-api.pagopa.gov.it/paForNode">
+	xmlns:pafn="http://pagopa-api.pagopa.gov.it/pa/paForNode"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/pa/paForNode">
 	<wsdl:types>
 
 		<xsd:schema version="1.0.0">
 			<xsd:import schemaLocation="xsd/paForNode.xsd"
-				namespace="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"></xsd:import>
+				namespace="http://pagopa-api.pagopa.gov.it/pa/paForNode"></xsd:import>
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="paDemandPaymentNotice">
