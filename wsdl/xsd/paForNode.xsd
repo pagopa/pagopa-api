@@ -1,8 +1,8 @@
 <xsd:schema version="1.0.0"
 	xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-	targetNamespace="http://pagopa-api.pagopa.gov.it/pa/paForNode"
-	xmlns:tns="http://pagopa-api.pagopa.gov.it/pa/paForNode"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/pa/paForNode.xsd"
 	xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
 
 	<xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="../../xsd-common/sac-common-types-1.0.xsd"
