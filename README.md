@@ -1,3 +1,4 @@
+**Attenzione: Il branch corrente è associato alla versione 3.4.1 delle SANP, fin quando non saranno pubblicate anche il presente contenuto non è da ritenersi valido**
 
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
