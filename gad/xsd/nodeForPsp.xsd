@@ -14,6 +14,15 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="stAmountNotZero">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:pattern value="\d+\.\d{2}" />
+			<xsd:minInclusive value="0.01" />
+			<!-- force to set value different from 0. -->
+			<xsd:maxInclusive value="999999999.99" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:simpleType name="stPaymentMethodFee">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="BBT" />
@@ -237,7 +246,7 @@
 	<!-- Payment List : verify response -->
 	<xsd:complexType name="ctPaymentOptionDescription">
 		<xsd:sequence>
-			<xsd:element name="amount" type="common:stAmount" />
+			<xsd:element name="amount" type="tns:stAmountNotZero" />
 			<xsd:element name="options" type="tns:stAmountOptionPSP" />
 			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" />
 			<!-- Data di scadenza del pagamento -->
@@ -247,7 +256,7 @@
 
 	<xsd:complexType name="ctPaymentOptionBollettinoDescription">
 		<xsd:sequence>
-			<xsd:element name="amount" type="common:stAmount" />
+			<xsd:element name="amount" type="tns:stAmountNotZero" />
 			<xsd:element name="options" type="tns:stAmountOptionPSP" />
 			<xsd:element name="dueDate" type="common:stISODate" minOccurs="0" />
 			<!-- Data di scadenza del pagamento -->
