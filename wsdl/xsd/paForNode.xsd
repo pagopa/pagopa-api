@@ -364,6 +364,7 @@
 			<xsd:element name="idTransfer" type="tns:stIdTransfer" />
 			<xsd:element name="transferAmount" type="tns:stAmountNotZero" />
 			<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" />
+			<xsd:element name="companyName" type="common:stText140" />
 			<xsd:choice>
 				<xsd:element name="IBAN" type="tns:stIBAN" />
 				<xsd:element name="richiestaMarcaDaBollo" type="common:ctRichiestaMarcaDaBollo" />
@@ -409,7 +410,7 @@
 			<xsd:element name="retentionDate" type="xsd:dateTime" minOccurs="0" />
 			<xsd:element name="lastPayment" type="xsd:boolean" minOccurs="0" />
 			<xsd:element name="description" type="common:stText140" />
-			<xsd:element name="companyName" type="common:stText140" minOccurs="0" />
+			<xsd:element name="companyName" type="common:stText140" />
 			<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
 			<xsd:element name="debtor" type="tns:ctSubject" />
 			<xsd:element name="transferList" type="tns:ctTransferListPAV2" />

@@ -15,4 +15,3 @@ il _GAD_ (**Deprecato**)
 * **xsd-common**: contiene gli schemi di definizione dei documenti _XML_ comuni scambiati all'interno del sistema _pagoPA_
 * **catalogo-servizi**: contiene gli schemi di definizione _XML_ dei singoli servizi a catalogo (_Catalogo Servizi_) 
 * **openapi**: contiene gli swagger delle interfacce _REST_.
-Wip Marilena
