@@ -109,7 +109,7 @@
 	<xsd:simpleType name="stTransferType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="POSTAL"/>
-			<xsd:enumeration value="POSTAL"/>	
+			<xsd:enumeration value="PAGOPA"/>	
 		</xsd:restriction>
 	</xsd:simpleType>
 	<!--Complex type -->
