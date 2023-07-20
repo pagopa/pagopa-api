@@ -1,5 +1,3 @@
-La validità del contenuto di questo branch è collegata alla pubblicazione della relativa versione delle SANP (3.5.0) 
-
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
 # pagopa-specifichepagamenti-schemi 
