@@ -1,0 +1,759 @@
+openapi: 3.0.3
+info:
+  title: FDR - Flussi di rendicontazione (local) ${service}
+  description: >-
+    Manage FDR ( aka "Flussi di Rendicontazione" ) exchanged between PSP and EC
+    ${service}
+  termsOfService: https://www.pagopa.gov.it/
+  version: 1.0.0-SNAPSHOT
+servers:
+  - url:https://api.uat.platform.pagopa.it/fdr/api/v1
+tags:
+  - name: Info
+    description: Info operations
+  - name: Internal Organizations
+    description: Get reporting flow operations
+  - name: Internal PSP
+    description: Psp operations
+  - name: Organizations
+    description: Get reporting flow operations
+  - name: PSP
+    description: Psp operations
+paths:
+  /organizations/{ec}/flows:
+    get:
+      tags:
+        - Organizations
+      summary: Get all published reporting flow
+      description: Get all published reporting flow by ec and idPsp(optional param)
+      parameters:
+        - name: ec
+          in: path
+          required: true
+          schema:
+            pattern: ^(.{1,35})$
+            type: string
+        - name: idPsp
+          in: query
+          schema:
+            pattern: ^(.{1,35})$
+            type: string
+        - name: page
+          in: query
+          schema:
+            format: int64
+            default: 1
+            minimum: 1
+            type: integer
+        - name: size
+          in: query
+          schema:
+            format: int64
+            default: 50
+            minimum: 1
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /psps/{psp}/flows/{fdr}/payments/del:
+    put:
+      tags:
+        - PSP
+      summary: Delete payments to reporting flow
+      description: Delete payments to reporting flow
+      parameters:
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: psp
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletePaymentRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /organizations/{ec}/flows/{fdr}/psps/{psp}/payments:
+    get:
+      tags:
+        - Organizations
+      summary: Get payments of reporting flow
+      description: Get only payments of reporting flow by id paginated
+      parameters:
+        - name: ec
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: psp
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            format: int64
+            default: 1
+            minimum: 1
+            type: integer
+        - name: size
+          in: query
+          schema:
+            format: int64
+            default: 50
+            minimum: 1
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPaymentResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /organizations/{ec}/flows/{fdr}/psps/{psp}:
+    get:
+      tags:
+        - Organizations
+      summary: Get reporting flow
+      description: Get reporting flow by id but not payments
+      parameters:
+        - name: ec
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: psp
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetIdResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /psps/{psp}/flows/{fdr}/publish:
+    post:
+      tags:
+        - PSP
+      summary: Publish reporting flow
+      description: Publish reporting flow
+      parameters:
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: psp
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /psps/{psp}/flows/{fdr}:
+    post:
+      tags:
+        - PSP
+      summary: Create reporting flow
+      description: Create new reporting flow
+      parameters:
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            pattern: '[a-zA-Z0-9\-_]{1,35}'
+            type: string
+        - name: psp
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFlowRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - PSP
+      summary: Delete reporting flow
+      description: Delete reporting flow
+      parameters:
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: psp
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /psps/{psp}/flows/{fdr}/payments/add:
+    put:
+      tags:
+        - PSP
+      summary: Add payments to reporting flow
+      description: Add payments to reporting flow
+      parameters:
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: psp
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPaymentRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '400':
+          $ref: '#/components/responses/AppException400'
+        '404':
+          $ref: '#/components/responses/AppException404'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /info:
+    get:
+      tags:
+        - Info
+      summary: Get info of FDR
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    AddPaymentRequest:
+      required:
+        - payments
+      type: object
+      properties:
+        payments:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+    CreateFlowRequest:
+      required:
+        - reportingFlowName
+        - reportingFlowDate
+        - sender
+        - receiver
+        - regulation
+        - regulationDate
+      type: object
+      properties:
+        reportingFlowName:
+          pattern: '[a-zA-Z0-9\-_]{1,35}'
+          type: string
+          example: 2016-08-16pspTest-1178
+        reportingFlowDate:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-04-05T09:21:37.810000Z'
+        sender:
+          $ref: '#/components/schemas/Sender'
+        receiver:
+          $ref: '#/components/schemas/Receiver'
+        regulation:
+          pattern: ^(.{1,35})$
+          type: string
+          example: SEPA - Bonifico xzy
+        regulationDate:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-04-03T12:00:30.900000Z'
+        bicCodePouringBank:
+          pattern: ^(.{1,35})$
+          type: string
+          example: UNCRITMMXXX
+    DeletePaymentRequest:
+      required:
+        - indexPayments
+      type: object
+      properties:
+        indexPayments:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            format: int64
+            type: integer
+    ErrorCode:
+      type: object
+      properties:
+        code:
+          type: string
+          example: FDR-0500
+        description:
+          type: string
+          example: An unexpected error has occurred. Please contact support.
+        statusCode:
+          format: int32
+          type: integer
+          example: 500
+    ErrorMessage:
+      type: object
+      properties:
+        path:
+          type: string
+          example: demo.test
+        message:
+          type: string
+          example: An unexpected error has occurred. Please contact support.
+    ErrorResponse:
+      type: object
+      properties:
+        errorId:
+          type: string
+          example: 50905466-1881-457b-b42f-fb7b2bfb1610
+        httpStatusCode:
+          format: int32
+          type: integer
+          example: 500
+        httpStatusDescription:
+          type: string
+          example: Internal Server Error
+        appErrorCode:
+          type: string
+          example: FDR-500
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorMessage'
+    Flow:
+      type: object
+      properties:
+        name:
+          type: string
+          example: AAABBB
+        pspId:
+          type: string
+          example: '1'
+    FlowInternal:
+      type: object
+      properties:
+        name:
+          type: string
+          example: AAABBB
+        pspId:
+          type: string
+          example: '1'
+        revision:
+          format: int64
+          type: integer
+          example: 1
+    GenericResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+    GetAllInternalResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          format: int64
+          type: integer
+          example: 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlowInternal'
+    GetAllResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          format: int64
+          type: integer
+          example: 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Flow'
+    GetIdResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/ReportingFlowStatusEnum'
+          example: CREATED
+        revision:
+          format: int64
+          type: integer
+          example: 4
+        created:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-04-03T12:00:30.900000Z'
+        updated:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-04-03T12:00:30.900000Z'
+        reportingFlowName:
+          type: string
+          example: 2016-08-16pspTest-1178
+        reportingFlowDate:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-04-05T09:21:37.810000Z'
+        regulation:
+          type: string
+          example: SEPA - Bonifico xzy
+        regulationDate:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-04-03T12:00:30.900000Z'
+        bicCodePouringBank:
+          type: string
+          example: UNCRITMMXXX
+        sender:
+          $ref: '#/components/schemas/Sender'
+        receiver:
+          $ref: '#/components/schemas/Receiver'
+        totPayments:
+          format: int64
+          type: integer
+          example: 100
+        sumPayments:
+          format: double
+          type: number
+          example: 100.9
+    GetPaymentResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          format: int64
+          type: integer
+          example: 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+    InfoResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          example: pagopa-fdr
+        version:
+          type: string
+          example: 1.2.3
+        environment:
+          type: string
+          example: dev
+        description:
+          type: string
+          example: FDR - Flussi di rendicontazione
+        errorCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorCode'
+    Instant:
+      format: date-time
+      type: string
+      example: '2022-03-10T16:15:50Z'
+    Metadata:
+      type: object
+      properties:
+        pageSize:
+          format: int32
+          type: integer
+          example: 25
+        pageNumber:
+          format: int32
+          type: integer
+          example: 1
+        totPage:
+          format: int32
+          type: integer
+          example: 3
+    Payment:
+      required:
+        - iuv
+        - iur
+        - index
+        - pay
+        - payStatus
+        - payDate
+      type: object
+      properties:
+        iuv:
+          pattern: ^(.{1,35})$
+          type: string
+          example: abcdefg
+        iur:
+          pattern: ^(.{1,35})$
+          type: string
+          example: abcdefg
+        index:
+          format: int64
+          maximum: 5
+          minimum: 1
+          type: integer
+          example: 1
+        pay:
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+          pattern: ^\d{1,2147483647}([.]\d{1,2})?$
+          type: number
+          example: 0.01
+        payStatus:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/PaymentStatusEnum'
+          example: EXECUTED
+        payDate:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-02-03T12:00:30.900000Z'
+    PaymentStatusEnum:
+      enum:
+        - EXECUTED
+        - REVOKED
+        - NO_RPT
+      type: string
+    Receiver:
+      required:
+        - id
+        - ecId
+        - ecName
+      type: object
+      properties:
+        id:
+          pattern: ^(.{1,35})$
+          type: string
+          example: APPBIT2B
+        ecId:
+          pattern: ^(.{1,35})$
+          type: string
+          example: '20000000001'
+        ecName:
+          pattern: ^(.{1,140})$
+          type: string
+          example: Comune di xyz
+    ReportingFlowStatusEnum:
+      enum:
+        - CREATED
+        - INSERTED
+        - PUBLISHED
+      type: string
+    Sender:
+      required:
+        - type
+        - id
+        - pspId
+        - pspName
+        - brokerId
+        - channelId
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/SenderTypeEnum'
+        id:
+          pattern: ^(.{1,35})$
+          type: string
+          example: SELBIT2B
+        pspId:
+          pattern: ^(.{1,35})$
+          type: string
+          example: '60000000001'
+        pspName:
+          pattern: ^(.{3,70})$
+          type: string
+          example: Bank
+        brokerId:
+          pattern: ^(.{1,35})$
+          type: string
+          example: '70000000001'
+        channelId:
+          pattern: ^(.{1,35})$
+          type: string
+          example: '80000000001'
+        password:
+          pattern: ^(\w{8,15})$
+          type: string
+          example: '1234567890'
+          deprecated: true
+    SenderTypeEnum:
+      enum:
+        - LEGAL_PERSON
+        - ABI_CODE
+        - BIC_CODE
+      type: string
+  responses:
+    AppException400:
+      description: Default app exception for status 400
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            Error:
+              value:
+                httpStatusCode: 400
+                httpStatusDescription: Bad Request
+                appErrorCode: FDR-0702
+                errors:
+                  - message: Reporting Flow id [<flow-id>] is invalid found
+            Errors with path:
+              value:
+                httpStatusCode: 400
+                httpStatusDescription: Bad Request
+                appErrorCode: FDR-0702
+                errors:
+                  - path: <detail.path.if-exist>
+                    message: <detail.message>
+    AppException404:
+      description: Default app exception for status 404
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            httpStatusCode: 404
+            httpStatusDescription: Not Found
+            appErrorCode: FDR-0701
+            errors:
+              - message: Reporting Flow id [<flow-id>] not found
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+            httpStatusCode: 500
+            httpStatusDescription: Internal Server Error
+            appErrorCode: FDR-0500
+            errors:
+              - message: An unexpected error has occurred. Please contact support.
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: basic
