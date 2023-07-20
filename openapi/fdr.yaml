@@ -7,7 +7,7 @@ info:
   termsOfService: https://www.pagopa.gov.it/
   version: 1.0.0-SNAPSHOT
 servers:
-  - url:https://api.uat.platform.pagopa.it/fdr/api/v1
+  - url:https://api.uat.platform.pagopa.it/fdr/service/v1
 tags:
   - name: Info
     description: Info operations
