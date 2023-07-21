@@ -487,6 +487,16 @@ components:
             $ref: '#/components/schemas/Flow'
     GetIdResponse:
       type: object
+      required: 
+        - created
+        - reportingFlowName
+        - reportingFlowDate
+        - sender
+        - receiver
+        - regulation
+        - regulationDate
+        - totPayments
+        - sumPayments
       properties:
         status:
           type: string
