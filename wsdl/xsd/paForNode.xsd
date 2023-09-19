@@ -259,6 +259,7 @@
 
 			<xsd:element name="payer" type="tns:ctSubject" minOccurs="0" />
 			<xsd:element name="paymentMethod" type="common:stText35" minOccurs="0" />
+			<xsd:element name="paymentNote" type="tns:stText210" minOccurs="0" />
 
 			<xsd:element name="fee" type="common:stAmount" minOccurs="0" />
 			<xsd:element name="primaryCiIncurredFee" type="common:stAmount" minOccurs="0" />
