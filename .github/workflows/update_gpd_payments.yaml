@@ -40,6 +40,8 @@ jobs:
           cp ${GITHUB_WORKSPACE}/wsdl/xsd/paForNode.xsd ${GITHUB_WORKSPACE}/xsd/paForNode.xsd
       - name: Create pull request
         uses: jacopocarlini/action-pull-request-another-repo@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.BOT_TOKEN_GITHUB }}
         with:
           source_folder: 'xsd'
           destination_repo: 'pagopa/pagopa-gpd-payments'
