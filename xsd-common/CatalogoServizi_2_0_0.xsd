@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema version="2.0.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:cs="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/CatalogoServizi"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/nodeForPsp/xsd/CatalogoServizi">
+
+	<xsd:simpleType name="stText35">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="35" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stText70">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="70" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stISODate">
+		<xsd:restriction base="xsd:date"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stIdentificativoServizio">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="5" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stIdentificativoSoggettoServizio">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="5" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="stCommissione">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Y" />
+			<xsd:enumeration value="N" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ctCatalogoServizi">
+		<xsd:sequence>
+			<xsd:element name="idServizio"
+						 type="cs:stIdentificativoServizio" />
+			<xsd:element name="descrizioneServizio"
+						 type="cs:stText70" />
+			<xsd:element name="elencoSoggettiEroganti"
+						 type="cs:ctElencoSoggettiEroganti" />
+			<xsd:element name="categoria"
+						 type="cs:stText35" minOccurs="0" />
+			<xsd:element name="xsdRiferimento"
+						 type="cs:stText35" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ctElencoSoggettiEroganti">
+		<xsd:sequence>
+			<xsd:element name="soggettoErogante"
+						 type="cs:ctSoggettoErogante" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ctSoggettoErogante">
+		<xsd:sequence>
+			<xsd:element name="idSoggettoServizio" type="cs:stIdentificativoSoggettoServizio" />
+			<xsd:element name="idDominio" type="cs:stText35" />
+			<xsd:element name="denominazioneEnteCreditore"
+						 type="cs:stText70" />
+			<xsd:element name="dataInizioValidita"
+						 type="cs:stISODate" />
+			<xsd:element name="dataFineValidita"
+						 type="cs:stISODate" minOccurs="0" />
+			<xsd:element name="commissione"
+						 type="cs:stCommissione" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ctListaCataloghiServizi">
+		<xsd:sequence>
+			<xsd:element name="catalogoServizi"
+						 type="cs:ctCatalogoServizi" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="listaCatalogoServizi"
+				 type="cs:ctListaCataloghiServizi" />
+
+</xsd:schema>

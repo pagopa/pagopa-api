@@ -1,0 +1,210 @@
+<schema version="1.0.0"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"
+    xmlns:tns="http://pagopa-api.pagopa.gov.it/psp/pspForNode.xsd"
+    xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/">
+
+    <xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="../../xsd-common/sac-common-types-1.0.xsd"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+
+    <!--Simple type -->
+    <xsd:simpleType name="stText6">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="6"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stIdTransfer">
+        <xsd:restriction base="xsd:int">
+            <xsd:enumeration value="1"/>
+            <xsd:enumeration value="2"/>
+            <xsd:enumeration value="3"/>
+            <xsd:enumeration value="4"/>
+            <xsd:enumeration value="5"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+
+    <xsd:simpleType name="stIBAN">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!--Complex type -->
+    <xsd:complexType name="ctPaymentList">
+        <xsd:sequence>
+            <xsd:element name="payment" type="tns:ctPayment" maxOccurs="5"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ctPaymentListV2">
+        <xsd:sequence>
+            <xsd:element name="payment" type="tns:ctPaymentV2" maxOccurs="5"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctPayment">
+        <xsd:sequence>
+            <xsd:element name="paymentToken" type="common:stPaymentToken"/>
+            <xsd:element name="paymentDescription" type="common:stText140"/>
+            <xsd:element name="fiscalCodePA" type="common:stFiscalCodePA"/>
+            <xsd:element name="companyName" type="common:stText140"/>
+            <xsd:element name="officeName" type="common:stText140" minOccurs="0"/>
+            <xsd:element name="creditorReferenceId" type="common:stText35"/>
+            <xsd:element name="debtAmount" type="common:stAmount"/>
+            <xsd:element name="transferList" type="tns:ctTransferListPSP"/>
+            <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctPaymentV2">
+        <xsd:sequence>
+            <xsd:element name="paymentToken" type="common:stPaymentToken"/>
+            <xsd:element name="paymentDescription" type="common:stText140"/>
+            <xsd:element name="fiscalCodePA" type="common:stFiscalCodePA"/>
+            <xsd:element name="companyName" type="common:stText140"/>
+            <xsd:element name="officeName" type="common:stText140" minOccurs="0"/>
+            <xsd:element name="creditorReferenceId" type="common:stText35"/>
+            <xsd:element name="debtAmount" type="common:stAmount"/>
+            <xsd:element name="transferList" type="tns:ctTransferListPSPV2"/>
+            <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctTransferPSP">
+        <xsd:sequence>
+            <xsd:element name="idTransfer" type="tns:stIdTransfer"/>
+            <xsd:element name="transferAmount" type="common:stAmount"/>
+            <xsd:element name="fiscalCodePA" type="common:stFiscalCodePA"/>
+            <xsd:element name="IBAN" type="tns:stIBAN"/>
+            <xsd:element name="remittanceInformation" type="common:stText140"/>
+            <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctTransferPSPV2">
+        <xsd:sequence>
+            <xsd:element name="idTransfer" type="tns:stIdTransfer"/>
+            <xsd:element name="transferAmount" type="common:stAmount"/>
+            <xsd:element name="fiscalCodePA" type="common:stFiscalCodePA"/>
+            <xsd:choice>
+                <xsd:element name="IBAN" type="tns:stIBAN"/>
+                <xsd:element name="richiestaMarcaDaBollo" type="common:ctRichiestaMarcaDaBollo"/>
+            </xsd:choice>
+            <xsd:element name="remittanceInformation" type="common:stText140"/>
+            <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctTransferListPSP">
+        <xsd:sequence>
+            <xsd:element name="transfer" type="tns:ctTransferPSP" maxOccurs="5"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ctTransferListPSPV2">
+        <xsd:sequence>
+            <xsd:element name="transfer" type="tns:ctTransferPSPV2" maxOccurs="5"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctCreditCardPayment">
+        <xsd:sequence>
+            <xsd:element name="rrn" type="xsd:string"/>
+            <xsd:element name="outcomePaymentGateway" type="xsd:string"/>
+            <xsd:element name="totalAmount" type="common:stAmount"/>
+            <xsd:element name="fee" type="common:stAmount"/>
+            <xsd:element name="timestampOperation" type="common:stISODateTime"/>
+            <xsd:element name="authorizationCode" type="tns:stText6"/>
+            <xsd:element name="paymentGateway" type="common:stText35" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctPaypalPayment">
+        <xsd:sequence>
+            <xsd:element name="transactionId" type="xsd:string"/>
+            <xsd:element name="pspTransactionId" type="xsd:string"/>
+            <xsd:element name="totalAmount" type="common:stAmount"/>
+            <xsd:element name="fee" type="common:stAmount"/>
+            <xsd:element name="timestampOperation" type="common:stISODateTime"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctBancomatpayPayment">
+        <xsd:sequence>
+            <xsd:element name="transactionId" type="xsd:string"/>
+            <xsd:element name="outcomePaymentGateway" type="xsd:string"/>
+            <xsd:element name="totalAmount" type="common:stAmount"/>
+            <xsd:element name="fee" type="common:stAmount"/>
+            <xsd:element name="timestampOperation" type="common:stISODateTime"/>
+            <xsd:element name="authorizationCode" type="tns:stText6"/>
+            <xsd:element name="paymentGateway" type="common:stText35" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ctAdditionalPaymentInformations">
+        <xsd:sequence>
+            <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!--Element req/res -->
+    <xsd:complexType name="pspNotifyPaymentReq">
+        <xsd:sequence>
+            <xsd:element name="idPSP" type="common:stText35"/>
+            <xsd:element name="idBrokerPSP" type="common:stText35"/>
+            <xsd:element name="idChannel" type="common:stText35"/>
+            <xsd:element name="paymentToken" type="common:stPaymentToken"/>
+            <xsd:element name="paymentDescription" type="common:stText140"/>
+            <xsd:element name="fiscalCodePA" type="common:stFiscalCodePA"/>
+            <xsd:element name="companyName" type="common:stText140"/>
+            <xsd:element name="officeName" type="common:stText140" minOccurs="0"/>
+            <xsd:element name="creditorReferenceId" type="common:stText35"/>
+            <xsd:element name="debtAmount" type="common:stAmount"/>
+            <xsd:element name="transferList" type="tns:ctTransferListPSP"/>
+            <xsd:choice>
+                <xsd:element name="creditCardPayment" type="tns:ctCreditCardPayment"/>
+                <xsd:element name="paypalPayment" type="tns:ctPaypalPayment"/>
+                <xsd:element name="bancomatpayPayment" type="tns:ctBancomatpayPayment"/>
+                <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="pspNotifyPaymentRes">
+        <xsd:complexContent>
+            <xsd:extension base="common:ctResponse"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="pspNotifyPaymentV2">
+        <xsd:sequence>
+            <xsd:element name="idPSP" type="common:stText35"/>
+            <xsd:element name="idBrokerPSP" type="common:stText35"/>
+            <xsd:element name="idChannel" type="common:stText35"/>
+            <xsd:element name="transactionId" type="common:stText35"/>
+            <xsd:element name="totalAmount" type="common:stAmount"/>
+            <xsd:element name="fee" type="common:stAmount"/>
+            <xsd:element name="primaryCiIncurredFee" type="common:stAmount" minOccurs="0" />
+			<xsd:element name="idBundle" type="common:stText70" minOccurs="0" />
+			<xsd:element name="idCiBundle" type="common:stText70" minOccurs="0" />
+            <xsd:element name="timestampOperation" type="common:stISODateTime"/>
+            <xsd:element name="paymentList" type="tns:ctPaymentListV2"/>
+            <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="pspNotifyPaymentV2Res">
+        <xsd:complexContent>
+            <xsd:extension base="common:ctResponse"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="pspNotifyPaymentReq" type="tns:pspNotifyPaymentReq"/>
+    <xsd:element name="pspNotifyPaymentRes" type="tns:pspNotifyPaymentRes"/>
+    <xsd:element name="pspNotifyPaymentV2" type="tns:pspNotifyPaymentV2"/>
+    <xsd:element name="pspNotifyPaymentV2Res" type="tns:pspNotifyPaymentV2Res"/>
+
+</schema>

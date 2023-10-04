@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: GPD Reporting Analysis pagoPA
+  description: Api GPD Reporting Analysis
+  version: v1
+servers:
+  - url: https://api.uat.platform.pagopa.it/gpd-reporting/api/v1
+    description: host for UAT environment
+  - url: https://api.platform.pagopa.it/gpd-reporting/api/v1
+    description: host for PROD environment
+paths:
+  '/organizations/{organizationId}/reportings':
+    get:
+      tags:
+        - Organization Requests
+      summary: getFlowList
+      description: getFlowList
+      operationId: get-organizations-organizationid-reportings
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+          examples:
+            default:
+              value: 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowList'
+              example:
+                - flowId: 2022-07-15PSPXXXXXXXX-0000000001
+                  flowDate: '2022-07-15T00:31:05.0000000+00:00'
+        '400':
+          description: Error response
+          content:
+            application/json: { }
+  '/organizations/{organizationId}/reportings/{flowId}/date/{date}':
+    get:
+      tags:
+        - Organization Requests
+      summary: getFlow
+      description: getFlow
+      operationId: get-organizations-organizationid-reportings-flowid-date-date
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+          examples:
+            default:
+              value: 
+        - name: flowId
+          in: path
+          required: true
+          schema:
+            type: string
+          examples:
+            default:
+              value: 
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+          examples:
+            default:
+              value: 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                type: string
+                description: Flow XML
+                format: binary
+              example: <Organizations-organizationId-Reportings-flowId-Date-date-Get200ApplicationXmlResponse>string</Organizations-organizationId-Reportings-flowId-Date-date-Get200ApplicationXmlResponse>
+        '404':
+          description: Not Found
+          content:
+            application/json: { }
+components:
+  schemas:
+    FlowList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Flow'
+    Flow:
+      type: object
+      properties:
+        flowId:
+          type: string
+          example: 2022-01-12PPAYITR1XXX-S079177254
+        flowDate:
+          type: string
+          example: '2022-01-12T00:31:05'
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
