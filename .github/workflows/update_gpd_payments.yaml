@@ -30,6 +30,9 @@ jobs:
 
     # open a PR on GPD-Payments repo
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       # prepare XSD template for GPD repo
       - name: Modify file
         run: |
