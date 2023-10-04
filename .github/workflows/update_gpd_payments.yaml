@@ -45,7 +45,7 @@ jobs:
         with:
           source_folder: 'xsd'
           destination_repo: 'pagopa/pagopa-gpd-payments'
-          destination_folder: 'src/main/resources'
+          destination_folder: 'src/main/resources/xsd'
           destination_base_branch: 'main'
           destination_head_branch: 'XSD-update'
           user_email: 'github-bot@pagopa.it'
