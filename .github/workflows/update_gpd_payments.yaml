@@ -4,14 +4,14 @@ name: Update GPD-Payments XSD
 on:
   pull_request:
     branches:
-      - master
+      - SANP3.5.0
     types:
       - opened
       - synchronize
       - reopened
   push:
     branches:
-      - master
+      - SANP3.5.0
 
 
   # Allows you to run this workflow manually from the Actions tab
