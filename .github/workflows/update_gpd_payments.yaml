@@ -40,7 +40,7 @@ jobs:
           cp ${GITHUB_WORKSPACE}/wsdl/xsd/paForNode.xsd ${GITHUB_WORKSPACE}/xsd/paForNode.xsd
       - name: Running on branch.
         run: |
-          echo "Running on branch: ${{ github.ref_name }}"
+          echo "Running on branch: ${{ github }}"
 #      - name: Create pull request
 #        uses: jacopocarlini/action-pull-request-another-repo@main
 #        env:
