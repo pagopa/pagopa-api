@@ -2,16 +2,9 @@ name: Update GPD-Payments XSD
 
 # Controls when the workflow will run
 on:
-  pull_request:
-    branches:
-      - SANP3.5.0
-    types:
-      - opened
-      - synchronize
-      - reopened
   push:
     branches:
-      - SANP3.5.0
+      - master
 
 
   # Allows you to run this workflow manually from the Actions tab
@@ -38,20 +31,16 @@ jobs:
         run: |
           mkdir -p "${GITHUB_WORKSPACE}/xsd"
           cp ${GITHUB_WORKSPACE}/wsdl/xsd/paForNode.xsd ${GITHUB_WORKSPACE}/xsd/paForNode.xsd
-      - name: Dump GitHub context
+      - name: Create pull request
+        uses: jacopocarlini/action-pull-request-another-repo@main
         env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
-#      - name: Create pull request
-#        uses: jacopocarlini/action-pull-request-another-repo@main
-#        env:
-#          API_TOKEN_GITHUB: ${{ secrets.BOT_TOKEN_GITHUB }}
-#        with:
-#          source_folder: 'xsd'
-#          destination_repo: 'pagopa/pagopa-gpd-payments'
-#          destination_folder: 'src/main/resources/xsd'
-#          destination_base_branch: 'main'
-#          destination_head_branch: 'XSD-update'
-#          user_email: 'github-bot@pagopa.it'
-#          user_name: 'pagopa-github-bot'
-#          allow_force_push: 'true'
+          API_TOKEN_GITHUB: ${{ secrets.BOT_TOKEN_GITHUB }}
+        with:
+          source_folder: 'xsd'
+          destination_repo: 'pagopa/pagopa-gpd-payments'
+          destination_folder: 'src/main/resources/xsd'
+          destination_base_branch: 'main'
+          destination_head_branch: 'XSD-update'
+          user_email: 'github-bot@pagopa.it'
+          user_name: 'pagopa-github-bot'
+          allow_force_push: 'true'
