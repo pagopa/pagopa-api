@@ -38,7 +38,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.BOT_TOKEN_GITHUB }}
         with:
-          source_folder: 'xsd'
+          source_folder: 'resources'
           destination_repo: 'pagopa/pagopa-gpd-payments'
           destination_folder: 'src/main/resources'
           destination_base_branch: 'main'
