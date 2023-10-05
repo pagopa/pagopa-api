@@ -29,8 +29,10 @@ jobs:
       # prepare XSD template for GPD repo
       - name: Modify file
         run: |
-          mkdir -p "${GITHUB_WORKSPACE}/xsd"
-          cp ${GITHUB_WORKSPACE}/wsdl/xsd/paForNode.xsd ${GITHUB_WORKSPACE}/xsd/paForNode.xsd
+          mkdir -p "${GITHUB_WORKSPACE}/resources/xsd"
+          mkdir -p "${GITHUB_WORKSPACE}/resources/xsd-common"
+          cp ${GITHUB_WORKSPACE}/wsdl/xsd/paForNode.xsd ${GITHUB_WORKSPACE}/resources/xsd/paForNode.xsd
+          cp ${GITHUB_WORKSPACE}/xsd-common/sac-common-types-1.0.xsd ${GITHUB_WORKSPACE}/resources/xsd-common/sac-common-types-1.0.xsd
       - name: Create pull request
         uses: jacopocarlini/action-pull-request-another-repo@main
         env:
@@ -38,7 +40,7 @@ jobs:
         with:
           source_folder: 'xsd'
           destination_repo: 'pagopa/pagopa-gpd-payments'
-          destination_folder: 'src/main/resources/xsd'
+          destination_folder: 'src/main/resources'
           destination_base_branch: 'main'
           destination_head_branch: 'XSD-update'
           user_email: 'github-bot@pagopa.it'
