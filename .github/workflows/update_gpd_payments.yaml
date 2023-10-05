@@ -41,7 +41,6 @@ jobs:
       - name: Get branch names
         uses: tj-actions/branch-names@v7
       - name: Running on branch.
-        if: steps.branch-name.outputs.is_default == 'false'
         run: |
           echo "Running on branch: ${{ steps.branch-name.outputs.current_branch }}"
 #      - name: Create pull request
