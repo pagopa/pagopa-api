@@ -1,4 +1,3 @@
----
 openapi: "3.0.3"
 info: 
   title: "FDR - Flussi di rendicontazione (local)"
@@ -6,7 +5,10 @@ info:
   termsOfService: "https://www.pagopa.gov.it/"
   version: "1.0.4"
 servers: 
-- url: "http://localhost:8080/"
+  - url: https://api.uat.platform.pagopa.it/fdr-org/service/v1 
+    description: host for UAT environment
+  - url: https://api.platform.pagopa.it/fdr-org/service/v1 
+    description: host for PROD environment
 security: 
 -
   api_key: 
