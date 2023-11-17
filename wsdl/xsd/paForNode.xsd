@@ -290,7 +290,6 @@
 					<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" minOccurs="0" />
 					<xsd:element name="companyName" type="common:stText140" minOccurs="0" />
 					<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
-					<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
