@@ -290,6 +290,7 @@
 					<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" minOccurs="0" />
 					<xsd:element name="companyName" type="common:stText140" minOccurs="0" />
 					<xsd:element name="officeName" type="common:stText140" minOccurs="0" />
+					<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -324,6 +325,7 @@
 			<xsd:element name="idBrokerPA" type="common:stText35" />
 			<xsd:element name="idStation" type="common:stText35" />
 			<xsd:element name="receipt" type="tns:ctReceipt" />
+			<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -447,6 +449,7 @@
 			<xsd:element name="idBrokerPA" type="common:stText35" />
 			<xsd:element name="idStation" type="common:stText35" />
 			<xsd:element name="receipt" type="tns:ctReceiptV2" />
+			<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 

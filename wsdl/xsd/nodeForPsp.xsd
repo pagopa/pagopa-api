@@ -435,6 +435,7 @@
 					<xsd:element name="paymentToken" type="common:stPaymentToken" minOccurs="0" />
 					<xsd:element name="transferList" type="tns:ctTransferListPSP" minOccurs="0" />
 					<xsd:element name="creditorReferenceId" type="common:stText35" minOccurs="0" />
+					<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 					<!--IUV -->
 				</xsd:sequence>
 			</xsd:extension>
@@ -614,6 +615,7 @@
 					<xsd:element name="suggestedIdBundle" type="common:stText70" minOccurs="0" />
 					<xsd:element name="suggestedIdCiBundle" type="common:stText70" minOccurs="0" />
 					<xsd:element name="allCCP" type="xsd:boolean" minOccurs="0" />
+					<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

@@ -170,6 +170,7 @@
                 <xsd:element name="bancomatpayPayment" type="tns:ctBancomatpayPayment"/>
                 <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
             </xsd:choice>
+	    <xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -193,6 +194,7 @@
             <xsd:element name="timestampOperation" type="common:stISODateTime"/>
             <xsd:element name="paymentList" type="tns:ctPaymentListV2"/>
             <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
+	    <xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
