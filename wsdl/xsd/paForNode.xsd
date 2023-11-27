@@ -381,6 +381,7 @@
 			<xsd:element name="idTransfer" type="tns:stIdTransfer" />
 			<xsd:element name="transferAmount" type="tns:stAmountNotZero" />
 			<xsd:element name="fiscalCodePA" type="common:stFiscalCodePA" />
+			<xsd:element name="companyName" type="tns:stText140"/>
 			<xsd:choice>
 				<xsd:element name="IBAN" type="tns:stIBAN" />
 				<xsd:element name="MBDAttachment" type="xsd:base64Binary" />
