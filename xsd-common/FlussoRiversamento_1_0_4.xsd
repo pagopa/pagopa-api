@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema xmlns:pay_i="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     targetNamespace="http://www.digitpa.gov.it/schemas/2011/Pagamenti/"
@@ -103,6 +103,7 @@
             <xsd:pattern value="[0-9]{1,1}" />
             <xsd:enumeration value="0" /> <!-- Pagamento eseguito -->
             <xsd:enumeration value="3" /> <!-- Pagamento revocato -->
+   	    <xsd:enumeration value="4" /> <!-- Pagamento eseguito in standin -->
             <xsd:enumeration value="9" /> <!-- Pagamento eseguito in assenza di RPT -->
         </xsd:restriction>
     </xsd:simpleType>
