@@ -5,8 +5,8 @@ info:
   description: >
     Collection of all api used for perform a transaction using redirect payment instrument.
     Api's are tagged as follow:
-      * `b2b - PSP side` are implemented and exposed by PSP to expose api's  to p retrieve redirection URL and perform refund
-      * `b2b - pagoPA side` are implemented and exposed by pagoPA to receive authorization outcome
+      * `b2b - PSP side` are implemented and exposed by PSP to expose api's  to p retrieve redirection URL and perform refund. For further information on connectivity, see [pagoPA connettivity](https://docs.pagopa.it/sanp/appendici/connettivita#nodo-dei-pagamenti-client).
+      * `b2b - pagoPA side` are implemented and exposed by pagoPA to receive authorization outcome. For further information on connectivity, see [pagoPA connettivity](https://docs.pagopa.it/sanp/appendici/connettivita#nodo-dei-pagamenti-server).
   contact:
     name: pagoPA - Touchpoints team
 tags:
@@ -30,8 +30,6 @@ paths:
       operationId: RetrieveRedirectUrl
       summary: Retrieve redirect URL
       description: Retrieve redirect URL to be followed to perform transaction payment
-      security:
-        - PspApiKeyAuth: []
       requestBody:
         $ref: '#/components/requestBodies/RedirectUrlRequest'
       responses:
@@ -82,8 +80,6 @@ paths:
       summary: Api for refund
       description: |
         Perform a refund for a transaction. Semantically this endpoint is a DELETE with body (HTTP requests with the DELETE method should not have a body as per [RFC 9110, section 9.3.5, paragraph 5](https://www.rfc-editor.org/rfc/rfc9110#DELETE)).
-      security:
-        - PspApiKeyAuth: []
       requestBody:
         $ref: '#/components/requestBodies/RefundRequest'
 
@@ -282,6 +278,9 @@ components:
           maxLength: 70
         paymentMethod:
           description: Description of the payment method chosen by the user
+          type: string
+        email:
+          description: Email to which send the pagoPA payment receipt
           type: string
       required:
         - idTransaction
@@ -566,13 +565,8 @@ components:
                   errorCode: errorCode
 
   securitySchemes:
-    PspApiKeyAuth:
-      type: apiKey
-      in: header
-      name: x-api-key
-      description: PSP api key
     PagopaApiKeyAuth:
       type: apiKey
       in: header
-      name: x-api-key
+      name: Ocp-Apim-Subscription-Key
       description: pagoPA api key
