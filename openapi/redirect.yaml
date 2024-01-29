@@ -446,6 +446,10 @@ components:
         The outcome can assume the following values:
         * OK -> callback request have been processed successfully
         * KO -> there was an error processing the callback request
+      type: string
+      enum:
+        - OK
+        - KO
     RefundRequest:
       type: object
       properties:
