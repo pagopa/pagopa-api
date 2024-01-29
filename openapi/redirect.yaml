@@ -335,6 +335,9 @@ components:
           $ref: '#/components/schemas/PagopaIdTransaction'
         outcome:
           $ref: '#/components/schemas/RefundOutcome'
+      required:
+        - idTransaction
+        - outcome
     AmountEuroCents:
       description: Amount for payments, in euro cents
       type: integer
