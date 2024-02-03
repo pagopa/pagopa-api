@@ -294,9 +294,9 @@ components:
         idTransaction: 3fa85f6457174562b3fc2c963f66afa6
         idPsp: idPsp
         amount: 99999999
-        urlBack: https://psp.site/payment
+        urlBack: https://pagopa.site/payment
         description: payment description
-        idPaymentMethod: RBPIC
+        idPaymentMethod: RPIC
         touchpoint: CHECKOUT
         paName: paName
         paymentMethod: Pago in Conto Intesa
