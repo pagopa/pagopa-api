@@ -1,13 +1,17 @@
 openapi: 3.0.3
 info:
-  title: FDR - Flussi di rendicontazione (local)
-  description: Manage FDR ( aka "Flussi di Rendicontazione" ) exchanged between PSP and EC
+  title: FDR - Flussi di rendicontazione
+  description: Manage FDR exchanged between PSP and EC
   termsOfService: https://www.pagopa.gov.it/
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.6
 servers:
-  - url: https://api.uat.platform.pagopa.it/fdr/service/v1
+  - url: https://api.uat.platform.pagopa.it/fdr-org/service/v1
+    description: host for UAT environment
+  - url: https://api.platform.pagopa.it/fdr-org/service/v1
+    description: host for PROD environment
 security:
-  - api_key: []
+  -
+    api_key: []
 tags:
   - name: Info
     description: Info operations
@@ -22,73 +26,6 @@ tags:
   - name: Support
     description: Support operations
 paths:
-  /psps/{pspId}/fdrs/{fdr}/payments/add:
-    put:
-      tags:
-        - PSP
-      summary: Add payments to fdr
-      description: Add payments to fdr
-      operationId: addPayment
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddPaymentRequest'
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /psps/{pspId}/fdrs/{fdr}/publish:
-    post:
-      tags:
-        - PSP
-      summary: Publish fdr
-      description: Publish fdr
-      operationId: publish
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
   /organizations/{organizationId}/fdrs/{fdr}/revisions/{revision}/psps/{pspId}:
     get:
       tags:
@@ -187,147 +124,6 @@ paths:
           $ref: '#/components/responses/AppException404'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /psps/{pspId}/fdrs/{fdr}:
-    get:
-      tags:
-        - PSP
-      summary: Get created fdr
-      description: Get created fdr
-      operationId: getCreated
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetCreatedResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    post:
-      tags:
-        - PSP
-      summary: Create fdr
-      description: Create fdr
-      operationId: create
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            pattern: '[a-zA-Z0-9\-_]{1,35}'
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateRequest'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-    delete:
-      tags:
-        - PSP
-      summary: Delete fdr
-      description: Delete fdr
-      operationId: delete
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /psps/{pspId}:
-    get:
-      tags:
-        - PSP
-      summary: Get all fdr created
-      description: Get all fdr created
-      operationId: getAllcreated
-      parameters:
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: createdGt
-          in: query
-          schema:
-            $ref: '#/components/schemas/Instant'
-        - name: page
-          in: query
-          schema:
-            format: int64
-            default: 1
-            minimum: 1
-            type: integer
-        - name: size
-          in: query
-          schema:
-            format: int64
-            default: 1000
-            minimum: 1
-            type: integer
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetAllCreatedResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
   /info:
     get:
       tags:
@@ -340,87 +136,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InfoResponse'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /psps/{pspId}/fdrs/{fdr}/payments/del:
-    put:
-      tags:
-        - PSP
-      summary: Delete payments to fdr
-      description: Delete payments to fdr
-      operationId: deletePayment
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeletePaymentRequest'
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /psps/{pspId}/fdrs/{fdr}/payments:
-    get:
-      tags:
-        - PSP
-      summary: Get created payments of fdr
-      description: Get created payments of fdr
-      operationId: getCreatedPayment
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: page
-          in: query
-          schema:
-            format: int64
-            default: 1
-            minimum: 1
-            type: integer
-        - name: size
-          in: query
-          schema:
-            format: int64
-            default: 1000
-            minimum: 1
-            type: integer
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetPaymentResponse'
-        '400':
-          $ref: '#/components/responses/AppException400'
-        '404':
-          $ref: '#/components/responses/AppException404'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /organizations/{organizationId}/fdrs:
@@ -615,7 +330,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/Instant'
           example: '2023-04-03T12:00:30.900000Z'
-    FdrByIur:
+    FdrByPspIdIuvIurBase:
       type: object
       properties:
         pspId:
@@ -629,7 +344,7 @@ components:
           type: integer
         created:
           $ref: '#/components/schemas/Instant'
-    FdrByIurResponse:
+    FdrByPspIdIuvIurResponse:
       type: object
       properties:
         metadata:
@@ -641,41 +356,14 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/FdrByIur'
-    FdrByIuv:
-      type: object
-      properties:
-        pspId:
-          type: string
-        organizationId:
-          type: string
-        fdr:
-          type: string
-        revision:
-          format: int64
-          type: integer
-        created:
-          $ref: '#/components/schemas/Instant'
-    FdrByIuvResponse:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        count:
-          format: int64
-          type: integer
-          example: 100
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FdrByIuv'
+            $ref: '#/components/schemas/FdrByPspIdIuvIurBase'
     FdrInserted:
       type: object
       properties:
         fdr:
           type: string
           example: AAABBB
-        pspId:
+        organizationId:
           type: string
           example: '1'
         revision:
@@ -683,6 +371,24 @@ components:
           type: integer
           example: 1
         created:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/Instant'
+          example: '2023-04-03T12:00:30.900000Z'
+    FdrPublished:
+      type: object
+      properties:
+        fdr:
+          type: string
+          example: AAABBB
+        organizationId:
+          type: string
+          example: '1'
+        revision:
+          format: int64
+          type: integer
+          example: 1
+        published:
           type: string
           allOf:
             - $ref: '#/components/schemas/Instant'
@@ -706,6 +412,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FdrInserted'
+    GetAllPublishedResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          format: int64
+          type: integer
+          example: 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FdrPublished'
     GetAllResponse:
       type: object
       properties:
