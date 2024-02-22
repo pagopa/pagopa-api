@@ -1,8 +1,5 @@
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
-> **NOTA**
-Quanto riportato nel presente branch del repository non corrisponde ancora alle attuali specifiche tecniche. Non appena la corrispondente versione delle SANP 3.6.0 verrà pubblicata sarà possibile fare riferimento al contenuto di quanto descritto in questo branch.
-
 # pagopa-specifichepagamenti-schemi 
 > definizione di tutte le interfacce (esposte e richieste) per la connessione con il sistema pagoPA.
 > Tutti gli schemi XSD, WSDL e swagger seguono release diverse dalle SANP
