@@ -1,8 +1,8 @@
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
-# pagopa-specifichepagamenti-schemi 
+# API piattaforma pagoPA 
 > definizione di tutte le interfacce (esposte e richieste) per la connessione con il sistema pagoPA.
-> Tutti gli schemi XSD, WSDL e swagger seguono release diverse dalle SANP
+> Tutti gli schemi `XSD`, `WSDL` e `SWAGGER` sono validi dalla data di pubblicaione della relativa versione delle SANP.
 
 Il repository è suddiviso nelle seguenti sezioni:
 
@@ -12,4 +12,4 @@ mediante la nuova modalità diretta esposta su Internet (_Nuova Connettività_)
 il _GAD_ (**Deprecato**)
 * **xsd-common**: contiene gli schemi di definizione dei documenti _XML_ comuni scambiati all'interno del sistema _pagoPA_
 * **catalogo-servizi**: contiene gli schemi di definizione _XML_ dei singoli servizi a catalogo (_Catalogo Servizi_) 
-* **openapi**: contiene gli swagger delle interfacce _REST_.
+* **openapi**: contiene gli swagger delle interfacce _REST_
