@@ -8,8 +8,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost",
-      "description": "Generated server url"
+      "url": "https://api.uat.platform.pagopa.it/bizevents/service/v1",
+      "description": "User Acceptance Testing (UAT) URL"
     }
   ],
   "paths": {

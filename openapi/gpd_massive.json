@@ -1,7 +1,7 @@
 {
     "openapi" : "3.0.1",
     "info" : {
-      "title" : "GPD Caricamento Massivo",
+      "title": "PagoPA API GPD - Debt Position Massive Upload",
       "version" : "0.0.1"
     },
     "servers": [

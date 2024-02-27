@@ -6,7 +6,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:7071"
+      "url": "https://api.uat.platform.pagopa.it/gpd-reporting/api/v1",
+      "description": "User Acceptance Testing (UAT) URL"
     }
   ],
   "paths": {
