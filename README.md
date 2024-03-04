@@ -1,3 +1,6 @@
+> **NOTA**
+Quanto riportato nel presente branch del repository è valido dal momento della pubblicazione della corrispondente versione delle SANP.
+
 <img width="150px"  src="https://www.pagopa.gov.it/assets/images/pagopa-logo.png" title="pagoPa" alt="pagoPa">
 
 # pagopa-specifichepagamenti-schemi 
