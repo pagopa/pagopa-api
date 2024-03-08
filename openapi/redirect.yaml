@@ -338,7 +338,7 @@ components:
         - idTransaction
         - outcome
     AmountEuroCents:
-      description: Amount for payments, in euro cents
+      description: Amount for payments including fee, in euro cents
       type: integer
       format: int32
       minimum: 0
