@@ -90,6 +90,7 @@
             <xsd:element name="idTransfer" type="tns:stIdTransfer"/>
             <xsd:element name="transferAmount" type="common:stAmount"/>
             <xsd:element name="fiscalCodePA" type="common:stFiscalCodePA"/>
+	    <xsd:element name="companyName" type="common:stText140" minOccurs="0" />
             <xsd:choice>
                 <xsd:element name="IBAN" type="tns:stIBAN"/>
                 <xsd:element name="richiestaMarcaDaBollo" type="common:ctRichiestaMarcaDaBollo"/>
