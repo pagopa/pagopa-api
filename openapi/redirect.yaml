@@ -316,7 +316,7 @@ components:
         amount:
           $ref: '#/components/schemas/AmountEuroCents'
         timeout:
-          description: Max time that pagoPA systems have to await for an outcome callback call. Any request received after this timeout will be discarded and transaction treated as for a missing callback call
+          description: Max time in millisecond that pagoPA systems have to await for an outcome callback call. Any request received after this timeout will be discarded and transaction treated as for a missing callback call
           type: integer
           format: int32
           minimum: 0
