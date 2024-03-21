@@ -1,0 +1,533 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "description" : "Microservice to expose REST API to contact PagoPA Backoffice",
+    "termsOfService" : "https://www.pagopa.gov.it/",
+    "title" : "Backoffice External - Backoffice External EC",
+    "version" : "1.0.13"
+  },
+  "servers" : [ {
+    "url" : "https://{host}{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : "/backoffice/external/v1",
+        "enum" : [ "/backoffice/external/v1", "/backoffice/helpdesk/v1" ]
+      },
+      "host" : {
+        "default" : "api.platform.pagopa.it",
+        "enum" : [ "api.dev.platform.pagopa.it", "api.uat.platform.pagopa.it", "api.platform.pagopa.it" ]
+      }
+    }
+  } ],
+  "paths" : {
+    "/brokers/{brokerCode}/creditor_institutions" : {
+      "get" : {
+        "description" : "Return the list of Creditor Institutions of a Broker",
+        "operationId" : "getBrokerInstitutions",
+        "parameters" : [ {
+          "description" : "Broker Code to use as filter for the retrieved creditor institution list",
+          "in" : "path",
+          "name" : "brokerCode",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Number of elements on one page. Default = 10",
+          "in" : "query",
+          "name" : "limit",
+          "required" : false,
+          "schema" : {
+            "maximum" : 100,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "description" : "Page number. Page value starts from 0",
+          "in" : "query",
+          "name" : "page",
+          "required" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BrokerInstitutionsResponse"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemJson"
+                }
+              }
+            },
+            "description" : "Bad Request",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemJson"
+                }
+              }
+            },
+            "description" : "Institutions for the brokerCode not found",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemJson"
+                }
+              }
+            },
+            "description" : "Service unavailable",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "ApiKey" : [ ]
+        } ],
+        "summary" : "getBrokerInstitutions",
+        "tags" : [ "External APIs" ]
+      },
+      "parameters" : [ {
+        "description" : "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+        "in" : "header",
+        "name" : "X-Request-Id",
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/brokers/{brokerCode}/ibans" : {
+      "get" : {
+        "description" : "Return the list of Ibans of all the Creditor Institutions intermediated by the Broker",
+        "operationId" : "getBrokerIbans",
+        "parameters" : [ {
+          "description" : "Broker Code to use as filter for the retrieved ibans list",
+          "in" : "path",
+          "name" : "brokerCode",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "Number of elements on one page. Default = 10",
+          "in" : "query",
+          "name" : "limit",
+          "required" : false,
+          "schema" : {
+            "maximum" : 100,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "description" : "Page number. Page value starts from 0",
+          "in" : "query",
+          "name" : "page",
+          "required" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BrokerInstitutionsResponse"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemJson"
+                }
+              }
+            },
+            "description" : "Bad Request",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemJson"
+                }
+              }
+            },
+            "description" : "ibans for the brokerCode not found",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemJson"
+                }
+              }
+            },
+            "description" : "Service unavailable",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "ApiKey" : [ ]
+        } ],
+        "summary" : "getBrokerIbans",
+        "tags" : [ "External APIs" ]
+      },
+      "parameters" : [ {
+        "description" : "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+        "in" : "header",
+        "name" : "X-Request-Id",
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/info" : {
+      "get" : {
+        "description" : "Return OK if application is started",
+        "operationId" : "healthCheck",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AppInfo"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "ApiKey" : [ ]
+        } ],
+        "summary" : "health check",
+        "tags" : [ "Home" ]
+      },
+      "parameters" : [ {
+        "description" : "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+        "in" : "header",
+        "name" : "X-Request-Id",
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AppInfo" : {
+        "type" : "object",
+        "properties" : {
+          "environment" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "string"
+          }
+        }
+      },
+      "BrokerInstitutionResource" : {
+        "required" : [ "auxDigit", "brokerCompanyName", "brokerTaxCode", "companyName", "intermediated", "model", "stationState", "taxCode", "version" ],
+        "type" : "object",
+        "properties" : {
+          "activationDate" : {
+            "type" : "string",
+            "description" : "activation date",
+            "format" : "date-time"
+          },
+          "applicationCode" : {
+            "type" : "string",
+            "description" : "application code of the relation station-ec (unique per auxdigit)"
+          },
+          "auxDigit" : {
+            "type" : "string",
+            "description" : "aux digit number (0,1,2,3, 0/3)"
+          },
+          "broadcast" : {
+            "type" : "boolean",
+            "description" : "true if the station is for broadcast"
+          },
+          "brokerCompanyName" : {
+            "type" : "string",
+            "description" : "broker name"
+          },
+          "brokerTaxCode" : {
+            "type" : "string",
+            "description" : "broker tax code"
+          },
+          "cbillCode" : {
+            "type" : "string",
+            "description" : "CBILL code"
+          },
+          "companyName" : {
+            "type" : "string",
+            "description" : "Creditor Institution name"
+          },
+          "intermediated" : {
+            "type" : "boolean",
+            "description" : "true if the EC has a broker"
+          },
+          "model" : {
+            "type" : "integer",
+            "description" : "model of the station",
+            "format" : "int32"
+          },
+          "pspPayment" : {
+            "type" : "boolean",
+            "description" : "true if allows payments by the psp"
+          },
+          "segregationCode" : {
+            "type" : "string",
+            "description" : "segregation code of the relation station-ec (unique per auxdigit)"
+          },
+          "stationId" : {
+            "type" : "string",
+            "description" : "station code"
+          },
+          "stationState" : {
+            "type" : "string",
+            "description" : "station state",
+            "example" : "enabled"
+          },
+          "taxCode" : {
+            "type" : "string",
+            "description" : "Creditor Institution tax code"
+          },
+          "version" : {
+            "type" : "string",
+            "description" : "station version",
+            "example" : "1"
+          }
+        },
+        "description" : "List of creditor institutions"
+      },
+      "BrokerInstitutionsResponse" : {
+        "required" : [ "creditorInstitutions", "pageInfo" ],
+        "type" : "object",
+        "properties" : {
+          "creditorInstitutions" : {
+            "type" : "array",
+            "description" : "List of creditor institutions",
+            "items" : {
+              "$ref" : "#/components/schemas/BrokerInstitutionResource"
+            }
+          },
+          "pageInfo" : {
+            "$ref" : "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "PageInfo" : {
+        "required" : [ "limit", "page" ],
+        "type" : "object",
+        "properties" : {
+          "limit" : {
+            "type" : "integer",
+            "description" : "number of elements per page",
+            "format" : "int32"
+          },
+          "page" : {
+            "type" : "integer",
+            "description" : "page number (0 is the first page)",
+            "format" : "int32"
+          }
+        },
+        "description" : "information about the pagination"
+      },
+      "ProblemJson" : {
+        "type" : "object",
+        "properties" : {
+          "detail" : {
+            "type" : "string",
+            "description" : "A human readable explanation specific to this occurrence of the problem.",
+            "example" : "There was an error processing the request"
+          },
+          "status" : {
+            "maximum" : 600,
+            "minimum" : 100,
+            "type" : "integer",
+            "description" : "The HTTP status code generated by the origin server for this occurrence of the problem.",
+            "format" : "int32",
+            "example" : 200
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "ApiKey" : {
+        "description" : "The Azure Subscription Key to access this API.",
+        "in" : "header",
+        "name" : "Ocp-Apim-Subscription-Key",
+        "type" : "apiKey"
+      }
+    }
+  }
+}
