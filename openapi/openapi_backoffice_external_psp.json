@@ -3,12 +3,10 @@
   "info" : {
     "description" : "Microservice to expose REST API to contact PagoPA Backoffice",
     "termsOfService" : "https://www.pagopa.gov.it/",
-    "title" : "Backoffice External",
-    "version" : "1.0.11"
+    "title" : "Backoffice External - Backoffice External PSP",
+    "version" : "1.0.13"
   },
   "servers" : [ {
-    "url" : "http://localhost:8080"
-  }, {
     "url" : "https://{host}{basePath}",
     "variables" : {
       "basePath" : {
@@ -16,7 +14,7 @@
         "enum" : [ "/backoffice/external/v1", "/backoffice/helpdesk/v1" ]
       },
       "host" : {
-        "default" : "api.dev.platform.pagopa.it",
+        "default" : "api.platform.pagopa.it",
         "enum" : [ "api.dev.platform.pagopa.it", "api.uat.platform.pagopa.it", "api.platform.pagopa.it" ]
       }
     }
@@ -24,7 +22,7 @@
   "paths" : {
     "/creditor_institutions/ibans" : {
       "get" : {
-        "description" : "Internal | External | Synchronous | Authorization | Authentication | TPS | Idempotency | Stateless | Read/Write Intense | Cacheable\n-|-|-|-|-|-|-|-|-|-\nY | N | Y | ApiKey | ApiKey | 1.0/sec | Y | Y | Read | Y\nReturn the full list of Ibans of all CIs ",
+        "description" : "Return the full list of Ibans of all CIs ",
         "operationId" : "getCIsIbans",
         "parameters" : [ {
           "description" : "Number of elements on one page. Default = 10",
