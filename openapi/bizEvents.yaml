@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost",
+      "url": "https://api.uat.platform.pagopa.it/bizevents/service/v1",
       "description": "Generated server url"
     }
   ],
