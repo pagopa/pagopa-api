@@ -7,3 +7,4 @@
 6. `SANP3.7.0_06` - `15/03/2024` - Eliminato swagger API Backoffice pagoPA "External" poichè conteneva errori ed aggiunti i due nuovi swagger per PSP (GetIbans) ed EC (GetStations)
 7. `SANP3.7.0_07` - `21/03/2024` - Correzione API Backoffice pagoPA "External" swagger per PSP (GetIbans) ed EC (GetStations). Aggiunta della nuova API per EC (GetIbansByBroker)
 8. `SANP3.7.0_08` - `25/03/2024` - Aggiornato campo amount sull'API paCreatePosition
+9. `SANP3.7.0_09` - `25/03/2024` - fix swagger API Backoffice pagoPA "External"

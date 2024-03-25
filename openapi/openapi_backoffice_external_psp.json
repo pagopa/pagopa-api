@@ -4,20 +4,10 @@
     "description" : "Microservice to expose REST API to contact PagoPA Backoffice",
     "termsOfService" : "https://www.pagopa.gov.it/",
     "title" : "Backoffice External - Backoffice External PSP",
-    "version" : "1.0.13"
+    "version" : "1.0.17"
   },
   "servers" : [ {
-    "url" : "https://{host}{basePath}",
-    "variables" : {
-      "basePath" : {
-        "default" : "/backoffice/external/v1",
-        "enum" : [ "/backoffice/external/v1", "/backoffice/helpdesk/v1" ]
-      },
-      "host" : {
-        "default" : "api.platform.pagopa.it",
-        "enum" : [ "api.dev.platform.pagopa.it", "api.uat.platform.pagopa.it", "api.platform.pagopa.it" ]
-      }
-    }
+    "url" : "https://api.platform.pagopa.it/backoffice/external/psp/v1"
   } ],
   "paths" : {
     "/creditor_institutions/ibans" : {
