@@ -200,6 +200,14 @@
       <xs:enumeration value="JIF" /> <!-- Bancomat Pay  -->
       <xs:enumeration value="MYBK" /> <!-- MyBank Seller Bank -->
       <xs:enumeration value="PPAL" /> <!-- PayPal -->
+      <xs:enumeration value="RPIC" /> <!-- Pago in conto Intesa -->
+      <xs:enumeration value="RBPS" /> <!-- SCRIGNO Internet Banking -->
+      <xs:enumeration value="RBPR" /> <!-- Conto Banco Posta Retail -->
+      <xs:enumeration value="RBPP" /> <!-- Paga con PastePay -->
+      <xs:enumeration value="RBPB" /> <!-- Conto Banco Posta Impresa -->
+      <xs:enumeration value="BPAY" /> <!-- Bancomat Pay -->
+      <xs:enumeration value="APPL" /> <!-- Apple Pay -->
+      <xs:enumeration value="PPAY" /> <!-- Pagamento Poste Pay -->
       <xs:maxLength value="4" />
     </xs:restriction>
   </xs:simpleType>
