@@ -1352,10 +1352,12 @@
             "type": "string"
           },
           "aca": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": false
           },
           "payStandIn": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true
           },
           "type": {
             "type": "string",
@@ -1714,10 +1716,13 @@
             "type": "string"
           },
           "aca": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": false
           },
           "payStandIn": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true
+            
           },
           "organizationFiscalCode": {
             "type": "string"
