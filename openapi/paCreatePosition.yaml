@@ -140,6 +140,8 @@ components:
         - amount
         - description
         - expirationDate
+        - iban
+        - postalIban
         - switchToExpired
         - payStandIn
       description: Request body for creating a new transaction
