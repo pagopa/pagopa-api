@@ -225,9 +225,10 @@ paths:
                   totPage: 3
                 count: 100
                 data:
-                  - iuv: abcdefg
+                  - index: 1
+                    iuv: abcdefg
                     iur: abcdefg
-                    index: 1
+                    idTransfer: 1
                     pay: 0.01
                     payStatus: EXECUTED
                     payDate: '2023-02-03T12:00:30.9000000+00:00'
@@ -802,14 +803,21 @@ components:
           example: 3
     Payment:
       required:
+        - index
         - iuv
         - iur
-        - index
+        - idTransfer
         - pay
         - payStatus
         - payDate
       type: object
       properties:
+        index:
+          minimum: 1.0
+          type: integer
+          description: Identificativo del pagamento univoco nel flusso
+          format: int64
+          example: 1
         iuv:
           pattern: '^(.{1,35})$'
           type: string
@@ -820,7 +828,8 @@ components:
           type: string
           description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.identificativoUnivocoRiscossione]'
           example: abcdefg
-        index:
+        idTransfer:
+          maximum: 5.0
           minimum: 1.0
           type: integer
           description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.indiceDatiSingoloPagamento]'
