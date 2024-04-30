@@ -379,6 +379,7 @@ components:
         - idPsp
         - idPSPTransaction
         - outcome
+        - details
     TransactionResultDetails:
       type: object
       oneOf:
