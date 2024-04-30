@@ -1572,7 +1572,7 @@ components:
           type: string
           allOf:
             - $ref: '#/components/schemas/PaymentStatusEnum'
-          description: "[XML FlussoRiversamento]=[datiSingoliPagamenti.codiceEsitoSingoloPagamento] \n0 -> EXECUTED\n3 -> REVOKED\n9 -> NO_RPT\n4 -> STAND_IN"
+          description: "[XML FlussoRiversamento]=[datiSingoliPagamenti.codiceEsitoSingoloPagamento] \n0 -> EXECUTED\n3 -> REVOKED\n9 -> NO_RPT\n4 -> STAND_IN\n8 -> STAND_IN_NO_RPT"
           example: EXECUTED
         payDate:
           type: string
