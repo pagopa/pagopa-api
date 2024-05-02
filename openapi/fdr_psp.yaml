@@ -7,6 +7,42 @@ servers:
   - url: https://api.uat.platform.pagopa.it/fdr-psp/service/v1
   - url: https://api.prf.platform.pagopa.it/fdr-psp/service/v1
 paths:
+  /info:
+    get:
+      tags:
+        - Info
+      summary: Get info of FDR
+      description: Get info of FDR
+      operationId: get-info
+      responses:
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+                httpStatusCode: 500
+                httpStatusDescription: Internal Server Error
+                appErrorCode: FDR-0500
+                errors:
+                  - message: An unexpected error has occurred. Please contact support.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoResponse'
+              example:
+                name: pagopa-fdr
+                version: '2003-01-02'
+                environment: dev
+                description: FDR - Flussi di rendicontazione
+                errorCodes:
+                  - code: FDR-0500
+                    description: An unexpected error has occurred. Please contact support.
+                    statusCode: 500
   '/psps/{pspId}/fdrs/{fdr}/payments/add':
     put:
       tags:
@@ -32,9 +68,10 @@ paths:
               $ref: '#/components/schemas/AddPaymentRequest'
             example:
               payments:
-                - iuv: abcdefg
+                - index: 1
+                  iuv: abcdefg
                   iur: abcdefg
-                  index: 1
+                  idTransfer: 1
                   pay: 0.01
                   payStatus: EXECUTED
                   payDate: '2023-02-03T12:00:30.9000000+00:00'
@@ -271,6 +308,120 @@ paths:
                 computedSumPayments: 100.9
                 totPayments: 100
                 sumPayments: 100.9
+  '/psps/{pspId}/published/fdrs/{fdr}/revisions/{revision}/organizations/{organizationId}/payments':
+    get:
+      tags:
+        - PSP
+      summary: Get payments of fdr Published
+      description: Get payments of fdr Published
+      operationId: getPaymentPublishedByPsp
+      parameters:
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pspId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: revision
+          in: path
+          description: Format - int64.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: Format - int64.
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+            default: 1
+        - name: size
+          in: query
+          description: Format - int64.
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+            default: 1000
+      responses:
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+                httpStatusCode: 500
+                httpStatusDescription: Internal Server Error
+                appErrorCode: FDR-0500
+                errors:
+                  - message: An unexpected error has occurred. Please contact support.
+        '400':
+          description: Default app exception for status 400
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Error:
+                  value:
+                    httpStatusCode: 400
+                    httpStatusDescription: Bad Request
+                    appErrorCode: FDR-0702
+                    errors:
+                      - message: 'Reporting Fdr [<fdr>] is invalid'
+                Errors with path:
+                  value:
+                    httpStatusCode: 400
+                    httpStatusDescription: Bad Request
+                    appErrorCode: FDR-0702
+                    errors:
+                      - path: <detail.path.if-exist>
+                        message: <detail.message>
+        '404':
+          description: Default app exception for status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 404
+                httpStatusDescription: Not Found
+                appErrorCode: FDR-0701
+                errors:
+                  - message: 'Reporting Fdr [<fdr>] not found'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPaymentResponse'
+              example:
+                metadata:
+                  pageSize: 25
+                  pageNumber: 1
+                  totPage: 3
+                count: 100
+                data:
+                  - index: 1
+                    iuv: abcdefg
+                    iur: abcdefg
+                    idTransfer: 1
+                    pay: 0.01
+                    payStatus: EXECUTED
+                    payDate: '2023-02-03T12:00:30.9000000+00:00'
   '/psps/{pspId}/fdrs/{fdr}':
     post:
       tags:
@@ -444,6 +595,117 @@ paths:
                 $ref: '#/components/schemas/GenericResponse'
               example:
                 message: Success
+  '/psps/{pspId}/published/fdrs/{fdr}/revisions/{revision}/organizations/{organizationId}':
+    get:
+      tags:
+        - PSP
+      summary: Get fdr Published
+      description: Get fdr Published
+      operationId: getPublishedByPsp
+      parameters:
+        - name: fdr
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pspId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: revision
+          in: path
+          description: Format - int64.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+                httpStatusCode: 500
+                httpStatusDescription: Internal Server Error
+                appErrorCode: FDR-0500
+                errors:
+                  - message: An unexpected error has occurred. Please contact support.
+        '400':
+          description: Default app exception for status 400
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Error:
+                  value:
+                    httpStatusCode: 400
+                    httpStatusDescription: Bad Request
+                    appErrorCode: FDR-0702
+                    errors:
+                      - message: 'Reporting Fdr [<fdr>] is invalid'
+                Errors with path:
+                  value:
+                    httpStatusCode: 400
+                    httpStatusDescription: Bad Request
+                    appErrorCode: FDR-0702
+                    errors:
+                      - path: <detail.path.if-exist>
+                        message: <detail.message>
+        '404':
+          description: Default app exception for status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 404
+                httpStatusDescription: Not Found
+                appErrorCode: FDR-0701
+                errors:
+                  - message: 'Reporting Fdr [<fdr>] not found'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetResponse'
+              example:
+                status: CREATED
+                revision: 4
+                created: '2023-04-03T12:00:30.9000000+00:00'
+                updated: '2023-04-03T12:00:30.9000000+00:00'
+                fdr: 2016-08-16pspTest-1178
+                fdrDate: '2023-04-05T09:21:37.8100000+00:00'
+                regulation: SEPA - Bonifico xzy
+                regulationDate: '2023-04-03T12:00:30.9000000+00:00'
+                bicCodePouringBank: UNCRITMMXXX
+                sender:
+                  type: LEGAL_PERSON
+                  id: SELBIT2B
+                  pspId: '60000000001'
+                  pspName: Bank
+                  pspBrokerId: '70000000001'
+                  channelId: '80000000001'
+                  password: '1234567890'
+                receiver:
+                  id: APPBIT2B
+                  organizationId: '20000000001'
+                  organizationName: Comune di xyz
+                published: '2023-04-03T12:00:30.9000000+00:00'
+                computedTotPayments: 100
+                computedSumPayments: 100.9
+                totPayments: 100
+                sumPayments: 100.9
   '/psps/{pspId}/created':
     get:
       tags:
@@ -543,42 +805,6 @@ paths:
                     organizationId: '1'
                     revision: 1
                     created: '2023-04-03T12:00:30.9000000+00:00'
-  /info:
-    get:
-      tags:
-        - Info
-      summary: Get info of FDR
-      description: Get info of FDR
-      operationId: get-info
-      responses:
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
-                httpStatusCode: 500
-                httpStatusDescription: Internal Server Error
-                appErrorCode: FDR-0500
-                errors:
-                  - message: An unexpected error has occurred. Please contact support.
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InfoResponse'
-              example:
-                name: pagopa-fdr
-                version: '2003-01-02'
-                environment: dev
-                description: FDR - Flussi di rendicontazione
-                errorCodes:
-                  - code: FDR-0500
-                    description: An unexpected error has occurred. Please contact support.
-                    statusCode: 500
   '/psps/{pspId}/fdrs/{fdr}/payments/del':
     put:
       tags:
@@ -761,236 +987,13 @@ paths:
                   totPage: 3
                 count: 100
                 data:
-                  - iuv: abcdefg
+                  - index: 1
+                    iuv: abcdefg
                     iur: abcdefg
-                    index: 1
+                    idTransfer: 1
                     pay: 0.01
                     payStatus: EXECUTED
                     payDate: '2023-02-03T12:00:30.9000000+00:00'
-  '/psps/{pspId}/published/fdrs/{fdr}/revisions/{revision}/organizations/{organizationId}/payments':
-    get:
-      tags:
-        - PSP
-      summary: Get payments of fdr Published
-      description: Get payments of fdr Published
-      operationId: getPaymentPublishedByPsp
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: organizationId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: revision
-          in: path
-          description: Format - int64.
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: page
-          in: query
-          description: Format - int64.
-          schema:
-            minimum: 1.0
-            type: integer
-            format: int64
-            default: 1
-        - name: size
-          in: query
-          description: Format - int64.
-          schema:
-            minimum: 1.0
-            type: integer
-            format: int64
-            default: 1000
-      responses:
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
-                httpStatusCode: 500
-                httpStatusDescription: Internal Server Error
-                appErrorCode: FDR-0500
-                errors:
-                  - message: An unexpected error has occurred. Please contact support.
-        '400':
-          description: Default app exception for status 400
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                Error:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - message: 'Reporting Fdr [<fdr>] is invalid'
-                Errors with path:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - path: <detail.path.if-exist>
-                        message: <detail.message>
-        '404':
-          description: Default app exception for status 404
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                httpStatusCode: 404
-                httpStatusDescription: Not Found
-                appErrorCode: FDR-0701
-                errors:
-                  - message: 'Reporting Fdr [<fdr>] not found'
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetPaymentResponse'
-              example:
-                metadata:
-                  pageSize: 25
-                  pageNumber: 1
-                  totPage: 3
-                count: 100
-                data:
-                  - iuv: abcdefg
-                    iur: abcdefg
-                    index: 1
-                    pay: 0.01
-                    payStatus: EXECUTED
-                    payDate: '2023-02-03T12:00:30.9000000+00:00'
-  '/psps/{pspId}/published/fdrs/{fdr}/revisions/{revision}/organizations/{organizationId}':
-    get:
-      tags:
-        - PSP
-      summary: Get fdr Published
-      description: Get fdr Published
-      operationId: getPublishedByPsp
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: organizationId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: revision
-          in: path
-          description: Format - int64.
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
-                httpStatusCode: 500
-                httpStatusDescription: Internal Server Error
-                appErrorCode: FDR-0500
-                errors:
-                  - message: An unexpected error has occurred. Please contact support.
-        '400':
-          description: Default app exception for status 400
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                Error:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - message: 'Reporting Fdr [<fdr>] is invalid'
-                Errors with path:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - path: <detail.path.if-exist>
-                        message: <detail.message>
-        '404':
-          description: Default app exception for status 404
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                httpStatusCode: 404
-                httpStatusDescription: Not Found
-                appErrorCode: FDR-0701
-                errors:
-                  - message: 'Reporting Fdr [<fdr>] not found'
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetResponse'
-              example:
-                status: CREATED
-                revision: 4
-                created: '2023-04-03T12:00:30.9000000+00:00'
-                updated: '2023-04-03T12:00:30.9000000+00:00'
-                fdr: 2016-08-16pspTest-1178
-                fdrDate: '2023-04-05T09:21:37.8100000+00:00'
-                regulation: SEPA - Bonifico xzy
-                regulationDate: '2023-04-03T12:00:30.9000000+00:00'
-                bicCodePouringBank: UNCRITMMXXX
-                sender:
-                  type: LEGAL_PERSON
-                  id: SELBIT2B
-                  pspId: '60000000001'
-                  pspName: Bank
-                  pspBrokerId: '70000000001'
-                  channelId: '80000000001'
-                  password: '1234567890'
-                receiver:
-                  id: APPBIT2B
-                  organizationId: '20000000001'
-                  organizationName: Comune di xyz
-                published: '2023-04-03T12:00:30.9000000+00:00'
-                computedTotPayments: 100
-                computedSumPayments: 100.9
-                totPayments: 100
-                sumPayments: 100.9
   '/psps/{pspId}/published':
     get:
       tags:
@@ -1525,14 +1528,21 @@ components:
           example: 3
     Payment:
       required:
+        - index
         - iuv
         - iur
-        - index
+        - idTransfer
         - pay
         - payStatus
         - payDate
       type: object
       properties:
+        index:
+          minimum: 1.0
+          type: integer
+          description: Identificativo del pagamento univoco nel flusso
+          format: int64
+          example: 1
         iuv:
           pattern: '^(.{1,35})$'
           type: string
@@ -1543,7 +1553,8 @@ components:
           type: string
           description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.identificativoUnivocoRiscossione]'
           example: abcdefg
-        index:
+        idTransfer:
+          maximum: 5.0
           minimum: 1.0
           type: integer
           description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.indiceDatiSingoloPagamento]'
@@ -1561,7 +1572,7 @@ components:
           type: string
           allOf:
             - $ref: '#/components/schemas/PaymentStatusEnum'
-          description: "[XML FlussoRiversamento]=[datiSingoliPagamenti.codiceEsitoSingoloPagamento] \n0 -> EXECUTED\n3 -> REVOKED\n9 -> NO_RPT\n4 -> STAND_IN"
+          description: "[XML FlussoRiversamento]=[datiSingoliPagamenti.codiceEsitoSingoloPagamento] \n0 -> EXECUTED\n3 -> REVOKED\n9 -> NO_RPT\n4 -> STAND_IN\n8 -> STAND_IN_NO_RPT"
           example: EXECUTED
         payDate:
           type: string
