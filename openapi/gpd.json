@@ -1233,6 +1233,14 @@
           "iupd": {
             "type": "string"
           },
+          "aca": {
+            "type": "boolean",
+            "default": false
+          },
+          "payStandIn": {
+            "type": "boolean",
+            "default": true
+          },
           "type": {
             "type": "string",
             "enum": [
@@ -1584,6 +1592,15 @@
         "properties": {
           "iupd": {
             "type": "string"
+          },
+          "aca": {
+            "type": "boolean",
+            "default": false
+          },
+          "payStandIn": {
+            "type": "boolean",
+            "default": true
+            
           },
           "organizationFiscalCode": {
             "type": "string"

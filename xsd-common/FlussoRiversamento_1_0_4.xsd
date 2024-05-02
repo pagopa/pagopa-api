@@ -103,7 +103,8 @@
             <xsd:pattern value="[0-9]{1,1}" />
             <xsd:enumeration value="0" /> <!-- Pagamento eseguito -->
             <xsd:enumeration value="3" /> <!-- Pagamento revocato -->
-   	    <xsd:enumeration value="4" /> <!-- Pagamento eseguito in standin -->
+   	        <xsd:enumeration value="4" /> <!-- Pagamento eseguito in standin -->
+            <xsd:enumeration value="8" /> <!-- Pagamento eseguito in standin in assenza di RPT-->
             <xsd:enumeration value="9" /> <!-- Pagamento eseguito in assenza di RPT -->
         </xsd:restriction>
     </xsd:simpleType>

@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 0.0.1
+  version: 0.5.0
   title: Pagopa ACA
   description: pagoPA ACA microservice pagoPA ACA microservice contains the api to allow the creation of a new debt position.
   contact:
@@ -26,8 +26,8 @@ paths:
             schema:
               $ref: '#/components/schemas/NewDebtPositionRequest'
       responses:
-        '201':
-          description: New debt position successfully created
+        '200':
+          description: New debt position successfully created or updated
         '400':
           description: Formally invalid input
           content:
@@ -140,6 +140,10 @@ components:
         - amount
         - description
         - expirationDate
+        - iban
+        - postalIban
+        - switchToExpired
+        - payStandIn
       description: Request body for creating a new transaction
       properties:
         paFiscalCode:
@@ -171,6 +175,18 @@ components:
         expirationDate:
           type: string
           format: date-time
+        iban:
+          type: string
+          minLength: 27
+          maxLength: 27
+        postalIban:
+          type: string
+          minLength: 27
+          maxLength: 27
+        switchToExpired:
+          type: boolean
+        payStandIn:
+          type: boolean
     AmountEuroCents:
       description: Amount for payments, in eurocents
       type: integer
