@@ -861,6 +861,7 @@ components:
         - REVOKED
         - NO_RPT
         - STAND_IN
+        - STAND_IN_NO_RPT
       type: string
     Receiver:
       required:
