@@ -140,10 +140,6 @@ components:
         - amount
         - description
         - expirationDate
-        - iban
-        - postalIban
-        - switchToExpired
-        - payStandIn
       description: Request body for creating a new transaction
       properties:
         paFiscalCode:
@@ -166,6 +162,11 @@ components:
           type: string
           minLength: 1
           maxLength: 255
+        nav:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: notice number, if not specified it will created using the following pattern: 3 + iuv
         amount:
           $ref: '#/components/schemas/AmountEuroCents'
         description:
