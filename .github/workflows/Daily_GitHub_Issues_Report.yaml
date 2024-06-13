@@ -43,23 +43,50 @@ jobs:
         echo "    }" >> script.py
         echo "    response = requests.get(GITHUB_API_URL, headers=headers)" >> script.py
         echo "    issues = response.json()" >> script.py
-        echo "    return [issue for issue in issues if not issue['labels']]" >> script.py
+        echo "    return [issue for issue in issues if not issue.get('labels') and 'pull_request' not in issue]" >> script.py
         echo "" >> script.py
         echo "def create_slack_message(issues):" >> script.py
         echo "    today = datetime.now().strftime('%Y-%m-%d')" >> script.py
         echo "    message = {" >> script.py
         echo "        'text': f'Issue Report for {today}'," >> script.py
-        echo "        'blocks': []" >> script.py
+        echo "        'blocks': [" >> script.py
+        echo "            {" >> script.py
+        echo "                'type': 'section'," >> script.py
+        echo "                'text': {" >> script.py
+        echo "                    'type': 'mrkdwn'," >> script.py
+        echo "                    'text': '*Buongiorno, queste sono le issue github aperte e non ancora prese in carico*'" >> script.py
+        echo "                }" >> script.py
+        echo "            }," >> script.py
+        echo "            {" >> script.py
+        echo "                'type': 'divider'" >> script.py
+        echo "            }" >> script.py
+        echo "        ]" >> script.py
         echo "    }" >> script.py
         echo "" >> script.py
         echo "    for issue in issues:" >> script.py
-        echo "        issue_text = f'<{issue['html_url']}|{issue['title']}>'" >> script.py
+        echo "        issue_url = issue['html_url']" >> script.py
+        echo "        issue_title = issue['title']" >> script.py
+        echo "        issue_created_at = issue['created_at']" >> script.py
+        echo "        issue_creator = issue['user']['login']" >> script.py
         echo "        message['blocks'].append({" >> script.py
         echo "            'type': 'section'," >> script.py
-        echo "            'text': {" >> script.py
-        echo "                'type': 'mrkdwn'," >> script.py
-        echo "                'text': issue_text" >> script.py
-        echo "            }" >> script.py
+        echo "            'fields': [" >> script.py
+        echo "                {" >> script.py
+        echo "                    'type': 'mrkdwn'," >> script.py
+        echo "                    'text': f'*< {issue_url} | {issue_title} >*'" >> script.py
+        echo "                }," >> script.py
+        echo "                {" >> script.py
+        echo "                    'type': 'mrkdwn'," >> script.py
+        echo "                    'text': f'*Creato il:* {issue_created_at}'" >> script.py
+        echo "                }," >> script.py
+        echo "                {" >> script.py
+        echo "                    'type': 'mrkdwn'," >> script.py
+        echo "                    'text': f'*Creato da:* {issue_creator}'" >> script.py
+        echo "                }" >> script.py
+        echo "            ]" >> script.py
+        echo "        })" >> script.py
+        echo "        message['blocks'].append({" >> script.py
+        echo "            'type': 'divider'" >> script.py
         echo "        })" >> script.py
         echo "    return message" >> script.py
         echo "" >> script.py
