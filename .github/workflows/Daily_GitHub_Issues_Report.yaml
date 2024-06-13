@@ -28,6 +28,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN_ISSUES_DAILY_REPORT }}
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
+        #!/usr/bin/env python3
         import requests
         import json
         from datetime import datetime
@@ -45,7 +46,7 @@ jobs:
             return issues
 
         def filter_issues_by_label(issues, label):
-            filtered_issues = [issue for issue in issues if label in [lbl['name'] for lbl in issue['labels']]]
+            filtered_issues = [issue for issue in issues if label in [lbl['in progress'] for lbl in issue['labels']]]
             return filtered_issues
 
         def create_slack_message(issues_by_label):
