@@ -28,68 +28,54 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN_ISSUES_DAILY_REPORT }}
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
-        #!/usr/bin/env python3
-        import requests
-        import json
-        from datetime import datetime
-
-        GITHUB_API_URL = 'https://api.github.com/repos/pagopa/pagopa-api/issues'
-        GITHUB_TOKEN = '${{ secrets.GH_TOKEN_ISSUES_DAILY_REPORT }}'
-        SLACK_WEBHOOK_URL = '${{ secrets.SLACK_WEBHOOK_URL }}'
-
-        def get_github_issues():
-            headers = {
-                'Authorization': f'token {GITHUB_TOKEN}'
-            }
-            response = requests.get(GITHUB_API_URL, headers=headers)
-            issues = response.json()
-            return issues
-
-        def filter_issues_by_label(issues, label):
-            filtered_issues = [issue for issue in issues if label in [lbl['in progress'] for lbl in issue['labels']]]
-            return filtered_issues
-
-        def create_slack_message(issues_by_label):
-            today = datetime.now().strftime('%Y-%m-%d')
-            message = {
-                "text": f"Issue Report for {today}",
-                "blocks": []
-            }
-
-            for label, issues in issues_by_label.items():
-                message["blocks"].append({
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": f"*Label: {label}*"
-                    }
-                })
-                message["blocks"].append({"type": "divider"})
-                for issue in issues:
-                    issue_text = f"<{issue['html_url']}|{issue['title']}>"
-                    message["blocks"].append({
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": issue_text
-                        }
-                    })
-            return message
-
-        def send_slack_message(message):
-            headers = {
-                'Content-Type': 'application/json'
-            }
-            response = requests.post(SLACK_WEBHOOK_URL, headers=headers, data=json.dumps(message))
-            if response.status_code != 200:
-                raise ValueError(f"Request to Slack returned an error {response.status_code}, the response is:\n{response.text}")
-
-        def main():
-            issues = get_github_issues()
-            labels = set(lbl['name'] for issue in issues for lbl in issue['labels'])
-            issues_by_label = {label: filter_issues_by_label(issues, label) for label in labels}
-            slack_message = create_slack_message(issues_by_label)
-            send_slack_message(slack_message)
-
-        if __name__ == "__main__":
-            main()
+        echo "#!/usr/bin/env python3" > script.py
+        echo "import requests" >> script.py
+        echo "import json" >> script.py
+        echo "from datetime import datetime" >> script.py
+        echo "" >> script.py
+        echo "GITHUB_API_URL = 'https://api.github.com/repos/pagopa/pagopa-api/issues'" >> script.py
+        echo "GITHUB_TOKEN = '${{ secrets.GH_TOKEN_ISSUES_DAILY_REPORT }}'" >> script.py
+        echo "SLACK_WEBHOOK_URL = '${{ secrets.SLACK_WEBHOOK_URL }}'" >> script.py
+        echo "" >> script.py
+        echo "def get_github_issues():" >> script.py
+        echo "    headers = {" >> script.py
+        echo "        'Authorization': f'token {GITHUB_TOKEN}'" >> script.py
+        echo "    }" >> script.py
+        echo "    response = requests.get(GITHUB_API_URL, headers=headers)" >> script.py
+        echo "    issues = response.json()" >> script.py
+        echo "    return [issue for issue in issues if not issue['labels']]" >> script.py
+        echo "" >> script.py
+        echo "def create_slack_message(issues):" >> script.py
+        echo "    today = datetime.now().strftime('%Y-%m-%d')" >> script.py
+        echo "    message = {" >> script.py
+        echo "        'text': f'Issue Report for {today}'," >> script.py
+        echo "        'blocks': []" >> script.py
+        echo "    }" >> script.py
+        echo "" >> script.py
+        echo "    for issue in issues:" >> script.py
+        echo "        issue_text = f'<{issue['html_url']}|{issue['title']}>'" >> script.py
+        echo "        message['blocks'].append({" >> script.py
+        echo "            'type': 'section'," >> script.py
+        echo "            'text': {" >> script.py
+        echo "                'type': 'mrkdwn'," >> script.py
+        echo "                'text': issue_text" >> script.py
+        echo "            }" >> script.py
+        echo "        })" >> script.py
+        echo "    return message" >> script.py
+        echo "" >> script.py
+        echo "def send_slack_message(message):" >> script.py
+        echo "    headers = {" >> script.py
+        echo "        'Content-Type': 'application/json'" >> script.py
+        echo "    }" >> script.py
+        echo "    response = requests.post(SLACK_WEBHOOK_URL, headers=headers, data=json.dumps(message))" >> script.py
+        echo "    if response.status_code != 200:" >> script.py
+        echo "        raise ValueError(f'Request to Slack returned an error {response.status_code}, the response is:\\n{response.text}')" >> script.py
+        echo "" >> script.py
+        echo "def main():" >> script.py
+        echo "    issues = get_github_issues()" >> script.py
+        echo "    slack_message = create_slack_message(issues)" >> script.py
+        echo "    send_slack_message(slack_message)" >> script.py
+        echo "" >> script.py
+        echo "if __name__ == '__main__':" >> script.py
+        echo "    main()" >> script.py
+        python script.py
