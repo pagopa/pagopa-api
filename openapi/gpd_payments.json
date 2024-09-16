@@ -1,15 +1,15 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "PagoPA API GPD-Payments",
+    "title": "PagoPA API Payments",
     "description": "Payments",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.12.6"
+    "version": "0.12.12"
   },
   "servers": [
     {
-      "url": "https://api.uat.platform.pagopa.it/gpd/payments-receipts-service/v1",
-      "description": "User Acceptance Testing (UAT) URL"
+      "url": "https://api.platform.pagopa.it/gpd/payments-receipts-service/v1",
+      "description": "Generated server url"
     }
   ],
   "tags": [
