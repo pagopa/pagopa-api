@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: FDR - Flussi di rendicontazione (ORGS)
   description: FDR - Flussi di rendicontazione (ORGS)
@@ -553,7 +553,6 @@ components:
           example: '1'
         revision:
           type: integer
-          format: int64
           example: 1
         created:
           type: string

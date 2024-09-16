@@ -9,7 +9,7 @@
   "servers": [
     {
       "url": "https://api.uat.platform.pagopa.it/bizevents/service/v1",
-      "description": "Generated server url"
+      "description": "User Acceptance Testing (UAT) URL"
     }
   ],
   "paths": {
