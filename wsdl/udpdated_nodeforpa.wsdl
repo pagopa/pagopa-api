@@ -1,1 +1,75 @@
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:nfpa="http://ws.pagamenti.telematici.gov/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="nodeForPa"
+	targetNamespace="http://pagopa-api.pagopa.gov.it/node/nodeForPa.xsd">
+	<wsdl:types>
+		<xsd:schema version="1.0.0">
+			<xsd:import schemaLocation="xsd/nodeForPa.xsd" namespace="http://ws.pagamenti.telematici.gov/" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="nodoChiediElencoFlussiRendicontazione">
+<wsdl:documentation>Messaggio contenente la richiesta per l'elenco dei flussi di rendicontazione.</wsdl:documentation>
+		<wsdl:part name="bodyrequest" element="nfpa:nodoChiediElencoFlussiRendicontazione"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="nodoChiediElencoFlussiRendicontazioneRisposta">
+<wsdl:documentation>Messaggio contenente la risposta con l'elenco dei flussi di rendicontazione.</wsdl:documentation>
+		<wsdl:part name="bodyresponse" element="nfpa:nodoChiediElencoFlussiRendicontazioneRisposta"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="nodoChiediFlussoRendicontazione">
+<wsdl:documentation>Messaggio contenente la richiesta per il flusso di rendicontazione dettagliato.</wsdl:documentation>
+		<wsdl:part name="bodyrequest" element="nfpa:nodoChiediFlussoRendicontazione"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="nodoChiediFlussoRendicontazioneRisposta">
+<wsdl:documentation>Messaggio contenente la risposta con i dettagli del flusso di rendicontazione.</wsdl:documentation>
+		<wsdl:part name="bodyresponse" element="nfpa:nodoChiediFlussoRendicontazioneRisposta"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="nodeForPa">
+		<wsdl:operation name="nodoChiediElencoFlussiRendicontazione">
+<wsdl:documentation>Richiesta per ottenere l'elenco dei flussi di rendicontazione.</wsdl:documentation>
+			<wsdl:input message="tns:nodoChiediElencoFlussiRendicontazione" />
+			<wsdl:output message="tns:nodoChiediElencoFlussiRendicontazioneRisposta" />
+		</wsdl:operation>
+		<wsdl:operation name="nodoChiediFlussoRendicontazione">
+<wsdl:documentation>Richiesta per ottenere il flusso di rendicontazione dettagliato.</wsdl:documentation>
+			<wsdl:input message="tns:nodoChiediFlussoRendicontazione"></wsdl:input>
+			<wsdl:output message="tns:nodoChiediFlussoRendicontazioneRisposta"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="nodeForPaBinding"
+		type="tns:nodeForPa">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="nodoChiediElencoFlussiRendicontazione">
+<wsdl:documentation>Richiesta per ottenere l'elenco dei flussi di rendicontazione.</wsdl:documentation>
+			<soap:operation
+				soapAction="nodoChiediElencoFlussiRendicontazione" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="nodoChiediFlussoRendicontazione">
+<wsdl:documentation>Richiesta per ottenere il flusso di rendicontazione dettagliato.</wsdl:documentation>
+			<soap:operation
+				soapAction="nodoChiediFlussoRendicontazione" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="nodeForPaService">
+		<wsdl:port binding="tns:nodeForPaBinding"
+			name="nodeForPaPort">
+			<soap:address location="https://api.uat.platform.pagopa.it/nodo-auth/node-for-pa/v1" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
