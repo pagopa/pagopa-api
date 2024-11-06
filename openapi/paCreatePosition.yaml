@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   version: 0.6.0
   title: Pagopa ACA
@@ -14,6 +14,13 @@ tags:
 paths:
   /paCreatePosition:
     post:
+      parameters:
+        - in: query
+          name: segregationCodes
+          required: false
+          schema:
+            type: string
+          description: Segregation codes for which broker is authorized
       tags:
         - ACA
       operationId: newDebtPosition
@@ -137,7 +144,6 @@ components:
       type: object
       required:
         - paFiscalCode
-        - companyName
         - entityType
         - entityFiscalCode
         - entityFullName
@@ -152,11 +158,6 @@ components:
           example: "12345678910"
           minLength: 11
           maxLength: 11
-        companyName:
-          type: string
-          example: "Company name"
-          minLength: 1
-          maxLength: 140
         entityType:
           type: string
           example: "G"
@@ -208,6 +209,10 @@ components:
           type: boolean
           example: true
           default: false
+        payStandIn:
+          type: boolean
+          example: true
+          default: true
 
     DebtPositionResponse:
       type: object
