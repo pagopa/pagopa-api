@@ -1,1 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ta="http://PuntoAccessoPSP.spcoop.gov.it/praticaPagamentoCanoni"
+            targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/praticaPagamentoCanoni">
 
+	<xsd:simpleType name="stText40">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="stText50">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="ctPagatore">
+		<xsd:sequence>
+			<xsd:element name="codiceFiscalePagatore" type="xsd:string"/>
+			<xsd:element name="denominazionePagatore" type="ta:stText50"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ctIntestatario">
+		<xsd:sequence>
+			<xsd:element name="codiceFiscaleIntestatario" type="xsd:string"/>
+			<xsd:element name="denominazioneIntestatario" type="ta:stText50"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ctCampoNote">
+		<xsd:sequence>
+			<xsd:element name="note" type="ta:stText40"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ctpraticaPagamentoCanoni">
+		<xsd:sequence>
+			<xsd:element name="codicePratica" type="xsd:string" fixed="D847"/>
+			<xsd:element name="pagatore" minOccurs="1" type="ta:ctPagatore"/>
+			<xsd:element name="intestatario" minOccurs="1" type="ta:ctIntestatario"/>
+			<xsd:element name="note" minOccurs="0" type="ta:ctCampoNote"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Wrapper elements -->
+	<xsd:element name="praticaPagamentoCanoni" type="ta:ctpraticaPagamentoCanoni"/>
+	
+</xsd:schema>
