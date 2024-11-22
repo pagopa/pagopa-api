@@ -71,6 +71,7 @@
             <xsd:element name="debtAmount" type="common:stAmount"/>
             <xsd:element name="transferList" type="tns:ctTransferListPSPV2"/>
             <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0"/>
+	    <xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -195,7 +196,6 @@
             <xsd:element name="timestampOperation" type="common:stISODateTime"/>
             <xsd:element name="paymentList" type="tns:ctPaymentListV2"/>
             <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
-	    <xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
