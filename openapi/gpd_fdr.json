@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
       "title": "Reporting Analysis - GPD",
-      "version": "0.1.1"
+      "version": "0.1.8"
     },
     "servers": [
       {

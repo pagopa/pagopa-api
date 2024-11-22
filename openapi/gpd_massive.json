@@ -2,8 +2,31 @@
   "openapi": "3.0.1",
   "info": {
     "title": "pagopa-gpd-upload",
-    "version": "0.1.17"
+    "description": "Microservice to manage PagoPA GPD Upload",
+    "termsOfService": "https://www.pagopa.gov.it/",
+    "version": "0.1.32"
   },
+  "servers": [
+    {
+      "url": "https://{host}{basePath}",
+      "variables": {
+        "basePath": {
+          "default": "/upload/gpd/debt-positions-service/v1",
+          "enum": [
+            "/upload/gpd/debt-positions-service/v1"
+          ]
+        },
+        "host": {
+          "default": "api.dev.platform.pagopa.it",
+          "enum": [
+            "api.dev.platform.pagopa.it",
+            "api.uat.platform.pagopa.it",
+            "api.platform.pagopa.it"
+          ]
+        }
+      }
+    }
+  ],
   "paths": {
     "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file": {
       "put": {
@@ -118,7 +141,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "Authorization": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -232,7 +263,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "Authorization": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -346,7 +385,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/report": {
@@ -457,7 +504,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/status": {
@@ -568,7 +623,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/info": {
@@ -579,6 +642,110 @@
         "summary": "health check",
         "description": "Return OK if application is started",
         "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [],
+                  "anyOf": [],
+                  "oneOf": []
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [],
+                  "anyOf": [],
+                  "oneOf": []
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests.",
+            "content": {
+              "text/json": {}
+            }
+          },
+          "500": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support/brokers/{broker}/organizations/{organization}/{upload}/status/created/refresh": {
+      "get": {
+        "tags": [
+          "Support API"
+        ],
+        "summary": "Support API to recover status on CREATE operation",
+        "description": "Returns the debt positions upload report recovered.",
+        "operationId": "recoverStatus",
+        "parameters": [
+          {
+            "name": "broker",
+            "in": "path",
+            "description": "The broker code",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "organization",
+            "in": "path",
+            "description": "The organization fiscal code",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "upload",
+            "in": "path",
+            "description": "The unique identifier for file upload",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
