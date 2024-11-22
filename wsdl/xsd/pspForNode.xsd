@@ -71,6 +71,7 @@
             <xsd:element name="debtAmount" type="common:stAmount"/>
             <xsd:element name="transferList" type="tns:ctTransferListPSPV2"/>
             <xsd:element name="metadata" type="common:ctMetadata" minOccurs="0"/>
+	    <xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -171,6 +172,7 @@
                 <xsd:element name="bancomatpayPayment" type="tns:ctBancomatpayPayment"/>
                 <xsd:element name="additionalPaymentInformations" type="tns:ctAdditionalPaymentInformations"/>
             </xsd:choice>
+	    <xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 
