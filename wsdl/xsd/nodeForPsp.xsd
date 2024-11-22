@@ -108,7 +108,7 @@
 
 	<xsd:simpleType name="stIdempotencyKey">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="[0-9]{11}_[a-zA-Z0-9]{10}" />
+			<xsd:pattern value="[a-zA-Z0-9]{2,18}_[a-zA-Z0-9]{10}" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
@@ -314,7 +314,7 @@
 				<xsd:element name="richiestaMarcaDaBollo" type="common:ctRichiestaMarcaDaBollo" />
 			</xsd:choice>
 			<xsd:element name="remittanceInformation" type="common:stText140" />
-			<xsd:element name="transferCategory" type="common:stText140" />
+			<xsd:element name="transferCategory" type="common:stText140" minOccurs="0" />
 			<xsd:element name="metadata" type="common:ctMetadata" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -395,6 +395,7 @@
 					<xsd:element name="companyName" type="common:stText140" minOccurs="0"></xsd:element>
 					<xsd:element name="officeName" type="common:stText140" minOccurs="0"></xsd:element>
 					<!-- <xsd:element name="chargePA" type="common:stAmount" minOccurs="0" /> -->
+					<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -436,6 +437,7 @@
 					<xsd:element name="paymentToken" type="common:stPaymentToken" minOccurs="0" />
 					<xsd:element name="transferList" type="tns:ctTransferListPSP" minOccurs="0" />
 					<xsd:element name="creditorReferenceId" type="common:stText35" minOccurs="0" />
+					<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 					<!--IUV -->
 				</xsd:sequence>
 			</xsd:extension>
@@ -615,6 +617,7 @@
 					<xsd:element name="suggestedIdBundle" type="common:stText70" minOccurs="0" />
 					<xsd:element name="suggestedIdCiBundle" type="common:stText70" minOccurs="0" />
 					<xsd:element name="allCCP" type="xsd:boolean" minOccurs="0" />
+					<xsd:element name="standin" type="xsd:boolean" minOccurs="0" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
