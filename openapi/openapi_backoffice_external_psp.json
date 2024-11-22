@@ -4,7 +4,7 @@
     "description": "Microservice to expose REST API to contact PagoPA Backoffice",
     "termsOfService": "https://www.pagopa.gov.it/",
     "title": "Backoffice External - Backoffice External PSP",
-    "version": "1.0.25"
+    "version": "1.6.3"
   },
   "servers": [
     {
@@ -23,7 +23,7 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "maximum": 100,
+              "maximum": 5000,
               "minimum": 0,
               "type": "integer",
               "format": "int32",
@@ -269,7 +269,9 @@
       "PageInfo": {
         "required": [
           "limit",
-          "page"
+          "page",
+          "totalElements",
+          "totalPages"
         ],
         "type": "object",
         "properties": {
@@ -282,6 +284,16 @@
             "type": "integer",
             "description": "page number (0 is the first page)",
             "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "description": "total elements of elements",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "total number of pages",
+            "format": "int64"
           }
         },
         "description": "information about pagination"
