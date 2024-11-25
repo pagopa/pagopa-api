@@ -12,3 +12,4 @@
 
 # SANP3.8.0 (Luglio 2024)
 1. Gestione massiva delle posizioni debitorie
+2. Fix openapi getOrganizationReceipt services, fields `email` and `channelDescription`
