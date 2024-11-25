@@ -9,3 +9,6 @@
 8. `25/03/2024` - Aggiornato campo amount sull'API paCreatePosition
 9. `25/03/2024` - fix swagger API Backoffice pagoPA "External"
 10. `08/04/2024` - add new payment type inside `catalogoDatiInformativiPSP.xsd`
+
+# SANP3.8.0 (Luglio 2024)
+1. Gestione massiva delle posizioni debitorie
