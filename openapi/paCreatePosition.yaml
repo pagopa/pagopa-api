@@ -29,6 +29,7 @@ paths:
       summary: Create a new debt position
       description: Create a new debt position.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -48,12 +49,75 @@ paths:
                 $ref: '#/components/schemas/ProblemJson'
               example:
                 value:
-                  type: https://example.com/problem/
-                  title: string
-                  status: 400
-                  detail: Formally invalid input
+                  invalidInput:
+                    type: https://example.com/problem/
+                    title: string
+                    status: 400
+                    detail: Formally invalid input
         '404':
-          description: PA or IBAN not found
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+              examples:
+                iupd_not_found:
+                  value:
+                    type: https://example.com/problem/
+                    title: Invocation exception
+                    status: 404
+                    detail: Error while invalidate debit position. Debit position not found with {iupd}
+                pa_fiscal_code_not_found:
+                  value:
+                    type: https://example.com/problem/
+                    title: Invocation exception
+                    status: 404
+                    detail: No debt position found with Creditor institution code {creditorInstitutionCode} and {iupd}
+        '422':
+          description: Can not perform the requested action on debit position
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+              example:
+                value:
+                  type: https://example.com/problem/
+                  title: Unprocessable request
+                  status: 422
+                  detail: Can not perform the requested action on debit position
+        '409':
+          description: Conflict into requested action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+              examples:
+                create:
+                  value:
+                    type: https://example.com/problem/
+                    title: Invocation exception
+                    status: 409
+                    detail: Error while create new debit position conflict into request
+                update:
+                  value:
+                    type: https://example.com/problem/
+                    title: Invocation exception
+                    status: 409
+                    detail: Error while update debit position conflict into request
+                invalidate:
+                  value:
+                    type: https://example.com/problem/
+                    title: Invocation exception
+                    status: 409
+                    detail: Error while invalidate debit position conflict into request
+                unauthorized_action:
+                  value:
+                    type: https://example.com/problem/
+                    title: Unauthorized action
+                    status: 409
+                    detail: Unauthorized action on debt position with iuv {iuv}
+        '502':
+          description: Bad gateway
           content:
             application/json:
               schema:
@@ -62,20 +126,8 @@ paths:
                 value:
                   type: https://example.com/problem/
                   title: string
-                  status: 404
-                  detail: PA or IBAN not found
-        '409':
-          description: Conflict during the debt position census
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProblemJson'
-              example:
-                value:                
-                  type: https://example.com/problem/
-                  title: string
-                  status: 409
-                  detail: Conflict during the debt position census
+                  status: 502
+                  detail: Bad gateway, error while execute request
         '500':
           description: Internal server error
           content:
@@ -83,7 +135,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemJson'
               example:
-                value:                
+                value:
                   type: https://example.com/problem/
                   title: string
                   status: 500
@@ -112,8 +164,8 @@ components:
           type: string
           example: "G"
           enum:
-          - F
-          - G
+            - F
+            - G
         entityFiscalCode:
           type: string
           example: "12345678910"
@@ -198,7 +250,7 @@ components:
         status:
           type: string
     AmountEuroCents:
-      description: Amount for payments, in euro cents
+      description: Amount for payments, in eurocents
       type: integer
       example: 100
       minimum: 0
@@ -221,7 +273,7 @@ components:
             A short, summary of the problem type. Written in english and readable
             for engineers (usually not suited for non technical stakeholders and
             not localized); example: Service Unavailable
-        status: 
+        status:
           type: integer
           format: int32
           description: |-
