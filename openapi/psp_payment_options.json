@@ -1,0 +1,343 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "PagoPa Payment Options",
+    "description": "PagoPa Payment Options service \n ### APP ERROR CODES ### \n\n\n <details><summary>Details</summary>\n **NAME** | **HTTP STATUS CODE** | **DESCRIPTION** \n- | - | - \n **ODP-001** | *Bad Request* | ODP-SINTASSI. Errore riportato in caso di errore di sintassi nel contenuto della richiesta verso ODP\n **ODP-002** | *Not Found* | ODP_PSP_SCONOSCIUTO. Errore riportato in caso non sia presente fra i dati ottenuti da config-cache un psp coincidente con l’id fornito in input\n **ODP-003** | *Bad Request* | ODP_PSP_DISABILITATO. Errore riportato in caso il psp coincidente con l’id fornito in input risulti disabilitato\n **ODP-004** | *Not Found* | ODP_INTERMEDIARIO_PSP_SCONOSCIUTO. Errore riportato in caso il broker psp coincidente con i dati forniti in input non sia presente nei dati ottenuti da config-cache\n **ODP-005** | *Bad Request* | ODP_INTERMEDIARIO_PSP_DISABILITATO. Errore riportato in caso il broker psp coincidente con l’id fornito in input risulti disabilitato\n **ODP-006** | *Unauthorized* | ODP_AUTENTICAZIONE. Errore di autenticazione rispetto ai dati forniti\n **ODP-007** | *Forbidden* | ODP_AUTORIZZAZIONE. Errore di autorizzazione rispetto ai dati forniti\n **ODP-008** | *Bad Request* | ODP_SEMANTICA. Errore fornito in caso della presenza di casi d’invalidità semantica nei dati del flusso di verifica\n **ODP-009** | *Not Found* | ODP_STAZIONE_INT_PA_SCONOSCIUTA. Errore forninca in caso di assenza associazione stazione e PA\n **ODP-010** | *Bad Request* | ODP_STAZIONE_INT_PA_DISABILITATA. Errore riportato in caso la stazione coincidente con l’id fornito in input risulti disabilitato\n **ODP-011** | *Service Unavailable* | ODP_STAZIONE_INT_PA_IRRAGGIUNGIBILE. Errore fornito in caso d’irraggiungibilità della stazione\n **ODP-012** | *Bad Request* | ODP_STAZIONE_INT_PA_SERVIZIO_NON_ATTIVO. Errore fornito in caso di servizio non attivo\n **ODP-013** | *Internal Server Error* | ODP_STAZIONE_INT_PA_TIMEOUT. Errore fornito in caso di timeout della stazione\n **ODP-014** | *Internal Server Error* | ODP_ERRORE_EMESSO_DA_PAA. Errore fornito in caso di errori da PAA\n **ODP-015** | *Bad Request* | ODP_STAZIONE_INT_PA_ERRORE_RESPONSE. Errore fornito in caso di risposta KO dalla stazione\n **ODP-016** | *Bad Request* | ODP_PSP_NAV_NOT_NMU. Errore fornito nel caso in cui il nav non sia valido per il flusso OdP\n **ODP-017** | *Bad Request* | ODP_SYSTEM_ERROR Codice d’errore generico\n **ODP-018** | *Internal Server Error* | ODP_SYSTEM_ERROR. Codice d’errore generico\n **ODP-019** | *Bad Request* | ODP_INTERMEDIARIO_PA_DISABILITATO\n **ODP-020** | *Not Found* | ODP_INTERMEDIARIO_PA_SCONOSCIUTO\n **ODP-021** | *Bad Request* | ODP_DOMINIO_DISABILITATO\n **ODP-022** | *Not Found* | ODP_DOMINIO_SCONOSCIUTO \n\n </details> \n",
+    "termsOfService": "https://www.pagopa.gov.it/",
+    "version": "0.5.0"
+  },
+  "servers": [
+    {
+      "url": "https://{host}/odp/service/v1",
+      "description": "Base URL",
+      "variables": {
+        "host": {
+          "default": "api.dev.platform.pagopa.it",
+          "enum": [
+            "api.dev.platform.pagopa.it",
+            "api.uat.platform.pagopa.it",
+            "api.platform.pagopa.it"
+          ]
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/info": {
+      "get": {
+        "tags": [
+          "Generic"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/payment-options/organizations/{fiscal-code}/notices/{notice-number}": {
+      "get": {
+        "tags": [
+          "Payment Options Resource"
+        ],
+        "summary": "Get payment options",
+        "description": "Retrieve the payment options related to the provided input",
+        "operationId": "getPaymentOptions",
+        "parameters": [
+          {
+            "name": "fiscal-code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "notice-number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idPsp",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Session-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse500"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse400"
+          },
+          "404": {
+            "$ref": "#/components/responses/ErrorResponse404"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentOptionsResponse"
+                },
+                "example": {
+                  "paTaxCode": "77777777777",
+                  "paFullName": "EC",
+                  "paOfficeName": "EC",
+                  "paymentOptions": [
+                    {
+                      "description": "Test PayOpt - unica opzione",
+                      "numberOfInstallments": 1,
+                      "amount": 120,
+                      "dueDate": "2024-10-30T23:59:59",
+                      "validFrom": "2024-09-30T23:59:59",
+                      "status": "non pagato",
+                      "status reason": "desc",
+                      "allCCP": "false",
+                      "installments": [
+                        {
+                          "nav": "311111111111111111",
+                          "iuv": "311111111111111111",
+                          "amount": 120,
+                          "description": "Test Opt Inst - unica opzione",
+                          "dueDate": "2024-10-30T23:59:59",
+                          "validFrom": "2024-09-30T23:59:59",
+                          "status": "non pagato",
+                          "status reason": "desc"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          }
+        }
+      },
+      "EnumInstallment": {
+        "enum": [
+          "POI_UNPAID",
+          "POI_PAID",
+          "POI_EXPIRED_NOT_PAYABLE",
+          "POI_EXPIRED_UNPAID",
+          "POI_INVALID"
+        ],
+        "type": "string"
+      },
+      "EnumPo": {
+        "enum": [
+          "PO_UNPAID",
+          "PO_PAID",
+          "PO_PARTIALLY_PAID",
+          "PO_EXPIRED_NOT_PAYABLE",
+          "PO_EXPIRED_UNPAID",
+          "PO_INVALID"
+        ],
+        "type": "string"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "format": "int32",
+            "type": "integer",
+            "example": 500
+          },
+          "httpStatusDescription": {
+            "type": "string",
+            "example": "Internal Server Error"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "An unexpected error has occurred. Please contact support."
+          },
+          "appErrorCode": {
+            "type": "string",
+            "example": "ODP-<ERR_ID>"
+          },
+          "timestamp": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1724425035
+          },
+          "dateTime": {
+            "type": "string",
+            "example": "2024-08-23T14:57:15.635528"
+          }
+        }
+      },
+      "Installment": {
+        "type": "object",
+        "properties": {
+          "nav": {
+            "type": "string"
+          },
+          "iuv": {
+            "type": "string"
+          },
+          "amount": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string"
+          },
+          "validFrom": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EnumInstallment"
+          },
+          "statusReason": {
+            "type": "string"
+          }
+        }
+      },
+      "PaymentOption": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "numberOfInstallments": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "dueDate": {
+            "type": "string"
+          },
+          "validFrom": {
+            "type": "string"
+          },
+          "amount": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EnumPo"
+          },
+          "statusReason": {
+            "type": "string"
+          },
+          "allCCP": {
+            "type": "boolean"
+          },
+          "installments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Installment"
+            }
+          }
+        }
+      },
+      "PaymentOptionsResponse": {
+        "type": "object",
+        "properties": {
+          "paTaxCode": {
+            "type": "string"
+          },
+          "paFullName": {
+            "type": "string"
+          },
+          "paOfficeName": {
+            "type": "string"
+          },
+          "standin": {
+            "type": "boolean"
+          },
+          "paymentOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentOption"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "ErrorResponse400": {
+        "description": "Default app exception for status 400",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ErrorResponse404": {
+        "description": "Default app exception for status 404",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ErrorResponse500": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      }
+    }
+  }
+}
