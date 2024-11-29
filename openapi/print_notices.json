@@ -8,8 +8,18 @@
   },
   "servers": [
     {
-      "url": "https://api.platform.pagopa.it/print-payment-notice-service/external/v1"
-    }
+      "url": "https://{host}/print-payment-notice-service/external/v1",
+      "description": "Base URL",
+      "variables": {
+        "host": {
+          "default": "api.dev.platform.pagopa.it",
+          "enum": [
+            "api.dev.platform.pagopa.it",
+            "api.uat.platform.pagopa.it",
+            "api.platform.pagopa.it"
+          ]
+        }
+      }
   ],
   "paths": {
     "/notices/folder/{folderId}": {
