@@ -1,5 +1,6 @@
 # SANP3.9.0 (Novembre 2024)
-1. Pubblicazione specifiche API Opzioni Di Pagamento 
+1. Pubblicazione specifiche API Opzioni Di Pagamento `psp_payment_options.json`
+2. Pubblicazione specifiche API Stampa Avvisi `print_notices.json`
 
 # SANP3.8.0 (Luglio 2024)
 1. Gestione massiva delle posizioni debitorie
