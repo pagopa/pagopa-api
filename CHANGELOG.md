@@ -1,3 +1,8 @@
+# SANP3.9.1 (Dicembre 2024)
+Nessuna modifica alle API ma solo allineamento del repository alla nuova versione delle SANP:
+1. Aggiornamento del modello dati descritto in ​'Modello dati'
+2. Aggiornamento del 'Quality improvement'
+
 # SANP3.9.0 (Novembre 2024)
 1. Pubblicazione specifiche API Opzioni Di Pagamento `psp_payment_options.json`
 2. Pubblicazione specifiche API Stampa Avvisi `print_notices.json`
