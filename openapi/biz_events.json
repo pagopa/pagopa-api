@@ -536,7 +536,7 @@
           },
           "paymentDateTime": {
             "type": "string",
-            "format": "date"
+            "format": "date-time"
           },
           "applicationDate": {
             "type": "string",
