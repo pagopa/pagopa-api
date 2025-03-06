@@ -230,6 +230,25 @@
               }
             }
           },
+          "403" : {
+            "description" : "Forbidden",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "example" : {
+                  "statusCode" : 403,
+                  "message" : "You are not allowed to access this resource."
+                }
+              }
+            }
+          },
           "429": {
             "description": "Too many requests.",
             "headers": {
@@ -487,13 +506,21 @@
               }
             }
           },
-          "401": {
-            "description": "Wrong or missing function key.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
+          "403" : {
+            "description" : "Forbidden",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "example" : {
+                  "statusCode" : 403,
+                  "message" : "You are not allowed to access this resource."
                 }
               }
             }
@@ -884,6 +911,25 @@
               }
             }
           },
+          "403" : {
+            "description" : "Forbidden",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "example" : {
+                  "statusCode" : 403,
+                  "message" : "You are not allowed to access this resource."
+                }
+              }
+            }
+          },
           "409": {
             "description": "Conflict: debt position is not in publishable state.",
             "headers": {
@@ -1052,13 +1098,21 @@
               }
             }
           },
-          "401": {
-            "description": "Wrong or missing function key.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
+          "403" : {
+            "description" : "Forbidden",
+            "headers" : {
+              "X-Request-Id" : {
+                "description" : "This header identifies the call",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "example" : {
+                  "statusCode" : 403,
+                  "message" : "You are not allowed to access this resource."
                 }
               }
             }
