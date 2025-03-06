@@ -54,6 +54,17 @@
               "content": {
                 "application/json": {}
               }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "statusCode": 403,
+                    "message": "You are not allowed to access this resource."
+                  }
+                }
+              }
             }
           }
         }
@@ -102,6 +113,17 @@
                     "format": "binary",
                     "type": "string",
                     "description": "Flow XML"
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "statusCode": 403,
+                    "message": "You are not allowed to access this resource."
                   }
                 }
               }
