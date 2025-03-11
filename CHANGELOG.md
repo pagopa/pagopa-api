@@ -2,6 +2,7 @@
 Nessuna modifica alle API ma solo allineamento del repository alla nuova versione delle SANP:
 1. Aggiornamento del modello dati descritto in ​'Modello dati'
 2. Aggiornamento del 'Quality improvement'
+3. 2025-03-11 - BizEvent Service aggiunto campo `paymentDateTimeFormatted` su `getOrganizationReceipt` in conformità con `paSendRT`
 
 # SANP3.9.0 (Novembre 2024)
 1. Pubblicazione specifiche API Opzioni Di Pagamento `psp_payment_options.json`
