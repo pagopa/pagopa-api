@@ -262,6 +262,25 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 403,
+                  "message": "You are not allowed to access this resource."
+                }
+              }
+            }
+          },
           "404": {
             "description": "No receipts found.",
             "headers": {
@@ -384,6 +403,25 @@
                 "description": "This header identifies the call",
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 403,
+                  "message": "You are not allowed to access this resource."
                 }
               }
             }

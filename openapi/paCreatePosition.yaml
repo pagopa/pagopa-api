@@ -54,6 +54,13 @@ paths:
                     title: string
                     status: 400
                     detail: Formally invalid input
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              example:
+                statusCode: 403
+                message: You are not allowed to access this resource.
         '404':
           description: Entity not found
           content:
