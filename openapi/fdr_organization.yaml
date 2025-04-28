@@ -1,363 +1,20 @@
 openapi: 3.0.3
 info:
-  title: FDR - Flussi di rendicontazione (ORGS)
+  title: FDR Fase3 - Flussi di rendicontazione (ORGS)
   description: FDR - Flussi di rendicontazione (ORGS)
   version: v1
 servers:
-  - url: https://api.uat.platform.pagopa.it/fdr-org/service/v1
-  - url: https://api.prf.platform.pagopa.it/fdr-org/service/v1
+  - url: https://api.uat.platform.pagopa.it/fdr-psp/service/v1
+  - url: https://api.prf.platform.pagopa.it/fdr-psp/service/v1
 paths:
-  '/organizations/{organizationId}/fdrs/{fdr}/revisions/{revision}/psps/{pspId}':
-    get:
-      tags:
-        - Organizations
-      summary: Get fdr
-      description: Get fdr
-      operationId: get
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: organizationId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: revision
-          in: path
-          description: Format - int64.
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
-                httpStatusCode: 500
-                httpStatusDescription: Internal Server Error
-                appErrorCode: FDR-0500
-                errors:
-                  - message: An unexpected error has occurred. Please contact support.
-        '400':
-          description: Default app exception for status 400
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                Error:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - message: 'Reporting Fdr [<fdr>] is invalid'
-                Errors with path:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - path: <detail.path.if-exist>
-                        message: <detail.message>
-        '404':
-          description: Default app exception for status 404
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                httpStatusCode: 404
-                httpStatusDescription: Not Found
-                appErrorCode: FDR-0701
-                errors:
-                  - message: 'Reporting Fdr [<fdr>] not found'
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetResponse'
-              example:
-                status: CREATED
-                revision: 4
-                created: '2023-04-03T12:00:30.9000000+00:00'
-                updated: '2023-04-03T12:00:30.9000000+00:00'
-                fdr: 2016-08-16pspTest-1178
-                fdrDate: '2023-04-05T09:21:37.8100000+00:00'
-                regulation: SEPA - Bonifico xzy
-                regulationDate: '2023-04-03T12:00:30.9000000+00:00'
-                bicCodePouringBank: UNCRITMMXXX
-                sender:
-                  type: LEGAL_PERSON
-                  id: SELBIT2B
-                  pspId: '60000000001'
-                  pspName: Bank
-                  pspBrokerId: '70000000001'
-                  channelId: '80000000001'
-                  password: '1234567890'
-                receiver:
-                  id: APPBIT2B
-                  organizationId: '20000000001'
-                  organizationName: Comune di xyz
-                published: '2023-04-03T12:00:30.9000000+00:00'
-                computedTotPayments: 100
-                computedSumPayments: 100.9
-                totPayments: 100
-                sumPayments: 100.9
-  '/organizations/{organizationId}/fdrs/{fdr}/revisions/{revision}/psps/{pspId}/payments':
-    get:
-      tags:
-        - Organizations
-      summary: Get payments of fdr
-      description: Get payments of fdr
-      operationId: getPayment
-      parameters:
-        - name: fdr
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: organizationId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pspId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: revision
-          in: path
-          description: Format - int64.
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: page
-          in: query
-          description: Format - int64.
-          schema:
-            minimum: 1.0
-            type: integer
-            format: int64
-            default: 1
-        - name: size
-          in: query
-          description: Format - int64.
-          schema:
-            minimum: 1.0
-            type: integer
-            format: int64
-            default: 1000
-      responses:
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
-                httpStatusCode: 500
-                httpStatusDescription: Internal Server Error
-                appErrorCode: FDR-0500
-                errors:
-                  - message: An unexpected error has occurred. Please contact support.
-        '400':
-          description: Default app exception for status 400
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                Error:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - message: 'Reporting Fdr [<fdr>] is invalid'
-                Errors with path:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - path: <detail.path.if-exist>
-                        message: <detail.message>
-        '404':
-          description: Default app exception for status 404
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                httpStatusCode: 404
-                httpStatusDescription: Not Found
-                appErrorCode: FDR-0701
-                errors:
-                  - message: 'Reporting Fdr [<fdr>] not found'
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetPaymentResponse'
-              example:
-                metadata:
-                  pageSize: 25
-                  pageNumber: 1
-                  totPage: 3
-                count: 100
-                data:
-                  - index: 1
-                    iuv: abcdefg
-                    iur: abcdefg
-                    idTransfer: 1
-                    pay: 0.01
-                    payStatus: EXECUTED
-                    payDate: '2023-02-03T12:00:30.9000000+00:00'
-  '/organizations/{organizationId}/fdrs':
-    get:
-      tags:
-        - Organizations
-      summary: Get all fdr published
-      description: Get all fdr published
-      operationId: getAllPublished
-      parameters:
-        - name: organizationId
-          in: path
-          required: true
-          schema:
-            pattern: '^(.{1,35})$'
-            type: string
-        - name: page
-          in: query
-          description: Format - int64.
-          schema:
-            minimum: 1.0
-            type: integer
-            format: int64
-            default: 1
-        - name: pspId
-          in: query
-          schema:
-            pattern: '^(.{1,35})$'
-            type: string
-        - name: publishedGt
-          in: query
-          description: Format - date-time (as date-time in RFC3339).
-          schema:
-            $ref: '#/components/schemas/Instant'
-        - name: size
-          in: query
-          description: Format - int64.
-          schema:
-            minimum: 1.0
-            type: integer
-            format: int64
-            default: 1000
-      responses:
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
-                httpStatusCode: 500
-                httpStatusDescription: Internal Server Error
-                appErrorCode: FDR-0500
-                errors:
-                  - message: An unexpected error has occurred. Please contact support.
-        '400':
-          description: Default app exception for status 400
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                Error:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - message: 'Reporting Fdr [<fdr>] is invalid'
-                Errors with path:
-                  value:
-                    httpStatusCode: 400
-                    httpStatusDescription: Bad Request
-                    appErrorCode: FDR-0702
-                    errors:
-                      - path: <detail.path.if-exist>
-                        message: <detail.message>
-        '404':
-          description: Default app exception for status 404
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                httpStatusCode: 404
-                httpStatusDescription: Not Found
-                appErrorCode: FDR-0701
-                errors:
-                  - message: 'Reporting Fdr [<fdr>] not found'
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetAllResponse'
-              example:
-                metadata:
-                  pageSize: 25
-                  pageNumber: 1
-                  totPage: 3
-                count: 100
-                data:
-                  - fdr: AAABBB
-                    pspId: '1'
-                    revision: 1
-                    published: '2023-04-03T12:00:30.9000000+00:00'
   /info:
     get:
       tags:
         - Info
-      summary: Get info of FDR
-      description: Get info of FDR
-      operationId: get-info
+      summary: Health-check
+      description: Health-check
+      operationId: IInfoController_healthCheck
       responses:
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
-                httpStatusCode: 500
-                httpStatusDescription: Internal Server Error
-                appErrorCode: FDR-0500
-                errors:
-                  - message: An unexpected error has occurred. Please contact support.
         '200':
           description: Success
           content:
@@ -365,14 +22,390 @@ paths:
               schema:
                 $ref: '#/components/schemas/InfoResponse'
               example:
-                name: pagopa-fdr
-                version: '2003-01-02'
-                environment: dev
-                description: FDR - Flussi di rendicontazione
-                errorCodes:
-                  - code: FDR-0500
-                    description: An unexpected error has occurred. Please contact support.
-                    statusCode: 500
+                name:
+                  - pagopa-fdr
+                version:
+                  - '2003-01-02'
+                environment:
+                  - dev
+                description:
+                  - FDR - Flussi di rendicontazione
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+                httpStatusCode: 500
+                httpStatusDescription: Internal Server Error
+                appErrorCode: FDR-0500
+                errors:
+                  - message: An unexpected error has occurred. Please contact support.
+  '/organizations/{organizationId}/fdrs':
+    get:
+      tags:
+        - Organizations
+      summary: Get all published flow related to creditor institution
+      description: Get all published flow related to creditor institution
+      operationId: IOrganizationsController_getAllPublishedFlows
+      parameters:
+        - name: organizationId
+          in: path
+          description: 'The creditor institution identifier, used as a search filter'
+          required: true
+          schema:
+            pattern: '^(.{1,35})$'
+            type: string
+          example: 15376371009
+        - name: page
+          in: query
+          description: Format - int64. The index of the page to be shown in the result
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+            default: 1
+          example: 1
+        - name: pspId
+          in: query
+          description: 'The PSP identifier, used as a search filter'
+          schema:
+            pattern: '^(.{1,35})$'
+            type: string
+          example: 88888888888
+        - name: publishedGt
+          in: query
+          description: Format - date-time (as date-time in RFC3339). A date to be used as a lower limit search on publication date. In format ISO-8601 (yyyy-MM-dd'T'HH:mm:ss)
+          schema:
+            $ref: '#/components/schemas/Instant'
+          example: '2025-01-01T12:00:00.0000000+00:00'
+        - name: size
+          in: query
+          description: Format - int64. The number of the elements of the page to be shown in the result
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+            default: 1000
+          example: 50
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFlowsResponse'
+              example:
+                metadata:
+                  pageSize:
+                    - 25
+                  pageNumber:
+                    - 1
+                  totPage:
+                    - 3
+                count:
+                  - 100
+                data:
+                  - fdr:
+                      - 2025-01-0188888888888-0000001
+                    pspId:
+                      - '88888888888'
+                    revision:
+                      - 1
+                    published: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 400
+                httpStatusDescription: Bad Request
+                appErrorCode: FDR-XXXX
+                errors:
+                  - path: <detail.path.if-exist>
+                    message: <detail.message>
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 404
+                httpStatusDescription: Not Found
+                appErrorCode: FDR-XXXX
+                errors:
+                  - message: <detail.message>
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+                httpStatusCode: 500
+                httpStatusDescription: Internal Server Error
+                appErrorCode: FDR-0500
+                errors:
+                  - message: An unexpected error has occurred. Please contact support.
+  '/organizations/{organizationId}/fdrs/{fdr}/revisions/{revision}/psps/{pspId}':
+    get:
+      tags:
+        - Organizations
+      summary: 'Get single published flow related to creditor institution, searching by name and revision'
+      description: 'Get single published flow related to creditor institution, searching by name and revision'
+      operationId: IOrganizationsController_getSinglePublishedFlow
+      parameters:
+        - name: fdr
+          in: path
+          description: 'The flow name, used as a search filter'
+          required: true
+          schema:
+            type: string
+          example: 2025-01-0188888888888-0001
+        - name: organizationId
+          in: path
+          description: 'The creditor institution identifier, used as a search filter'
+          required: true
+          schema:
+            type: string
+          example: 15376371009
+        - name: pspId
+          in: path
+          description: 'The PSP identifier, used as a search filter'
+          required: true
+          schema:
+            type: string
+          example: 88888888888
+        - name: revision
+          in: path
+          description: Format - int64. The specific revision of the flow needed
+          required: true
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleFlowResponse'
+              example:
+                status: CREATED
+                revision:
+                  - 4
+                created: string
+                updated: string
+                fdr:
+                  - 2025-01-0188888888888-0000001
+                fdrDate: string
+                regulation:
+                  - SEPA - Bonifico X
+                regulationDate: string
+                bicCodePouringBank:
+                  - UNCRITMMXXX
+                sender:
+                  type:
+                    - LEGAL_PERSON
+                  id:
+                    - SELBIT2B
+                  pspId:
+                    - '60000000001'
+                  pspName:
+                    - PSP Name
+                  pspBrokerId:
+                    - '70000000001'
+                  channelId:
+                    - '80000000001'
+                  password:
+                    - password
+                receiver:
+                  id:
+                    - APPBIT2B
+                  organizationId:
+                    - '20000000001'
+                  organizationName:
+                    - Comune di Roma
+                published: string
+                computedTotPayments:
+                  - 100
+                computedSumPayments:
+                  - 100.95
+                totPayments:
+                  - 100
+                sumPayments:
+                  - 100.95
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 400
+                httpStatusDescription: Bad Request
+                appErrorCode: FDR-XXXX
+                errors:
+                  - path: <detail.path.if-exist>
+                    message: <detail.message>
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 404
+                httpStatusDescription: Not Found
+                appErrorCode: FDR-XXXX
+                errors:
+                  - message: <detail.message>
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+                httpStatusCode: 500
+                httpStatusDescription: Internal Server Error
+                appErrorCode: FDR-0500
+                errors:
+                  - message: An unexpected error has occurred. Please contact support.
+  '/organizations/{organizationId}/fdrs/{fdr}/revisions/{revision}/psps/{pspId}/payments':
+    get:
+      tags:
+        - Organizations
+      summary: 'Get all payments of single published flow related to creditor institution, searching by name and revision'
+      description: 'Get all payments of single published flow related to creditor institution, searching by name and revision'
+      operationId: IOrganizationsController_getPaymentsFromPublishedFlow
+      parameters:
+        - name: fdr
+          in: path
+          description: 'The flow name, used as a search filter'
+          required: true
+          schema:
+            type: string
+          example: 2025-01-0188888888888-0001
+        - name: organizationId
+          in: path
+          description: 'The creditor institution identifier, used as a search filter'
+          required: true
+          schema:
+            type: string
+          example: 15376371009
+        - name: pspId
+          in: path
+          description: 'The PSP identifier, used as a search filter'
+          required: true
+          schema:
+            type: string
+          example: 88888888888
+        - name: revision
+          in: path
+          description: Format - int64. The specific revision of the flow needed
+          required: true
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+          example: 1
+        - name: page
+          in: query
+          description: Format - int64. The index of the page to be shown in the result
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+            default: 1
+          example: 1
+        - name: size
+          in: query
+          description: Format - int64. The number of the elements of the page to be shown in the result
+          schema:
+            minimum: 1.0
+            type: integer
+            format: int64
+            default: 1000
+          example: 50
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPaymentsResponse'
+              example:
+                metadata:
+                  pageSize:
+                    - 25
+                  pageNumber:
+                    - 1
+                  totPage:
+                    - 3
+                count:
+                  - 100
+                data:
+                  - index:
+                      - 1
+                    iuv:
+                      - '17854456582215'
+                    iur:
+                      - '3354426511008'
+                    idTransfer:
+                      - 1
+                    pay:
+                      - 0.01
+                    payStatus:
+                      - EXECUTED
+                    payDate: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 400
+                httpStatusDescription: Bad Request
+                appErrorCode: FDR-XXXX
+                errors:
+                  - path: <detail.path.if-exist>
+                    message: <detail.message>
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                httpStatusCode: 404
+                httpStatusDescription: Not Found
+                appErrorCode: FDR-XXXX
+                errors:
+                  - message: <detail.message>
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorId: 50905466-1881-457b-b42f-fb7b2bfb1610
+                httpStatusCode: 500
+                httpStatusDescription: Internal Server Error
+                appErrorCode: FDR-0500
+                errors:
+                  - message: An unexpected error has occurred. Please contact support.
 components:
   schemas:
     AddPaymentRequest:
@@ -386,7 +419,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Payment'
-    CreateRequest:
+          description: The list of payments to be added on the draft flow
+    CreateFlowRequest:
       required:
         - fdr
         - fdrDate
@@ -401,14 +435,11 @@ components:
         fdr:
           pattern: '[a-zA-Z0-9\-_]{1,35}'
           type: string
-          description: '[XML NodoInviaFlussoRendicontazione]=[identificativoFlusso]'
-          example: 2016-08-16pspTest-1178
+          description: 'The value of the flow identifier.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[NodoInviaFlussoRendicontazione.identificativoFlusso]</b>.'
+          example:
+            - 2016-08-16pspTest-1178
         fdrDate:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          description: '[XML NodoInviaFlussoRendicontazione]=[dataOraFlusso]'
-          example: '2023-04-05T09:21:37.81Z'
+          $ref: '#/components/schemas/Instant'
         sender:
           $ref: '#/components/schemas/Sender'
         receiver:
@@ -416,33 +447,31 @@ components:
         regulation:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML FlussoRiversamento]=[identificativoUnivocoRegolamento]'
-          example: SEPA - Bonifico xzy
+          description: 'The description related to the regulation payment related to the flow.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.identificativoUnivocoRegolamento]</b>.'
+          example:
+            - SEPA - Bonifico X
         regulationDate:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          description: '[XML FlussoRiversamento]=[dataRegolamento]'
-          example: '2023-04-03T12:00:30.9Z'
+          $ref: '#/components/schemas/LocalDate'
         bicCodePouringBank:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML FlussoRiversamento]=[codiceBicBancaDiRiversamento]'
-          example: UNCRITMMXXX
+          description: 'The BIC code of the bank where the regulation payment related to the flow will be poured.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.codiceBicBancaDiRiversamento]</b>.'
+          example:
+            - UNCRITMMXXX
         totPayments:
           minimum: 1.0
           type: integer
-          description: '[XML FlussoRiversamento]=[numeroTotalePagamenti]'
+          description: 'The total number of payments to be included in the flow during the flow compilation.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.numeroTotalePagamenti]</b>.'
           format: int64
-          example: 1
+          example:
+            - 1
         sumPayments:
-          minimum: 0.0
-          exclusiveMinimum: true
-          pattern: '^\d{1,2147483647}([.]\d{1,2})?$'
+          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
           type: number
-          description: '[XML FlussoRiversamento]=[importoTotalePagamenti]'
+          description: 'The total amount of payments to be calculated in the flow during the flow compilation.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.importoTotalePagamenti]</b>.'
           format: double
-          example: 0.01
+          example:
+            - 0.01
     DeletePaymentRequest:
       required:
         - indexList
@@ -455,351 +484,276 @@ components:
           items:
             type: integer
             format: int64
-    ErrorCode:
-      type: object
-      properties:
-        code:
-          type: string
-          example: FDR-0500
-        description:
-          type: string
-          example: An unexpected error has occurred. Please contact support.
-        statusCode:
-          type: integer
-          format: int32
-          example: 500
+          description: The list of payments indexes to be removed on the draft flow
     ErrorMessage:
       type: object
       properties:
         path:
           type: string
-          example: demo.test
+          description: The path reference for the specific error clause in the general response.
+          example:
+            - detail.path.if-exist
         message:
           type: string
-          example: An unexpected error has occurred. Please contact support.
+          description: The descriptive message for the specific error clause in the general response.
+          example:
+            - An unexpected error has occurred. Please contact support.
     ErrorResponse:
       type: object
       properties:
         errorId:
           type: string
-          example: 50905466-1881-457b-b42f-fb7b2bfb1610
+          description: The unique identifier that can be used for tracking request and error response.
+          example:
+            - 50905466-1881-457b-b42f-fb7b2bfb1610
         httpStatusCode:
           type: integer
+          description: The HTTP status code related to the error message.
           format: int32
-          example: 500
+          example:
+            - 500
         httpStatusDescription:
           type: string
-          example: Internal Server Error
+          description: The descriptive name of the HTTP status code.
+          example:
+            - Internal Server Error
         appErrorCode:
           type: string
-          example: FDR-500
+          description: The operational error code related to the error response
+          example:
+            - FDR-0500
         errors:
           type: array
           items:
             $ref: '#/components/schemas/ErrorMessage'
-    Fdr:
+          description: The list of specific errors to show for the error response.
+    FlowByCICreated:
       type: object
       properties:
         fdr:
           type: string
-          example: AAABBB
-        pspId:
-          type: string
-          example: '1'
-        revision:
-          type: integer
-          format: int64
-          example: 1
-        published:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-    FdrByPspIdIuvIurBase:
-      type: object
-      properties:
-        pspId:
-          type: string
+          description: The unique identifier of the flow.
+          example:
+            - 2025-01-0188888888888-0000001
         organizationId:
           type: string
-        fdr:
-          type: string
+          description: The domain identifier of the creditor institution related to the flow.
+          example:
+            - '77777777777'
         revision:
           type: integer
+          description: The revision (or version) of the flow.
           format: int64
+          example:
+            - 1
         created:
           $ref: '#/components/schemas/Instant'
-    FdrByPspIdIuvIurResponse:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        count:
-          type: integer
-          format: int64
-          example: 100
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FdrByPspIdIuvIurBase'
-    FdrInserted:
+    FlowByCIPublished:
       type: object
       properties:
         fdr:
           type: string
-          example: AAABBB
+          description: The unique identifier of the flow.
+          example:
+            - 2025-01-0188888888888-0000001
         organizationId:
           type: string
-          example: '1'
+          description: The domain identifier of the creditor institution related to the flow.
+          example:
+            - '77777777777'
         revision:
           type: integer
-          example: 1
-        created:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-    FdrPublished:
-      type: object
-      properties:
-        fdr:
-          type: string
-          example: AAABBB
-        organizationId:
-          type: string
-          example: '1'
-        revision:
-          type: integer
+          description: The revision (or version) of the flow.
           format: int64
-          example: 1
+          example:
+            - 1
         published:
+          $ref: '#/components/schemas/Instant'
+    FlowByPSP:
+      type: object
+      properties:
+        fdr:
           type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
+          description: The unique identifier of the flow.
+          example:
+            - 2025-01-0188888888888-0000001
+        pspId:
+          type: string
+          description: The domain identifier of the PSP related to the flow.
+          example:
+            - '88888888888'
+        revision:
+          type: integer
+          description: The revision (or version) of the flow.
+          format: int64
+          example:
+            - 1
+        published:
+          $ref: '#/components/schemas/Instant'
+    FlowBySenderAndReceiver:
+      type: object
+      properties:
+        pspId:
+          type: string
+          description: The domain identifier of the PSP related to the flow.
+          example:
+            - '88888888888'
+        organizationId:
+          type: string
+          description: The domain identifier of the creditor institution related to the flow.
+          example:
+            - '77777777777'
+        fdr:
+          type: string
+          description: The unique identifier of the flow.
+          example:
+            - 2025-01-0188888888888-0000001
+        revision:
+          type: integer
+          description: The revision (or version) of the flow.
+          format: int64
+          example:
+            - 1
+        created:
+          $ref: '#/components/schemas/Instant'
     GenericResponse:
       type: object
       properties:
         message:
           type: string
-          example: Success
-    GetAllCreatedResponse:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        count:
-          type: integer
-          format: int64
-          example: 100
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FdrInserted'
-    GetAllPublishedResponse:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        count:
-          type: integer
-          format: int64
-          example: 100
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FdrPublished'
-    GetAllResponse:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        count:
-          type: integer
-          format: int64
-          example: 100
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Fdr'
-    GetCreatedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/ReportingFlowStatusEnum'
-          example: CREATED
-        revision:
-          type: integer
-          format: int64
-          example: 4
-        created:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-        updated:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-        fdr:
-          type: string
-          example: 2016-08-16pspTest-1178
-        fdrDate:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-05T09:21:37.81Z'
-        regulation:
-          type: string
-          example: SEPA - Bonifico xzy
-        regulationDate:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-        bicCodePouringBank:
-          type: string
-          example: UNCRITMMXXX
-        sender:
-          $ref: '#/components/schemas/Sender'
-        receiver:
-          $ref: '#/components/schemas/Receiver'
-        computedTotPayments:
-          type: integer
-          format: int64
-          example: 100
-        computedSumPayments:
-          type: number
-          format: double
-          example: 100.9
-        totPayments:
-          type: integer
-          format: int64
-          example: 100
-        sumPayments:
-          type: number
-          format: double
-          example: 100.9
-    GetPaymentResponse:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        count:
-          type: integer
-          format: int64
-          example: 100
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Payment'
-    GetResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/ReportingFlowStatusEnum'
-          example: CREATED
-        revision:
-          type: integer
-          format: int64
-          example: 4
-        created:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-        updated:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-        fdr:
-          type: string
-          example: 2016-08-16pspTest-1178
-        fdrDate:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-05T09:21:37.81Z'
-        regulation:
-          type: string
-          example: SEPA - Bonifico xzy
-        regulationDate:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-        bicCodePouringBank:
-          type: string
-          example: UNCRITMMXXX
-        sender:
-          $ref: '#/components/schemas/Sender'
-        receiver:
-          $ref: '#/components/schemas/Receiver'
-        published:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          example: '2023-04-03T12:00:30.9Z'
-        computedTotPayments:
-          type: integer
-          format: int64
-          example: 100
-        computedSumPayments:
-          type: number
-          format: double
-          example: 100.9
-        totPayments:
-          type: integer
-          format: int64
-          example: 100
-        sumPayments:
-          type: number
-          format: double
-          example: 100.9
+          description: The descriptive information that shows a message related to the executed operation.
+          example:
+            - Success
     InfoResponse:
       type: object
       properties:
         name:
           type: string
-          example: pagopa-fdr
+          description: The identificative name of the deployed application
+          example:
+            - pagopa-fdr
         version:
           type: string
-          example: '1.2.3'
+          description: The current version of the deployed application
+          example:
+            - '2003-01-02'
         environment:
           type: string
-          example: dev
+          description: The current environment where the application is deployed
+          example:
+            - dev
         description:
           type: string
-          example: FDR - Flussi di rendicontazione
-        errorCodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorCode'
+          description: The descriptive information related to the info response
+          example:
+            - FDR - Flussi di rendicontazione
     Instant:
       type: string
       format: date-time
-      example: '2022-03-10T04:15:50.0000000+00:00'
+    LocalDate:
+      type: string
+      format: date
     Metadata:
       type: object
       properties:
         pageSize:
           type: integer
+          description: The size of the current page shown in response
           format: int32
-          example: 25
+          example:
+            - 25
         pageNumber:
           type: integer
+          description: The index of the current page shown in response
           format: int32
-          example: 1
+          example:
+            - 1
         totPage:
           type: integer
+          description: The total number of the pages that can be retrieved in order to show all elements.
           format: int32
-          example: 3
+          example:
+            - 3
+    PaginatedFlowsBySenderAndReceiverResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          type: integer
+          description: The number of elements that can be found in this page.
+          format: int64
+          example:
+            - 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlowBySenderAndReceiver'
+          description: The list of flows that are included in this page.
+    PaginatedFlowsCreatedResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          type: integer
+          description: The number of elements that can be found in this page.
+          format: int64
+          example:
+            - 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlowByCICreated'
+          description: The list of flows that are included in this page.
+    PaginatedFlowsPublishedResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          type: integer
+          description: The number of elements that can be found in this page.
+          format: int64
+          example:
+            - 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlowByCIPublished'
+          description: The list of flows that are included in this page.
+    PaginatedFlowsResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          type: integer
+          description: The number of elements that can be found in this page.
+          format: int64
+          example:
+            - 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlowByPSP'
+          description: The list of flows that are included in this page.
+    PaginatedPaymentsResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        count:
+          type: integer
+          description: The number of elements that can be found in this page.
+          format: int64
+          example:
+            - 100
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+          description: The list of payments that are included in this page.
     Payment:
       required:
         - index
@@ -814,54 +768,50 @@ components:
         index:
           minimum: 1.0
           type: integer
-          description: Identificativo del pagamento univoco nel flusso
+          description: Unique index of the payment in the flow
           format: int64
-          example: 1
+          example:
+            - 1
         iuv:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.identificativoUnivocoVersamento]'
-          example: abcdefg
+          description: 'The value of the ''Identificativo Univoco Versamento'' code related to the payment.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.identificativoUnivocoVersamento]</b>.'
+          example:
+            - '17854456582215'
         iur:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.identificativoUnivocoRiscossione]'
-          example: abcdefg
+          description: 'The value of the ''Identificativo Univoco Riscossione'' code related to the payment in the flow.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.identificativoUnivocoRiscossione]</b>.'
+          example:
+            - '3354426511008'
         idTransfer:
           maximum: 5.0
           minimum: 1.0
           type: integer
-          description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.indiceDatiSingoloPagamento]'
+          description: 'The value of the transfer identifier related to the payment during the payment process.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.indiceDatiSingoloPagamento]</b>.'
           format: int64
-          example: 1
+          example:
+            - 1
         pay:
-          minimum: 0.0
-          exclusiveMinimum: true
-          pattern: '^\d{1,2147483647}([.]\d{1,2})?$'
+          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
           type: number
-          description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.singoloImportoPagato]'
+          description: 'The value of the payment amount in decimal euro.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.singoloImportoPagato]</b>.'
           format: double
-          example: 0.01
+          example:
+            - 0.01
         payStatus:
+          enum:
+            - EXECUTED (0)
+            - REVOKED (3)
+            - STAND_IN (4)
+            - STAND_IN_NO_RPT (8)
+            - NO_RPT (9)
           type: string
-          allOf:
-            - $ref: '#/components/schemas/PaymentStatusEnum'
-          description: "[XML FlussoRiversamento]=[datiSingoliPagamenti.codiceEsitoSingoloPagamento] \n0 -> EXECUTED\n3 -> REVOKED\n9 -> NO_RPT\n4 -> STAND_IN\n8 -> STAND_IN_NO_RPT"
-          example: EXECUTED
+          description: 'The value of the status of the payment in relation to ist completion.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.codiceEsitoSingoloPagamento]</b>.'
+          example:
+            - EXECUTED
         payDate:
-          type: string
-          allOf:
-            - $ref: '#/components/schemas/Instant'
-          description: '[XML FlussoRiversamento]=[datiSingoliPagamenti.dataEsitoSingoloPagamento]'
-          example: '2023-02-03T12:00:30.9Z'
-    PaymentStatusEnum:
-      enum:
-        - EXECUTED
-        - REVOKED
-        - NO_RPT
-        - STAND_IN
-        - STAND_IN_NO_RPT
-      type: string
+          $ref: '#/components/schemas/Instant'
     Receiver:
       required:
         - id
@@ -872,18 +822,21 @@ components:
         id:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML FlussoRiversamento]=[istitutoRicevente.identificativoUnivocoRicevente.codiceIdentificativoUnivoco]'
-          example: APPBIT2B
+          description: 'The identifier of the Creditor Institution receiver entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.istitutoRicevente.identificativoUnivocoRicevente.codiceIdentificativoUnivoco]</b>.'
+          example:
+            - APPBIT2B
         organizationId:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML NodoInviaFlussoRendicontazione]=[identificativoDominio]'
-          example: '20000000001'
+          description: 'The domain identifier of the Creditor Institution receiver entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[NodoInviaFlussoRendicontazione.identificativoDominio]</b>.'
+          example:
+            - '20000000001'
         organizationName:
           pattern: '^(.{1,140})$'
           type: string
-          description: '[XML FlussoRiversamento]=[istitutoRicevente.denominazioneRicevente]'
-          example: Comune di xyz
+          description: 'The fiscal name of the Creditor Institution receiver entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.istitutoRicevente.denominazioneRicevente]</b>.'
+          example:
+            - Comune di Roma
     ReportingFlowStatusEnum:
       enum:
         - CREATED
@@ -901,48 +854,181 @@ components:
       type: object
       properties:
         type:
+          enum:
+            - LEGAL_PERSON (G)
+            - ABI_CODE (A)
+            - BIC_CODE (B)
           type: string
-          allOf:
-            - $ref: '#/components/schemas/SenderTypeEnum'
-          description: "[XML FlussoRiversamento]=[istitutoMittente.identificativoUnivocoMittente.tipoIdentificativoUnivoco] \nG -> LEGAL_PERSON\nA -> ABI_CODE\nB -> BIC_CODE"
-          example: LEGAL_PERSON
+          description: 'The type of the PSP sender entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.istitutoMittente.identificativoUnivocoMittente.tipoIdentificativoUnivoco]</b>.'
+          example:
+            - LEGAL_PERSON
         id:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML FlussoRiversamento]=[istitutoMittente.identificativoUnivocoMittente.codiceIdentificativoUnivoco]'
-          example: SELBIT2B
+          description: 'The identifier of the PSP sender entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.istitutoMittente.identificativoUnivocoMittente.codiceIdentificativoUnivoco]</b>.'
+          example:
+            - SELBIT2B
         pspId:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML NodoInviaFlussoRendicontazione]=[identificativoPSP]'
-          example: '60000000001'
+          description: 'The domain identifier of the PSP sender entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[NodoInviaFlussoRendicontazione.identificativoPSP]</b>.'
+          example:
+            - '60000000001'
         pspName:
           pattern: '^(.{3,70})$'
           type: string
-          description: '[XML FlussoRiversamento]=[istitutoMittente.denominazioneMittente]'
-          example: Bank
+          description: 'The fiscal name of the PSP sender entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.istitutoMittente.denominazioneMittente]</b>.'
+          example:
+            - PSP Name
         pspBrokerId:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML NodoInviaFlussoRendicontazione]=[identificativoIntermediarioPSP]'
-          example: '70000000001'
+          description: 'The domain identifier of the PSP sender entity''s Broker.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[NodoInviaFlussoRendicontazione.identificativoIntermediarioPSP]</b>.'
+          example:
+            - '70000000001'
         channelId:
           pattern: '^(.{1,35})$'
           type: string
-          description: '[XML NodoInviaFlussoRendicontazione]=[identificativoCanale]'
-          example: '80000000001'
+          description: 'The identifier of the PSP sender entity''s Channel.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[NodoInviaFlussoRendicontazione.identificativoCanale]</b>.'
+          example:
+            - '80000000001'
         password:
           pattern: '^(\w{8,15})$'
           type: string
-          description: '[XML NodoInviaFlussoRendicontazione]=[password]'
-          example: '1234567890'
+          description: 'The password of the PSP sender entity''s Channel.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[NodoInviaFlussoRendicontazione.password]</b>.'
+          example:
+            - password
           deprecated: true
-    SenderTypeEnum:
-      enum:
-        - LEGAL_PERSON
-        - ABI_CODE
-        - BIC_CODE
-      type: string
+    SingleFlowCreatedResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReportingFlowStatusEnum'
+        revision:
+          type: integer
+          description: The revision (or version) of the flow.
+          format: int64
+          example:
+            - 4
+        created:
+          $ref: '#/components/schemas/Instant'
+        updated:
+          $ref: '#/components/schemas/Instant'
+        fdr:
+          type: string
+          description: The unique identifier of the flow.
+          example:
+            - 2025-01-0188888888888-0000001
+        fdrDate:
+          $ref: '#/components/schemas/Instant'
+        regulation:
+          type: string
+          description: The description related to the regulation payment related to the flow.
+          example:
+            - SEPA - Bonifico X
+        regulationDate:
+          $ref: '#/components/schemas/LocalDate'
+        bicCodePouringBank:
+          type: string
+          description: The BIC code of the bank where the regulation payment related to the flow will be poured.
+          example:
+            - UNCRITMMXXX
+        sender:
+          $ref: '#/components/schemas/Sender'
+        receiver:
+          $ref: '#/components/schemas/Receiver'
+        computedTotPayments:
+          type: integer
+          description: The computed total number of payments included in the flow during the compilation.
+          format: int64
+          example:
+            - 93
+        computedSumPayments:
+          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
+          type: number
+          description: The computed total amount of payments calculated in the flow during the compilation.
+          format: double
+          example:
+            - 81.66
+        totPayments:
+          type: integer
+          description: The total number of payments to be included in the flow during the flow compilation.
+          format: int64
+          example:
+            - 100
+        sumPayments:
+          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
+          type: number
+          description: The total amount of payments to be calculated in the flow during the flow compilation.
+          format: double
+          example:
+            - 100.95
+    SingleFlowResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReportingFlowStatusEnum'
+        revision:
+          type: integer
+          description: The revision (or version) of the flow.
+          format: int64
+          example:
+            - 4
+        created:
+          $ref: '#/components/schemas/Instant'
+        updated:
+          $ref: '#/components/schemas/Instant'
+        fdr:
+          type: string
+          description: The unique identifier of the flow.
+          example:
+            - 2025-01-0188888888888-0000001
+        fdrDate:
+          $ref: '#/components/schemas/Instant'
+        regulation:
+          type: string
+          description: The description related to the regulation payment related to the flow.
+          example:
+            - SEPA - Bonifico X
+        regulationDate:
+          $ref: '#/components/schemas/LocalDate'
+        bicCodePouringBank:
+          type: string
+          description: The BIC code of the bank where the regulation payment related to the flow will be poured.
+          example:
+            - UNCRITMMXXX
+        sender:
+          $ref: '#/components/schemas/Sender'
+        receiver:
+          $ref: '#/components/schemas/Receiver'
+        published:
+          $ref: '#/components/schemas/Instant'
+        computedTotPayments:
+          type: integer
+          description: The computed total number of payments included in the flow during the compilation.
+          format: int64
+          example:
+            - 100
+        computedSumPayments:
+          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
+          type: number
+          description: The computed total amount of payments calculated in the flow during the compilation.
+          format: double
+          example:
+            - 100.95
+        totPayments:
+          type: integer
+          description: The total number of payments to be included in the flow during the flow compilation.
+          format: int64
+          example:
+            - 100
+        sumPayments:
+          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
+          type: number
+          description: The total amount of payments to be calculated in the flow during the flow compilation.
+          format: double
+          example:
+            - 100.95
   securitySchemes:
     apiKeyHeader:
       type: apiKey
@@ -957,14 +1043,12 @@ security:
   - apiKeyQuery: [ ]
 tags:
   - name: PSP
-    description: PSP operations
+    description: 'APIs for payment service providers, used for creation and inspection of flows'
   - name: Info
     description: Info operations
   - name: Organizations
-    description: Organizations operations
-  - name: Internal Organizations
-    description: Organizations operations
-  - name: Internal PSP
-    description: PSP operations
+    description: 'APIs for creditor institution, used for inspection of generated flows'
   - name: Support
-    description: Support operations
+    description: 'APIs for technical support, used for troubleshooting operations'
+  - name: Internal Operations
+    description: 'APIs for internal operations, used for hidden processes in FdR ecosystem'
