@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: FDR Fase3 - Flussi di rendicontazione (ORGS)
   description: FDR - Flussi di rendicontazione (ORGS)

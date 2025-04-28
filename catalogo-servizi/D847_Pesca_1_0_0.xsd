@@ -48,5 +48,5 @@
 
 	<!-- Wrapper elements -->
 	<xsd:element name="praticaPagamentoCanoni" type="ta:ctpraticaPagamentoCanoni"/>
-	
+  
 </xsd:schema>
