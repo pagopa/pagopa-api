@@ -1787,12 +1787,12 @@ security:
   - apiKeyQuery: [ ]
 tags:
   - name: PSP
-    description: PSP operations
+    description: 'APIs for payment service providers, used for creation and inspection of flows'
   - name: Info
     description: Info operations
   - name: Organizations
-    description: Organizations operations
+    description: 'APIs for creditor institution, used for inspection of generated flows'
   - name: Support
     description: 'APIs for technical support, used for troubleshooting operations'
   - name: Internal Operations
-    description: APIs for internal operations
+    description: 'APIs for internal operations, used for hidden processes in FdR ecosystem'
