@@ -5,7 +5,7 @@ info:
   version: v1
 servers:
   - url: https://api.uat.platform.pagopa.it/fdr-psp/service/v1
-  - url: https://api.prf.platform.pagopa.it/fdr-psp/service/v1  
+  - url: https://api.prf.platform.pagopa.it/fdr-psp/service/v1
 paths:
   /info:
     get:
@@ -1202,7 +1202,7 @@ components:
           example:
             - SEPA - Bonifico X
         regulationDate:
-          $ref: '#/components/schemas/LocalDate'
+          $ref: '#/components/schemas/Instant'
         bicCodePouringBank:
           pattern: '^(.{1,35})$'
           type: string
@@ -1217,7 +1217,7 @@ components:
           example:
             - 1
         sumPayments:
-          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
+          pattern: '^\d{1,2147483647}([.]\d{1,2})?$'
           type: number
           description: 'The total amount of payments to be calculated in the flow during the flow compilation.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.importoTotalePagamenti]</b>.'
           format: double
@@ -1401,9 +1401,6 @@ components:
     Instant:
       type: string
       format: date-time
-    LocalDate:
-      type: string
-      format: date
     Metadata:
       type: object
       properties:
@@ -1544,7 +1541,7 @@ components:
           example:
             - 1
         pay:
-          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
+          pattern: '^\d{1,2147483647}([.]\d{1,2})?$'
           type: number
           description: 'The value of the payment amount in decimal euro.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.singoloImportoPagato]</b>.'
           format: double
@@ -1552,13 +1549,13 @@ components:
             - 0.01
         payStatus:
           enum:
-            - EXECUTED (0)
-            - REVOKED (3)
-            - STAND_IN (4)
-            - STAND_IN_NO_RPT (8)
-            - NO_RPT (9)
+            - EXECUTED
+            - REVOKED
+            - STAND_IN
+            - STAND_IN_NO_RPT
+            - NO_RPT
           type: string
-          description: 'The value of the status of the payment in relation to ist completion.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.codiceEsitoSingoloPagamento]</b>.'
+          description: 'The value of the status of the payment in relation to its completion.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.codiceEsitoSingoloPagamento]</b>.<br>The enumeration is mapped with the following values:<br><ul><li>EXECUTED -> 0</li><li>REVOKED -> 3</li><li>STAND_IN -> 4</li><li>STAND_IN_NO_RPT -> 8</li><li>NO_RPT -> 9</li></ul>.'
           example:
             - EXECUTED
         payDate:
@@ -1606,11 +1603,11 @@ components:
       properties:
         type:
           enum:
-            - LEGAL_PERSON (G)
-            - ABI_CODE (A)
-            - BIC_CODE (B)
+            - LEGAL_PERSON
+            - ABI_CODE
+            - BIC_CODE
           type: string
-          description: 'The type of the PSP sender entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.istitutoMittente.identificativoUnivocoMittente.tipoIdentificativoUnivoco]</b>.'
+          description: 'The type of the PSP sender entity.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.istitutoMittente.identificativoUnivocoMittente.tipoIdentificativoUnivoco]</b>.The enumeration is mapped with the following values:<br><ul><li>LEGAL_PERSON -> G</li><li>ABI_CODE -> A</li><li>BIC_CODE -> B</li></ul>.'
           example:
             - LEGAL_PERSON
         id:
@@ -1678,7 +1675,7 @@ components:
           example:
             - SEPA - Bonifico X
         regulationDate:
-          $ref: '#/components/schemas/LocalDate'
+          $ref: '#/components/schemas/Instant'
         bicCodePouringBank:
           type: string
           description: The BIC code of the bank where the regulation payment related to the flow will be poured.
@@ -1695,7 +1692,6 @@ components:
           example:
             - 93
         computedSumPayments:
-          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
           type: number
           description: The computed total amount of payments calculated in the flow during the compilation.
           format: double
@@ -1708,7 +1704,6 @@ components:
           example:
             - 100
         sumPayments:
-          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
           type: number
           description: The total amount of payments to be calculated in the flow during the flow compilation.
           format: double
@@ -1742,7 +1737,7 @@ components:
           example:
             - SEPA - Bonifico X
         regulationDate:
-          $ref: '#/components/schemas/LocalDate'
+          $ref: '#/components/schemas/Instant'
         bicCodePouringBank:
           type: string
           description: The BIC code of the bank where the regulation payment related to the flow will be poured.
@@ -1761,7 +1756,6 @@ components:
           example:
             - 100
         computedSumPayments:
-          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
           type: number
           description: The computed total amount of payments calculated in the flow during the compilation.
           format: double
@@ -1774,7 +1768,6 @@ components:
           example:
             - 100
         sumPayments:
-          pattern: '^\d{1,2147483647}[.]\d{1,2}?$'
           type: number
           description: The total amount of payments to be calculated in the flow during the flow compilation.
           format: double
@@ -1794,12 +1787,12 @@ security:
   - apiKeyQuery: [ ]
 tags:
   - name: PSP
-    description: 'APIs for payment service providers, used for creation and inspection of flows'
+    description: PSP operations
   - name: Info
     description: Info operations
   - name: Organizations
-    description: 'APIs for creditor institution, used for inspection of generated flows'
+    description: Organizations operations
   - name: Support
     description: 'APIs for technical support, used for troubleshooting operations'
   - name: Internal Operations
-    description: 'APIs for internal operations, used for hidden processes in FdR ecosystem'
+    description: APIs for internal operations
