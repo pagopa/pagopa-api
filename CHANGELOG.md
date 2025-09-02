@@ -3,6 +3,8 @@
 2. Aggiunta del campo "StandIN" nella response della primitiva VerificaBollettino
 3. Modifica servizio Passaporto: update xsd e modifica prefisso servizio in A0001
 4. Aggiunta delle specifiche del servizio e.bollo 2.0 - Pagamento dovuto
+5. Modifica specifiche API Opzioni Di Pagamento per PSP `psp_payment_options.json`
+6. Aggiunta specifiche API Opzioni Di Pagamento per EC `pa_payment_options.json`
 
 # SANP3.9.1 (Dicembre 2024)
 Nessuna modifica alle API ma solo allineamento del repository alla nuova versione delle SANP:
