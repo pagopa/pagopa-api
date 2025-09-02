@@ -51,6 +51,12 @@
           "404" : {
             "$ref" : "#/components/responses/ErrorResponse404"
           },
+          "409" : {
+            "$ref" : "#/components/responses/ErrorResponse409"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/ErrorResponse422"
+          },
           "200" : {
             "description" : "Success",
             "content" : {
@@ -72,7 +78,7 @@
                     "statusReason" : "desc",
                     "allCCP" : false,
                     "installments" : [ {
-                      "noticeNumber" : "311111111111111116",
+                      "nav" : "311111111111111116",
                       "iuv" : "311111111111111116",
                       "amount" : 120,
                       "description" : "Test Opt Inst - soluzione unica",
@@ -148,7 +154,7 @@
       "Installment" : {
         "type" : "object",
         "properties" : {
-          "noticeNumber" : {
+          "nav" : {
             "type" : "string"
           },
           "iuv" : {
@@ -252,7 +258,7 @@
               "BadRequestExample" : {
                 "value" : {
                   "httpStatusCode" : 400,
-                  "httpStatusDescription" : "Bad Request",
+                  "httpStatusDescription" : "Bad Request (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
@@ -274,11 +280,55 @@
               "NotFoundExample" : {
                 "value" : {
                   "httpStatusCode" : 404,
-                  "httpStatusDescription" : "Not Found",
+                  "httpStatusDescription" : "Not Found (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
+                  "appErrorCode" : "ODP-100",
+                  "timestamp" : 1724425035,
+                  "dateTime" : "2024-08-23T14:57:15.635528",
+                  "errorMessage" : "PAA_PAGAMENTO_SCONOSCIUTO Errore per pagamento sconosciuto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse409" : {
+        "description" : "Default app exception for status 409",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            },
+            "examples" : {
+              "ConflitExample" : {
+                "value" : {
+                  "httpStatusCode" : 409,
+                  "httpStatusDescription" : "Conflict (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
                   "errorMessage" : "PAA_PAGAMENTO_DUPLICATO Errore per pagamento duplicato"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse422" : {
+        "description" : "Default app exception for status 422",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            },
+            "examples" : {
+              "UnprocessableEntityExample" : {
+                "value" : {
+                  "httpStatusCode" : 422,
+                  "httpStatusDescription" : "Unprocessable Entity (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
+                  "appErrorCode" : "ODP-100",
+                  "timestamp" : 1724425035,
+                  "dateTime" : "2024-08-23T14:57:15.635528",
+                  "errorMessage" : "PAA_PAGAMENTO_SCADUTO Errore per pagamento scaduto"
                 }
               }
             }
@@ -296,7 +346,7 @@
               "InternalServerErrorExample" : {
                 "value" : {
                   "httpStatusCode" : 500,
-                  "httpStatusDescription" : "Internal Server Error",
+                  "httpStatusDescription" : "Internal Server Error (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
