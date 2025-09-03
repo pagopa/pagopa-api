@@ -130,7 +130,7 @@
           },
           "httpStatusDescription" : {
             "type" : "string",
-            "example" : "Internal Server Error"
+            "example" : "Internal Server Error (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)"
           },
           "errorMessage" : {
             "type" : "string",
@@ -258,7 +258,7 @@
               "BadRequestExample" : {
                 "value" : {
                   "httpStatusCode" : 400,
-                  "httpStatusDescription" : "Bad Request (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
+                  "httpStatusDescription" : "Bad Request",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
@@ -280,7 +280,7 @@
               "NotFoundExample" : {
                 "value" : {
                   "httpStatusCode" : 404,
-                  "httpStatusDescription" : "Not Found (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
+                  "httpStatusDescription" : "Not Found",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
@@ -302,7 +302,7 @@
               "ConflitExample" : {
                 "value" : {
                   "httpStatusCode" : 409,
-                  "httpStatusDescription" : "Conflict (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
+                  "httpStatusDescription" : "Conflict",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
@@ -324,7 +324,7 @@
               "UnprocessableEntityExample" : {
                 "value" : {
                   "httpStatusCode" : 422,
-                  "httpStatusDescription" : "Unprocessable Entity (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
+                  "httpStatusDescription" : "Unprocessable Entity",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
@@ -346,7 +346,7 @@
               "InternalServerErrorExample" : {
                 "value" : {
                   "httpStatusCode" : 500,
-                  "httpStatusDescription" : "Internal Server Error (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)",
+                  "httpStatusDescription" : "Internal Server Error",
                   "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
