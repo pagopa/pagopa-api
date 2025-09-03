@@ -1,8 +1,8 @@
 {
   "openapi" : "3.0.3",
   "info" : {
-    "title" : "PagoPa Payment Options for PSP",
-    "description" : "PagoPa Payment Options service for PSP \n ### APP ERROR CODES ### \n\n\n <details><summary>Details</summary>\n **NAME** | **HTTP STATUS CODE** | **DESCRIPTION** \n- | - | - \n **ODP-001** | *Bad Request* | ODP-SINTASSI. Errore riportato in caso di errore di sintassi nel contenuto della richiesta verso ODP\n **ODP-002** | *Not Found* | ODP_PSP_SCONOSCIUTO. Errore riportato in caso non sia presente fra i dati ottenuti da config-cache un psp coincidente con l’id fornito in input\n **ODP-003** | *Bad Request* | ODP_PSP_DISABILITATO. Errore riportato in caso il psp coincidente con l’id fornito in input risulti disabilitato\n **ODP-004** | *Not Found* | ODP_INTERMEDIARIO_PSP_SCONOSCIUTO. Errore riportato in caso il broker psp coincidente con i dati forniti in input non sia presente nei dati ottenuti da config-cache\n **ODP-005** | *Bad Request* | ODP_INTERMEDIARIO_PSP_DISABILITATO. Errore riportato in caso il broker psp coincidente con l’id fornito in input risulti disabilitato\n **ODP-006** | *Unauthorized* | ODP_AUTENTICAZIONE. Errore di autenticazione rispetto ai dati forniti\n **ODP-007** | *Forbidden* | ODP_AUTORIZZAZIONE. Errore di autorizzazione rispetto ai dati forniti\n **ODP-008** | *Bad Request* | ODP_SEMANTICA. Errore fornito in caso della presenza di casi d’invalidità semantica nei dati del flusso di verifica\n **ODP-009** | *Not Found* | ODP_STAZIONE_INT_PA_SCONOSCIUTA. Errore forninca in caso di assenza associazione stazione e PA\n **ODP-010** | *Bad Request* | ODP_STAZIONE_INT_PA_DISABILITATA. Errore riportato in caso la stazione coincidente con l’id fornito in input risulti disabilitato\n **ODP-011** | *Service Unavailable* | ODP_STAZIONE_INT_PA_IRRAGGIUNGIBILE. Errore fornito in caso d’irraggiungibilità della stazione\n **ODP-012** | *Bad Request* | ODP_STAZIONE_INT_PA_SERVIZIO_NON_ATTIVO. Errore fornito in caso di servizio non attivo\n **ODP-013** | *Internal Server Error* | ODP_STAZIONE_INT_PA_TIMEOUT. Errore fornito in caso di timeout della stazione\n **ODP-015** | *Bad Request* | ODP_STAZIONE_INT_PA_ERRORE_RESPONSE. Errore fornito in caso di risposta KO dalla stazione\n **ODP-016** | *Bad Request* | ODP_PSP_NAV_NOT_NMU. Errore fornito nel caso in cui il nav non sia valido per il flusso OdP\n **ODP-017** | *Bad Request* | ODP_SYSTEM_ERROR Codice d’errore generico\n **ODP-018** | *Internal Server Error* | ODP_SYSTEM_ERROR. Codice d’errore generico\n **ODP-019** | *Bad Request* | ODP_INTERMEDIARIO_PA_DISABILITATO\n **ODP-020** | *Not Found* | ODP_INTERMEDIARIO_PA_SCONOSCIUTO\n **ODP-021** | *Bad Request* | ODP_DOMINIO_DISABILITATO\n **ODP-022** | *Not Found* | ODP_DOMINIO_SCONOSCIUTO\n **ODP-100** | *httpStatusCode definito da EC* | ODP_ERRORE_EMESSO_DA_PAA. Errore restituito in caso di errori da PAA \n\n </details> \n",
+    "title" : "PagoPa Payment Options for Organizations",
+    "description" : "PagoPa Payment Options service for Organizations \n ### APP ERROR CODES ### \n\n\n <details><summary>Details</summary>\n **NAME** | **HTTP STATUS CODE** | **DESCRIPTION** \n- | - | - \n **ODP-100** | *400 Bad Request* | PAA_SINTASSI Custom error description\n **ODP-100** | *404 Not Found* | PAA_PAGAMENTO_SCONOSCIUTO Custom error description\n **ODP-100** | *409 Conflict* | PAA_PAGAMENTO_DUPLICATO Custom error description\n **ODP-100** | *409 Conflict* | PAA_PAGAMENTO_IN_CORSO Custom error description\n **ODP-100** | *422 Unprocessable Entity* | PAA_PAGAMENTO_SCADUTO Custom error description\n **ODP-100** | *422 Unprocessable Entity* | PAA_PAGAMENTO_ANNULLATO Custom error description\n **ODP-100** | *422 Unprocessable Entity* | PAA_SEMANTICA Custom error description\n **ODP-100** | *400 Bad Request* | PAA_ID_DOMINIO_ERRATO Custom error description\n **ODP-100** | *400 Bad Request* | PAA_ID_INTERMEDIARIO_ERRATO Custom error description\n **ODP-100** | *400 Bad Request* | PAA_STAZIONE_INT_ERRATA Custom error description\n **ODP-100** | *500 Internal Server Error* | PAA_SYSTEM_ERROR Custom error description \n\n </details> \n",
     "termsOfService" : "https://www.pagopa.gov.it/",
     "version" : "0.6.5"
   },
@@ -10,45 +10,22 @@
     "url" : "http://localhost:8080",
     "description" : "Localhost base URL"
   }, {
-    "url" : "https://{host}/odp/service/v1",
+    "url" : "https://{host}/service/v1",
     "description" : "Base URL",
     "variables" : {
       "host" : {
-        "default" : "api.dev.platform.pagopa.it",
-        "enum" : [ "api.dev.platform.pagopa.it", "api.uat.platform.pagopa.it", "api.platform.pagopa.it" ]
+        "default" : "api.dev.platform.it",
+        "enum" : [ "api.dev.platform.it", "api.uat.platform.it", "api.platform.it" ]
       }
     }
   } ],
   "paths" : {
-    "/info" : {
-      "get" : {
-        "tags" : [ "Generic" ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AppInfo"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "application/json" : { }
-            }
-          }
-        }
-      }
-    },
     "/payment-options/organizations/{organization-fiscal-code}/notices/{notice-number}" : {
-      "get" : {
+      "post" : {
         "tags" : [ "Payment Options Resource" ],
-        "summary" : "Get payment options",
-        "description" : "Retrieve the payment options related to the provided input",
-        "operationId" : "getPaymentOptions",
+        "summary" : "Get payment options by noticeNumber",
+        "description" : "Returns payment options for a given notice and organization",
+        "operationId" : "getPaymentOptionsByNoticeNumber",
         "parameters" : [ {
           "name" : "notice-number",
           "in" : "path",
@@ -63,18 +40,6 @@
           "schema" : {
             "type" : "string"
           }
-        }, {
-          "name" : "idPsp",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "X-Session-Id",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
         } ],
         "responses" : {
           "500" : {
@@ -86,6 +51,12 @@
           "404" : {
             "$ref" : "#/components/responses/ErrorResponse404"
           },
+          "409" : {
+            "$ref" : "#/components/responses/ErrorResponse409"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/ErrorResponse422"
+          },
           "200" : {
             "description" : "Success",
             "content" : {
@@ -94,27 +65,27 @@
                   "$ref" : "#/components/schemas/PaymentOptionsResponse"
                 },
                 "example" : {
-                  "organizationFiscalCode" : "77777777777",
+                  "organizationFiscalCode" : "99999000013",
                   "companyName" : "EC",
                   "officeName" : "EC",
                   "paymentOptions" : [ {
-                    "description" : "Test PayOpt - unica opzione",
+                    "description" : "Test PayOpt - Opzione 1 - Soluzione Unica",
                     "numberOfInstallments" : 1,
                     "amount" : 120,
                     "dueDate" : "2024-10-30T23:59:59",
                     "validFrom" : "2024-09-30T23:59:59",
                     "status" : "non pagato",
-                    "status reason" : "desc",
-                    "allCCP" : "false",
+                    "statusReason" : "desc",
+                    "allCCP" : false,
                     "installments" : [ {
-                      "nav" : "311111111111111111",
-                      "iuv" : "311111111111111111",
+                      "nav" : "311111111111111116",
+                      "iuv" : "311111111111111116",
                       "amount" : 120,
-                      "description" : "Test Opt Inst - unica opzione",
+                      "description" : "Test Opt Inst - soluzione unica",
                       "dueDate" : "2024-10-30T23:59:59",
                       "validFrom" : "2024-09-30T23:59:59",
                       "status" : "non pagato",
-                      "status reason" : "desc"
+                      "statusReason" : "desc"
                     } ]
                   } ]
                 }
@@ -159,7 +130,7 @@
           },
           "httpStatusDescription" : {
             "type" : "string",
-            "example" : "Internal Server Error"
+            "example" : "Internal Server Error (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)"
           },
           "errorMessage" : {
             "type" : "string",
@@ -197,11 +168,11 @@
             "type" : "string"
           },
           "dueDate" : {
-            "type" : "string",
+            "type": "string",
             "format": "date-time"
           },
           "validFrom" : {
-            "type" : "string",
+            "type": "string",
             "format": "date-time"
           },
           "status" : {
@@ -223,11 +194,11 @@
             "type" : "integer"
           },
           "dueDate" : {
-            "type" : "string",
+            "type": "string",
             "format": "date-time"
           },
           "validFrom" : {
-            "type" : "string",
+            "type": "string",
             "format": "date-time"
           },
           "amount" : {
@@ -288,10 +259,10 @@
                 "value" : {
                   "httpStatusCode" : 400,
                   "httpStatusDescription" : "Bad Request",
-                  "errorMessage" : "Invalid request. Please check the submitted data and try again.",
-                  "appErrorCode" : "ODP-<ERR_ID>",
+                  "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
-                  "dateTime" : "2024-08-23T14:57:15.635528"
+                  "dateTime" : "2024-08-23T14:57:15.635528",
+                  "errorMessage" : "PAA_SINTASSI Errore di sintassi del modello nella richiesta"
                 }
               }
             }
@@ -310,10 +281,54 @@
                 "value" : {
                   "httpStatusCode" : 404,
                   "httpStatusDescription" : "Not Found",
-                  "errorMessage" : "Resource not found. Please verify the request and try again.",
-                  "appErrorCode" : "ODP-<ERR_ID>",
+                  "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
-                  "dateTime" : "2024-08-23T14:57:15.635528"
+                  "dateTime" : "2024-08-23T14:57:15.635528",
+                  "errorMessage" : "PAA_PAGAMENTO_SCONOSCIUTO Errore per pagamento sconosciuto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse409" : {
+        "description" : "Default app exception for status 409",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            },
+            "examples" : {
+              "ConflitExample" : {
+                "value" : {
+                  "httpStatusCode" : 409,
+                  "httpStatusDescription" : "Conflict",
+                  "appErrorCode" : "ODP-100",
+                  "timestamp" : 1724425035,
+                  "dateTime" : "2024-08-23T14:57:15.635528",
+                  "errorMessage" : "PAA_PAGAMENTO_DUPLICATO Errore per pagamento duplicato"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse422" : {
+        "description" : "Default app exception for status 422",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            },
+            "examples" : {
+              "UnprocessableEntityExample" : {
+                "value" : {
+                  "httpStatusCode" : 422,
+                  "httpStatusDescription" : "Unprocessable Entity",
+                  "appErrorCode" : "ODP-100",
+                  "timestamp" : 1724425035,
+                  "dateTime" : "2024-08-23T14:57:15.635528",
+                  "errorMessage" : "PAA_PAGAMENTO_SCADUTO Errore per pagamento scaduto"
                 }
               }
             }
@@ -332,10 +347,10 @@
                 "value" : {
                   "httpStatusCode" : 500,
                   "httpStatusDescription" : "Internal Server Error",
-                  "errorMessage" : "An unexpected error has occurred. Please contact support.",
-                  "appErrorCode" : "ODP-<ERR_ID>",
+                  "appErrorCode" : "ODP-100",
                   "timestamp" : 1724425035,
-                  "dateTime" : "2024-08-23T14:57:15.635528"
+                  "dateTime" : "2024-08-23T14:57:15.635528",
+                  "errorMessage" : "PAA_SYSTEM_ERROR Errore generico"
                 }
               }
             }
