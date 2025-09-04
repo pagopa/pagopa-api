@@ -2,7 +2,7 @@
   "openapi" : "3.0.3",
   "info" : {
     "title" : "PagoPa Payment Options for Organizations",
-    "description" : "PagoPa Payment Options service for Organizations \n ### APP ERROR CODES ### \n\n\n <details><summary>Details</summary>\n **NAME** | **HTTP STATUS CODE** | **DESCRIPTION** \n- | - | - \n **ODP-100** | *400 Bad Request* | PAA_SINTASSI Custom error description\n **ODP-100** | *404 Not Found* | PAA_PAGAMENTO_SCONOSCIUTO Custom error description\n **ODP-100** | *409 Conflict* | PAA_PAGAMENTO_DUPLICATO Custom error description\n **ODP-100** | *409 Conflict* | PAA_PAGAMENTO_IN_CORSO Custom error description\n **ODP-100** | *422 Unprocessable Entity* | PAA_PAGAMENTO_SCADUTO Custom error description\n **ODP-100** | *422 Unprocessable Entity* | PAA_PAGAMENTO_ANNULLATO Custom error description\n **ODP-100** | *422 Unprocessable Entity* | PAA_SEMANTICA Custom error description\n **ODP-100** | *400 Bad Request* | PAA_ID_DOMINIO_ERRATO Custom error description\n **ODP-100** | *400 Bad Request* | PAA_ID_INTERMEDIARIO_ERRATO Custom error description\n **ODP-100** | *400 Bad Request* | PAA_STAZIONE_INT_ERRATA Custom error description\n **ODP-100** | *500 Internal Server Error* | PAA_SYSTEM_ERROR Custom error description \n\n </details> \n",
+    "description" : "PagoPa Payment Options service for Organizations \n ### APP ERROR CODES ### \n\n\n <details><summary>Details</summary>\n **NAME** | **HTTP STATUS CODE** | **DESCRIPTION** \n- | - | - \n **ODP-101** | *400 Bad Request* | PAA_SINTASSI Custom error description\n **ODP-102** | *422 Unprocessable Entity* | PAA_SEMANTICA Custom error description\n **ODP-103** | *500 Internal Server Error* | PAA_SYSTEM_ERROR Custom error description\n **ODP-104** | *400 Bad Request* | PAA_ID_DOMINIO_ERRATO Custom error description\n **ODP-105** | *400 Bad Request* | PAA_ID_INTERMEDIARIO_ERRATO Custom error description\n **ODP-106** | *400 Bad Request* | PAA_STAZIONE_INT_ERRATA Custom error description\n **ODP-107** | *404 Not Found* | PAA_PAGAMENTO_SCONOSCIUTO Custom error description\n **ODP-108** | *409 Conflict* | PAA_PAGAMENTO_DUPLICATO Custom error description\n **ODP-109** | *409 Conflict* | PAA_PAGAMENTO_IN_CORSO Custom error description\n **ODP-110** | *422 Unprocessable Entity* | PAA_PAGAMENTO_SCADUTO Custom error description\n **ODP-111** | *422 Unprocessable Entity* | PAA_PAGAMENTO_ANNULLATO Custom error description \n\n </details> \n",
     "termsOfService" : "https://www.pagopa.gov.it/",
     "version" : "0.6.5"
   },
@@ -259,7 +259,7 @@
                 "value" : {
                   "httpStatusCode" : 400,
                   "httpStatusDescription" : "Bad Request",
-                  "appErrorCode" : "ODP-100",
+                  "appErrorCode" : "ODP-101",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
                   "errorMessage" : "PAA_SINTASSI Errore di sintassi del modello nella richiesta"
@@ -281,7 +281,7 @@
                 "value" : {
                   "httpStatusCode" : 404,
                   "httpStatusDescription" : "Not Found",
-                  "appErrorCode" : "ODP-100",
+                  "appErrorCode" : "ODP-107",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
                   "errorMessage" : "PAA_PAGAMENTO_SCONOSCIUTO Errore per pagamento sconosciuto"
@@ -303,7 +303,7 @@
                 "value" : {
                   "httpStatusCode" : 409,
                   "httpStatusDescription" : "Conflict",
-                  "appErrorCode" : "ODP-100",
+                  "appErrorCode" : "ODP-108",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
                   "errorMessage" : "PAA_PAGAMENTO_DUPLICATO Errore per pagamento duplicato"
@@ -325,7 +325,7 @@
                 "value" : {
                   "httpStatusCode" : 422,
                   "httpStatusDescription" : "Unprocessable Entity",
-                  "appErrorCode" : "ODP-100",
+                  "appErrorCode" : "ODP-110",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
                   "errorMessage" : "PAA_PAGAMENTO_SCADUTO Errore per pagamento scaduto"
@@ -347,7 +347,7 @@
                 "value" : {
                   "httpStatusCode" : 500,
                   "httpStatusDescription" : "Internal Server Error",
-                  "appErrorCode" : "ODP-100",
+                  "appErrorCode" : "ODP-103",
                   "timestamp" : 1724425035,
                   "dateTime" : "2024-08-23T14:57:15.635528",
                   "errorMessage" : "PAA_SYSTEM_ERROR Errore generico"
