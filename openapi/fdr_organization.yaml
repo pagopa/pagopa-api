@@ -4,8 +4,8 @@ info:
   description: FDR - Flussi di rendicontazione (ORGS)
   version: v1
 servers:
-  - url: https://api.uat.platform.pagopa.it/fdr-psp/service/v1
-  - url: https://api.prf.platform.pagopa.it/fdr-psp/service/v1
+  - url: https://api.uat.platform.pagopa.it/fdr-org/service/v1
+  - url: https://api.prf.platform.pagopa.it/fdr-org/service/v1
 paths:
   /info:
     get:
