@@ -12,8 +12,8 @@
       "description": "GPD Test environment"
     },
     {
-      "url": "GPD Production environment",
-      "description": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1/"
+      "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1/",
+      "description": "GPD Production environment"
     },
     {
       "url": "https://api.uat.platform.pagopa.it/aca/debt-positions-service/v1/",
@@ -486,17 +486,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Wrong or missing function key.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -776,17 +765,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Wrong or missing function key.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
           }
         },
         "security": [
@@ -1048,17 +1026,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentPositionModel"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Wrong or missing function key.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
                 }
               }
             }
