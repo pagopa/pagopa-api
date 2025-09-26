@@ -4,16 +4,24 @@
     "title": "mbd-service",
     "description": "MBD Service",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "1.2.7"
+    "version": "1.2.9"
   },
   "servers": [
     {
-      "url": "https://api.uat.platform.pagopa.it/pagopa-mbd-service/v1/",
-      "description": "e.bollo 2.0 Test environment"
-    },
-    {
-      "url": "https://api.platform.pagopa.it/pagopa-mbd-service/v1/",
-      "description": "e.bollo 2.0 Production environment"
+      "url": "https://{host}{basePath}",
+      "variables": {
+        "host": {
+          "default": "api.dev.platform.pagopa.it",
+          "enum": [
+            "api.dev.platform.pagopa.it",
+            "api.uat.platform.pagopa.it",
+            "api.platform.pagopa.it"
+          ]
+        },
+        "basePath": {
+          "default": "/pagopa-mbd-service/v1"
+        }
+      }
     }
   ],
   "paths": {
@@ -214,7 +222,7 @@
         }
       ]
     },
-    "/organizations/{fiscalCode}/receipt/{nav}": {
+    "/organizations/{fiscalCodeEC}/receipt/{nav}": {
       "get": {
         "tags": [
           "mbd-controller"
@@ -224,7 +232,7 @@
         "operationId": "getPaymentReceipts",
         "parameters": [
           {
-            "name": "fiscalCode",
+            "name": "fiscalCodeEC",
             "in": "path",
             "required": true,
             "schema": {
@@ -453,6 +461,28 @@
           }
         }
       },
+      "GetCartErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "GetCartResponse": {
+        "type": "object",
+        "properties": {
+          "checkoutRedirectUrl": {
+            "type": "string"
+          },
+          "mbdDownloadLink": {
+            "type": "string"
+          },
+          "nav": {
+            "type": "string"
+          }
+        }
+      },
       "ProblemJson": {
         "type": "object",
         "properties": {
@@ -472,28 +502,6 @@
             "type": "string",
             "description": "A human readable explanation specific to this occurrence of the problem.",
             "example": "There was an error processing the request"
-          }
-        }
-      },
-      "GetCartResponse": {
-        "type": "object",
-        "properties": {
-          "checkoutRedirectUrl": {
-            "type": "string"
-          },
-          "navDownloadLink": {
-            "type": "string"
-          },
-          "mbdNav": {
-            "type": "string"
-          }
-        }
-      },
-      "GetCartErrorResponse": {
-        "type": "object",
-        "properties": {
-          "errorUrl": {
-            "type": "string"
           }
         }
       },
