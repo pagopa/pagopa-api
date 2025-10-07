@@ -2,6 +2,7 @@
 1. Modifica alle specifiche delle api FRD REST
 2. Aggiunta del campo "StandIN" nella response della primitiva VerificaBollettino
 3. Modifica servizio Passaporto: update xsd e modifica prefisso servizio in A0001
+4. Aggiunta delle specifiche del servizio e.bollo 2.0 - Pagamento dovuto
 
 # SANP3.9.1 (Dicembre 2024)
 Nessuna modifica alle API ma solo allineamento del repository alla nuova versione delle SANP:
