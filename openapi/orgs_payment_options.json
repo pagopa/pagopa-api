@@ -7,9 +7,6 @@
     "version" : "0.6.5"
   },
   "servers" : [ {
-    "url" : "http://localhost:8080",
-    "description" : "Localhost base URL"
-  }, {
     "url" : "https://{host}/service/v1",
     "description" : "Base URL",
     "variables" : {
