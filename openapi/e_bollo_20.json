@@ -8,68 +8,10 @@
   },
   "servers": [
     {
-      "url": "https://{host}{basePath}",
-      "variables": {
-        "host": {
-          "default": "api.dev.platform.pagopa.it",
-          "enum": [
-            "api.dev.platform.pagopa.it",
-            "api.uat.platform.pagopa.it",
-            "api.platform.pagopa.it"
-          ]
-        },
-        "basePath": {
-          "default": "/pagopa-mbd-service/v1"
-        }
-      }
+      "url": "https://api.dev.platform.pagopa.it/pagopa-mbd-service/v1"
     }
   ],
   "paths": {
-    "/info": {
-      "get": {
-        "tags": [
-          "Home"
-        ],
-        "summary": "health check",
-        "description": "Return OK if application is started",
-        "operationId": "healthCheck",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/AppInfo"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
-    },
     "/organizations/{fiscalCodeEC}/mbd": {
       "post": {
         "tags": [
@@ -82,8 +24,15 @@
           {
             "name": "fiscalCodeEC",
             "in": "path",
-            "description": "The organization fiscal code",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Id",
+            "in": "header",
+            "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
             "schema": {
               "type": "string"
             }
@@ -94,10 +43,28 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/GetMbdRequest"
+              },
+              "example": {
+                "paymentNotices": [
+                  {
+                    "firstName": "string",
+                    "lastName": "string",
+                    "fiscalCode": "string",
+                    "email": "string",
+                    "amount": 0,
+                    "province": "string",
+                    "documentHash": "string"
+                  }
+                ],
+                "idCIService": "string",
+                "returnUrls": {
+                  "successUrl": "string",
+                  "cancelUrl": "string",
+                  "errorUrl": "string"
+                }
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -114,6 +81,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetCartResponse"
+                },
+                "example": {
+                  "checkoutRedirectUrl": "string",
+                  "mbdDownloadLink": "string",
+                  "nav": "string"
                 }
               }
             }
@@ -134,9 +106,9 @@
                   "$ref": "#/components/schemas/ProblemJson"
                 },
                 "example": {
-                  "status": 400,
-                  "title": "Bad Request",
-                  "detail": "<detail.message>"
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -164,7 +136,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "ibans for the brokerCode not found",
             "headers": {
               "X-Request-Id": {
                 "description": "This header identifies the call",
@@ -179,9 +151,9 @@
                   "$ref": "#/components/schemas/ProblemJson"
                 },
                 "example": {
-                  "status": 404,
-                  "title": "Not Found",
-                  "detail": "<detail.message>"
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -211,27 +183,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetCartErrorResponse"
+                },
+                "example": {
+                  "errorUrl": "string"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
         }
-      ]
+      }
     },
     "/organizations/{fiscalCodeEC}/receipt/{nav}": {
       "get": {
@@ -245,7 +205,6 @@
           {
             "name": "fiscalCodeEC",
             "in": "path",
-            "description": "The organization fiscal code",
             "required": true,
             "schema": {
               "type": "string"
@@ -254,8 +213,15 @@
           {
             "name": "nav",
             "in": "path",
-            "description": "The notice number",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Id",
+            "in": "header",
+            "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
             "schema": {
               "type": "string"
             }
@@ -276,6 +242,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetMdbReceipt"
+                },
+                "example": {
+                  "content": [
+                    "string"
+                  ]
                 }
               }
             }
@@ -294,6 +265,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -306,6 +282,14 @@
                 "schema": {
                   "type": "string"
                 }
+              }
+            },
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": "<ProblemJson> <title>string</title> <status>200</status> <detail>There was an error processing the request</detail> </ProblemJson>"
               }
             }
           },
@@ -321,7 +305,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "ibans for the brokerCode not found",
             "headers": {
               "X-Request-Id": {
                 "description": "This header identifies the call",
@@ -336,9 +320,9 @@
                   "$ref": "#/components/schemas/ProblemJson"
                 },
                 "example": {
-                  "status": 404,
-                  "title": "Not Found",
-                  "detail": "<detail.message>"
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -370,30 +354,15 @@
                   "$ref": "#/components/schemas/ProblemJson"
                 },
                 "example": {
-                  "status": 500,
-                  "title": "Internal Server Error",
-                  "detail": "<detail.message>"
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
         }
-      ]
+      }
     }
   },
   "components": {
@@ -414,9 +383,7 @@
             }
           },
           "idCIService": {
-            "type": "string",
-            "description": "Identifier of the association between the organization and MDB payment service.",
-            "example": "04"
+            "type": "string"
           },
           "returnUrls": {
             "$ref": "#/components/schemas/ReturnUrls"
@@ -435,41 +402,28 @@
         "type": "object",
         "properties": {
           "firstName": {
-            "type": "string",
-            "description": "Debtor name.",
-            "example": "Mario"
+            "type": "string"
           },
           "lastName": {
-            "type": "string",
-            "description": "Debtor surname.",
-            "example": "Rossi"
+            "type": "string"
           },
           "fiscalCode": {
-            "type": "string",
-            "description": "Debtor fiscal code.",
-            "example": "00000000000000000"
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "description": "Debtor mail.",
-            "example": "mario.rossi@test.test"
+            "type": "string"
           },
           "amount": {
             "type": "integer",
-            "description": "MBD amount.",
-            "format": "int64",
-            "example": 16
+            "format": "int64"
           },
           "province": {
-            "type": "string",
-            "description": "Debtor province.",
-            "example": "RM"
+            "type": "string"
           },
           "documentHash": {
             "maxLength": 44,
             "minLength": 44,
-            "type": "string",
-            "description": "Document hash."
+            "type": "string"
           }
         }
       },
@@ -482,19 +436,13 @@
         "type": "object",
         "properties": {
           "successUrl": {
-            "type": "string",
-            "description": "Redirect success URL.",
-            "example": "https://url1.it"
+            "type": "string"
           },
           "cancelUrl": {
-            "type": "string",
-            "description": "Redirect cancel URL.",
-            "example": "https://url2.it"
+            "type": "string"
           },
           "errorUrl": {
-            "type": "string",
-            "description": "Redirect error URL.",
-            "example": "https://url3.it"
+            "type": "string"
           }
         }
       },
@@ -502,9 +450,21 @@
         "type": "object",
         "properties": {
           "errorUrl": {
-            "type": "string",
-            "description": "The error URL provided in the request.",
-            "example": "https://url.it"
+            "type": "string"
+          }
+        }
+      },
+      "GetCartResponse": {
+        "type": "object",
+        "properties": {
+          "checkoutRedirectUrl": {
+            "type": "string"
+          },
+          "mbdDownloadLink": {
+            "type": "string"
+          },
+          "nav": {
+            "type": "string"
           }
         }
       },
@@ -521,7 +481,7 @@
             "type": "integer",
             "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
             "format": "int32",
-            "example": 400
+            "example": 200
           },
           "detail": {
             "type": "string",
@@ -530,35 +490,13 @@
           }
         }
       },
-      "GetCartResponse": {
-        "type": "object",
-        "properties": {
-          "checkoutRedirectUrl": {
-            "type": "string",
-            "description": "Redirect URL to Checkout page.",
-            "example": "https://dev.checkout.pagopa.it.it/c/123"
-          },
-          "mbdDownloadLink": {
-            "type": "string",
-            "description": "URL to download MBD receipt.",
-            "example": "https://api.platform.pagopa.it/mbd/mbd-payment/v1/00000000000/receipt/300996299640641032"
-          },
-          "nav": {
-            "type": "string",
-            "description": "Notice number, used to download MBD receipt.",
-            "example": "300996299640641032"
-          }
-        }
-      },
       "GetMdbReceipt": {
         "type": "object",
         "properties": {
           "content": {
             "type": "array",
-            "description": "The MBD receipt.",
             "items": {
               "type": "string",
-              "description": "The MBD receipt.",
               "format": "byte"
             }
           }
@@ -580,12 +518,24 @@
       }
     },
     "securitySchemes": {
-      "ApiKey": {
+      "apiKeyHeader": {
         "type": "apiKey",
-        "description": "The API key to access this function app.",
         "name": "Ocp-Apim-Subscription-Key",
         "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ]
 }
