@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "https://api.platform.pagopa.it/print-payment-notice-service/external/v1"
+      "url": "https://api.uat.platform.pagopa.it/print-payment-notice-service/external/v1"
     }
   ],
   "paths": {
