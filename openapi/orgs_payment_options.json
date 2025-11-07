@@ -1,0 +1,384 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "pagoPA Payment Options for Organizations",
+    "description": "pagoPA Payment Options service for Organizations \n ### APP ERROR CODES ### \n\n\n <details><summary>Details</summary>\n **NAME** | **HTTP STATUS CODE** | **DESCRIPTION** \n- | - | - \n **ODP-101** | *400 Bad Request* | PAA_SINTASSI Custom error description\n **ODP-102** | *422 Unprocessable Entity* | PAA_SEMANTICA Custom error description\n **ODP-103** | *500 Internal Server Error* | PAA_SYSTEM_ERROR Custom error description\n **ODP-104** | *400 Bad Request* | PAA_ID_DOMINIO_ERRATO Custom error description\n **ODP-105** | *400 Bad Request* | PAA_ID_INTERMEDIARIO_ERRATO Custom error description\n **ODP-106** | *400 Bad Request* | PAA_STAZIONE_INT_ERRATA Custom error description\n **ODP-107** | *404 Not Found* | PAA_PAGAMENTO_SCONOSCIUTO Custom error description\n **ODP-108** | *409 Conflict* | PAA_PAGAMENTO_DUPLICATO Custom error description\n **ODP-109** | *409 Conflict* | PAA_PAGAMENTO_IN_CORSO Custom error description\n **ODP-110** | *422 Unprocessable Entity* | PAA_PAGAMENTO_SCADUTO Custom error description\n **ODP-111** | *422 Unprocessable Entity* | PAA_PAGAMENTO_ANNULLATO Custom error description \n\n </details> \n",
+    "termsOfService": "https://www.pagopa.gov.it/",
+    "version": "0.7.0"
+  },
+  "servers": [
+    {
+      "url": "http://api.platform.it/service/v1",
+      "description": "Production base URL"
+    }
+  ],
+  "paths": {
+    "/payment-options/organizations/{organization-fiscal-code}/notices/{notice-number}": {
+      "post": {
+        "tags": [
+          "Payment Options Resource"
+        ],
+        "summary": "Get payment options by noticeNumber",
+        "description": "Returns payment options for a given notice and organization",
+        "operationId": "getPaymentOptionsByNoticeNumber",
+        "parameters": [
+          {
+            "name": "notice-number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "organization-fiscal-code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse500"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse400"
+          },
+          "404": {
+            "$ref": "#/components/responses/ErrorResponse404"
+          },
+          "409": {
+            "$ref": "#/components/responses/ErrorResponse409"
+          },
+          "422": {
+            "$ref": "#/components/responses/ErrorResponse422"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentOptionsResponse"
+                },
+                "example": {
+                  "organizationFiscalCode": "99999000013",
+                  "companyName": "EC",
+                  "officeName": "EC",
+                  "paymentOptions": [
+                    {
+                      "description": "Test PayOpt - Opzione 1 - Soluzione Unica",
+                      "numberOfInstallments": 1,
+                      "amount": 120,
+                      "dueDate": "2024-10-30T23:59:59",
+                      "validFrom": "2024-09-30T23:59:59",
+                      "status": "non pagato",
+                      "statusReason": "desc",
+                      "allCCP": false,
+                      "installments": [
+                        {
+                          "nav": "311111111111111116",
+                          "iuv": "311111111111111116",
+                          "amount": 120,
+                          "description": "Test Opt Inst - soluzione unica",
+                          "dueDate": "2024-10-30T23:59:59",
+                          "validFrom": "2024-09-30T23:59:59",
+                          "status": "non pagato",
+                          "statusReason": "desc"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          }
+        }
+      },
+      "EnumInstallment": {
+        "enum": [
+          "POI_UNPAID",
+          "POI_PAID",
+          "POI_EXPIRED_NOT_PAYABLE",
+          "POI_EXPIRED_UNPAID",
+          "POI_INVALID"
+        ],
+        "type": "string"
+      },
+      "EnumPo": {
+        "enum": [
+          "PO_UNPAID",
+          "PO_PAID",
+          "PO_PARTIALLY_PAID",
+          "PO_EXPIRED_NOT_PAYABLE",
+          "PO_EXPIRED_UNPAID",
+          "PO_INVALID"
+        ],
+        "type": "string"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "format": "int32",
+            "type": "integer",
+            "example": 500
+          },
+          "httpStatusDescription": {
+            "type": "string",
+            "example": "Internal Server Error  (HTTP Status Code reference according to https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "An unexpected error has occurred. Please contact support."
+          },
+          "appErrorCode": {
+            "type": "string",
+            "example": "ODP-<ERR_ID>"
+          },
+          "timestamp": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1724425035
+          },
+          "dateTime": {
+            "type": "string",
+            "example": "2024-08-23T14:57:15.635528"
+          }
+        }
+      },
+      "Installment": {
+        "type": "object",
+        "properties": {
+          "nav": {
+            "type": "string"
+          },
+          "iuv": {
+            "type": "string"
+          },
+          "amount": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EnumInstallment"
+          },
+          "statusReason": {
+            "type": "string"
+          }
+        }
+      },
+      "PaymentOption": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "numberOfInstallments": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EnumPo"
+          },
+          "statusReason": {
+            "type": "string"
+          },
+          "allCCP": {
+            "type": "boolean"
+          },
+          "installments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Installment"
+            }
+          }
+        }
+      },
+      "PaymentOptionsResponse": {
+        "type": "object",
+        "properties": {
+          "organizationFiscalCode": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "officeName": {
+            "type": "string"
+          },
+          "standin": {
+            "type": "boolean"
+          },
+          "paymentOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentOption"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "ErrorResponse400": {
+        "description": "Default app exception for status 400",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "BadRequestExample": {
+                "value": {
+                  "httpStatusCode": 400,
+                  "httpStatusDescription": "Bad Request",
+                  "appErrorCode": "ODP-101",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T14:57:15.635528",
+                  "errorMessage": "PAA_SINTASSI Errore di sintassi del modello nella richiesta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse404": {
+        "description": "Default app exception for status 404",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "NotFoundExample": {
+                "value": {
+                  "httpStatusCode": 404,
+                  "httpStatusDescription": "Not Found",
+                  "appErrorCode": "ODP-107",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T14:57:15.635528",
+                  "errorMessage": "PAA_PAGAMENTO_SCONOSCIUTO Errore per pagamento sconosciuto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse409": {
+        "description": "Default app exception for status 409",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "ConflitExample": {
+                "value": {
+                  "httpStatusCode": 409,
+                  "httpStatusDescription": "Conflict",
+                  "appErrorCode": "ODP-108",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T14:57:15.635528",
+                  "errorMessage": "PAA_PAGAMENTO_DUPLICATO Errore per pagamento duplicato"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse422": {
+        "description": "Default app exception for status 422",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "UnprocessableEntityExample": {
+                "value": {
+                  "httpStatusCode": 422,
+                  "httpStatusDescription": "Unprocessable Entity",
+                  "appErrorCode": "ODP-110",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T14:57:15.635528",
+                  "errorMessage": "PAA_PAGAMENTO_SCADUTO Errore per pagamento scaduto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse500": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "InternalServerErrorExample": {
+                "value": {
+                  "httpStatusCode": 500,
+                  "httpStatusDescription": "Internal Server Error",
+                  "appErrorCode": "ODP-103",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T14:57:15.635528",
+                  "errorMessage": "PAA_SYSTEM_ERROR Errore generico"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      }
+    }
+  }
+}
