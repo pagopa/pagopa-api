@@ -1,142 +1,172 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Reporting Analysis - GPD",
-      "version": "0.1.8"
-    },
-    "servers": [
-      {
-        "url": "https://api.uat.platform.pagopa.it/gpd-reporting/api/v1"
-      }
-    ],
-    "paths": {
-      "/organizations/{organizationId}/reportings": {
-        "get": {
-          "tags": [
-            "Organization Requests"
-          ],
-          "summary": "getFlowList",
-          "parameters": [
-            {
-              "name": "organizationId",
-              "in": "path",
-              "schema": {
-                "type": "string"
-              },
-              "required": true,
-              "example": "90000000000"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Reporting Analysis - GPD",
+    "version": "0.3.3"
+  },
+  "servers": [
+    {
+      "url": "https://api.uat.platform.pagopa.it/gpd-reporting/api/v1"
+    }
+  ],
+  "paths": {
+    "/organizations/{organizationId}/reportings": {
+      "get": {
+        "tags": [
+          "Organization Requests"
+        ],
+        "summary": "getFlowList",
+        "description": "getFlowList",
+        "operationId": "get-organizations-organizationid-reportings",
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             },
-            {
-              "name": "flowDate",
-              "in": "query",
-              "description": "Filter by flow date (use the format yyyy-MM-dd)",
-              "schema": {
-                "type": "string",
-                "format": "date"
-              },
-              "required": false,
-              "example": "2020-01-01"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/FlowList"
-                  }
-                }
-              }
+            "example": 90000000000
+          },
+          {
+            "name": "flowDate",
+            "in": "query",
+            "description": "Format - date (as full-date in RFC3339). Filter by flow date (use the format yyyy-MM-dd)",
+            "schema": {
+              "type": "string",
+              "format": "date"
             },
-            "400": {
-              "description": "Error response",
-              "content": {
-                "application/json": {}
-              }
-            }
+            "example": "2020-01-01"
           }
-        }
-      },
-      "/organizations/{organizationId}/reportings/{flowId}/date/{date}": {
-        "get": {
-          "tags": [
-            "Organization Requests"
-          ],
-          "summary": "getFlow",
-          "parameters": [
-            {
-              "name": "organizationId",
-              "in": "path",
-              "schema": {
-                "type": "string"
-              },
-              "required": true,
-              "example": "90000000000"
-            },
-            {
-              "name": "flowId",
-              "in": "path",
-              "schema": {
-                "type": "string"
-              },
-              "required": true,
-              "example": "2022-01-12PPAYITR1XXX-S239349322"
-            },
-            {
-              "name": "date",
-              "in": "path",
-              "schema": {
-                "type": "string"
-              },
-              "required": true,
-              "example": "2022-01-11T23:31:05"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response",
-              "content": {
-                "application/xml": {
-                  "schema": {
-                    "format": "binary",
-                    "type": "string",
-                    "description": "Flow XML"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlowList"
+                },
+                "example": [
+                  {
+                    "flowId": "2022-01-12PPAYITR1XXX-S079177254",
+                    "flowDate": "2022-01-12T00:31:05.0000000+00:00"
                   }
-                }
+                ]
               }
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {
-                "application/json": {}
-              }
+            }
+          },
+          "400": {
+            "description": "Error response",
+            "content": {
+              "application/json": {}
             }
           }
         }
       }
     },
-    "components": {
-      "schemas": {
-        "FlowList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/Flow"
-          }
-        },
-        "Flow": {
-          "type": "object",
-          "properties": {
-            "flowId": {
-              "type": "string",
-              "example": "2022-01-12PPAYITR1XXX-S079177254"
+    "/organizations/{organizationId}/reportings/{flowId}/date/{date}": {
+      "get": {
+        "tags": [
+          "Organization Requests"
+        ],
+        "summary": "getFlow",
+        "description": "getFlow",
+        "operationId": "get-organizations-organizationid-reportings-flowid-date-date",
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             },
-            "flowDate": {
-              "type": "string",
-              "example": "2022-01-12T00:31:05"
+            "example": 90000000000
+          },
+          {
+            "name": "flowId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2022-01-12PPAYITR1XXX-S239349322"
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2022-01-11T23:31:05.0000000+00:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "description": "Flow XML",
+                  "format": "binary"
+                },
+                "example": "<Organizations-organizationId-Reportings-flowId-Date-date-Get200ApplicationXmlResponse>string</Organizations-organizationId-Reportings-flowId-Date-date-Get200ApplicationXmlResponse>"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {}
             }
           }
         }
       }
     }
-  }
+  },
+  "components": {
+    "schemas": {
+      "FlowList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Flow"
+        }
+      },
+      "Flow": {
+        "type": "object",
+        "properties": {
+          "flowId": {
+            "type": "string",
+            "example": "2022-01-12PPAYITR1XXX-S079177254"
+          },
+          "flowDate": {
+            "type": "string",
+            "example": "2022-01-12T00:31:05"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ]
+}
