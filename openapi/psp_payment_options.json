@@ -1,122 +1,174 @@
 {
-  "openapi" : "3.0.3",
+  "openapi": "3.0.1",
   "info" : {
     "title" : "pagoPA Payment Options for PSP",
     "description" : "pagoPA Payment Options service for PSP \n ### APP ERROR CODES ### \n\n\n <details><summary>Details</summary>\n **NAME** | **HTTP STATUS CODE** | **DESCRIPTION** \n- | - | - \n **ODP-001** | *Bad Request* | ODP-SINTASSI. Errore riportato in caso di errore di sintassi nel contenuto della richiesta verso ODP\n **ODP-002** | *Not Found* | ODP_PSP_SCONOSCIUTO. Errore riportato in caso non sia presente fra i dati ottenuti da config-cache un psp coincidente con l’id fornito in input\n **ODP-003** | *Bad Request* | ODP_PSP_DISABILITATO. Errore riportato in caso il psp coincidente con l’id fornito in input risulti disabilitato\n **ODP-004** | *Not Found* | ODP_INTERMEDIARIO_PSP_SCONOSCIUTO. Errore riportato in caso il broker psp coincidente con i dati forniti in input non sia presente nei dati ottenuti da config-cache\n **ODP-005** | *Bad Request* | ODP_INTERMEDIARIO_PSP_DISABILITATO. Errore riportato in caso il broker psp coincidente con l’id fornito in input risulti disabilitato\n **ODP-006** | *Unauthorized* | ODP_AUTENTICAZIONE. Errore di autenticazione rispetto ai dati forniti\n **ODP-007** | *Forbidden* | ODP_AUTORIZZAZIONE. Errore di autorizzazione rispetto ai dati forniti\n **ODP-008** | *Bad Request* | ODP_SEMANTICA. Errore fornito in caso della presenza di casi d’invalidità semantica nei dati del flusso di verifica\n **ODP-009** | *Not Found* | ODP_STAZIONE_INT_PA_SCONOSCIUTA. Errore fornito in caso di assenza associazione stazione e PA\n **ODP-010** | *Bad Request* | ODP_STAZIONE_INT_PA_DISABILITATA. Errore riportato in caso la stazione coincidente con l’id fornito in input risulti disabilitato\n **ODP-011** | *Service Unavailable* | ODP_STAZIONE_INT_PA_IRRAGGIUNGIBILE. Errore fornito in caso d’irraggiungibilità della stazione\n **ODP-012** | *Bad Request* | ODP_STAZIONE_INT_PA_SERVIZIO_NON_ATTIVO. Errore fornito in caso di servizio non attivo\n **ODP-013** | *Internal Server Error* | ODP_STAZIONE_INT_PA_TIMEOUT. Errore fornito in caso di timeout della stazione\n **ODP-015** | *Bad Request* | ODP_STAZIONE_INT_PA_ERRORE_RESPONSE. Errore fornito in caso di risposta KO dalla stazione\n **ODP-016** | *Bad Request* | ODP_PSP_NAV_NOT_NMU. Errore fornito nel caso in cui il nav non sia valido per il flusso OdP\n **ODP-017** | *Bad Request* | ODP_STAZIONE_INT_VERIFICA_ODP_DISABILITATA. Errore fornito nel caso in cui la stazione non sia abilitata per l’utilizzo del servizio OdP\n **ODP-018** | *Internal Server Error* | ODP_SYSTEM_ERROR. Codice d’errore generico\n **ODP-019** | *Bad Request* | ODP_INTERMEDIARIO_PA_DISABILITATO. Errore fornito in caso di intermediario non abilitato\n **ODP-020** | *Not Found* | ODP_INTERMEDIARIO_PA_SCONOSCIUTO. Errore fornito in caso di intermediario assente\n **ODP-021** | *Bad Request* | ODP_DOMINIO_DISABILITATO. Errore fornito in caso di PA non abilitata\n **ODP-022** | *Not Found* | ODP_DOMINIO_SCONOSCIUTO. Errore fornito in caso di PA assente\n **ODP-023** | *Bad Request* | ODP_ERRORE_EMESSO_DA_PAA. Errore restituito in caso di errori da PA \n\n </details> \n",
     "termsOfService" : "https://www.pagopa.gov.it/",
     "version" : "0.6.5"
   },
-  "servers" : [ {
-    "url" : "http://localhost:8080",
-    "description" : "Localhost base URL"
-  }, {
-    "url" : "https://{host}/odp/service/v1",
-    "description" : "Base URL",
-    "variables" : {
-      "host" : {
-        "default" : "api.dev.platform.pagopa.it",
-        "enum" : [ "api.dev.platform.pagopa.it", "api.uat.platform.pagopa.it", "api.platform.pagopa.it" ]
-      }
+  "servers": [
+    {
+      "url": "https://api.dev.platform.pagopa.it/odp/service/v1"
     }
-  } ],
-  "paths" : {
-    "/info" : {
-      "get" : {
-        "tags" : [ "Generic" ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AppInfo"
+  ],
+  "paths": {
+    "/payment-options/organizations/{organization-fiscal-code}/notices/{notice-number}": {
+      "get": {
+        "tags": [
+          "Payment Options"
+        ],
+        "summary": "Get payment options",
+        "description": "Retrieve the payment options related to the provided input",
+        "operationId": "getPaymentOptions",
+        "parameters": [
+          {
+            "name": "notice-number",
+            "in": "path",
+            "description": "Notice number",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "organization-fiscal-code",
+            "in": "path",
+            "description": "Organization fiscal code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idPsp",
+            "in": "query",
+            "description": "PSP identifier",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Session-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentOptionsResponse"
+                },
+                "example": {
+                  "organizationFiscalCode": "77777777777",
+                  "companyName": "EC",
+                  "officeName": "EC",
+                  "paymentOptions": [
+                    {
+                      "description": "Test PayOpt - unica opzione",
+                      "numberOfInstallments": 1,
+                      "amount": 120,
+                      "dueDate": "2024-10-30T11:59:59.0000000+00:00",
+                      "validFrom": "2024-09-30T11:59:59.0000000+00:00",
+                      "status": "non pagato",
+                      "status reason": "desc",
+                      "allCCP": "false",
+                      "installments": [
+                        {
+                          "nav": "311111111111111111",
+                          "iuv": "311111111111111111",
+                          "amount": 120,
+                          "description": "Test Opt Inst - unica opzione",
+                          "dueDate": "2024-10-30T11:59:59.0000000+00:00",
+                          "validFrom": "2024-09-30T11:59:59.0000000+00:00",
+                          "status": "non pagato",
+                          "status reason": "desc"
+                        }
+                      ]
+                    }
+                  ]
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "application/json" : { }
-            }
-          }
-        }
-      }
-    },
-    "/payment-options/organizations/{organization-fiscal-code}/notices/{notice-number}" : {
-      "get" : {
-        "tags" : [ "Payment Options Resource" ],
-        "summary" : "Get payment options",
-        "description" : "Retrieve the payment options related to the provided input",
-        "operationId" : "getPaymentOptions",
-        "parameters" : [ {
-          "name" : "notice-number",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "organization-fiscal-code",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "idPsp",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "X-Session-Id",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "500" : {
-            "$ref" : "#/components/responses/ErrorResponse500"
-          },
-          "400" : {
-            "$ref" : "#/components/responses/ErrorResponse400"
-          },
-          "404" : {
-            "$ref" : "#/components/responses/ErrorResponse404"
-          },
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PaymentOptionsResponse"
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 },
-                "example" : {
-                  "organizationFiscalCode" : "77777777777",
-                  "companyName" : "EC",
-                  "officeName" : "EC",
-                  "paymentOptions" : [ {
-                    "description" : "Test PayOpt - unica opzione",
-                    "numberOfInstallments" : 1,
-                    "amount" : 120,
-                    "dueDate" : "2024-10-30T23:59:59",
-                    "validFrom" : "2024-09-30T23:59:59",
-                    "status" : "non pagato",
-                    "status reason" : "desc",
-                    "allCCP" : "false",
-                    "installments" : [ {
-                      "nav" : "311111111111111111",
-                      "iuv" : "311111111111111111",
-                      "amount" : 120,
-                      "description" : "Test Opt Inst - unica opzione",
-                      "dueDate" : "2024-10-30T23:59:59",
-                      "validFrom" : "2024-09-30T23:59:59",
-                      "status" : "non pagato",
-                      "status reason" : "desc"
-                    } ]
-                  } ]
+                "example": {
+                  "httpStatusCode": 400,
+                  "httpStatusDescription": "Bad Request",
+                  "appErrorCode": "ODP-<ERR_ID>",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T02:57:15.0000000+00:00",
+                  "errorMessage": "Invalid request. Please check the submitted data and try again."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Default app exception for status 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "httpStatusCode": 404,
+                  "httpStatusDescription": "Not Found",
+                  "appErrorCode": "ODP-<ERR_ID>",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T02:57:15.0000000+00:00",
+                  "errorMessage": "Resource not found. Please verify the request and try again."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "httpStatusCode": 500,
+                  "httpStatusDescription": "Internal Server Error",
+                  "appErrorCode": "ODP-<ERR_ID>",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T02:57:15.0000000+00:00",
+                  "errorMessage": "An unexpected error has occurred. Please contact support."
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "httpStatusCode": 502,
+                  "httpStatusDescription": "Bad Gateway",
+                  "appErrorCode": "ODP-23>",
+                  "timestamp": 1724425035,
+                  "dateTime": "2024-08-23T02:57:15.0000000+00:00",
+                  "errorMessage": "ODP_ERRORE_EMESSO_DA_PAA PAA_SINTASSI Error generated by PA."
                 }
               }
             }
@@ -125,230 +177,190 @@
       }
     }
   },
-  "components" : {
-    "schemas" : {
-      "AppInfo" : {
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "string"
+  "components": {
+    "schemas": {
+      "AppInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
           },
-          "version" : {
-            "type" : "string"
+          "version": {
+            "type": "string"
           },
-          "environment" : {
-            "type" : "string"
+          "environment": {
+            "type": "string"
           }
         }
       },
-      "EnumInstallment" : {
-        "enum" : [ "POI_UNPAID", "POI_PAID", "POI_EXPIRED_NOT_PAYABLE", "POI_EXPIRED_UNPAID", "POI_INVALID" ],
-        "type" : "string"
-      },
-      "EnumPo" : {
-        "enum" : [ "PO_UNPAID", "PO_PAID", "PO_PARTIALLY_PAID", "PO_EXPIRED_NOT_PAYABLE", "PO_EXPIRED_UNPAID", "PO_INVALID" ],
-        "type" : "string"
-      },
-      "ErrorResponse" : {
-        "type" : "object",
-        "properties" : {
-          "httpStatusCode" : {
-            "format" : "int32",
-            "type" : "integer",
-            "example" : 500
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "type": "integer",
+            "format": "int32",
+            "example": 500
           },
-          "httpStatusDescription" : {
-            "type" : "string",
-            "example" : "Internal Server Error"
+          "httpStatusDescription": {
+            "type": "string",
+            "example": "Internal Server Error"
           },
-          "errorMessage" : {
-            "type" : "string",
-            "example" : "An unexpected error has occurred. Please contact support."
+          "errorMessage": {
+            "type": "string",
+            "example": "An unexpected error has occurred. Please contact support."
           },
-          "appErrorCode" : {
-            "type" : "string",
-            "example" : "ODP-<ERR_ID>"
+          "appErrorCode": {
+            "type": "string",
+            "example": "ODP-<ERR_ID>"
           },
-          "timestamp" : {
-            "format" : "int64",
-            "type" : "integer",
-            "example" : 1724425035
+          "timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1724425035
           },
-          "dateTime" : {
-            "type" : "string",
-            "example" : "2024-08-23T14:57:15.635528"
+          "dateTime": {
+            "type": "string",
+            "example": "2024-08-23T14:57:15.635528"
           }
         }
       },
-      "Installment" : {
-        "type" : "object",
-        "properties" : {
-          "nav" : {
-            "type" : "string"
+      "Installment": {
+        "type": "object",
+        "properties": {
+          "nav": {
+            "type": "string"
           },
-          "iuv" : {
-            "type" : "string"
+          "iuv": {
+            "type": "string"
           },
-          "amount" : {
-            "format" : "int64",
-            "type" : "integer"
+          "amount": {
+            "type": "integer",
+            "format": "int64"
           },
-          "description" : {
-            "type" : "string"
+          "description": {
+            "type": "string"
           },
-          "dueDate" : {
-            "type" : "string",
-            "format": "date-time"
+          "dueDate": {
+            "type": "string"
           },
-          "validFrom" : {
-            "type" : "string",
-            "format": "date-time"
+          "validFrom": {
+            "type": "string"
           },
-          "status" : {
-            "$ref" : "#/components/schemas/EnumInstallment"
+          "status": {
+            "$ref": "#/components/schemas/InstallmentEnum"
           },
-          "statusReason" : {
-            "type" : "string"
+          "statusReason": {
+            "type": "string"
           }
         }
       },
-      "PaymentOption" : {
-        "type" : "object",
-        "properties" : {
-          "description" : {
-            "type" : "string"
+      "InstallmentEnum": {
+        "enum": [
+          "POI_UNPAID",
+          "POI_PAID",
+          "POI_EXPIRED_NOT_PAYABLE",
+          "POI_EXPIRED_UNPAID",
+          "POI_INVALID"
+        ],
+        "type": "string"
+      },
+      "PaymentOption": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
           },
-          "numberOfInstallments" : {
-            "format" : "int32",
-            "type" : "integer"
+          "numberOfInstallments": {
+            "type": "integer",
+            "format": "int32"
           },
-          "dueDate" : {
-            "type" : "string",
-            "format": "date-time"
+          "dueDate": {
+            "type": "string"
           },
-          "validFrom" : {
-            "type" : "string",
-            "format": "date-time"
+          "validFrom": {
+            "type": "string"
           },
-          "amount" : {
-            "format" : "int64",
-            "type" : "integer"
+          "amount": {
+            "type": "integer",
+            "format": "int64"
           },
-          "status" : {
-            "$ref" : "#/components/schemas/EnumPo"
+          "status": {
+            "$ref": "#/components/schemas/PaymentOptionStatusEnum"
           },
-          "statusReason" : {
-            "type" : "string"
+          "statusReason": {
+            "type": "string"
           },
-          "allCCP" : {
-            "type" : "boolean"
+          "allCCP": {
+            "type": "boolean"
           },
-          "installments" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Installment"
+          "installments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Installment"
             }
           }
         }
       },
-      "PaymentOptionsResponse" : {
-        "type" : "object",
-        "properties" : {
-          "organizationFiscalCode" : {
-            "type" : "string"
-          },
-          "companyName" : {
-            "type" : "string"
-          },
-          "officeName" : {
-            "type" : "string"
-          },
-          "standin" : {
-            "type" : "boolean"
-          },
-          "paymentOptions" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/PaymentOption"
-            }
-          }
-        }
-      }
-    },
-    "responses" : {
-      "ErrorResponse400" : {
-        "description" : "Default app exception for status 400",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ErrorResponse"
-            },
-            "examples" : {
-              "BadRequestExample" : {
-                "value" : {
-                  "httpStatusCode" : 400,
-                  "httpStatusDescription" : "Bad Request",
-                  "errorMessage" : "Invalid request. Please check the submitted data and try again.",
-                  "appErrorCode" : "ODP-<ERR_ID>",
-                  "timestamp" : 1724425035,
-                  "dateTime" : "2024-08-23T14:57:15.635528"
-                }
-              }
-            }
-          }
-        }
+      "PaymentOptionStatusEnum": {
+        "enum": [
+          "PO_UNPAID",
+          "PO_PAID",
+          "PO_PARTIALLY_PAID",
+          "PO_EXPIRED_NOT_PAYABLE",
+          "PO_EXPIRED_UNPAID",
+          "PO_INVALID"
+        ],
+        "type": "string"
       },
-      "ErrorResponse404" : {
-        "description" : "Default app exception for status 404",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ErrorResponse"
-            },
-            "examples" : {
-              "NotFoundExample" : {
-                "value" : {
-                  "httpStatusCode" : 404,
-                  "httpStatusDescription" : "Not Found",
-                  "errorMessage" : "Resource not found. Please verify the request and try again.",
-                  "appErrorCode" : "ODP-<ERR_ID>",
-                  "timestamp" : 1724425035,
-                  "dateTime" : "2024-08-23T14:57:15.635528"
-                }
-              }
-            }
-          }
-        }
-      },
-      "ErrorResponse500" : {
-        "description" : "Internal Server Error",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/ErrorResponse"
-            },
-            "examples" : {
-              "InternalServerErrorExample" : {
-                "value" : {
-                  "httpStatusCode" : 500,
-                  "httpStatusDescription" : "Internal Server Error",
-                  "errorMessage" : "An unexpected error has occurred. Please contact support.",
-                  "appErrorCode" : "ODP-<ERR_ID>",
-                  "timestamp" : 1724425035,
-                  "dateTime" : "2024-08-23T14:57:15.635528"
-                }
-              }
+      "PaymentOptionsResponse": {
+        "type": "object",
+        "properties": {
+          "organizationFiscalCode": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "officeName": {
+            "type": "string"
+          },
+          "standin": {
+            "type": "boolean"
+          },
+          "paymentOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentOption"
             }
           }
         }
       }
     },
-    "securitySchemes" : {
-      "ApiKey" : {
-        "type" : "apiKey",
-        "name" : "Ocp-Apim-Subscription-Key",
-        "in" : "header"
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Payment Options",
+      "description": "APIs to retrieve payment options"
+    }
+  ]
 }
