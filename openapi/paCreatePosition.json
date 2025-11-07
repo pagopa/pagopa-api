@@ -3,7 +3,7 @@
   "info": {
     "title": "pagoPA - A.C.A. API",
     "description": "API for A.C.A. service",
-    "version": "v1"
+    "version": "0.0.1"
   },
   "servers": [
     {
