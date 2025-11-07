@@ -4,143 +4,21 @@
     "title": "PagoPA API Payments",
     "description": "Payments",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.12.30"
+    "version": "0.12.50"
   },
   "servers": [
     {
-      "url": "https://api.platform.pagopa.it/gpd/payments-receipts-service/v1",
-      "description": "Generated server url"
-    }
-  ],
-  "tags": [
-    {
-      "name": "Payments receipts API"
+      "url": "https://api.platform.pagopa.it/gpd/payments-receipts-service/v1"
     }
   ],
   "paths": {
-    "/info": {
-      "get": {
-        "tags": [
-          "Home"
-        ],
-        "summary": "health check",
-        "description": "Return OK if application is started",
-        "operationId": "healthCheck",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AppInfo"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too many requests",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Service unavailable",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          },
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
-    },
     "/payments/{organizationfiscalcode}/receipts": {
       "get": {
         "tags": [
           "Payments receipts API"
         ],
         "summary": "Return the list of the organization receipts.",
+        "description": "Return the list of the organization receipts.",
         "operationId": "getOrganizationReceipts",
         "parameters": [
           {
@@ -155,32 +33,26 @@
           {
             "name": "pageNum",
             "in": "query",
-            "description": "Page number, starts from 0",
-            "required": false,
+            "description": "Format - int32. Page number",
             "schema": {
               "minimum": 0,
               "type": "integer",
-              "format": "int32",
-              "default": 0
+              "format": "int32"
             }
           },
           {
             "name": "pageSize",
             "in": "query",
-            "description": "Number of elements per page. Default = 20",
-            "required": false,
+            "description": "Format - int32. Number of elements per page",
             "schema": {
-              "maximum": 100,
               "type": "integer",
-              "format": "int32",
-              "default": 20
+              "format": "int32"
             }
           },
           {
             "name": "debtor",
             "in": "query",
             "description": "Filter by debtor",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -189,7 +61,6 @@
             "name": "service",
             "in": "query",
             "description": "Filter by service",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -198,7 +69,6 @@
             "name": "from",
             "in": "query",
             "description": "Filter by date, from this date",
-            "required": false,
             "schema": {
               "type": "string"
             }
@@ -207,26 +77,14 @@
             "name": "to",
             "in": "query",
             "description": "Filter by date, to this date",
-            "required": false,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "segregationCodes",
-            "in": "query",
-            "description": "Segregation codes for which broker is authorized",
-            "required": false,
-            "schema": {
-              "pattern": "\\d{2}(,\\d{2})*",
-              "type": "string"
-            }
-          },
-          {
-            "name": "debtorOrIuv",
-            "in": "query",
-            "description": "Filter start of debtor or IUV",
-            "required": false,
+            "name": "X-Request-Id",
+            "in": "header",
+            "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
             "schema": {
               "type": "string"
             }
@@ -246,7 +104,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaymentsResult"
+                  "$ref": "#/components/schemas/ReceiptsInfo"
+                },
+                "example": {
+                  "receipts_list": [
+                    {
+                      "organizationFiscalCode": "string",
+                      "iuv": "string",
+                      "debtor": "string",
+                      "paymentDateTime": "string",
+                      "status": "string"
+                    }
+                  ]
                 }
               }
             }
@@ -258,25 +127,6 @@
                 "description": "This header identifies the call",
                 "schema": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "example": {
-                  "statusCode": 403,
-                  "message": "You are not allowed to access this resource."
                 }
               }
             }
@@ -295,6 +145,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -313,30 +168,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          },
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
         }
-      ]
+      }
     },
     "/payments/{organizationfiscalcode}/receipts/{iuv}": {
       "get": {
@@ -344,6 +186,7 @@
           "Payments receipts API"
         ],
         "summary": "Return the details of a specific receipt.",
+        "description": "Return the details of a specific receipt.",
         "operationId": "getReceiptByIUV",
         "parameters": [
           {
@@ -367,12 +210,10 @@
             "example": "ABC123"
           },
           {
-            "name": "segregationCodes",
-            "in": "query",
-            "description": "Segregation codes for which broker is authorized",
-            "required": false,
+            "name": "X-Request-Id",
+            "in": "header",
+            "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
             "schema": {
-              "pattern": "\\d{2}(,\\d{2})*",
               "type": "string"
             }
           }
@@ -392,7 +233,8 @@
               "application/xml": {
                 "schema": {
                   "type": "string"
-                }
+                },
+                "example": "<Payments-organizationfiscalcode-Receipts-iuv-Get200ApplicationXmlResponse>string</Payments-organizationfiscalcode-Receipts-iuv-Get200ApplicationXmlResponse>"
               }
             }
           },
@@ -403,25 +245,6 @@
                 "description": "This header identifies the call",
                 "schema": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "example": {
-                  "statusCode": 403,
-                  "message": "You are not allowed to access this resource."
                 }
               }
             }
@@ -440,11 +263,17 @@
               "application/xml": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                }
+                },
+                "example": "<ProblemJson> <title>string</title> <status>200</status> <detail>There was an error processing the request</detail> </ProblemJson>"
               },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -463,11 +292,17 @@
               "application/xml": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                }
+                },
+                "example": "<ProblemJson> <title>string</title> <status>200</status> <detail>There was an error processing the request</detail> </ProblemJson>"
               },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -486,30 +321,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "title": "string",
+                  "status": 200,
+                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          },
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
         }
-      ]
+      }
     }
   },
   "components": {
@@ -536,25 +358,36 @@
           }
         }
       },
-      "PaymentsResult": {
+      "ReceiptModelResponse": {
         "type": "object",
         "properties": {
-          "currentPageNumber": {
-            "type": "integer",
-            "format": "int32"
+          "organizationFiscalCode": {
+            "type": "string"
           },
-          "length": {
-            "type": "integer",
-            "format": "int32"
+          "iuv": {
+            "type": "string"
           },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
+          "debtor": {
+            "type": "string"
           },
-          "results": {
+          "paymentDateTime": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ReceiptsInfo": {
+        "required": [
+          "receipts_list"
+        ],
+        "type": "object",
+        "properties": {
+          "receipts_list": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/ReceiptModelResponse"
             }
           }
         }
@@ -575,18 +408,29 @@
       }
     },
     "securitySchemes": {
-      "ApiKey": {
+      "apiKeyHeader": {
         "type": "apiKey",
-        "description": "The API key to access this function app.",
         "name": "Ocp-Apim-Subscription-Key",
         "in": "header"
       },
-      "Authorization": {
-        "type": "http",
-        "description": "JWT token get after Azure Login",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Payments receipts API"
+    }
+  ]
 }
