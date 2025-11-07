@@ -6,7 +6,7 @@
     },
     "servers": [
       {
-        "url": "https://api.uat.platform.pagopa.it/gpd-reporting/api/v1"
+        "url": "https://api.dev.platform.pagopa.it/gpd-reporting/api/v1"
       }
     ],
     "paths": {
