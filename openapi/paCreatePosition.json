@@ -1,0 +1,436 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "pagoPA - A.C.A. API",
+    "description": "API for A.C.A. service",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api.platform.pagopa.it/aca/v1"
+    }
+  ],
+  "paths": {
+    "/paCreatePosition": {
+      "post": {
+        "tags": [
+          "ACA"
+        ],
+        "summary": "Create / Update / Invalidate a debt position",
+        "description": "Create / Update / Invalidate a debt position.",
+        "operationId": "newDebtPosition",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewDebtPositionRequest"
+              },
+              "example": {
+                "paFiscalCode": "12345678910",
+                "entityType": "G",
+                "entityFiscalCode": "12345678910",
+                "entityFullName": "Full Name",
+                "iuv": "00000000000000000",
+                "nav": "30000000000000000",
+                "amount": 100,
+                "description": "ACA Debt Position description",
+                "expirationDate": "string",
+                "iban": "IT0000000000000000000000000",
+                "postalIban": "IT60X0542811101000000123456",
+                "switchToExpired": false,
+                "payStandIn": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "create / update / invalidate debt position successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtPositionResponse"
+                },
+                "example": {
+                  "paFiscalCode": "string",
+                  "companyName": "string",
+                  "entityType": "string",
+                  "entityFiscalCode": "string",
+                  "entityFullName": "string",
+                  "iuv": "string",
+                  "nav": "string",
+                  "amount": 0,
+                  "description": "string",
+                  "expirationDate": "string",
+                  "iban": "string",
+                  "postalIban": "string",
+                  "switchToExpired": true,
+                  "status": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "value": {
+                    "invalidInput": {
+                      "type": "https://example.com/problem/",
+                      "title": "string",
+                      "status": 400,
+                      "detail": "Formally invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "examples": {
+                  "iupd_not_found": {
+                    "value": {
+                      "type": "https://example.com/problem/",
+                      "title": "Invocation exception",
+                      "status": 404,
+                      "detail": "Error while invalidate debit position. Debit position not found with {iupd}"
+                    }
+                  },
+                  "pa_fiscal_code_not_found": {
+                    "value": {
+                      "type": "https://example.com/problem/",
+                      "title": "Invocation exception",
+                      "status": 404,
+                      "detail": "No debt position found with Creditor institution code {creditorInstitutionCode} and {iupd}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict into requested action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "examples": {
+                  "create": {
+                    "value": {
+                      "type": "https://example.com/problem/",
+                      "title": "Invocation exception",
+                      "status": 409,
+                      "detail": "Error while create new debit position conflict into request"
+                    }
+                  },
+                  "update": {
+                    "value": {
+                      "type": "https://example.com/problem/",
+                      "title": "Invocation exception",
+                      "status": 409,
+                      "detail": "Error while update debit position conflict into request"
+                    }
+                  },
+                  "invalidate": {
+                    "value": {
+                      "type": "https://example.com/problem/",
+                      "title": "Invocation exception",
+                      "status": 409,
+                      "detail": "Error while invalidate debit position conflict into request"
+                    }
+                  },
+                  "unauthorized_action": {
+                    "value": {
+                      "type": "https://example.com/problem/",
+                      "title": "Unauthorized action",
+                      "status": 409,
+                      "detail": "Unauthorized action on debt position with iuv {iuv}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Can not perform the requested action on debit position",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "value": {
+                    "type": "https://example.com/problem/",
+                    "title": "Unprocessable request",
+                    "status": 422,
+                    "detail": "Can not perform the requested action on debit position"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "value": {
+                    "type": "https://example.com/problem/",
+                    "title": "string",
+                    "status": 500,
+                    "detail": "Internal server error"
+                  }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad gateway",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "value": {
+                    "type": "https://example.com/problem/",
+                    "title": "string",
+                    "status": 502,
+                    "detail": "Bad gateway, error while execute request"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NewDebtPositionRequest": {
+        "required": [
+          "paFiscalCode",
+          "entityType",
+          "entityFiscalCode",
+          "entityFullName",
+          "iuv",
+          "amount",
+          "description",
+          "expirationDate"
+        ],
+        "type": "object",
+        "properties": {
+          "paFiscalCode": {
+            "maxLength": 11,
+            "minLength": 11,
+            "type": "string",
+            "example": "12345678910"
+          },
+          "entityType": {
+            "enum": [
+              "F",
+              "G"
+            ],
+            "type": "string",
+            "example": "G"
+          },
+          "entityFiscalCode": {
+            "minLength": 2,
+            "type": "string",
+            "example": "12345678910"
+          },
+          "entityFullName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string",
+            "example": "Full Name"
+          },
+          "iuv": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string",
+            "example": "00000000000000000"
+          },
+          "nav": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string",
+            "description": "notice number, if not specified it will created using the following pattern: 3 + iuv",
+            "example": "30000000000000000"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/AmountEuroCents"
+          },
+          "description": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string",
+            "example": "ACA Debt Position description"
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "iban": {
+            "maxLength": 27,
+            "minLength": 27,
+            "type": "string",
+            "example": "IT0000000000000000000000000"
+          },
+          "postalIban": {
+            "maxLength": 27,
+            "minLength": 27,
+            "type": "string",
+            "example": "IT60X0542811101000000123456"
+          },
+          "switchToExpired": {
+            "type": "boolean",
+            "default": false,
+            "example": true
+          },
+          "payStandIn": {
+            "type": "boolean",
+            "default": true,
+            "example": true
+          }
+        },
+        "description": "Request body for creating a new transaction"
+      },
+      "DebtPositionResponse": {
+        "type": "object",
+        "properties": {
+          "paFiscalCode": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "entityFiscalCode": {
+            "type": "string"
+          },
+          "entityFullName": {
+            "type": "string"
+          },
+          "iuv": {
+            "type": "string"
+          },
+          "nav": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "local-date-time"
+          },
+          "iban": {
+            "type": "string"
+          },
+          "postalIban": {
+            "type": "string"
+          },
+          "switchToExpired": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "AmountEuroCents": {
+        "maximum": 99999999999,
+        "minimum": 0,
+        "type": "integer",
+        "description": "Amount for payments, in eurocents",
+        "example": 100
+      },
+      "ProblemJson": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "An absolute URI that identifies the problem type. When dereferenced,\nit SHOULD provide human-readable documentation for the problem type\n(e.g., using HTML).",
+            "format": "uri",
+            "default": "about:blank",
+            "example": "https://example.com/problem/"
+          },
+          "title": {
+            "type": "string",
+            "description": "A short, summary of the problem type. Written in english and readable\nfor engineers (usually not suited for non technical stakeholders and\nnot localized); example: Service Unavailable"
+          },
+          "status": {
+            "maximum": 600,
+            "exclusiveMaximum": true,
+            "minimum": 100,
+            "type": "integer",
+            "description": "The HTTP status code generated by the origin server for this occurrence\nof the problem.",
+            "format": "int32",
+            "example": 400
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human readable explanation specific to this occurrence of the\nproblem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "An absolute URI that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced.",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "ACA",
+      "description": "Api's for performing a debt position census",
+      "externalDocs": {
+        "description": "Technical specifications",
+        "url": "https://pagopa.atlassian.net/wiki/spaces/PPR/pages/649265163/ACA+-+Dati+in+input+API"
+      }
+    }
+  ]
+}
