@@ -1,0 +1,851 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "ACA-Upload-API-v2",
+        "description": "Microservice to manage PagoPA GPD Upload",
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "0.5.3"
+    },
+    "servers": [
+        {
+            "url": "https://api.dev.platform.pagopa.it/upload/aca/debt-positions-service/v2"
+        }
+    ],
+    "paths": {
+        "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file": {
+            "put": {
+                "tags": [
+                    "Massive operation APIs for Debt Positions - v2"
+                ],
+                "summary": "The Organization updates the debt positions listed in the file.",
+                "description": "The Organization updates the debt positions listed in the file.",
+                "operationId": "update-debt-positions-by-file-upload",
+                "parameters": [
+                    {
+                        "name": "broker-code",
+                        "in": "path",
+                        "description": "The broker code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "The organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "description": "File to be uploaded",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Request accepted."
+                    },
+                    "400": {
+                        "description": "Malformed request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "text/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Massive operation APIs for Debt Positions - v2"
+                ],
+                "summary": "The Organization creates the debt positions listed in the file.",
+                "description": "The Organization creates the debt positions listed in the file.",
+                "operationId": "create-debt-positions-by-file-upload",
+                "parameters": [
+                    {
+                        "name": "broker-code",
+                        "in": "path",
+                        "description": "The broker code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "The organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "description": "File to be uploaded",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Request accepted."
+                    },
+                    "400": {
+                        "description": "Malformed request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "text/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Massive operation APIs for Debt Positions - v2"
+                ],
+                "summary": "The Organization deletes the debt positions based on IUPD listed in the file.",
+                "description": "The Organization deletes the debt positions based on IUPD listed in the file.",
+                "operationId": "delete-debt-positions-by-file-upload",
+                "parameters": [
+                    {
+                        "name": "broker-code",
+                        "in": "path",
+                        "description": "The broker code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "The organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "description": "File to be uploaded",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Request accepted."
+                    },
+                    "400": {
+                        "description": "Malformed request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "text/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/report": {
+            "get": {
+                "tags": [
+                    "Massive operation observability APIs - v2"
+                ],
+                "summary": "Returns the debt positions upload report.",
+                "description": "Returns the debt positions upload report.",
+                "operationId": "get-debt-positions-upload-report",
+                "parameters": [
+                    {
+                        "name": "broker-code",
+                        "in": "path",
+                        "description": "The broker code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "The organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "file-id",
+                        "in": "path",
+                        "description": "The unique identifier for file upload",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Upload report found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UploadReportDTO"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Malformed request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Upload report not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "425": {
+                        "description": "The report has not been generated yet, wait for the operations to complete.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "text/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/status": {
+            "get": {
+                "tags": [
+                    "Massive operation observability APIs - v2"
+                ],
+                "summary": "Returns the debt positions upload status.",
+                "description": "Returns the debt positions upload status.",
+                "operationId": "get-debt-positions-upload-status",
+                "parameters": [
+                    {
+                        "name": "broker-code",
+                        "in": "path",
+                        "description": "The broker code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "The organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "file-id",
+                        "in": "path",
+                        "description": "The unique identifier for file upload",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Upload found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UploadStatus"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Malformed request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Upload not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "text/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/files": {
+            "get": {
+                "tags": [
+                    "Massive operation observability APIs - v2"
+                ],
+                "summary": "Returns the list of fileIds for a broker/organization in the given date range (max 7 days).",
+                "description": "Returns the list of fileIds for a broker/organization in the given date range (max 7 days).",
+                "operationId": "get-debt-positions-fileids",
+                "parameters": [
+                    {
+                        "name": "broker-code",
+                        "in": "path",
+                        "description": "The broker code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "The organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Start date (YYYY-MM-DD), Europe/Rome",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2025-09-01"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "End date (YYYY-MM-DD), Europe/Rome",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2025-09-06"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Max items per page (default 100, min 100, max 500)",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 100
+                        }
+                    },
+                    {
+                        "name": "x-continuation-token",
+                        "in": "header",
+                        "description": "Continuation token (opaque). Pass it back to get the next page.",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "FileIds retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FileIdListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Gone",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "text/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AppInfo": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    },
+                    "environment": {
+                        "type": "string"
+                    }
+                }
+            },
+            "FileIdListResponse": {
+                "type": "object"
+            },
+            "ProblemJson": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+                        "format": "int32",
+                        "example": 400
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human readable explanation specific to this occurrence of the problem.",
+                        "example": "There was an error processing the request"
+                    }
+                },
+                "description": "Object returned as response in case of an error."
+            },
+            "UploadReportDTO": {
+                "type": "object"
+            },
+            "UploadStatus": {
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ]
+}
