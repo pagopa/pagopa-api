@@ -1,0 +1,541 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "@e.bollo Service",
+        "description": "MBD - @e.bollo Service",
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "1.2.9"
+    },
+    "servers": [
+        {
+            "url": "https://api.platform.pagopa.it/pagopa-mbd-service/v1"
+        }
+    ],
+    "paths": {
+        "/organizations/{fiscalCodeEC}/mbd": {
+            "post": {
+                "tags": [
+                    "mbd-controller"
+                ],
+                "summary": "getMbd",
+                "description": "Return mbd data for payment on requirement ",
+                "operationId": "getMdb",
+                "parameters": [
+                    {
+                        "name": "fiscalCodeEC",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetMbdRequest"
+                            },
+                            "example": {
+                                "paymentNotices": [
+                                    {
+                                        "firstName": "string",
+                                        "lastName": "string",
+                                        "fiscalCode": "string",
+                                        "email": "string",
+                                        "amount": 0,
+                                        "province": "string",
+                                        "documentHash": "string"
+                                    }
+                                ],
+                                "idCIService": "string",
+                                "returnUrls": {
+                                    "successUrl": "string",
+                                    "cancelUrl": "string",
+                                    "errorUrl": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCartResponse"
+                                },
+                                "example": {
+                                    "checkoutRedirectUrl": "string",
+                                    "navDownloadLink": "string",
+                                    "mbdNav": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ibans for the brokerCode not found",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCartErrorResponse"
+                                },
+                                "example": {
+                                    "errorUrl": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/organizations/{fiscalCode}/receipt/{nav}": {
+            "get": {
+                "tags": [
+                    "mbd-controller"
+                ],
+                "summary": "getPaymentReceipt",
+                "description": "Return receipt of payment on requirement ",
+                "operationId": "getPaymentReceipts",
+                "parameters": [
+                    {
+                        "name": "fiscalCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "nav",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetMdbReceipt"
+                                },
+                                "example": {
+                                    "content": [
+                                        "string"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": "<ProblemJson> <title>string</title> <status>200</status> <detail>There was an error processing the request</detail> </ProblemJson>"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ibans for the brokerCode not found",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "GetMbdRequest": {
+                "required": [
+                    "idCIService",
+                    "returnUrls"
+                ],
+                "type": "object",
+                "properties": {
+                    "paymentNotices": {
+                        "maxItems": 1,
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentNotice"
+                        }
+                    },
+                    "idCIService": {
+                        "type": "string"
+                    },
+                    "returnUrls": {
+                        "$ref": "#/components/schemas/ReturnUrls"
+                    }
+                }
+            },
+            "PaymentNotice": {
+                "required": [
+                    "amount",
+                    "email",
+                    "firstName",
+                    "fiscalCode",
+                    "lastName",
+                    "province"
+                ],
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "fiscalCode": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "province": {
+                        "type": "string"
+                    },
+                    "documentHash": {
+                        "maxLength": 44,
+                        "minLength": 44,
+                        "type": "string"
+                    }
+                }
+            },
+            "ReturnUrls": {
+                "required": [
+                    "cancelUrl",
+                    "errorUrl",
+                    "successUrl"
+                ],
+                "type": "object",
+                "properties": {
+                    "successUrl": {
+                        "type": "string"
+                    },
+                    "cancelUrl": {
+                        "type": "string"
+                    },
+                    "errorUrl": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProblemJson": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+                    },
+                    "status": {
+                        "maximum": 600,
+                        "minimum": 100,
+                        "type": "integer",
+                        "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+                        "format": "int32",
+                        "example": 200
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human readable explanation specific to this occurrence of the problem.",
+                        "example": "There was an error processing the request"
+                    }
+                }
+            },
+            "GetCartResponse": {
+                "type": "object",
+                "properties": {
+                    "checkoutRedirectUrl": {
+                        "type": "string"
+                    },
+                    "navDownloadLink": {
+                        "type": "string"
+                    },
+                    "mbdNav": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetCartErrorResponse": {
+                "type": "object",
+                "properties": {
+                    "errorUrl": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetMdbReceipt": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "byte"
+                        }
+                    }
+                }
+            },
+            "AppInfo": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    },
+                    "environment": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ]
+}
