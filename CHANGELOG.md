@@ -1,10 +1,28 @@
-# SANP3.10.0 (Aprile 2025)
-1. Modifica alle specifiche delle api FRD REST
-2. Aggiunta del campo "StandIN" nella response della primitiva VerificaBollettino
-3. Modifica servizio Passaporto: update xsd e modifica prefisso servizio in A0001
-4. Aggiunta delle specifiche del servizio e.bollo 2.0 - Pagamento dovuto
-5. Modifica specifiche API Opzioni Di Pagamento per PSP `psp_payment_options.json`
-6. Aggiunta e successive modifiche alle specifiche API Opzioni Di Pagamento per EC `orgs_payment_options.json`
+# SANP3.10.0 (Novembre 2025)
+1. Aggiunta nuove specifiche openapi per:
+   - servizio di caricameto massivo delle posizioni debitorie tramite `ACA` ➡️ `gpd-4-aca_massive_v2.json`
+   - servizio `@e.bollo 2.0` - Pagamento dovuto ➡️ `e_bollo_20.json`
+   - servizio `Opzioni Di Pagamento per PSP` ➡️ `psp_payment_options.json`
+   - servizio `Opzioni Di Pagamento per EC` ➡️ `orgs_payment_options.json`
+2. Modificati i seguenti servizi:
+   - aggiunto campo `standIN` nella response della primitiva `verificaBollettino`
+3. Aggiunto servizio di pagamento spontaneo per il Passaporto attivato presso il touchpoint del PSP in favore del Ministero degli Interni ➡️ `catalogo-servizi/A001_Passaporto_1_0_0.xsd`
+4. Flussi di Rendicontazione `FdR`
+   - Deprecati i vecchi flussi di rendicontazione `SOAP` - due date `30 Giugno 2026`
+     - `nodoInviaFlussoRendicontazione`
+     - `nodoChiediElencoFlussiRendicontazione`
+     - `nodoChiediFlussoRendicontazione`
+   - Deprecate le API di GPD `GPD Reporting Analysis` per la gestione dei flussi - due date `31 Dicembre 2026`
+     - `getFlowList`
+     - `getFlow`
+5. Dizionario dei metadata - Aggiunto metadato per le spese di notifica SEND ➡️ [Spese di notifica SEND](https://developer.pagopa.it/pago-pa/guides/metadata/v1.0/spese-di-notifica-send)
+6. Refactoring sezione `openapi`
+   - Tutti i file sono ora in formato `.json`
+     - `checkout.yaml` ➡️ `checkout.json`
+     - `fdr_organization.yaml` ➡️ `fdr_organization.json`
+     - `fdr_psp.yaml` ➡️ `fdr_psp.json`
+     - `paCreatePosition.yaml` ➡️ `paCreatePosition.json`
+     - `redirect.yaml` ➡️ `redirect.json`
 
 # SANP3.9.1 (Dicembre 2024)
 Nessuna modifica alle API ma solo allineamento del repository alla nuova versione delle SANP:
