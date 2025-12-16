@@ -8,12 +8,16 @@
   },
   "servers": [
     {
+      "url": "https://api.dev.platform.pagopa.it/aca/debt-positions-service/v1",
+      "description": "ACA development environment"
+    },
+    {
       "url": "https://api.uat.platform.pagopa.it/aca/debt-positions-service/v1",
-      "description": "ACA Test environment"
+      "description": "ACA test Environment"
     },
     {
       "url": "https://api.platform.pagopa.it/aca/debt-positions-service/v1",
-      "description": "ACA Production Environment"
+      "description": "ACA production Environment"
     }
   ],
   "paths": {

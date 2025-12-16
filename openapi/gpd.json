@@ -8,12 +8,16 @@
   },
   "servers": [
     {
+      "url": "https://api.dev.platform.pagopa.it/gpd/debt-positions-service/v1",
+      "description": "GPD development environment"
+    },
+    {
       "url": "https://api.uat.platform.pagopa.it/gpd/debt-positions-service/v1",
-      "description": "GPD Test environment"
+      "description": "GPD test environment"
     },
     {
       "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1",
-      "description": "GPD Production Environment"
+      "description": "GPD production Environment"
     }
   ],
   "paths": {
