@@ -29,12 +29,16 @@
                                     {
                                         "noticeNumber": "302012387654312384",
                                         "fiscalCode": "77777777777",
-                                        "amount": 1000
+                                        "amount": 1000,
+                                        "companyName": "Università degli Studi di Roma La Sapienza",
+                                        "description": "Pagamento test PostePay"
                                     },
                                     {
                                         "noticeNumber": "302012387654312385",
                                         "fiscalCode": "77777777777",
-                                        "amount": 2000
+                                        "amount": 2000,
+                                        "companyName": "Università degli Studi di Roma La Sapienza",
+                                        "description": "Pagamento test PostePay"
                                     }
                                 ],
                                 "returnUrls": {
@@ -162,12 +166,16 @@
                             {
                                 "noticeNumber": "302012387654312384",
                                 "fiscalCode": "77777777777",
-                                "amount": 1000
+                                "amount": 1000,
+                                "detail": "There was an error processing the request",
+                                "instance": "string"
                             },
                             {
                                 "noticeNumber": "302012387654312385",
                                 "fiscalCode": "77777777777",
-                                "amount": 2000
+                                "amount": 2000,
+                                "detail": "There was an error processing the request",
+                                "instance": "string"
                             }
                         ]
                     },
