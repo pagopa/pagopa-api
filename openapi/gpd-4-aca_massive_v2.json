@@ -8,10 +8,6 @@
   },
   "servers": [
     {
-      "url": "https://api.dev.platform.pagopa.it/upload/aca/debt-positions-service/v2",
-      "description": "ACA development environment"
-    },
-    {
       "url": "https://api.uat.platform.pagopa.it/upload/aca/debt-positions-service/v2",
       "description": "ACA test environment"
     },
@@ -27,7 +23,6 @@
           "Massive operation APIs for Debt Positions - v2"
         ],
         "summary": "The Organization updates the debt positions listed in the file.",
-        "description": "The Organization updates the debt positions listed in the file.",
         "operationId": "update-debt-positions-by-file-upload",
         "parameters": [
           {
@@ -55,16 +50,24 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "type": "object",
                 "properties": {
                   "file": {
                     "type": "string",
-                    "description": "File to be uploaded",
+                    "description": "ZIP File to be uploaded containing a JSON according to <pre><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"paymentPositions\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"iupd\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"payStandIn\": false,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"type\": \"F\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"fiscalCode\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"fullName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"streetName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"civicNumber\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"postalCode\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"city\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"province\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"region\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"country\": \"IT\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"email\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"phone\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"switchToExpired\": false,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"companyName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"officeName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"validityDate\": \"YYYY-MM-DDThh:mm:ss.SSSZ\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"paymentOption\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"nav\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"iuv\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"amount\": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"isPartialPayment\": true,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"dueDate\": \"YYYY-MM-DDThh:mm:ss.SSSZ\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"retentionDate\": \"YYYY-MM-DDThh:mm:ss.SSSZ\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"fee\": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"transfer\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"idTransfer\": \"1\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"amount\": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"organizationFiscalCode\": \"00000000000\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"companyName\": \"Comune di Roma\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"remittanceInformation\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"category\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"iban\": \"IT0000000000000000000000000\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"postalIban\": \"IT0000000000000000000000000\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"stamp\": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  \"hashDocument\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  \"stampType\": \"st\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  \"provincialResidence\": \"RM\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"transferMetadata\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"key\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"value\": \"string\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"paymentOptionMetadata\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"key\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"value\": \"string\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;]<br>  }<br></pre>",
                     "format": "binary"
                   }
                 }
+              },
+              "encoding": {
+                "file": {
+                  "contentType": "application/octet-stream",
+                  "explode": false
+                }
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "202": {
@@ -76,11 +79,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -91,11 +89,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -122,23 +115,22 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
       },
       "post": {
         "tags": [
           "Massive operation APIs for Debt Positions - v2"
         ],
         "summary": "The Organization creates the debt positions listed in the file.",
-        "description": "The Organization creates the debt positions listed in the file.",
         "operationId": "create-debt-positions-by-file-upload",
         "parameters": [
           {
@@ -166,16 +158,24 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "type": "object",
                 "properties": {
                   "file": {
                     "type": "string",
-                    "description": "File to be uploaded",
+                    "description": "ZIP File to be uploaded containing a JSON according to <pre><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"paymentPositions\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"iupd\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"payStandIn\": false,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"type\": \"F\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"fiscalCode\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"fullName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"streetName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"civicNumber\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"postalCode\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"city\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"province\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"region\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"country\": \"IT\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"email\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"phone\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"switchToExpired\": false,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"companyName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"officeName\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"validityDate\": \"YYYY-MM-DDThh:mm:ss.SSSZ\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"paymentOption\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"nav\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"iuv\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"amount\": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"description\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"isPartialPayment\": true,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"dueDate\": \"YYYY-MM-DDThh:mm:ss.SSSZ\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"retentionDate\": \"YYYY-MM-DDThh:mm:ss.SSSZ\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"fee\": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"transfer\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"idTransfer\": \"1\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"amount\": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"organizationFiscalCode\": \"00000000000\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"companyName\": \"Comune di Roma\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"remittanceInformation\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"category\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"iban\": \"IT0000000000000000000000000\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"postalIban\": \"IT0000000000000000000000000\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"stamp\": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  \"hashDocument\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  \"stampType\": \"st\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  \"provincialResidence\": \"RM\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"transferMetadata\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"key\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"value\": \"string\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"paymentOptionMetadata\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"key\": \"string\",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"value\": \"string\"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;]<br>  }<br></pre>",
                     "format": "binary"
                   }
                 }
+              },
+              "encoding": {
+                "file": {
+                  "contentType": "application/octet-stream",
+                  "explode": false
+                }
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "202": {
@@ -187,11 +187,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -202,11 +197,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -233,23 +223,22 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
       },
       "delete": {
         "tags": [
           "Massive operation APIs for Debt Positions - v2"
         ],
         "summary": "The Organization deletes the debt positions based on IUPD listed in the file.",
-        "description": "The Organization deletes the debt positions based on IUPD listed in the file.",
         "operationId": "delete-debt-positions-by-file-upload",
         "parameters": [
           {
@@ -277,16 +266,24 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "type": "object",
                 "properties": {
                   "file": {
                     "type": "string",
-                    "description": "File to be uploaded",
+                    "description": "ZIP File to be uploaded containing a JSON according to <pre><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;\"paymentPositionIUPDs\": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"IUPD-string\"<br>&nbsp;&nbsp;&nbsp;&nbsp;]<br>}<br><br>",
                     "format": "binary"
                   }
                 }
+              },
+              "encoding": {
+                "file": {
+                  "contentType": "application/octet-stream",
+                  "explode": false
+                }
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "202": {
@@ -298,11 +295,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -313,11 +305,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -344,16 +331,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
       }
     },
     "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/report": {
@@ -362,7 +349,6 @@
           "Massive operation observability APIs - v2"
         ],
         "summary": "Returns the debt positions upload report.",
-        "description": "Returns the debt positions upload report.",
         "operationId": "get-debt-positions-upload-report",
         "parameters": [
           {
@@ -413,11 +399,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -428,11 +409,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -453,11 +429,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -468,11 +439,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -489,16 +455,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
       }
     },
     "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/status": {
@@ -507,7 +473,6 @@
           "Massive operation observability APIs - v2"
         ],
         "summary": "Returns the debt positions upload status.",
-        "description": "Returns the debt positions upload status.",
         "operationId": "get-debt-positions-upload-status",
         "parameters": [
           {
@@ -547,7 +512,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UploadStatus"
+                  "$ref": "#/components/schemas/UploadStatusDTO"
                 }
               }
             }
@@ -558,11 +523,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -573,11 +533,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -598,11 +553,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -619,16 +569,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
       }
     },
     "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/files": {
@@ -637,7 +587,6 @@
           "Massive operation observability APIs - v2"
         ],
         "summary": "Returns the list of fileIds for a broker/organization in the given date range (max 7 days).",
-        "description": "Returns the list of fileIds for a broker/organization in the given date range (max 7 days).",
         "operationId": "get-debt-positions-fileids",
         "parameters": [
           {
@@ -664,6 +613,8 @@
             "name": "from",
             "in": "query",
             "description": "Start date (YYYY-MM-DD), Europe/Rome",
+            "required": false,
+            "explode": false,
             "schema": {
               "type": "string"
             },
@@ -673,6 +624,8 @@
             "name": "to",
             "in": "query",
             "description": "End date (YYYY-MM-DD), Europe/Rome",
+            "required": false,
+            "explode": false,
             "schema": {
               "type": "string"
             },
@@ -682,6 +635,8 @@
             "name": "size",
             "in": "query",
             "description": "Max items per page (default 100, min 100, max 500)",
+            "required": false,
+            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -715,11 +670,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -730,11 +680,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -755,11 +700,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
@@ -776,37 +716,50 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "title": "string",
-                  "status": 400,
-                  "detail": "There was an error processing the request"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
-      "AppInfo": {
+      "FileIdListResponse": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string"
+          "fileIds": {
+            "type": "array",
+            "description": "List of file identifiers",
+            "items": {
+              "type": "string"
+            }
           },
-          "version": {
-            "type": "string"
+          "size": {
+            "type": "integer",
+            "description": "Number of items in this page",
+            "format": "int32"
           },
-          "environment": {
-            "type": "string"
+          "hasMore": {
+            "type": "boolean",
+            "description": "True if another page is available (x-continuation-token present)"
           }
         }
       },
-      "FileIdListResponse": {
-        "type": "object"
+      "OperationStatus": {
+        "type": "string",
+        "enum": [
+          "IN_PROGRESS",
+          "COMPLETED",
+          "COMPLETED_WITH_WARNINGS",
+          "COMPLETED_UNSUCCESSFULLY"
+        ]
       },
       "ProblemJson": {
         "type": "object",
@@ -829,32 +782,88 @@
         },
         "description": "Object returned as response in case of an error."
       },
-      "UploadReportDTO": {
-        "type": "object"
+      "ResponseEntryDTO": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32",
+            "example": 400
+          },
+          "statusMessage": {
+            "type": "string",
+            "example": "Bad request caused by invalid email address"
+          },
+          "iupds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       },
-      "UploadStatus": {
-        "type": "object"
+      "UploadReportDTO": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string"
+          },
+          "processedItem": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "submittedItem": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "responses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseEntryDTO"
+            }
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-10-08T14:55:16.302Z"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UploadStatusDTO": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string"
+          },
+          "processedItem": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "submittedItem": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-10-08T14:55:16.302Z"
+          },
+          "operationStatus": {
+            "$ref": "#/components/schemas/OperationStatus"
+          }
+        }
       }
     },
     "securitySchemes": {
-      "apiKeyHeader": {
+      "ApiKey": {
         "type": "apiKey",
-        "name": "Ocp-Apim-Subscription-Key",
+        "name": "ApiKey",
         "in": "header"
-      },
-      "apiKeyQuery": {
-        "type": "apiKey",
-        "name": "subscription-key",
-        "in": "query"
       }
     }
-  },
-  "security": [
-    {
-      "apiKeyHeader": []
-    },
-    {
-      "apiKeyQuery": []
-    }
-  ]
+  }
 }
