@@ -3,7 +3,7 @@
     "info": {
         "title": "Selfcare Backoffice External for EC",
         "description": "API for Backoffice External for EC",
-        "version": "1.6.9"
+        "version": "1.12.13"
     },
     "servers": [
         {
