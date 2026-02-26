@@ -34,7 +34,7 @@
           {
             "name": "flowDate",
             "in": "query",
-            "description": "A date to be used as a lower limit search on flow date. In format ISO-8601 (yyyy-MM-dd'T'HH:mm:ss)",
+            "description": "A date to be used as a lower limit search on flow date. In format ISO-8601 (yyyy-MM-dd'T'HH:mm:ss). If omitted, the server uses a dynamic default equal to the start of the previous calendar month at 00:00 UTC",
             "schema": {
               "$ref": "#/components/schemas/Instant"
             },
@@ -65,7 +65,7 @@
           {
             "name": "publishedGt",
             "in": "query",
-            "description": "A date to be used as a lower limit search on publication date. In format ISO-8601 (yyyy-MM-dd'T'HH:mm:ss)",
+            "description": "A date to be used as a lower limit search on publication date. In format ISO-8601 (yyyy-MM-dd'T'HH:mm:ss). If omitted, the server uses a dynamic default equal to the start of the previous calendar month at 00:00 UTC",
             "schema": {
               "$ref": "#/components/schemas/Instant"
             },
@@ -76,6 +76,7 @@
             "in": "query",
             "description": "The number of the elements of the page to be shown in the result",
             "schema": {
+              "maximum": 1000,
               "minimum": 1,
               "type": "integer",
               "format": "int64",
@@ -1464,7 +1465,7 @@
   "tags": [
     {
       "name": "Organizations",
-      "description": "Organizations operations"
+      "description": "APIs for creditor institution, used for inspection of generated flows"
     }
   ]
 }
