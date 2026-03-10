@@ -2,7 +2,8 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:ta="http://PuntoAccessoPSP.spcoop.gov.it/pagamentoCIE"
             targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/pagamentoCIE"
-            elementFormDefault="qualified">
+            elementFormDefault="qualified"
+            version="1.0.0">
 
     <xsd:simpleType name="stText50">
         <xsd:restriction base="xsd:string">
