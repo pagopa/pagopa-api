@@ -101,7 +101,99 @@
                     }
                 }
             }
+        },
+        "/v2/carts": {
+          "post": {
+          "summary": "PostCarts V2",
+          "description": "Create a cart that handles also the waiting case of checkout",
+          "operationId": "PostCartsV2",
+          "requestBody": {
+            "description": "New Cart related to payment requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartRequestV2"
+                },
+                "example": {
+                  "emailNotice": "my_email@mail.it",
+                  "paymentNotices": [
+                    {
+                      "noticeNumber": "302012387654312384",
+                      "fiscalCode": "77777777777",
+                      "amount": 1000,
+                      "companyName": "Università degli Studi di Roma La Sapienza",
+                      "description": "Pagamento test PostePay"
+                    },
+                    {
+                      "noticeNumber": "302012387654312385",
+                      "fiscalCode": "77777777777",
+                      "amount": 2000,
+                      "companyName": "Università degli Studi di Roma La Sapienza",
+                      "description": "Pagamento test PostePay"
+                    }
+                  ],
+                  "returnUrls": {
+                    "returnOkUrl": "www.comune.di.prova.it/pagopa/success.html",
+                    "returnCancelUrl": "www.comune.di.prova.it/pagopa/cancel.html",
+                    "returnErrorUrl": "www.comune.di.prova.it/pagopa/error.html",
+                    "returnWaitingUrl": "www.comune.di.prova.it/pagopa/waiting.html"
+                  },
+                  "idCart": "id_cart",
+                  "allCCP": "false"
+                }
+              }
+            }
+          },
+          "responses": {
+            "302": {
+              "description": "Redirect",
+              "headers": {
+                "location": {
+                  "description": "CheckOut Url",
+                  "schema": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Formally invalid input",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemJson"
+                  },
+                  "example": {
+                    "type": "about:blank",
+                    "title": "string",
+                    "status": 400,
+                    "detail": "There was an error processing the request",
+                    "instance": "string"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemJson"
+                  },
+                  "example": {
+                    "type": "about:blank",
+                    "title": "string",
+                    "status": 500,
+                    "detail": "There was an error processing the request",
+                    "instance": "string"
+                  }
+                }
+              }
+            }
+          }
         }
+      }
     },
     "components": {
         "schemas": {
@@ -215,6 +307,84 @@
                     }
                 }
             },
+            "CartRequestV2": {
+            "required": [
+              "paymentNotices",
+              "returnUrls"
+            ],
+            "type": "object",
+            "properties": {
+              "emailNotice": {
+                "type": "string",
+                "format": "email",
+                "example": "my_email@mail.it"
+              },
+              "paymentNotices": {
+                "maxItems": 5,
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PaymentNotice"
+                },
+                "example": [
+                  {
+                    "noticeNumber": "302012387654312384",
+                    "fiscalCode": "77777777777",
+                    "amount": 1000,
+                    "companyName": "Università degli Studi di Roma La Sapienza",
+                    "description": "Pagamento test PostePay"
+                  },
+                  {
+                    "noticeNumber": "302012387654312385",
+                    "fiscalCode": "77777777777",
+                    "amount": 2000,
+                    "companyName": "Università degli Studi di Roma La Sapienza",
+                    "description": "Pagamento test PostePay"
+                  }
+                ]
+              },
+              "returnUrls": {
+                "required": [
+                  "returnOkUrl",
+                  "returnCancelUrl",
+                  "returnErrorUrl",
+                  "returnWaitingUrl"
+                ],
+                "type": "object",
+                "properties": {
+                  "returnOkUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "example": "www.comune.di.prova.it/pagopa/success.html"
+                  },
+                  "returnCancelUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "example": "www.comune.di.prova.it/pagopa/cancel.html"
+                  },
+                  "returnErrorUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "example": "www.comune.di.prova.it/pagopa/error.html"
+                  },
+                  "returnWaitingUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "example": "www.comune.di.prova.it/pagopa/waiting.html"
+                  }
+                }
+              },
+              "idCart": {
+                "type": "string",
+                "example": "id_cart"
+              },
+              "allCCP": {
+                "type": "boolean",
+                "description": "Flag that indicates that all transfers are associated with a postal IBAN",
+                "example": "false"
+              }
+            }
+          },
             "PaymentNotice": {
                 "required": [
                     "noticeNumber",
