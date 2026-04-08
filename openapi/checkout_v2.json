@@ -3,15 +3,25 @@
   "info": {
     "title": "Checkout - EC API",
     "description": "Checkout API for EC",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "servers": [
     {
-      "url": "https://api.dev.platform.pagopa.it/checkout/ec/v1"
+      "url": "https://${host}",
+      "variables":{
+        "host": {
+          "description": "The hostname of the API server",
+          "default": "api.platform.pagopa.it/checkout/ec/v2",
+          "enum":[
+            "api.uat.platform.pagopa.it/checkout/ec/v2",
+            "api.platform.pagopa.it/checkout/ec/v2"
+          ]
+        }
+      }
     }
   ],
   "paths": {
-    "/v2/carts": {
+    "/carts": {
       "post": {
         "summary": "PostCarts V2",
         "description": "Create a cart that handles also the waiting case of checkout",
