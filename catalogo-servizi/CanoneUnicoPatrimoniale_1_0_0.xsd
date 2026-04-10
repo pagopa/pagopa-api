@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:cup="http://PuntoAccessoPSP.spcoop.gov.it/Cup"
+            targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/Cup">
+
+    <xsd:simpleType name="stFiscalCode">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{11}|[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stAmountString">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="^[0-9]+([,.][0-9]{1,2})?$"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stCatastaleCode">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stIstatCode">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="6"/>
+            <xsd:maxLength value="7"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="ctCup">
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="organizationFiscalCode" type="cup:stFiscalCode" />
+                <xsd:element name="istatCode" type="cup:stIstatCode" />
+                <xsd:element name="catastaleCode" type="cup:stCatastaleCode" />
+            </xsd:choice>
+
+            <xsd:element name="companyName" type="xsd:string" minOccurs="0" />
+            <xsd:element name="debtorFiscalCode" type="cup:stFiscalCode" />
+            <xsd:element name="debtorFullName" type="xsd:string" />
+            <xsd:element name="debtorEmail" type="xsd:string" minOccurs="0" />
+            <xsd:element name="amount" type="cup:stAmountString" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="Cup" type="cup:ctCup" />
+
+</xsd:schema>
