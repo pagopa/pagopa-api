@@ -29,18 +29,6 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stYear">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="\d{4}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stExpireDate">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="\d{2}/\d{2}/\d{4}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
     <xsd:complexType name="ctCup">
         <xsd:sequence>
             <xsd:choice>
@@ -54,8 +42,6 @@
             <xsd:element name="debtorFullName" type="xsd:string" />
             <xsd:element name="debtorEmail" type="xsd:string" minOccurs="0" />
             <xsd:element name="amount" type="cup:stAmountString" />
-            <xsd:element name="year" type="cup:stYear" />
-            <xsd:element name="expireDate" type="cup:stExpireDate" />
         </xsd:sequence>
     </xsd:complexType>
 
