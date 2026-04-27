@@ -6,7 +6,8 @@
 
     <xsd:simpleType name="stFiscalCode">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{11}|[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]"/>
+            <xsd:minLength value="8"/>
+            <xsd:maxLength value="14"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -29,7 +30,7 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:complexType name="ctCup">
+    <xsd:complexType name="ctPagamentoCup">
         <xsd:sequence>
             <xsd:choice>
                 <xsd:element name="organizationFiscalCode" type="cup:stFiscalCode" />
@@ -45,6 +46,6 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:element name="Cup" type="cup:ctCup" />
+    <xsd:element name="pagamentoCup" type="cup:ctPagamentoCup" />
 
 </xsd:schema>
