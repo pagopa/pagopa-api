@@ -1122,12 +1122,13 @@
           },
           "installmentMetadata": {
             "type": "array",
-            "description": "it can added a maximum of 10 key-value pairs for metadata",
+            "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same installment.",
             "items": {
               "$ref": "#/components/schemas/InstallmentMetadataModel"
             },
             "maxItems": 10,
-            "minItems": 0
+            "minItems": 0,
+            "uniqueItems": true
           }
         },
         "required": [
@@ -1337,12 +1338,13 @@
           },
           "transferMetadata": {
             "type": "array",
-            "description": "it can added a maximum of 10 key-value pairs for metadata",
+            "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same transfer.",
             "items": {
               "$ref": "#/components/schemas/TransferMetadataModel"
             },
             "maxItems": 10,
-            "minItems": 0
+            "minItems": 0,
+            "uniqueItems": true
           }
         },
         "required": [
