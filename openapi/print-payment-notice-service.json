@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "https://api.dev.platform.pagopa.it/print-payment-notice-service/external/v1"
+      "url": "https://api.platform.pagopa.it/print-payment-notice-service/external/v1"
     }
   ],
   "paths": {
@@ -879,17 +879,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Institution Not Found",
             "headers": {
               "X-Request-Id": {
                 "description": "This header identifies the call",
