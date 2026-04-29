@@ -6,8 +6,8 @@
 
     <xsd:simpleType name="stFiscalCode">
         <xsd:restriction base="xsd:string">
-            <xsd:minLength value="8"/>
-            <xsd:maxLength value="14"/>
+            <xsd:length value="11" />
+            <xsd:pattern value="[0-9]{11}" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -25,8 +25,35 @@
 
     <xsd:simpleType name="stIstatCode">
         <xsd:restriction base="xsd:string">
-            <xsd:minLength value="6"/>
-            <xsd:maxLength value="7"/>
+            <xsd:maxLength value="6"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+	<xsd:simpleType name="stEMail">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
+            <xsd:maxLength value="256" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stText20">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="20" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stText140">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="140" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stText70">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="70" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -38,10 +65,10 @@
                 <xsd:element name="catastaleCode" type="cup:stCatastaleCode" />
             </xsd:choice>
 
-            <xsd:element name="companyName" type="xsd:string" minOccurs="0" />
-            <xsd:element name="debtorFiscalCode" type="cup:stFiscalCode" />
-            <xsd:element name="debtorFullName" type="xsd:string" />
-            <xsd:element name="debtorEmail" type="xsd:string" minOccurs="0" />
+            <xsd:element name="companyName" type="cup:stText140" />
+            <xsd:element name="debtorFiscalCode" type="cup:stText20" />
+            <xsd:element name="debtorFullName" type="cup:stText70"  />
+            <xsd:element name="debtorEmail" type="cup:stEMail" minOccurs="0" />
             <xsd:element name="amount" type="cup:stAmountString" />
         </xsd:sequence>
     </xsd:complexType>
