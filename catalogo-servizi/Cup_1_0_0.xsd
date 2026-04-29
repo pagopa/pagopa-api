@@ -11,9 +11,10 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="stAmountString">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]+([,.][0-9]{1,2})?"/>
+    <xsd:simpleType name="stAmount">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:pattern value="\d+\.\d{2}" />
+            <xsd:maxInclusive value="999999999.99" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -69,7 +70,7 @@
             <xsd:element name="debtorFiscalCode" type="cup:stText20" />
             <xsd:element name="debtorFullName" type="cup:stText70"  />
             <xsd:element name="debtorEmail" type="cup:stEMail" minOccurs="0" />
-            <xsd:element name="amount" type="cup:stAmountString" />
+            <xsd:element name="amount" type="cup:stAmount" />
         </xsd:sequence>
     </xsd:complexType>
 
