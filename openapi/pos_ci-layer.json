@@ -162,6 +162,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 400,
+                            "detail": "Bad request"
                         }
                     },
                     "401": {
@@ -175,6 +179,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 404,
+                            "detail": "Not Found"
                         }
                     },
                     "429": {
@@ -185,6 +193,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 429,
+                            "detail": "Too many requests"
                         }
                     },
                     "500": {
@@ -195,6 +207,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 500,
+                            "detail": "Internal server error"
                         }
                     },
                     "502": {
@@ -205,6 +221,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 502,
+                            "detail": "Bad gateway"
                         }
                     },
                     "503": {
@@ -215,6 +235,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 503,
+                            "detail": "Service unavailable"
                         }
                     },
                     "504": {
@@ -225,6 +249,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 504,
+                            "detail": "Gateway timeout"
                         }
                     }
                 }
@@ -270,6 +298,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 400,
+                            "detail": "Bad request"
                         }
                     },
                     "401": {
@@ -283,6 +315,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 404,
+                            "detail": "Not Found"
                         }
                     },
                     "500": {
@@ -293,6 +329,10 @@
                                     "$ref": "#/components/schemas/ProblemJson"
                                 }
                             }
+                        },
+                        "example": {
+                            "status": 500,
+                            "detail": "Bad request"
                         }
                     }
                 }
