@@ -85,6 +85,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad Request"
                                 }
                             }
                         }
@@ -98,6 +102,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not Found"
                                 }
                             }
                         }
@@ -108,6 +116,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal server error"
                                 }
                             }
                         }
@@ -160,12 +172,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad Request"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 400,
-                            "detail": "Bad request"
                         }
                     },
                     "401": {
@@ -177,12 +189,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not Found"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 404,
-                            "detail": "Not Found"
                         }
                     },
                     "429": {
@@ -191,12 +203,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 429,
+                                    "detail": "Too many requests"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 429,
-                            "detail": "Too many requests"
                         }
                     },
                     "500": {
@@ -205,12 +217,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal Server Error"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 500,
-                            "detail": "Internal server error"
                         }
                     },
                     "502": {
@@ -219,12 +231,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 502,
+                                    "detail": "Bad Gateway"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 502,
-                            "detail": "Bad gateway"
                         }
                     },
                     "503": {
@@ -233,12 +245,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 503,
+                                    "detail": "Service Unavailable"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 503,
-                            "detail": "Service unavailable"
                         }
                     },
                     "504": {
@@ -247,12 +259,151 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 504,
+                                    "detail": "Gateway timeout"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 504,
-                            "detail": "Gateway timeout"
+                        }
+                    }
+                }
+            }
+        },
+        "/pos/transactions/{transactionId}/authorizations/outcomes": {
+            "post": {
+                "tags": [
+                    "ci-layer"
+                ],
+                "summary": "Notify authorization outcome",
+                "security": [
+                    {
+                        "CIApiKeyAuth": []
+                    }
+                ],
+                "description": "Return to the CI external frontend the output of the payment phase formerly invoked",
+                "operationId": "ciNotifyAuthorizationOutcome",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TransactionIdPath"
+                    },
+                    {
+                        "$ref": "#/components/parameters/CorrelationId"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthorizationCallbackRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Outcome notified successfully"
+                    },
+                    "400": {
+                        "description": "Formally invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not Found"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 429,
+                                    "detail": "Too many requests"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal server error"
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Bad gateway",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 502,
+                                    "detail": "Bad Gateway"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 503,
+                                    "detail": "Service unavailable"
+                                }
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Gateway timeout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 504,
+                                    "detail": "Gateway timeout"
+                                }
+                            }
                         }
                     }
                 }
@@ -296,12 +447,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad request"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 400,
-                            "detail": "Bad request"
                         }
                     },
                     "401": {
@@ -313,12 +464,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not found"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 404,
-                            "detail": "Not Found"
                         }
                     },
                     "500": {
@@ -327,12 +478,12 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal server error"
                                 }
                             }
-                        },
-                        "example": {
-                            "status": 500,
-                            "detail": "Bad request"
                         }
                     }
                 }
@@ -478,6 +629,40 @@
                     },
                     "details": {
                         "$ref": "#/components/schemas/AuthorizationCallbackDetails"
+                    }
+                }
+            },
+            "AuthorizationCallbackRequest": {
+                "type": "object",
+                "required": [
+                    "outcome",
+                    "terminalId",
+                    "timestamp",
+                    "amount",
+                    "details",
+                    "sessionId"
+                ],
+                "properties": {
+                    "outcome": {
+                        "$ref": "#/components/schemas/AuthorizationOutcome"
+                    },
+                    "terminalId": {
+                        "$ref": "#/components/schemas/TerminalId"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-04-08T14:16:30Z",
+                        "description": "authorization timestamp"
+                    },
+                    "amount": {
+                        "$ref": "#/components/schemas/Amount"
+                    },
+                    "details": {
+                        "$ref": "#/components/schemas/AuthorizationCallbackDetails"
+                    },
+                    "sessionId": {
+                        "$ref": "#/components/schemas/SessionId"
                     }
                 }
             },
