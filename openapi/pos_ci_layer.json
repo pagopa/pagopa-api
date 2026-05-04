@@ -1,0 +1,1153 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Pagopa POS gateway services for POS integration",
+        "description": "API's that will be used for pagoPA POS flow integration",
+        "contact": {
+            "name": "pagoPA - Touchpoints team"
+        },
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "https://{host}/pos-layer-service",
+            "variables": {
+                "host": {
+                    "description": "The hostname of the API server",
+                    "default": "api.platform.pagopa.it",
+                    "enum": [
+                        "api.platform.pagopa.it",
+                        "api.dev.platform.pagopa.it",
+                        "api.uat.platform.pagopa.it"
+                    ]
+                }
+            }
+        }
+    ],
+    "tags": [
+        {
+            "name": "ci-layer",
+            "description": "APIs that CI management tools will invoke in order to initiate a pagoPA payment transaction and receive it's outcome"
+        }
+    ],
+    "externalDocs": {
+        "url": "https://pagopa.atlassian.net/wiki/spaces/I/pages/2813689945/DR+PFM-1+-+Vista+Dinamica+delle+Componenti",
+        "description": "Design review"
+    },
+    "security": [
+        {
+            "PagopaApiKeyAuth": []
+        }
+    ],
+    "paths": {
+        "/pos/terminals": {
+            "post": {
+                "security": [
+                    {
+                        "PSPApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "ci-layer"
+                ],
+                "summary": "Retrieve configured POS list",
+                "description": "GET with request body - No resource will be created. Retrieve all POS configured and available for external CI frontend that wants to pay a position via pos",
+                "operationId": "POS-list",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/CorrelationId"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PosRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operation completed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PosResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Formally invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "No result found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not Found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pos/transactions": {
+            "post": {
+                "tags": [
+                    "ci-layer"
+                ],
+                "summary": "Create a new pagoPA transaction and initialize POS payment process",
+                "security": [
+                    {
+                        "PagopaApiKeyAuth": []
+                    }
+                ],
+                "description": "Starts the payment phase for an advice to be payed via pos",
+                "operationId": "newPosTransaction",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/CorrelationId"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment processed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Formally invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not Found"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 429,
+                                    "detail": "Too many requests"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal Server Error"
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Bad gateway",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 502,
+                                    "detail": "Bad Gateway"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 503,
+                                    "detail": "Service Unavailable"
+                                }
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Gateway timeout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 504,
+                                    "detail": "Gateway timeout"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pos/transactions/{transactionId}/authorizations/outcomes": {
+            "post": {
+                "tags": [
+                    "ci-layer"
+                ],
+                "summary": "Notify authorization outcome",
+                "security": [
+                    {
+                        "CIApiKeyAuth": []
+                    }
+                ],
+                "description": "Return to the CI external frontend the output of the payment phase formerly invoked",
+                "operationId": "ciNotifyAuthorizationOutcome",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TransactionIdPath"
+                    },
+                    {
+                        "$ref": "#/components/parameters/CorrelationId"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthorizationCallbackRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Outcome notified successfully"
+                    },
+                    "400": {
+                        "description": "Formally invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not Found"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 429,
+                                    "detail": "Too many requests"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal server error"
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Bad gateway",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 502,
+                                    "detail": "Bad Gateway"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 503,
+                                    "detail": "Service unavailable"
+                                }
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Gateway timeout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 504,
+                                    "detail": "Gateway timeout"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pos/sessions/{sessionId}": {
+            "get": {
+                "tags": [
+                    "ci-layer"
+                ],
+                "summary": "Get payment session",
+                "security": [
+                    {
+                        "CIApiKeyAuth": []
+                    }
+                ],
+                "description": "Get payment session data",
+                "operationId": "ciGetPaymentSession",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/SessionIdPath"
+                    },
+                    {
+                        "$ref": "#/components/parameters/CorrelationId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment session retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SessionResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Formally invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "detail": "Bad request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "detail": "Not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "detail": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "parameters": {
+            "CorrelationId": {
+                "name": "x-correlation-id",
+                "in": "header",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "description": "Subsequent api call correlation field. This should be the same for all api's invoked in a given user session to track each call and for throubleshooting"
+            },
+            "TransactionIdPath": {
+                "name": "transactionId",
+                "in": "path",
+                "required": true,
+                "description": "The unique transaction identifier",
+                "schema": {
+                    "$ref": "#/components/schemas/TransactionId"
+                }
+            },
+            "SessionIdPath": {
+                "name": "sessionId",
+                "in": "path",
+                "required": true,
+                "description": "The unique session identifier",
+                "schema": {
+                    "$ref": "#/components/schemas/SessionId"
+                }
+            }
+        },
+        "schemas": {
+            "Amount": {
+                "type": "integer",
+                "description": "Amount expressed in eurocents",
+                "format": "int64"
+            },
+            "TerminalId": {
+                "type": "string",
+                "description": "the POS unique terminal identifier"
+            },
+            "TransactionId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "unique identifier of the pagoPA notice payment transaction"
+            },
+            "SessionId": {
+                "type": "string",
+                "description": "unique identifier of the pagoPA notice payment session"
+            },
+            "RRN": {
+                "type": "string",
+                "example": "123456789012",
+                "description": "Retrieval Reference Number -> payment unique identifier"
+            },
+            "Bin": {
+                "type": "string",
+                "example": "4000 00",
+                "minLength": 6,
+                "maxLength": 8,
+                "description": "debit/credit card bin number, used to print receipts"
+            },
+            "LastFourDigits": {
+                "type": "string",
+                "example": 1234,
+                "minLength": 4,
+                "maxLength": 4,
+                "description": "debit/credit card last four digits number, used to print receipts"
+            },
+            "PaymentAuthCode": {
+                "type": "string",
+                "example": "889900",
+                "description": "payment authorization code. PSP side identifier that can be used to track back to POS authorization process"
+            },
+            "PosTerminalStatus": {
+                "type": "string",
+                "description": "The POS terminal status",
+                "enum": [
+                    "AVAILABLE",
+                    "UNAVAILABLE",
+                    "MAINTENANCE"
+                ]
+            },
+            "PosTerminalStatusCode": {
+                "type": "string",
+                "description": "POS terminal status code related to POS status",
+                "enum": [
+                    "S0001",
+                    "S0002",
+                    "S0003"
+                ]
+            },
+            "AuthorizationOutcome": {
+                "type": "string",
+                "enum": [
+                    "AUTHORIZED",
+                    "DECLINED",
+                    "REFUSED",
+                    "CANCELED_BY_USER",
+                    "TIMEOUT"
+                ],
+                "example": "AUTHORIZED",
+                "description": "authorization outcome"
+            },
+            "CardBrand": {
+                "type": "string",
+                "enum": [
+                    "VISA",
+                    "MASTERCARD",
+                    "DINERS",
+                    "AMEX",
+                    "MAESTRO"
+                ],
+                "description": "the brand of the citized debit/credit card"
+            },
+            "AuthorizationOutcomeResponse": {
+                "type": "object",
+                "required": [
+                    "terminalId",
+                    "amount"
+                ],
+                "properties": {
+                    "outcome": {
+                        "$ref": "#/components/schemas/AuthorizationOutcome"
+                    },
+                    "terminalId": {
+                        "$ref": "#/components/schemas/TerminalId"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-04-08T14:16:30Z",
+                        "description": "authorization timestamp"
+                    },
+                    "amount": {
+                        "$ref": "#/components/schemas/Amount"
+                    },
+                    "details": {
+                        "$ref": "#/components/schemas/AuthorizationCallbackDetails"
+                    }
+                }
+            },
+            "AuthorizationCallbackRequest": {
+                "type": "object",
+                "required": [
+                    "outcome",
+                    "terminalId",
+                    "timestamp",
+                    "amount",
+                    "details",
+                    "sessionId"
+                ],
+                "properties": {
+                    "outcome": {
+                        "$ref": "#/components/schemas/AuthorizationOutcome"
+                    },
+                    "terminalId": {
+                        "$ref": "#/components/schemas/TerminalId"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-04-08T14:16:30Z",
+                        "description": "authorization timestamp"
+                    },
+                    "amount": {
+                        "$ref": "#/components/schemas/Amount"
+                    },
+                    "details": {
+                        "$ref": "#/components/schemas/AuthorizationCallbackDetails"
+                    },
+                    "sessionId": {
+                        "$ref": "#/components/schemas/SessionId"
+                    }
+                }
+            },
+            "AuthorizationCallbackDetails": {
+                "type": "object",
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/AuthorizationCallbackDetailsOk"
+                    },
+                    {
+                        "$ref": "#/components/schemas/AuthorizationCallbackDetailsKo"
+                    }
+                ],
+                "discriminator": {
+                    "propertyName": "outcome",
+                    "mapping": {
+                        "AUTHORIZED": "#/components/schemas/AuthorizationCallbackDetailsOk",
+                        "DECLINED": "#/components/schemas/AuthorizationCallbackDetailsKo",
+                        "REFUSED": "#/components/schemas/AuthorizationCallbackDetailsKo",
+                        "CANCELED_BY_USER": "#/components/schemas/AuthorizationCallbackDetailsKo",
+                        "TIMEOUT": "#/components/schemas/AuthorizationCallbackDetailsKo"
+                    }
+                }
+            },
+            "AuthorizationCallbackDetailsOk": {
+                "type": "object",
+                "description": "Authorization outcome OK details",
+                "required": [
+                    "paymentType",
+                    "details"
+                ],
+                "properties": {
+                    "paymentType": {
+                        "type": "string",
+                        "enum": [
+                            "CARD"
+                        ]
+                    },
+                    "details": {
+                        "type": "object",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/AuthorizationCallbackCardDetailsOk"
+                            }
+                        ]
+                    }
+                },
+                "discriminator": {
+                    "propertyName": "paymentType",
+                    "mapping": {
+                        "CARD": "#/components/schemas/AuthorizationCallbackCardDetailsOk"
+                    }
+                }
+            },
+            "AuthorizationCallbackCardDetailsOk": {
+                "type": "object",
+                "description": "Authorization outcome OK details",
+                "required": [
+                    "bin",
+                    "lastFourDigits",
+                    "paymentAuthCode",
+                    "rrn",
+                    "brand"
+                ],
+                "properties": {
+                    "bin": {
+                        "$ref": "#/components/schemas/Bin"
+                    },
+                    "lastFourDigits": {
+                        "$ref": "#/components/schemas/LastFourDigits"
+                    },
+                    "paymentAuthCode": {
+                        "$ref": "#/components/schemas/PaymentAuthCode"
+                    },
+                    "rrn": {
+                        "$ref": "#/components/schemas/RRN"
+                    },
+                    "brand": {
+                        "$ref": "#/components/schemas/CardBrand"
+                    }
+                }
+            },
+            "AuthorizationCallbackDetailsKo": {
+                "type": "object",
+                "required": [
+                    "errorDescription"
+                ],
+                "properties": {
+                    "errorDescription": {
+                        "type": "string",
+                        "description": "error description"
+                    }
+                }
+            },
+            "PosRequest": {
+                "type": "object",
+                "description": "Request to inquiry for",
+                "required": [
+                    "psp",
+                    "creditorInstitution"
+                ],
+                "properties": {
+                    "psp": {
+                        "$ref": "#/components/schemas/PspInfo"
+                    },
+                    "creditorInstitution": {
+                        "$ref": "#/components/schemas/CreditorInstitutionInfo"
+                    }
+                }
+            },
+            "CreditorInstitutionInfo": {
+                "type": "object",
+                "description": "CI informations",
+                "required": [
+                    "fiscalCode"
+                ],
+                "properties": {
+                    "fiscalCode": {
+                        "type": "string",
+                        "example": "80001230456",
+                        "description": "CI identifier (such as fiscalCode)"
+                    },
+                    "logicalOffice": {
+                        "type": "string",
+                        "example": "ANAGRAFE",
+                        "description": "Logical office id that want to initialize the payment"
+                    },
+                    "workstation": {
+                        "type": "string",
+                        "example": "SPORTELLO_02",
+                        "description": "Identifier of the workstatio that want to initialize the payment"
+                    }
+                }
+            },
+            "PspInfo": {
+                "type": "object",
+                "description": "PSP informations",
+                "required": [
+                    "id",
+                    "broker",
+                    "channel"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "PSP_001",
+                        "description": "the psp unique identifier"
+                    },
+                    "broker": {
+                        "type": "string",
+                        "example": "INT_123",
+                        "description": "the psp broker code"
+                    },
+                    "channel": {
+                        "type": "string",
+                        "example": "CANALE_POS",
+                        "description": "the psp channel code"
+                    }
+                }
+            },
+            "PosResponse": {
+                "type": "object",
+                "properties": {
+                    "terminals": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PosTerminal"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "required": [
+                    "terminals"
+                ]
+            },
+            "PosTerminal": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "description",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/TerminalId"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "POS Sportello 02 - Main",
+                        "description": "An human readable POS terminal description"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/PosTerminalStatus"
+                    },
+                    "statusCode": {
+                        "$ref": "#/components/schemas/PosTerminalStatusCode"
+                    }
+                }
+            },
+            "PaymentRequest": {
+                "type": "object",
+                "required": [
+                    "terminalId",
+                    "psp",
+                    "creditorInstitution",
+                    "debtPosition"
+                ],
+                "properties": {
+                    "terminalId": {
+                        "$ref": "#/components/schemas/TerminalId"
+                    },
+                    "psp": {
+                        "$ref": "#/components/schemas/PspInfo"
+                    },
+                    "creditorInstitution": {
+                        "$ref": "#/components/schemas/CreditorInstitution"
+                    },
+                    "debtPosition": {
+                        "$ref": "#/components/schemas/DebtPosition"
+                    }
+                }
+            },
+            "CreditorInstitution": {
+                "type": "object",
+                "required": [
+                    "fiscalCode",
+                    "name"
+                ],
+                "properties": {
+                    "fiscalCode": {
+                        "type": "string",
+                        "example": "80001230456"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Comune di Test"
+                    }
+                }
+            },
+            "DebtPosition": {
+                "type": "object",
+                "required": [
+                    "transfer",
+                    "debtor"
+                ],
+                "properties": {
+                    "transfer": {
+                        "$ref": "#/components/schemas/DebtPositionTransfer"
+                    },
+                    "debtor": {
+                        "$ref": "#/components/schemas/Debtor"
+                    }
+                }
+            },
+            "DebtPositionTransfer": {
+                "type": "object",
+                "required": [
+                    "amount",
+                    "remittanceInformation",
+                    "iban",
+                    "category"
+                ],
+                "properties": {
+                    "amount": {
+                        "$ref": "#/components/schemas/Amount"
+                    },
+                    "remittanceInformation": {
+                        "type": "string",
+                        "example": "Pagamento di Prova"
+                    },
+                    "iban": {
+                        "maxLength": 35,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9]{1,35}$",
+                        "type": "string",
+                        "example": "IT0000000000000000000000000"
+                    },
+                    "category": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Debtor": {
+                "type": "object",
+                "required": [
+                    "type",
+                    "fiscalCode",
+                    "fullName"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "G",
+                            "F"
+                        ],
+                        "description": "debtor type. F -> physical person, G -> legal entity"
+                    },
+                    "fiscalCode": {
+                        "type": "string",
+                        "example": "ROSMRI87A04H501K",
+                        "description": "debtor fiscal code"
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "example": "Mario Rossi",
+                        "description": "debtor full name"
+                    }
+                }
+            },
+            "SessionResponse": {
+                "type": "object",
+                "required": [
+                    "outcome"
+                ],
+                "properties": {
+                    "outcome": {
+                        "type": "string",
+                        "enum": [
+                            "SUCCESS",
+                            "ERROR",
+                            "ONGOING"
+                        ]
+                    },
+                    "transactionId": {
+                        "$ref": "#/components/schemas/TransactionId"
+                    },
+                    "creditorInstitutionFiscalCode": {
+                        "type": "string",
+                        "minLength": 11,
+                        "maxLength": 11,
+                        "example": "80001230456"
+                    },
+                    "noticeId": {
+                        "type": "string",
+                        "example": "302000100000012345",
+                        "minLength": 18,
+                        "maxLength": 18
+                    },
+                    "iuv": {
+                        "type": "string",
+                        "example": "02000100000012345",
+                        "minLength": 17,
+                        "maxLength": 17
+                    },
+                    "authorization": {
+                        "$ref": "#/components/schemas/AuthorizationOutcomeResponse"
+                    }
+                }
+            },
+            "PaymentResponse": {
+                "type": "object",
+                "required": [
+                    "outcome",
+                    "details"
+                ],
+                "properties": {
+                    "outcome": {
+                        "type": "string",
+                        "enum": [
+                            "OK",
+                            "KO"
+                        ]
+                    },
+                    "details": {
+                        "$ref": "#/components/schemas/PaymentResponseDetails"
+                    }
+                }
+            },
+            "PaymentResponseDetails": {
+                "type": "object",
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/OkPaymentResponseDetails"
+                    },
+                    {
+                        "$ref": "#/components/schemas/KoPaymentResponseDetails"
+                    }
+                ],
+                "discriminator": {
+                    "propertyName": "outcome",
+                    "mapping": {
+                        "OK": "#/components/schemas/OkPaymentResponseDetails",
+                        "KO": "#/components/schemas/KoPaymentResponseDetails"
+                    }
+                }
+            },
+            "OkPaymentResponseDetails": {
+                "type": "object",
+                "required": [
+                    "creditorInstitutionFiscalCode",
+                    "noticeId",
+                    "iuv",
+                    "amount",
+                    "transactionId"
+                ],
+                "properties": {
+                    "creditorInstitutionFiscalCode": {
+                        "type": "string",
+                        "minLength": 11,
+                        "maxLength": 11,
+                        "example": "80001230456"
+                    },
+                    "noticeId": {
+                        "type": "string",
+                        "example": "302000100000012345",
+                        "minLength": 18,
+                        "maxLength": 18
+                    },
+                    "iuv": {
+                        "type": "string",
+                        "example": "02000100000012345",
+                        "minLength": 17,
+                        "maxLength": 17
+                    },
+                    "amount": {
+                        "$ref": "#/components/schemas/Amount"
+                    },
+                    "transactionId": {
+                        "$ref": "#/components/schemas/TransactionId"
+                    }
+                }
+            },
+            "KoPaymentResponseDetails": {
+                "type": "object"
+            },
+            "ProblemJson": {
+                "description": "Body definition for error responses containing failure details",
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "An absolute URI that identifies the problem type. When dereferenced,\nit SHOULD provide human-readable documentation for the problem type\n(e.g., using HTML).",
+                        "default": "about:blank",
+                        "example": "https://example.com/problem/constraint-violation"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "A short, summary of the problem type. Written in english and readable\nfor engineers (usually not suited for non technical stakeholders and\nnot localized); example: Service Unavailable"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/HttpStatusCode"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human readable explanation specific to this occurrence of the\nproblem.",
+                        "example": "There was an error processing the request"
+                    },
+                    "instance": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "An absolute URI that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced."
+                    }
+                }
+            },
+            "HttpStatusCode": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The HTTP status code generated by the origin server for this occurrence\nof the problem.",
+                "minimum": 100,
+                "maximum": 600,
+                "exclusiveMaximum": true,
+                "example": 200
+            }
+        },
+        "securitySchemes": {
+            "PagopaApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-api-key",
+                "description": "api key authentication"
+            },
+            "CIApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-api-key",
+                "description": "api key authentication"
+            },
+            "PSPApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-api-key",
+                "description": "api key authentication"
+            }
+        }
+    }
+}
