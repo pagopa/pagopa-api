@@ -34,7 +34,7 @@
           {
             "name": "flowDate",
             "in": "query",
-            "description": "A date to be used as a lower limit search on flow date. In format ISO-8601 (yyyy-MM-dd'T'HH:mm:ss). If omitted, the server uses a dynamic default equal to the start of the previous calendar month at 00:00 UTC",
+            "description": "A date-time to be used as a lower limit search on flow date. Defined with UTC time-zone and formatted as ISO-8601 (yyyy-MM-dd'T'HH:mm:ss'Z'). If omitted, the server uses a dynamic default equal to the start of the previous 30th day at 00:00:00Z.",
             "schema": {
               "$ref": "#/components/schemas/Instant"
             },
@@ -65,7 +65,7 @@
           {
             "name": "publishedGt",
             "in": "query",
-            "description": "A date to be used as a lower limit search on publication date. In format ISO-8601 (yyyy-MM-dd'T'HH:mm:ss). If omitted, the server uses a dynamic default equal to the start of the previous calendar month at 00:00 UTC",
+            "description": "A date-time to be used as a lower limit search on publication date. Defined with UTC time-zone and formatted as ISO-8601 (yyyy-MM-dd'T'HH:mm:ss'Z'). If omitted, the server uses a dynamic default equal to the start of the previous 30th day at 00:00:00Z.",
             "schema": {
               "$ref": "#/components/schemas/Instant"
             },
@@ -119,8 +119,12 @@
                       "revision": [
                         1
                       ],
-                      "published": "string",
-                      "flowDate": "string"
+                      "published": [
+                        "2022-03-10T04:15:50.0000000+00:00"
+                      ],
+                      "flowDate": [
+                        "2022-03-10T04:15:50.0000000+00:00"
+                      ]
                     }
                   ]
                 }
@@ -257,12 +261,18 @@
                   "revision": [
                     4
                   ],
-                  "created": "string",
-                  "updated": "string",
+                  "created": [
+                    "2022-03-10T04:15:50.0000000+00:00"
+                  ],
+                  "updated": [
+                    "2022-03-10T04:15:50.0000000+00:00"
+                  ],
                   "fdr": [
                     "2025-01-0188888888888-0000001"
                   ],
-                  "fdrDate": "string",
+                  "fdrDate": [
+                    "2022-03-10T04:15:50.0000000+00:00"
+                  ],
                   "regulation": [
                     "SEPA - Bonifico X"
                   ],
@@ -302,7 +312,9 @@
                       "Comune di Roma"
                     ]
                   },
-                  "published": "string",
+                  "published": [
+                    "2022-03-10T04:15:50.0000000+00:00"
+                  ],
                   "computedTotPayments": [
                     100
                   ],
@@ -503,7 +515,9 @@
                       "payStatus": [
                         "EXECUTED"
                       ],
-                      "payDate": "string"
+                      "payDate": [
+                        "2022-03-10T04:15:50.0000000+00:00"
+                      ]
                     }
                   ]
                 }
@@ -591,7 +605,7 @@
             "items": {
               "$ref": "#/components/schemas/Payment"
             },
-            "description": "The list of payments to be added on the draft flow"
+            "description": "The list of payments to be added on the draft flow. Date-time fields inside each payment are defined with UTC time-zone unless otherwise specified at field level."
           }
         }
       },
@@ -919,7 +933,10 @@
       },
       "Instant": {
         "type": "string",
-        "format": "date-time"
+        "format": "date-time",
+        "example": [
+          "2022-03-10T04:15:50.0000000+00:00"
+        ]
       },
       "LocalDate": {
         "type": "string",
@@ -973,7 +990,7 @@
             "items": {
               "$ref": "#/components/schemas/FlowBySenderAndReceiver"
             },
-            "description": "The list of flows that are included in this page."
+            "description": "The list of flows that are included in this page. Date-time fields inside each item are defined with UTC time-zone."
           }
         }
       },
@@ -996,7 +1013,7 @@
             "items": {
               "$ref": "#/components/schemas/FlowByCICreated"
             },
-            "description": "The list of flows that are included in this page."
+            "description": "The list of flows that are included in this page. Date-time fields inside each item are defined with UTC time-zone."
           }
         }
       },
@@ -1019,7 +1036,7 @@
             "items": {
               "$ref": "#/components/schemas/FlowByCIPublished"
             },
-            "description": "The list of flows that are included in this page."
+            "description": "The list of flows that are included in this page. Date-time fields inside each item are defined with UTC time-zone."
           }
         }
       },
@@ -1042,7 +1059,7 @@
             "items": {
               "$ref": "#/components/schemas/FlowByPSP"
             },
-            "description": "The list of flows that are included in this page."
+            "description": "The list of flows that are included in this page. Date-time fields inside each item are defined with UTC time-zone."
           }
         }
       },
@@ -1065,7 +1082,7 @@
             "items": {
               "$ref": "#/components/schemas/Payment"
             },
-            "description": "The list of payments that are included in this page."
+            "description": "The list of payments that are included in this page. Date-time fields inside each item are defined with UTC time-zone. The original business day is preserved where applicable."
           }
         }
       },
@@ -1128,13 +1145,12 @@
           "payStatus": {
             "enum": [
               "EXECUTED",
-              "REVOKED",
               "STAND_IN",
               "STAND_IN_NO_RPT",
               "NO_RPT"
             ],
             "type": "string",
-            "description": "The value of the status of the payment in relation to ist completion.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.codiceEsitoSingoloPagamento]</b>.<br>The enumeration is mapped with the following values:<br><ul><li>EXECUTED -> 0</li><li>REVOKED -> 3</li><li>STAND_IN -> 4</li><li>STAND_IN_NO_RPT -> 8</li><li>NO_RPT -> 9</li></ul>",
+            "description": "The value of the status of the payment in relation to ist completion.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.codiceEsitoSingoloPagamento]</b>.<br>The enumeration is mapped with the following values:<br><ul><li>EXECUTED -> 0</li><li>STAND_IN -> 4</li><li>STAND_IN_NO_RPT -> 8</li><li>NO_RPT -> 9</li></ul>",
             "example": [
               "EXECUTED"
             ]
