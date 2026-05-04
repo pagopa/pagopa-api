@@ -8,8 +8,8 @@
   },
   "servers": [
     {
-      "url": "http://api.platform.it/service/v1",
-      "description": "Production base URL"
+      "url": "http://api.dev.platform.it/service/v1",
+      "description": "Development base URL"
     }
   ],
   "paths": {

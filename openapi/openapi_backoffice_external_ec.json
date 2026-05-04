@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://api.platform.pagopa.it/backoffice/external/ec/v1"
+            "url": "https://api.dev.platform.pagopa.it/backoffice/external/ec/v1"
         }
     ],
     "paths": {

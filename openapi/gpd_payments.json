@@ -5,7 +5,7 @@
     "title": "PagoPA API Payments",
     "description": "Payments",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.12.52"
+    "version": "0.13.3"
   },
   "servers": [
     {
@@ -81,28 +81,29 @@
           {
             "name": "from",
             "in": "query",
-            "description": "Filter by date, from this date",
+            "description": "Filter by date, from this date. Supported formats: yyyy-MM-dd or yyyy-MM-dd'T'HH:mm:ss. If both from and to are omitted, receipts are returned for the last configured number of months. If only from is provided, the search range is automatically completed using the configured window.",
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "2026-03-30 or 2026-03-30T08:20:00"
           },
           {
             "name": "to",
             "in": "query",
-            "description": "Filter by date, to this date",
+            "description": "Filter by date, to this date. Supported formats: yyyy-MM-dd or yyyy-MM-dd'T'HH:mm:ss. If only to is provided, the search range is automatically completed using the configured window. If both from and to are provided, the exact requested range is applied.",
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "2026-03-31 or 2026-03-31T08:20:00"
           },
           {
-            "name": "segregationCodes",
+            "name": "debtorOrIuv",
             "in": "query",
-            "description": "Segregation codes for which broker is authorized",
+            "description": "Filter start of debtor or IUV",
             "required": false,
             "schema": {
-              "pattern": "\\d{2}(,\\d{2})*",
               "type": "string"
             }
           },
@@ -131,6 +132,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentsResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters, including an invalid date range.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
                 }
               }
             }
@@ -249,16 +268,6 @@
               "type": "string"
             },
             "example": "ABC123"
-          },
-          {
-            "name": "segregationCodes",
-            "in": "query",
-            "description": "Segregation codes for which broker is authorized",
-            "required": false,
-            "schema": {
-              "pattern": "\\d{2}(,\\d{2})*",
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -442,6 +451,43 @@
             "example": "There was an error processing the request"
           }
         }
+      },
+      "PaymentsResult": {
+        "type": "object",
+        "properties": {
+          "currentPageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "AppInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -459,4 +505,4 @@
       }
     }
   }
-}
+} 
