@@ -1,7 +1,7 @@
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "info": {
-        "title": "Pagopa POS gateway services for POS integration",
+        "title": "Pagopa POS gateway services for POS integration - CI layer",
         "description": "API's that will be used for pagoPA POS flow integration",
         "contact": {
             "name": "pagoPA - Touchpoints team"
@@ -44,7 +44,7 @@
             "post": {
                 "security": [
                     {
-                        "PSPApiKeyAuth": []
+                        "PagopaApiKeyAuth": []
                     }
                 ],
                 "tags": [
@@ -85,10 +85,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 400,
-                                    "detail": "Bad Request"
                                 }
                             }
                         }
@@ -102,10 +98,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 404,
-                                    "detail": "Not Found"
                                 }
                             }
                         }
@@ -116,10 +108,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 500,
-                                    "detail": "Internal server error"
                                 }
                             }
                         }
@@ -136,6 +124,9 @@
                 "security": [
                     {
                         "PagopaApiKeyAuth": []
+                    },
+                    {
+                        "PagopaPosGatewaySessionIdAuthorization": []
                     }
                 ],
                 "description": "Starts the payment phase for an advice to be payed via pos",
@@ -172,10 +163,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 400,
-                                    "detail": "Bad Request"
                                 }
                             }
                         }
@@ -189,10 +176,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 404,
-                                    "detail": "Not Found"
                                 }
                             }
                         }
@@ -203,10 +186,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 429,
-                                    "detail": "Too many requests"
                                 }
                             }
                         }
@@ -217,10 +196,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 500,
-                                    "detail": "Internal Server Error"
                                 }
                             }
                         }
@@ -231,10 +206,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 502,
-                                    "detail": "Bad Gateway"
                                 }
                             }
                         }
@@ -245,10 +216,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 503,
-                                    "detail": "Service Unavailable"
                                 }
                             }
                         }
@@ -259,10 +226,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 504,
-                                    "detail": "Gateway timeout"
                                 }
                             }
                         }
@@ -278,7 +241,7 @@
                 "summary": "Notify authorization outcome",
                 "security": [
                     {
-                        "CIApiKeyAuth": []
+                        "MutualTLSAuth": []
                     }
                 ],
                 "description": "Return to the CI external frontend the output of the payment phase formerly invoked",
@@ -311,10 +274,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 400,
-                                    "detail": "Bad Request"
                                 }
                             }
                         }
@@ -328,10 +287,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 404,
-                                    "detail": "Not Found"
                                 }
                             }
                         }
@@ -342,10 +297,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 429,
-                                    "detail": "Too many requests"
                                 }
                             }
                         }
@@ -356,10 +307,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 500,
-                                    "detail": "Internal server error"
                                 }
                             }
                         }
@@ -370,10 +317,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 502,
-                                    "detail": "Bad Gateway"
                                 }
                             }
                         }
@@ -384,10 +327,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 503,
-                                    "detail": "Service unavailable"
                                 }
                             }
                         }
@@ -398,10 +337,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 504,
-                                    "detail": "Gateway timeout"
                                 }
                             }
                         }
@@ -417,7 +352,7 @@
                 "summary": "Get payment session",
                 "security": [
                     {
-                        "CIApiKeyAuth": []
+                        "PagopaApiKeyAuth": []
                     }
                 ],
                 "description": "Get payment session data",
@@ -447,10 +382,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 400,
-                                    "detail": "Bad request"
                                 }
                             }
                         }
@@ -464,10 +395,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 404,
-                                    "detail": "Not found"
                                 }
                             }
                         }
@@ -478,10 +405,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 500,
-                                    "detail": "Internal server error"
                                 }
                             }
                         }
@@ -523,13 +446,16 @@
         },
         "schemas": {
             "Amount": {
+                "minimum": 1,
                 "type": "integer",
                 "description": "Amount expressed in eurocents",
                 "format": "int64"
             },
             "TerminalId": {
                 "type": "string",
-                "description": "the POS unique terminal identifier"
+                "description": "the POS unique terminal identifier",
+                "minLength": 8,
+                "maxLength": 8
             },
             "TransactionId": {
                 "type": "string",
@@ -538,31 +464,44 @@
             },
             "SessionId": {
                 "type": "string",
-                "description": "unique identifier of the pagoPA notice payment session"
+                "description": "unique identifier of the pagoPA notice payment session",
+                "format": "uuid"
             },
             "RRN": {
                 "type": "string",
-                "example": "123456789012",
-                "description": "Retrieval Reference Number -> payment unique identifier"
+                "examples": [
+                    "123456789012"
+                ],
+                "description": "Retrieval Reference Number -> payment unique identifier",
+                "minLength": 12,
+                "maxLength": 12
             },
             "Bin": {
                 "type": "string",
-                "example": "4000 00",
+                "examples": [
+                    "400000"
+                ],
                 "minLength": 6,
                 "maxLength": 8,
                 "description": "debit/credit card bin number, used to print receipts"
             },
             "LastFourDigits": {
                 "type": "string",
-                "example": 1234,
+                "examples": [
+                    "1234"
+                ],
                 "minLength": 4,
                 "maxLength": 4,
                 "description": "debit/credit card last four digits number, used to print receipts"
             },
             "PaymentAuthCode": {
                 "type": "string",
-                "example": "889900",
-                "description": "payment authorization code. PSP side identifier that can be used to track back to POS authorization process"
+                "examples": [
+                    "889900"
+                ],
+                "description": "payment authorization code. PSP side identifier that can be used to track back to POS authorization process",
+                "minLength": 1,
+                "maxLength": 10
             },
             "PosTerminalStatus": {
                 "type": "string",
@@ -591,7 +530,9 @@
                     "CANCELED_BY_USER",
                     "TIMEOUT"
                 ],
-                "example": "AUTHORIZED",
+                "examples": [
+                    "AUTHORIZED"
+                ],
                 "description": "authorization outcome"
             },
             "CardBrand": {
@@ -604,6 +545,156 @@
                     "MAESTRO"
                 ],
                 "description": "the brand of the citized debit/credit card"
+            },
+            "Timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                    "2026-04-08T14:16:30Z"
+                ],
+                "description": "date and time in RFC3339 format"
+            },
+            "CreditorInstitutionFiscalCode": {
+                "type": "string",
+                "maxLength": 11,
+                "minLength": 11,
+                "examples": [
+                    "80001230456"
+                ],
+                "description": "CI fiscal code "
+            },
+            "LogicalOffice": {
+                "minLength": 1,
+                "maxLength": 20,
+                "type": "string",
+                "examples": [
+                    "ANAGRAFE"
+                ],
+                "description": "Logical office id that want to initialize the payment"
+            },
+            "Workstation": {
+                "minLength": 1,
+                "maxLength": 20,
+                "type": "string",
+                "examples": [
+                    "SPORTELLO_02"
+                ],
+                "description": "Identifier of the workstatio that want to initialize the payment"
+            },
+            "PspId": {
+                "type": "string",
+                "examples": [
+                    "PSP_001"
+                ],
+                "description": "PSP unique identifier, assigned by PagoPA",
+                "minLength": 1,
+                "maxLength": 35
+            },
+            "PspBrokerCode": {
+                "type": "string",
+                "examples": [
+                    "INT_123"
+                ],
+                "description": "PSP broker unique identifier, assigned by PagoPA",
+                "minLength": 1,
+                "maxLength": 35
+            },
+            "PspChannel": {
+                "type": "string",
+                "examples": [
+                    "CANALE_POS"
+                ],
+                "description": "Channel identifier, identifies a payment service category and the medium through which the transaction is processed",
+                "minLength": 1,
+                "maxLength": 35
+            },
+            "PosTerminalDescription": {
+                "type": "string",
+                "examples": [
+                    "POS Sportello 02 - Main"
+                ],
+                "description": "An human readable POS terminal description",
+                "minLength": 1,
+                "maxLength": 50
+            },
+            "CreditorInstitutionName": {
+                "minLength": 1,
+                "maxLength": 140,
+                "type": "string",
+                "examples": [
+                    "Comune di Test"
+                ],
+                "description": "Creditor institution name"
+            },
+            "PaymentDescription": {
+                "minLength": 1,
+                "maxLength": 140,
+                "type": "string",
+                "examples": [
+                    "Pagamento di Prova"
+                ],
+                "description": "Textual description of the payment to be done: it will be used for both the payment description and the remittance information TXT section"
+            },
+            "Iban": {
+                "maxLength": 35,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9]{1,35}$",
+                "type": "string",
+                "examples": [
+                    "IT0000000000000000000000000"
+                ],
+                "description": "IBAN code"
+            },
+            "TaxonomyCode": {
+                "type": "string",
+                "description": "collection services pagoPA taxonomy code",
+                "pattern": "(?:6|7|8|9)\\/\\d{7}(?:IM|TS|SP|SA|AP)\\/",
+                "maxLength": 12,
+                "minLength": 12
+            },
+            "DebtorType": {
+                "type": "string",
+                "enum": [
+                    "G",
+                    "F"
+                ],
+                "description": "debtor type. F -> physical person, G -> legal entity"
+            },
+            "UserFiscalCode": {
+                "maxLength": 16,
+                "minLength": 11,
+                "type": "string",
+                "examples": [
+                    "ROSMRI87A04H501K"
+                ],
+                "description": "user fiscal code"
+            },
+            "DebtorFullName": {
+                "maxLength": 140,
+                "minLength": 0,
+                "type": "string",
+                "examples": [
+                    "Mario Rossi"
+                ],
+                "description": "Debtor full name, including first name, last name etc"
+            },
+            "NoticeNumber": {
+                "type": "string",
+                "examples": [
+                    "302000100000012345"
+                ],
+                "minLength": 18,
+                "maxLength": 18,
+                "description": "the PagoPA notice number"
+            },
+            "IUV": {
+                "type": "string",
+                "examples": [
+                    "02000100000012345"
+                ],
+                "minLength": 17,
+                "maxLength": 17,
+                "description": "the PagoPA `Identificativo Univoco Versamento`, the unique identifier that will track the payment and will be received in reconciliation flows"
             },
             "AuthorizationOutcomeResponse": {
                 "type": "object",
@@ -619,10 +710,7 @@
                         "$ref": "#/components/schemas/TerminalId"
                     },
                     "timestamp": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2026-04-08T14:16:30Z",
-                        "description": "authorization timestamp"
+                        "$ref": "#/components/schemas/Timestamp"
                     },
                     "amount": {
                         "$ref": "#/components/schemas/Amount"
@@ -650,10 +738,7 @@
                         "$ref": "#/components/schemas/TerminalId"
                     },
                     "timestamp": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2026-04-08T14:16:30Z",
-                        "description": "authorization timestamp"
+                        "$ref": "#/components/schemas/Timestamp"
                     },
                     "amount": {
                         "$ref": "#/components/schemas/Amount"
@@ -781,19 +866,13 @@
                 ],
                 "properties": {
                     "fiscalCode": {
-                        "type": "string",
-                        "example": "80001230456",
-                        "description": "CI identifier (such as fiscalCode)"
+                        "$ref": "#/components/schemas/CreditorInstitutionFiscalCode"
                     },
                     "logicalOffice": {
-                        "type": "string",
-                        "example": "ANAGRAFE",
-                        "description": "Logical office id that want to initialize the payment"
+                        "$ref": "#/components/schemas/LogicalOffice"
                     },
                     "workstation": {
-                        "type": "string",
-                        "example": "SPORTELLO_02",
-                        "description": "Identifier of the workstatio that want to initialize the payment"
+                        "$ref": "#/components/schemas/Workstation"
                     }
                 }
             },
@@ -807,19 +886,13 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "string",
-                        "example": "PSP_001",
-                        "description": "the psp unique identifier"
+                        "$ref": "#/components/schemas/PspId"
                     },
                     "broker": {
-                        "type": "string",
-                        "example": "INT_123",
-                        "description": "the psp broker code"
+                        "$ref": "#/components/schemas/PspBrokerCode"
                     },
                     "channel": {
-                        "type": "string",
-                        "example": "CANALE_POS",
-                        "description": "the psp channel code"
+                        "$ref": "#/components/schemas/PspChannel"
                     }
                 }
             },
@@ -832,10 +905,14 @@
                             "$ref": "#/components/schemas/PosTerminal"
                         },
                         "minItems": 1
+                    },
+                    "sessionId": {
+                        "$ref": "#/components/schemas/SessionId"
                     }
                 },
                 "required": [
-                    "terminals"
+                    "terminals",
+                    "sessionId"
                 ]
             },
             "PosTerminal": {
@@ -850,9 +927,7 @@
                         "$ref": "#/components/schemas/TerminalId"
                     },
                     "description": {
-                        "type": "string",
-                        "example": "POS Sportello 02 - Main",
-                        "description": "An human readable POS terminal description"
+                        "$ref": "#/components/schemas/PosTerminalDescription"
                     },
                     "status": {
                         "$ref": "#/components/schemas/PosTerminalStatus"
@@ -866,19 +941,11 @@
                 "type": "object",
                 "required": [
                     "terminalId",
-                    "psp",
-                    "creditorInstitution",
                     "debtPosition"
                 ],
                 "properties": {
                     "terminalId": {
                         "$ref": "#/components/schemas/TerminalId"
-                    },
-                    "psp": {
-                        "$ref": "#/components/schemas/PspInfo"
-                    },
-                    "creditorInstitution": {
-                        "$ref": "#/components/schemas/CreditorInstitution"
                     },
                     "debtPosition": {
                         "$ref": "#/components/schemas/DebtPosition"
@@ -893,12 +960,10 @@
                 ],
                 "properties": {
                     "fiscalCode": {
-                        "type": "string",
-                        "example": "80001230456"
+                        "$ref": "#/components/schemas/CreditorInstitutionFiscalCode"
                     },
                     "name": {
-                        "type": "string",
-                        "example": "Comune di Test"
+                        "$ref": "#/components/schemas/CreditorInstitutionName"
                     }
                 }
             },
@@ -909,8 +974,14 @@
                     "debtor"
                 ],
                 "properties": {
-                    "transfer": {
-                        "$ref": "#/components/schemas/DebtPositionTransfer"
+                    "transferList": {
+                        "type": "array",
+                        "minItems": 1,
+                        "maxItems": 5,
+                        "description": "list of all transfer, max 5 items",
+                        "items": {
+                            "$ref": "#/components/schemas/DebtPositionTransfer"
+                        }
                     },
                     "debtor": {
                         "$ref": "#/components/schemas/Debtor"
@@ -919,9 +990,10 @@
             },
             "DebtPositionTransfer": {
                 "type": "object",
+                "description": "information for amount transfer",
                 "required": [
                     "amount",
-                    "remittanceInformation",
+                    "paymentDescription",
                     "iban",
                     "category"
                 ],
@@ -929,19 +1001,15 @@
                     "amount": {
                         "$ref": "#/components/schemas/Amount"
                     },
-                    "remittanceInformation": {
-                        "type": "string",
-                        "example": "Pagamento di Prova"
+                    "paymentDescription": {
+                        "$ref": "#/components/schemas/PaymentDescription"
                     },
                     "iban": {
-                        "maxLength": 35,
-                        "minLength": 1,
-                        "pattern": "^[A-Za-z0-9]{1,35}$",
-                        "type": "string",
-                        "example": "IT0000000000000000000000000"
+                        "$ref": "#/components/schemas/Iban",
+                        "description": "the IBAN code where PSP will transfer money to after pagoPa payment transaction completion"
                     },
                     "category": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/TaxonomyCode"
                     }
                 }
             },
@@ -954,22 +1022,13 @@
                 ],
                 "properties": {
                     "type": {
-                        "type": "string",
-                        "enum": [
-                            "G",
-                            "F"
-                        ],
-                        "description": "debtor type. F -> physical person, G -> legal entity"
+                        "$ref": "#/components/schemas/DebtorType"
                     },
                     "fiscalCode": {
-                        "type": "string",
-                        "example": "ROSMRI87A04H501K",
-                        "description": "debtor fiscal code"
+                        "$ref": "#/components/schemas/UserFiscalCode"
                     },
                     "fullName": {
-                        "type": "string",
-                        "example": "Mario Rossi",
-                        "description": "debtor full name"
+                        "$ref": "#/components/schemas/DebtorFullName"
                     }
                 }
             },
@@ -991,22 +1050,13 @@
                         "$ref": "#/components/schemas/TransactionId"
                     },
                     "creditorInstitutionFiscalCode": {
-                        "type": "string",
-                        "minLength": 11,
-                        "maxLength": 11,
-                        "example": "80001230456"
+                        "$ref": "#/components/schemas/CreditorInstitutionFiscalCode"
                     },
-                    "noticeId": {
-                        "type": "string",
-                        "example": "302000100000012345",
-                        "minLength": 18,
-                        "maxLength": 18
+                    "noticeNumber": {
+                        "$ref": "#/components/schemas/NoticeNumber"
                     },
                     "iuv": {
-                        "type": "string",
-                        "example": "02000100000012345",
-                        "minLength": 17,
-                        "maxLength": 17
+                        "$ref": "#/components/schemas/IUV"
                     },
                     "authorization": {
                         "$ref": "#/components/schemas/AuthorizationOutcomeResponse"
@@ -1054,29 +1104,20 @@
                 "type": "object",
                 "required": [
                     "creditorInstitutionFiscalCode",
-                    "noticeId",
+                    "noticeNumber",
                     "iuv",
                     "amount",
                     "transactionId"
                 ],
                 "properties": {
                     "creditorInstitutionFiscalCode": {
-                        "type": "string",
-                        "minLength": 11,
-                        "maxLength": 11,
-                        "example": "80001230456"
+                        "$ref": "#/components/schemas/CreditorInstitutionFiscalCode"
                     },
-                    "noticeId": {
-                        "type": "string",
-                        "example": "302000100000012345",
-                        "minLength": 18,
-                        "maxLength": 18
+                    "noticeNumber": {
+                        "$ref": "#/components/schemas/NoticeNumber"
                     },
                     "iuv": {
-                        "type": "string",
-                        "example": "02000100000012345",
-                        "minLength": 17,
-                        "maxLength": 17
+                        "$ref": "#/components/schemas/IUV"
                     },
                     "amount": {
                         "$ref": "#/components/schemas/Amount"
@@ -1098,7 +1139,9 @@
                         "format": "uri",
                         "description": "An absolute URI that identifies the problem type. When dereferenced,\nit SHOULD provide human-readable documentation for the problem type\n(e.g., using HTML).",
                         "default": "about:blank",
-                        "example": "https://example.com/problem/constraint-violation"
+                        "examples": [
+                            "https://example.com/problem/constraint-violation"
+                        ]
                     },
                     "title": {
                         "type": "string",
@@ -1110,7 +1153,9 @@
                     "detail": {
                         "type": "string",
                         "description": "A human readable explanation specific to this occurrence of the\nproblem.",
-                        "example": "There was an error processing the request"
+                        "examples": [
+                            "There was an error processing the request"
+                        ]
                     },
                     "instance": {
                         "type": "string",
@@ -1124,29 +1169,27 @@
                 "format": "int32",
                 "description": "The HTTP status code generated by the origin server for this occurrence\nof the problem.",
                 "minimum": 100,
-                "maximum": 600,
-                "exclusiveMaximum": true,
-                "example": 200
+                "exclusiveMaximum": 600,
+                "examples": [
+                    200
+                ]
             }
         },
         "securitySchemes": {
             "PagopaApiKeyAuth": {
                 "type": "apiKey",
                 "in": "header",
-                "name": "x-api-key",
-                "description": "api key authentication"
+                "name": "Ocp-Apim-Subscription-Key",
+                "description": "pagoPA platform subscription key, generated as per `Nuova connettività specs`"
             },
-            "CIApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "x-api-key",
-                "description": "api key authentication"
+            "MutualTLSAuth": {
+                "type": "mutualTLS",
+                "description": "Client-Server mutual authentication. As per `Nuova connettività specs` it's required a x.509 digital client certificate emitted by a CA/Browser Forum accredited certificate authority"
             },
-            "PSPApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "x-api-key",
-                "description": "api key authentication"
+            "PagopaPosGatewaySessionIdAuthorization": {
+                "type": "http",
+                "scheme": "Bearer",
+                "description": "pagoPA POS Gateway session identifier. To be valued with the value of the sessionId field received in the POS-list operation response"
             }
         }
     }
