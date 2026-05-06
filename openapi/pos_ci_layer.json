@@ -633,7 +633,16 @@
                 "examples": [
                     "Pagamento di Prova"
                 ],
-                "description": "Textual description of the payment to be done: it will be used for both the payment description and the remittance information TXT section (automatically created by pagoPA POS gateway following EACT standard)"
+                "description": "Textual description of the payment to be done"
+            },
+            "TransferDescription": {
+                "minLength": 1,
+                "maxLength": 90,
+                "type": "string",
+                "examples": [
+                    "Pagamento di Prova"
+                ],
+                "description": "Textual description of the transfer: it will be used for both the transfer description and the remittance information TXT section (automatically created by pagoPA POS gateway following EACT standard as /RFB/{iuv}/CNR/{userFiscalCode}/TXT/{TransferDescription})"
             },
             "Iban": {
                 "maxLength": 35,
@@ -971,7 +980,8 @@
                 "type": "object",
                 "required": [
                     "transferList",
-                    "debtor"
+                    "debtor",
+                    "description"
                 ],
                 "properties": {
                     "transferList": {
@@ -985,6 +995,9 @@
                     },
                     "debtor": {
                         "$ref": "#/components/schemas/Debtor"
+                    },
+                    "description": {
+                        "$ref": "#/components/schemas/PaymentDescription"
                     }
                 }
             },
@@ -993,7 +1006,7 @@
                 "description": "information for amount transfer",
                 "required": [
                     "amount",
-                    "paymentDescription",
+                    "transferDescription",
                     "iban",
                     "category"
                 ],
@@ -1001,8 +1014,9 @@
                     "amount": {
                         "$ref": "#/components/schemas/Amount"
                     },
-                    "paymentDescription": {
-                        "$ref": "#/components/schemas/PaymentDescription"
+                    "transferDescription": {
+                        "$ref": "#/components/schemas/TransferDescription"
+
                     },
                     "iban": {
                         "$ref": "#/components/schemas/Iban",
