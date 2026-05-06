@@ -633,7 +633,7 @@
                 "examples": [
                     "Pagamento di Prova"
                 ],
-                "description": "Textual description of the payment to be done: it will be used for both the payment description and the remittance information TXT section"
+                "description": "Textual description of the payment to be done: it will be used for both the payment description and the remittance information TXT section (automatically created by pagoPA POS gateway following EACT standard)"
             },
             "Iban": {
                 "maxLength": 35,
