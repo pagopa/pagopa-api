@@ -1,7 +1,7 @@
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "info": {
-        "title": "Pagopa POS gateway services for POS integration",
+        "title": "Pagopa POS gateway services for POS integration - PSP integration",
         "description": "API's that will be used for pagoPA POS flow integration",
         "contact": {
             "name": "pagoPA - Touchpoints team"
@@ -44,7 +44,7 @@
             "post": {
                 "security": [
                     {
-                        "PSPApiKeyAuth": []
+                        "MutualTLSAuth": []
                     }
                 ],
                 "tags": [
@@ -134,7 +134,7 @@
                 ],
                 "security": [
                     {
-                        "PSPApiKeyAuth": []
+                        "MutualTLSAuth": []
                     }
                 ],
                 "summary": "Request payment authorization on POS",
@@ -159,8 +159,15 @@
                     }
                 },
                 "responses": {
-                    "204": {
-                        "description": "Authorization request take in charge"
+                    "200": {
+                        "description": "Operation completed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthorizationResponse"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Formally invalid input",
@@ -212,7 +219,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthorizationErrorResponse"
+                                    "$ref": "#/components/schemas/ProblemJson"
                                 },
                                 "example": {
                                     "status": 422,
@@ -301,6 +308,9 @@
                 "security": [
                     {
                         "PagopaApiKeyAuth": []
+                    },
+                    {
+                        "AuthOutcomeTokenAuth": []
                     }
                 ],
                 "description": "Notify the transaction handler about the outcome of the payment phase",
@@ -468,19 +478,11 @@
                 "schema": {
                     "$ref": "#/components/schemas/TransactionId"
                 }
-            },
-            "SessionIdPath": {
-                "name": "sessionId",
-                "in": "path",
-                "required": true,
-                "description": "The unique session identifier",
-                "schema": {
-                    "$ref": "#/components/schemas/SessionId"
-                }
             }
         },
         "schemas": {
             "Amount": {
+                "minimum": 1,
                 "type": "integer",
                 "description": "Amount expressed in eurocents",
                 "format": "int64"
@@ -500,26 +502,34 @@
             },
             "RRN": {
                 "type": "string",
-                "example": "123456789012",
+                "examples": [
+                    "123456789012"
+                ],
                 "description": "Retrieval Reference Number -> payment unique identifier"
             },
             "Bin": {
                 "type": "string",
-                "example": "4000 00",
+                "examples": [
+                    "400000"
+                ],
                 "minLength": 6,
                 "maxLength": 8,
                 "description": "debit/credit card bin number, used to print receipts"
             },
             "LastFourDigits": {
                 "type": "string",
-                "example": 1234,
+                "examples": [
+                    "1234"
+                ],
                 "minLength": 4,
                 "maxLength": 4,
                 "description": "debit/credit card last four digits number, used to print receipts"
             },
             "PaymentAuthCode": {
                 "type": "string",
-                "example": "889900",
+                "examples": [
+                    "889900"
+                ],
                 "description": "payment authorization code. PSP side identifier that can be used to track back to POS authorization process"
             },
             "PosTerminalStatus": {
@@ -549,7 +559,9 @@
                     "CANCELED_BY_USER",
                     "TIMEOUT"
                 ],
-                "example": "AUTHORIZED",
+                "examples": [
+                    "AUTHORIZED"
+                ],
                 "description": "authorization outcome"
             },
             "CardBrand": {
@@ -563,13 +575,14 @@
                 ],
                 "description": "the brand of the citized debit/credit card"
             },
-            "PosAuthorizationErrorOutcome": {
-                "description": "POS authorization error outcome",
-                "type": "string",
-                "enum": [
-                    "ERROR_TERMINAL_OFFLINE",
-                    "ERROR_TERMINAL_UNREACHABLE"
-                ]
+            "OutcomeAuthToken": {
+                "description": "outcome authorization token, to be used to authorize authorization outcome callback api call",
+                "type": "string"
+            },
+            "DurationSeconds": {
+                "description": "duration expressed in seconds",
+                "type": "number",
+                "format": "f"
             },
             "AuthorizationCallbackRequest": {
                 "type": "object",
@@ -591,7 +604,9 @@
                     "timestamp": {
                         "type": "string",
                         "format": "date-time",
-                        "example": "2026-04-08T14:16:30Z",
+                        "examples": [
+                            "2026-04-08T14:16:30Z"
+                        ],
                         "description": "authorization timestamp"
                     },
                     "amount": {
@@ -702,7 +717,8 @@
                     "amount",
                     "psp",
                     "creditorInstitution",
-                    "terminalId"
+                    "terminalId",
+                    "outcomeAuthToken"
                 ],
                 "properties": {
                     "amount": {
@@ -716,17 +732,20 @@
                     },
                     "terminalId": {
                         "$ref": "#/components/schemas/TerminalId"
+                    },
+                    "outcomeAuthToken": {
+                        "$ref": "#/components/schemas/OutcomeAuthToken"
                     }
                 }
             },
-            "AuthorizationErrorResponse": {
+            "AuthorizationResponse": {
                 "type": "object",
                 "required": [
-                    "outcome"
+                    "timeout"
                 ],
                 "properties": {
-                    "outcome": {
-                        "$ref": "#/components/schemas/PosAuthorizationErrorOutcome"
+                    "timeout": {
+                        "$ref": "#/components/schemas/DurationSeconds"
                     }
                 }
             },
@@ -754,18 +773,30 @@
                 ],
                 "properties": {
                     "fiscalCode": {
+                        "maxLength": 11,
+                        "minLength": 11,
                         "type": "string",
-                        "example": "80001230456",
+                        "examples": [
+                            "80001230456"
+                        ],
                         "description": "CI identifier (such as fiscalCode)"
                     },
                     "logicalOffice": {
+                        "maxLength": 140,
+                        "minLength": 0,
                         "type": "string",
-                        "example": "ANAGRAFE",
+                        "examples": [
+                            "ANAGRAFE"
+                        ],
                         "description": "Logical office id that want to initialize the payment"
                     },
                     "workstation": {
+                        "maxLength": 50,
+                        "minLength": 0,
                         "type": "string",
-                        "example": "SPORTELLO_02",
+                        "examples": [
+                            "SPORTELLO_02"
+                        ],
                         "description": "Identifier of the workstatio that want to initialize the payment"
                     }
                 }
@@ -781,17 +812,23 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "example": "PSP_001",
+                        "examples": [
+                            "PSP_001"
+                        ],
                         "description": "the psp unique identifier"
                     },
                     "broker": {
                         "type": "string",
-                        "example": "INT_123",
+                        "examples": [
+                            "INT_123"
+                        ],
                         "description": "the psp broker code"
                     },
                     "channel": {
                         "type": "string",
-                        "example": "CANALE_POS",
+                        "examples": [
+                            "CANALE_POS"
+                        ],
                         "description": "the psp channel code"
                     }
                 }
@@ -824,7 +861,9 @@
                     },
                     "description": {
                         "type": "string",
-                        "example": "POS Sportello 02 - Main",
+                        "examples": [
+                            "POS Sportello 02 - Main"
+                        ],
                         "description": "An human readable POS terminal description"
                     },
                     "status": {
@@ -844,7 +883,9 @@
                         "format": "uri",
                         "description": "An absolute URI that identifies the problem type. When dereferenced,\nit SHOULD provide human-readable documentation for the problem type\n(e.g., using HTML).",
                         "default": "about:blank",
-                        "example": "https://example.com/problem/constraint-violation"
+                        "examples": [
+                            "https://example.com/problem/constraint-violation"
+                        ]
                     },
                     "title": {
                         "type": "string",
@@ -856,7 +897,9 @@
                     "detail": {
                         "type": "string",
                         "description": "A human readable explanation specific to this occurrence of the\nproblem.",
-                        "example": "There was an error processing the request"
+                        "examples": [
+                            "There was an error processing the request"
+                        ]
                     },
                     "instance": {
                         "type": "string",
@@ -870,23 +913,27 @@
                 "format": "int32",
                 "description": "The HTTP status code generated by the origin server for this occurrence\nof the problem.",
                 "minimum": 100,
-                "maximum": 600,
-                "exclusiveMaximum": true,
-                "example": 200
+                "exclusiveMaximum": 600,
+                "examples": [
+                    200
+                ]
             }
         },
         "securitySchemes": {
             "PagopaApiKeyAuth": {
                 "type": "apiKey",
                 "in": "header",
-                "name": "x-api-key",
-                "description": "api key authentication"
+                "name": "Ocp-Apim-Subscription-Key",
+                "description": "pagoPA platform subscription key, generated as per `Nuova connettività specs`"
             },
-            "PSPApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "x-api-key",
-                "description": "api key authentication"
+            "MutualTLSAuth": {
+                "type": "mutualTLS",
+                "description": "Client-Server mutual authentication. As per `Nuova connettività specs` it's required a x.509 digital client certificate emitted by a CA/Browser Forum accredited certificate authority"
+            },
+            "AuthOutcomeTokenAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "token used to authorize outcome request, should be valued with the `outcomeAuthToken` value received in the requestPaymentAuthorization"
             }
         }
     }
