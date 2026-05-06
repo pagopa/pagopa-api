@@ -970,7 +970,7 @@
             "DebtPosition": {
                 "type": "object",
                 "required": [
-                    "transfer",
+                    "transferList",
                     "debtor"
                 ],
                 "properties": {
