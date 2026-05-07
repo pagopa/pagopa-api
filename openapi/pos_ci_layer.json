@@ -85,6 +85,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad Request"
                 }
               }
             }
@@ -98,6 +102,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not Found"
                 }
               }
             }
@@ -108,6 +116,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
                 }
               }
             }
@@ -163,6 +175,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad Request"
                 }
               }
             }
@@ -176,6 +192,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not Found"
                 }
               }
             }
@@ -186,6 +206,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
                 }
               }
             }
@@ -196,6 +220,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal Server Error"
                 }
               }
             }
@@ -206,6 +234,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 502,
+                  "detail": "Bad Gateway"
                 }
               }
             }
@@ -216,6 +248,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 503,
+                  "detail": "Service Unavailable"
                 }
               }
             }
@@ -226,6 +262,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 504,
+                  "detail": "Gateway timeout"
                 }
               }
             }
@@ -277,6 +317,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad Request"
                 }
               }
             }
@@ -290,6 +334,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not Found"
                 }
               }
             }
@@ -300,6 +348,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
                 }
               }
             }
@@ -310,6 +362,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
                 }
               }
             }
@@ -320,6 +376,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 502,
+                  "detail": "Bad Gateway"
                 }
               }
             }
@@ -330,6 +390,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 503,
+                  "detail": "Service unavailable"
                 }
               }
             }
@@ -340,6 +404,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 504,
+                  "detail": "Gateway timeout"
                 }
               }
             }
@@ -385,6 +453,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad request"
                 }
               }
             }
@@ -398,6 +470,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not found"
                 }
               }
             }
@@ -408,6 +484,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
                 }
               }
             }
