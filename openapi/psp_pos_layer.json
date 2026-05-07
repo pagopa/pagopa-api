@@ -159,15 +159,8 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Operation completed successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthorizationResponse"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "Operation accepted"
                     },
                     "400": {
                         "description": "Formally invalid input",
@@ -738,17 +731,6 @@
                     }
                 }
             },
-            "AuthorizationResponse": {
-                "type": "object",
-                "required": [
-                    "timeout"
-                ],
-                "properties": {
-                    "timeout": {
-                        "$ref": "#/components/schemas/DurationSeconds"
-                    }
-                }
-            },
             "PosRequest": {
                 "type": "object",
                 "description": "Request to inquiry for",
@@ -853,7 +835,8 @@
                 "required": [
                     "id",
                     "description",
-                    "status"
+                    "status",
+                    "authorizationTimeout"
                 ],
                 "properties": {
                     "id": {
@@ -871,6 +854,12 @@
                     },
                     "statusCode": {
                         "$ref": "#/components/schemas/PosTerminalStatusCode"
+                    },
+                    "authorizationTimeout": {
+                        "$ref": "#/components/schemas/DurationSeconds",
+                        "description": "Authorization timeout as configured for the terminal for authorization process to be concluded: this is the max amount of time that POS gateway pagoPA will await to receive an outcome from the POS layer once authorization have been requested successfully. Any outcome callback api call received after this timeout will be rejected by pagoPA POS gateway",
+                        "minValue": 1,
+                        "maxValue": 60
                     }
                 }
             },
