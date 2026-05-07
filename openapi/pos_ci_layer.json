@@ -617,15 +617,6 @@
                 "minLength": 1,
                 "maxLength": 50
             },
-            "CreditorInstitutionName": {
-                "minLength": 1,
-                "maxLength": 140,
-                "type": "string",
-                "examples": [
-                    "Comune di Test"
-                ],
-                "description": "Creditor institution name"
-            },
             "PaymentDescription": {
                 "minLength": 1,
                 "maxLength": 140,
@@ -958,21 +949,6 @@
                     },
                     "debtPosition": {
                         "$ref": "#/components/schemas/DebtPosition"
-                    }
-                }
-            },
-            "CreditorInstitution": {
-                "type": "object",
-                "required": [
-                    "fiscalCode",
-                    "name"
-                ],
-                "properties": {
-                    "fiscalCode": {
-                        "$ref": "#/components/schemas/CreditorInstitutionFiscalCode"
-                    },
-                    "name": {
-                        "$ref": "#/components/schemas/CreditorInstitutionName"
                     }
                 }
             },
