@@ -2,21 +2,11 @@
 <xsd:schema elementFormDefault="qualified"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:cup="http://PuntoAccessoPSP.spcoop.gov.it/Cup"
+            xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
             targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/Cup">
 
-    <xsd:simpleType name="stFiscalCode">
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="11" />
-            <xsd:pattern value="[0-9]{11}" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stAmount">
-        <xsd:restriction base="xsd:decimal">
-            <xsd:pattern value="\d+\.\d{2}" />
-            <xsd:maxInclusive value="999999999.99" />
-        </xsd:restriction>
-    </xsd:simpleType>
+    <xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="../xsd-common/sac-common-types-1.0.xsd"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema" />
 
     <xsd:simpleType name="stCatastaleCode">
         <xsd:restriction base="xsd:string">
@@ -30,47 +20,19 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-	<xsd:simpleType name="stEMail">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*" />
-            <xsd:maxLength value="256" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stText20">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="20" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stText140">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="140" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="stText70">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="70" />
-        </xsd:restriction>
-    </xsd:simpleType>
-
     <xsd:complexType name="ctPagamentoCup">
         <xsd:sequence>
             <xsd:choice>
-                <xsd:element name="organizationFiscalCode" type="cup:stFiscalCode" />
+                <xsd:element name="organizationFiscalCode" type="common:stFiscalCodePA" />
                 <xsd:element name="istatCode" type="cup:stIstatCode" />
                 <xsd:element name="catastaleCode" type="cup:stCatastaleCode" />
             </xsd:choice>
 
-            <xsd:element name="companyName" type="cup:stText140" />
-            <xsd:element name="debtorFiscalCode" type="cup:stText20" />
-            <xsd:element name="debtorFullName" type="cup:stText70"  />
-            <xsd:element name="debtorEmail" type="cup:stEMail" minOccurs="0" />
-            <xsd:element name="amount" type="cup:stAmount" />
+            <xsd:element name="companyName" type="common:stText140" />
+            <xsd:element name="debtorFiscalCode" type="common:stText20" />
+            <xsd:element name="debtorFullName" type="common:stText70"  />
+            <xsd:element name="debtorEmail" type="common:stEMail" minOccurs="0" />
+            <xsd:element name="amount" type="common:stAmount" />
         </xsd:sequence>
     </xsd:complexType>
 

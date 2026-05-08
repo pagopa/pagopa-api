@@ -269,4 +269,11 @@
 <!-- 		</xsd:restriction> -->
 <!-- 	</xsd:simpleType> -->
 
+    <xsd:simpleType name="stText20">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="20" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
 </xsd:schema>
