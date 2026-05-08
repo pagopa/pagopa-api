@@ -28,6 +28,10 @@
     {
       "name": "ci-layer",
       "description": "APIs that CI management tools will invoke in order to initiate a pagoPA payment transaction and receive it's outcome"
+    },
+    {
+      "name": "pagopa-pos-gateway-layer",
+      "description": "APIs exposed by pagopa POS Gateway layer for EC integration"
     }
   ],
   "externalDocs": {
@@ -40,7 +44,7 @@
     }
   ],
   "paths": {
-    "/pos/terminals": {
+    "/pos/sessions": {
       "post": {
         "security": [
           {
@@ -48,10 +52,10 @@
           }
         ],
         "tags": [
-          "ci-layer"
+          "pagopa-pos-gateway-layer"
         ],
-        "summary": "Retrieve configured POS list",
-        "description": "GET with request body - No resource will be created. Retrieve all POS configured and available for external CI frontend that wants to pay a position via pos",
+        "summary": "Initialize POS gateway payment session",
+        "description": "Create POS gateway payment session retrieving available POS terminals",
         "operationId": "ciGetPosTerminalList",
         "parameters": [
           {
@@ -63,7 +67,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PosRequest"
+                "$ref": "#/components/schemas/PosSessionRequest"
               }
             }
           }
@@ -74,7 +78,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PosResponse"
+                  "$ref": "#/components/schemas/PosSessionResponse"
                 }
               }
             }
@@ -127,10 +131,10 @@
         }
       }
     },
-    "/pos/sessions/{sessionId}/auth-request": {
+    "/pos/sessions/{sessionId}/auth-requests": {
       "post": {
         "tags": [
-          "ci-layer"
+          "pagopa-pos-gateway-layer"
         ],
         "summary": "Create a POS authorization request ",
         "security": [
@@ -271,10 +275,8 @@
             }
           }
         }
-      }
-    },
-    "/pos/sessions/{sessionId}/auth-request/{authorizationId}/outcomes": {
-      "post": {
+      },
+      "patch": {
         "tags": [
           "ci-layer"
         ],
@@ -418,7 +420,7 @@
     "/pos/sessions/{sessionId}": {
       "get": {
         "tags": [
-          "ci-layer"
+          "pagopa-pos-gateway-layer"
         ],
         "summary": "Get payment session info",
         "security": [
@@ -442,7 +444,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SessionResponse"
+                  "$ref": "#/components/schemas/SessionStatusResponse"
                 }
               }
             }
@@ -925,7 +927,7 @@
           }
         }
       },
-      "PosRequest": {
+      "PosSessionRequest": {
         "type": "object",
         "description": "Request to inquiry for",
         "required": [
@@ -979,7 +981,7 @@
           }
         }
       },
-      "PosResponse": {
+      "PosSessionResponse": {
         "type": "object",
         "properties": {
           "terminals": {
@@ -1104,7 +1106,7 @@
           }
         }
       },
-      "SessionResponse": {
+      "SessionStatusResponse": {
         "type": "object",
         "required": [
           "outcome"
@@ -1116,22 +1118,8 @@
               "SUCCESS",
               "ERROR",
               "ONGOING"
-            ]
-          },
-          "authorizationId": {
-            "$ref": "#/components/schemas/AuthorizationId"
-          },
-          "creditorInstitutionFiscalCode": {
-            "$ref": "#/components/schemas/CreditorInstitutionFiscalCode"
-          },
-          "noticeNumber": {
-            "$ref": "#/components/schemas/NoticeNumber"
-          },
-          "iuv": {
-            "$ref": "#/components/schemas/IUV"
-          },
-          "authorization": {
-            "$ref": "#/components/schemas/AuthorizationOutcomeResponse"
+            ],
+            "description": "Payment session status.\n\nIt can be one of:\n    \n    - ERROR -> POS payment terminated with error, payment session can be discarded\n    \n    - ONGOING -> POS gateway payment still in progess, wait for notification\n    \n    - SUCCESS -> POS gateway payment completed and notified successfully to CI layer through the ciNotifyAuthorizationOutcome operation\n"
           }
         }
       },
