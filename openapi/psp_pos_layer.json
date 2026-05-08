@@ -28,6 +28,10 @@
     {
       "name": "psp-pos-layer",
       "description": "PSP POS layer side operations. Those api's will abstract physical POS integration"
+    },
+    {
+      "name": "pagopa-pos-gateway-layer",
+      "description": "pagoPA POS Gateway layer side operations."
     }
   ],
   "externalDocs": {
@@ -127,7 +131,7 @@
         }
       }
     },
-    "/pos/auth-requests": {
+    "/pos/sessions/{sessionId}/auth-requests": {
       "post": {
         "tags": [
           "psp-pos-layer"
@@ -143,6 +147,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/SessionIdPath"
           }
         ],
         "requestBody": {
@@ -156,15 +163,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Operation accepted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthorizationResponse"
-                }
-              }
-            }
+          "204": {
+            "description": "Operation accepted"
           },
           "400": {
             "description": "Formally invalid input",
@@ -296,12 +296,10 @@
             }
           }
         }
-      }
-    },
-    "/pos/auth-requests/{authorizationRequestId}/outcomes": {
-      "post": {
+      },
+      "patch": {
         "tags": [
-          "psp-pos-layer"
+          "pagopa-pos-gateway-layer"
         ],
         "summary": "POS authorization outcome callback",
         "security": [
@@ -320,6 +318,9 @@
           },
           {
             "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/SessionIdPath"
           }
         ],
         "requestBody": {
@@ -327,7 +328,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthorizationCallbackRequest"
+                "$ref": "#/components/schemas/AuthorizationOutcomeDetails"
               }
             }
           }
@@ -454,9 +455,7 @@
             }
           }
         }
-      }
-    },
-    "/pos/sessions/{sessionId}": {
+      },
       "get": {
         "tags": [
           "psp-pos-layer"
@@ -464,7 +463,7 @@
         "summary": "Fetch POS gateway payment session info",
         "security": [
           {
-            "PagopaApiKeyAuth": []
+            "MutualTLSAuth": []
           }
         ],
         "description": "Retrieve pagoPA POS gateway payment session info",
@@ -483,7 +482,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SessionResponse"
+                  "$ref": "#/components/schemas/AuthorizationOutcomeDetails"
                 }
               }
             }
@@ -501,9 +500,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "404": {
             "description": "Not found",
@@ -559,48 +555,6 @@
                 "example": {
                   "status": 500,
                   "detail": "Internal server error"
-                }
-              }
-            }
-          },
-          "502": {
-            "description": "Bad gateway",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 502,
-                  "detail": "Bad gateway"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 503,
-                  "detail": "Service unavailable"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 504,
-                  "detail": "Gateway timeout"
                 }
               }
             }
@@ -753,7 +707,7 @@
         ],
         "description": "enumeration of possible POS gateway payment\n\nit can be one of:\n- `SUCCESS`  - transaction have been processed successfully\n- `ERROR`  - transaction have been aborted (for both timeout or KO authorization outcome)\n- `ONGOING`  - transaction in progress (waiting for authorization outcome)\n"
       },
-      "AuthorizationCallbackRequest": {
+      "AuthorizationOutcomeDetails": {
         "type": "object",
         "required": [
           "outcome",
@@ -884,7 +838,7 @@
           "creditorInstitution",
           "terminalId",
           "outcomeAuthToken",
-          "posGatewaySessionId"
+          "sessionId"
         ],
         "properties": {
           "amount": {
@@ -902,19 +856,8 @@
           "outcomeAuthToken": {
             "$ref": "#/components/schemas/OutcomeAuthToken"
           },
-          "posGatewaySessionId": {
+          "sessionId": {
             "$ref": "#/components/schemas/SessionId"
-          }
-        }
-      },
-      "AuthorizationResponse": {
-        "type": "object",
-        "required": [
-          "authorizationId"
-        ],
-        "properties": {
-          "authorizationId": {
-            "$ref": "#/components/schemas/AuthorizationId"
           }
         }
       },
