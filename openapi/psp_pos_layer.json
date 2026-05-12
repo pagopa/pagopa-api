@@ -55,7 +55,7 @@
           "psp-pos-layer"
         ],
         "summary": "Retrieve configured POS list",
-        "description": "GET with request body - No resource will be created. Retrieve all POS configured and available for external CI frontend that wants to pay a position via pos",
+        "description": "GET with request body - No resource will be created. Retrieve all POS configured and available for external CI frontend that wants to pay a position via POS",
         "operationId": "POS-list",
         "parameters": [
           {
