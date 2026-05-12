@@ -31,7 +31,7 @@
     },
     {
       "name": "pagopa-pos-gateway-layer",
-      "description": "APIs exposed by pagopa POS Gateway layer for EC integration"
+      "description": "APIs exposed by pagopa POS Gateway layer for CI integration"
     }
   ],
   "externalDocs": {
