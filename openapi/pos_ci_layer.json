@@ -131,6 +131,145 @@
         }
       }
     },
+    "/pos/ci/sessions/{sessionId}/auth-requests": {
+      "patch": {
+        "tags": [
+          "ci-layer"
+        ],
+        "summary": "Notify payment session authorization outcome",
+        "security": [
+          {
+            "MutualTLSAuth": []
+          }
+        ],
+        "description": "Return to the CI external frontend the output of the payment phase formerly invoked",
+        "operationId": "ciNotifyAuthorizationOutcome",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthorizationCallbackRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Outcome notified successfully"
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad Request"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not Found"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad gateway",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 502,
+                  "detail": "Bad Gateway"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 503,
+                  "detail": "Service unavailable"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Gateway timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 504,
+                  "detail": "Gateway timeout"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/pos/sessions/{sessionId}/auth-requests": {
       "post": {
         "tags": [
@@ -275,43 +414,39 @@
             }
           }
         }
-      },
-      "patch": {
+      }
+    },
+    "/pos/ci/sessions/{sessionId}": {
+      "get": {
         "tags": [
           "ci-layer"
         ],
-        "summary": "Notify payment session authorization outcome",
+        "summary": "Get creditor institution payment session info",
         "security": [
           {
             "MutualTLSAuth": []
           }
         ],
-        "description": "Return to the CI external frontend the output of the payment phase formerly invoked",
-        "operationId": "ciNotifyAuthorizationOutcome",
+        "description": "Get creditor institution payment session info",
+        "operationId": "ciGetPaymentSession",
         "parameters": [
           {
             "$ref": "#/components/parameters/SessionIdPath"
           },
           {
-            "$ref": "#/components/parameters/AuthorizationIdPath"
-          },
-          {
             "$ref": "#/components/parameters/CorrelationId"
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthorizationCallbackRequest"
+        "responses": {
+          "200": {
+            "description": "Payment session retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CiSessionStatusResponse"
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "Outcome notified successfully"
           },
           "400": {
             "description": "Formally invalid input",
@@ -322,7 +457,7 @@
                 },
                 "example": {
                   "status": 400,
-                  "detail": "Bad Request"
+                  "detail": "Bad request"
                 }
               }
             }
@@ -339,21 +474,7 @@
                 },
                 "example": {
                   "status": 404,
-                  "detail": "Not Found"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 429,
-                  "detail": "Too many requests"
+                  "detail": "Not found"
                 }
               }
             }
@@ -371,48 +492,6 @@
                 }
               }
             }
-          },
-          "502": {
-            "description": "Bad gateway",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 502,
-                  "detail": "Bad Gateway"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 503,
-                  "detail": "Service unavailable"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 504,
-                  "detail": "Gateway timeout"
-                }
-              }
-            }
           }
         }
       }
@@ -422,14 +501,14 @@
         "tags": [
           "pagopa-pos-gateway-layer"
         ],
-        "summary": "Get payment session info",
+        "summary": "Get POS gateway pago PA payment session info",
         "security": [
           {
             "PagopaApiKeyAuth": []
           }
         ],
-        "description": "Get payment session info such as status, authorization outcome etc",
-        "operationId": "ciGetPaymentSession",
+        "description": "Get POS gateway pago PA payment session info",
+        "operationId": "posGatewayGetPaymentSession",
         "parameters": [
           {
             "$ref": "#/components/parameters/SessionIdPath"
@@ -510,15 +589,6 @@
         },
         "description": "Subsequent api call correlation field. This should be the same for all api's invoked in a given user session to track each call and for throubleshooting"
       },
-      "AuthorizationIdPath": {
-        "name": "authorizationId",
-        "in": "path",
-        "required": true,
-        "description": "The unique transaction identifier",
-        "schema": {
-          "$ref": "#/components/schemas/AuthorizationId"
-        }
-      },
       "SessionIdPath": {
         "name": "sessionId",
         "in": "path",
@@ -541,11 +611,6 @@
         "description": "the POS unique terminal identifier",
         "minLength": 8,
         "maxLength": 8
-      },
-      "AuthorizationId": {
-        "type": "string",
-        "format": "uuid",
-        "description": "unique authorization request identifier"
       },
       "SessionId": {
         "type": "string",
@@ -1123,6 +1188,22 @@
           }
         }
       },
+      "CiSessionStatusResponse": {
+        "type": "object",
+        "required": [
+          "outcome"
+        ],
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "SUCCESS",
+              "ERROR",
+              "ONGOING"
+            ]
+          }
+        }
+      },
       "PaymentResponse": {
         "type": "object",
         "required": [
@@ -1166,8 +1247,7 @@
           "creditorInstitutionFiscalCode",
           "noticeNumber",
           "iuv",
-          "amount",
-          "authorizationId"
+          "amount"
         ],
         "properties": {
           "creditorInstitutionFiscalCode": {
@@ -1181,9 +1261,6 @@
           },
           "amount": {
             "$ref": "#/components/schemas/Amount"
-          },
-          "authorizationId": {
-            "$ref": "#/components/schemas/AuthorizationId"
           }
         }
       },
