@@ -711,7 +711,7 @@
         "examples": [
           "80001230456"
         ],
-        "description": "CI fiscal code "
+        "description": "CI fiscal code"
       },
       "LogicalOffice": {
         "minLength": 1,
