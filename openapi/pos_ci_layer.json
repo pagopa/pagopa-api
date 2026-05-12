@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Pagopa POS gateway services for POS integration - CI layer",
-    "description": "API's that will be used for pagoPA POS flow integration",
+    "description": "APIs that will be used for pagoPA POS flow integration",
     "contact": {
       "name": "pagoPA - Touchpoints team"
     },
@@ -27,11 +27,11 @@
   "tags": [
     {
       "name": "ci-layer",
-      "description": "APIs that CI management tools will invoke in order to initiate a pagoPA payment transaction and receive it's outcome"
+      "description": "APIs that CI management tools will invoke in order to initiate a pagoPA payment transaction and receive its outcome"
     },
     {
       "name": "pagopa-pos-gateway-layer",
-      "description": "APIs exposed by pagopa POS Gateway layer for EC integration"
+      "description": "APIs exposed by pagopa POS Gateway layer for CI integration"
     }
   ],
   "externalDocs": {
@@ -587,7 +587,7 @@
           "type": "string",
           "format": "uuid"
         },
-        "description": "Subsequent api call correlation field. This should be the same for all api's invoked in a given user session to track each call and for throubleshooting"
+        "description": "Subsequent API call correlation field. This should be the same for all APIs invoked in a given user session to track each call and for throubleshooting"
       },
       "SessionIdPath": {
         "name": "sessionId",
@@ -711,7 +711,7 @@
         "examples": [
           "80001230456"
         ],
-        "description": "CI fiscal code "
+        "description": "CI fiscal code"
       },
       "LogicalOffice": {
         "minLength": 1,
