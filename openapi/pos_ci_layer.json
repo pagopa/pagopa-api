@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Pagopa POS gateway services for POS integration - CI layer",
-    "description": "API's that will be used for pagoPA POS flow integration",
+    "description": "APIs that will be used for pagoPA POS flow integration",
     "contact": {
       "name": "pagoPA - Touchpoints team"
     },
