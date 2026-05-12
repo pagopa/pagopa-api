@@ -227,6 +227,22 @@
           },
           "429": {
             "description": "Too many requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Indicates how long the client should wait before making a follow-up request.",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "http-date": {
+                    "value": "Wed, 21 Oct 2022 07:28:00 GMT"
+                  },
+                  "delay-seconds": {
+                    "value": "120"
+                  }
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
