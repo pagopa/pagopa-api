@@ -27,7 +27,7 @@
   "tags": [
     {
       "name": "psp-pos-layer",
-      "description": "PSP POS layer side operations. Those api's will abstract physical POS integration"
+      "description": "PSP POS layer side operations. Those APIs will abstract physical POS integration"
     },
     {
       "name": "pagopa-pos-gateway-layer",
