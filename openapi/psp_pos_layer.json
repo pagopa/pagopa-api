@@ -1094,7 +1094,7 @@
           },
           "authorizationTimeout": {
             "$ref": "#/components/schemas/DurationSeconds",
-            "description": "Authorization timeout as configured for the terminal for authorization process to be concluded: this is the max amount of time that POS gateway pagoPA will await to receive an outcome from the POS layer once authorization have been requested successfully. Any outcome callback api call received after this timeout will be rejected by pagoPA POS gateway",
+            "description": "Authorization timeout as configured for the terminal for authorization process to be concluded: this is the max amount of time that POS gateway pagoPA will await to receive an outcome from the POS layer once authorization have been requested successfully. Any outcome callback API call received after this timeout will be rejected by pagoPA POS gateway",
             "minValue": 1,
             "maxValue": 60
           }
