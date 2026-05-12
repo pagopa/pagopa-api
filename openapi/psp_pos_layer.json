@@ -792,7 +792,7 @@
         "description": "the brand of the citized debit/credit card"
       },
       "OutcomeAuthToken": {
-        "description": "outcome authorization token, to be used to authorize authorization outcome callback api call",
+        "description": "outcome authorization token, to be used to authorize authorization outcome callback API call",
         "type": "string"
       },
       "DurationSeconds": {
