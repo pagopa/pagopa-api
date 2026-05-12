@@ -587,7 +587,7 @@
           "type": "string",
           "format": "uuid"
         },
-        "description": "Subsequent api call correlation field. This should be the same for all api's invoked in a given user session to track each call and for throubleshooting"
+        "description": "Subsequent API call correlation field. This should be the same for all APIs invoked in a given user session to track each call and for throubleshooting"
       },
       "SessionIdPath": {
         "name": "sessionId",
