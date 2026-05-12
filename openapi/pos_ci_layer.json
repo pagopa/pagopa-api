@@ -275,7 +275,7 @@
         "tags": [
           "pagopa-pos-gateway-layer"
         ],
-        "summary": "Create a POS authorization request ",
+        "summary": "Create a POS authorization request",
         "security": [
           {
             "PagopaApiKeyAuth": []
