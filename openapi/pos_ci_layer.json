@@ -27,7 +27,7 @@
   "tags": [
     {
       "name": "ci-layer",
-      "description": "APIs that CI management tools will invoke in order to initiate a pagoPA payment transaction and receive it's outcome"
+      "description": "APIs that CI management tools will invoke in order to initiate a pagoPA payment transaction and receive its outcome"
     },
     {
       "name": "pagopa-pos-gateway-layer",
