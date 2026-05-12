@@ -561,6 +561,113 @@
           }
         }
       }
+    },
+    "/pos/reconciliations/batches": {
+      "post": {
+        "tags": [
+          "psp-pos-layer"
+        ],
+        "summary": "Create a reconciliation batch",
+        "security": [
+          {
+            "MutualTLSAuth": []
+          }
+        ],
+        "description": "Create a reconciliation batch with all session ids to manage",
+        "operationId": "pspCreateReconciliationBatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReconciliationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Operation accepted"
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not found"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Indicates how long the client should wait before making a follow-up request.",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "http-date": {
+                    "value": "Wed, 21 Oct 2022 07:28:00 GMT"
+                  },
+                  "delay-seconds": {
+                    "value": "120"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1001,6 +1108,86 @@
         "properties": {
           "status": {
             "$ref": "#/components/schemas/SessionStatus"
+          }
+        }
+      },
+      "ReconciliationRequest": {
+        "type": "object",
+        "required": [
+          "batchId",
+          "timestamp",
+          "totalItems",
+          "sessions"
+        ],
+        "properties": {
+          "batchId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the reconciliation batch."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Generation timestamp of the batch.",
+            "examples": [
+              "2026-05-07T06:00:00Z"
+            ]
+          },
+          "totalItems": {
+            "type": "integer",
+            "description": "Total number of session items included in this batch.",
+            "minimum": 1,
+            "maximum": 100,
+            "examples": [
+              2
+            ]
+          },
+          "sessions": {
+            "type": "array",
+            "description": "List of sessions requiring compensatory actions.",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/ReconciliationSession"
+            }
+          }
+        }
+      },
+      "ReconciliationSession": {
+        "type": "object",
+        "required": [
+          "sessionId",
+          "amount",
+          "action",
+          "reason"
+        ],
+        "properties": {
+          "sessionId": {
+            "$ref": "#/components/schemas/SessionId"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "action": {
+            "type": "string",
+            "description": "Mandatory compensatory action the PSP must perform.",
+            "enum": [
+              "REFUND",
+              "COMPLETE"
+            ],
+            "examples": [
+              "REFUND"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Code indicating the reason for the reconciliation request.",
+            "enum": [
+              "TIMEOUT_AUTHORIZATION",
+              "MISSING_PAYMENT_OUTCOME"
+            ],
+            "examples": [
+              "TIMEOUT_AUTHORIZATION"
+            ]
           }
         }
       },
