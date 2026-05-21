@@ -3,87 +3,89 @@
   "info": {
     "title": "FDR - Flussi di Rendicontazione (ORGs)",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "1.1.54",
+    "version": "1.2.4",
     "description": "Manage FDR (aka \"Flussi di Rendicontazione\") exchanged between PSP and EC\n\n## OPERATIONAL ERROR CODES\n\n<details><summary>Details</summary>\nNAME | CODE | ERROR MESSAGE TEMPLATE | DESCRIPTION\n- | - | - | -\n**FDR-0500** | *ERROR* | An unexpected error has occurred. Please contact support. | An error occurred during computation. This could be <br>caused by an applicative error and it is probably required <br>to open an issue.\n**FDR-1000** | *BAD_REQUEST* | Bad request. | A generic 'Bad Request' error is occurred during request <br>validation.\n**FDR-1001** | *BAD_REQUEST_INPUT_JSON* | Bad request. Field [%] is equals to [%] but this is <br>not a valid value. | A generic error occurred during execution of request <br>syntactic validation\n**FDR-1002** | *BAD_REQUEST_INPUT_JSON_INSTANT* | Bad request. Field [%] is equals to [%] but it is expected <br>to be in ISO-8601 format [yyyy-MM-ddTHH:mm:ssZ] (example: <br>[2025-01-01T12:00:00.123000Z]). | An error occurred during execution of request syntactic <br>validation, in particular regarding the analysis of <br>date values\n**FDR-1003** | *BAD_REQUEST_INPUT_JSON_ENUM* | Bad request. Field [%] is equals to [%] but it is expected <br>to be one of the following values: [%]. | An error occurred during execution of request syntactic <br>validation, in particular regarding the analysis of <br>enumerative values\n**FDR-1004** | *BAD_REQUEST_INPUT_JSON_DESERIALIZE_<br>ERROR* | Bad request. Field [%] generate a deserialization error. <br>Please, set the correct value. | An error occurred during execution of deserialization <br>of request from a JSON string\n**FDR-1005** | *BAD_REQUEST_INPUT_JSON_NON_VALID_<br>FORMAT* | Bad request. The format of JSON request is not valid. | An error occurred during execution of analysis of JSON <br>request, in particular regarding its format\n**FDR-2000** | *PSP_UNKNOWN* | PSP with ID [%] is invalid or unknown. | An error occurred regarding the passed PSP identifier. <br>That PSP is not valid and maybe it does not exists <br>in current environment\n**FDR-2001** | *PSP_NOT_ENABLED* | PSP with ID [%] is not enabled. | An error occurred regarding the passed PSP identifier. <br>That PSP is not enabled and cannot be used for elaboration\n**FDR-2002** | *BROKER_UNKNOWN* | PSP Broker with ID [%] is invalid or unknown. | An error occurred regarding the passed PSP Broker identifier. <br>That PSP Broker is not valid and maybe it does not <br>exists in current environment\n**FDR-2003** | *BROKER_NOT_ENABLED* | PSP Broker with ID [%] is not enabled. | An error occurred regarding the passed PSP Broker identifier. <br>That PSP Broker is not enabled and cannot be used for <br>elaboration\n**FDR-2004** | *CHANNEL_UNKNOWN* | Channel with ID [%] is invalid or unknown. | An error occurred regarding the passed Channel identifier. <br>That Channel is not valid and maybe it does not exists <br>in current environment\n**FDR-2005** | *CHANNEL_NOT_ENABLED* | Channel with ID [%] is not enabled. | An error occurred regarding the passed Channel identifier. <br>That Channel is not enabled and cannot be used for <br>elaboration\n**FDR-2006** | *CHANNEL_BROKER_WRONG_CONFIG* | Channel with ID [%] is not authorized to be used with <br>PSP Broker with ID [%]. | An error occurred regarding the passed Channel identifier. <br>That Channel is not correctly configured for the passed <br>PSP Broker and cannot be used for elaboration. In order <br>to be used, it is required to be configured by PagoPA <br>operator\n**FDR-2007** | *CHANNEL_PSP_WRONG_CONFIG* | Channel with ID [%] is not authorized to be used with <br>PSP with ID [%]. | An error occurred regarding the passed Channel identifier. <br>That Channel is not correctly configured for the passed <br>PSP and cannot be used for elaboration. In order to <br>be used, it is required to be configured by PagoPA <br>operator\n**FDR-2008** | *EC_UNKNOWN* | Creditor institution with ID [%] is invalid or unknown. | An error occurred regarding the passed Creditor Institution <br>identifier. That Creditor Institution is not valid <br>and maybe it does not exists in current environment\n**FDR-2009** | *EC_NOT_ENABLED* | Creditor institution with ID [%] is not enabled. | An error occurred regarding the passed Creditor Institution <br>identifier. That Creditor Institution is not enabled <br>and cannot be used for elaboration\n**FDR-3001** | *REPORTING_FLOW_NOT_FOUND* | Flow with ID [%] not found. | An error occurred during the search of reporting flow. <br>The needed flow does not exists in current environment\n**FDR-3002** | *REPORTING_FLOW_ALREADY_EXIST* | Flow with ID [%] already exists with [%] status. | An error occurred during the search of reporting flow. <br>The flow being created already exists in CREATED/INSERTED <br>status and cannot be overridden. The existing flow <br>must be deleted in order to create another flow with <br>the same name.\n**FDR-3003** | *REPORTING_FLOW_WRONG_ACTION* | Flow with ID [%] exists with [%] status. | An error occurred during the search of reporting flow. <br>The flow being updated cannot be handled with some <br>kind of action (for example, trying to publish a flow <br>in CREATED status)\n**FDR-3004** | *REPORTING_FLOW_PSP_ID_NOT_MATCH* | Flow with ID [%] have field sender.pspId [%] that does <br>not match with query param [%]. | An error occurred during flow analysis. The value of <br>PSP identifier set on query parameter is not equals <br>to the one defined in the request. So, it is required <br>to update one of them in order to proceed.\n**FDR-3005** | *REPORTING_FLOW_PAYMENT_SAME_INDEX_<br>IN_SAME_REQUEST* | There are one or more identical payment indexes in <br>same request for flow with ID [%]. | An error occurred during flow analysis regarding the <br>included payments. In particular, there are at least <br>one index that is duplicated in the request and it <br>is required to delete them in order to proceed.\n**FDR-3006** | *REPORTING_FLOW_PAYMENT_DUPLICATE_<br>INDEX* | One or more payment index already added on flow with <br>ID [%]. | An error occurred during flow analysis regarding the <br>included payments. In particular, there are at least <br>one index that is duplicated in the whole flow and <br>it is required to exclude them in the request in order <br>to proceed.\n**FDR-3007** | *REPORTING_FLOW_PAYMENT_NO_MATCH_<br>INDEX* | Index of payment not match with index loaded on flow <br>with ID [%]. | An error occurred during flow analysis regarding the <br>included payments. In particular, there are at least <br>one index that does not exists in the whole flow it <br>is required to delete them from request in order to <br>proceed.\n**FDR-3008** | *REPORTING_FLOW_NAME_DATE_WRONG_<br>FORMAT* | Flow identifier [%] contains a date that is not compliant. | An error occurred during execution of analysis on flow <br>identifier. In particular, the date included in the <br>identifier is not correctly formatted and it is not <br>compliant with SANP specification\n**FDR-3009** | *REPORTING_FLOW_NAME_PSP_WRONG_FORMAT* | Flow identifier [%] contains a PSP ID that is not compliant. | An error occurred during execution of analysis on flow <br>identifier. In particular, the PSP Identifier included <br>in the flow identifier is not correct and it is not <br>compliant with SANP specification\n**FDR-3010** | *REPORTING_FLOW_NAME_NOT_MATCH* | Field fdr [%] does not match with query param [%]. | An error occurred during flow analysis. The value of <br>flow identifier set on query parameter is not equals <br>to the one defined in the request. So, it is required <br>to update one of them in order to proceed.\n**FDR-3011** | *REPORTING_FLOW_DATE_NOT_COMPLIANT* | Flow [%] contains a date that is not compliant. The <br>inserted date [%] must be after the date in the last <br>revision [%]. | An error occurred during flow analysis. The value of <br>flow date is not compliant with the required values. <br>The date must  come after the one in the last revision.\n**FDR-3012** | *REPORTING_FLOW_REVISION_ORGANIZATION_<br>MISMATCH* | Invalid reporting flow revision for [%]: previous organizationId <br>[%] is different from current organizationId [%]. | An error occurred during flow analysis. A new revision <br>cannot change the creditor institution identifier of <br>the previous published revision.\n**FDR-4001** | *REPORTING_FLOW_WRONG_TOT_PAYMENT* | On flow with ID [%], [%] payments were defined to be <br>added but [%] were actually added. | An error occurred during flow analysis before publish <br>operation. In particular, the number of total payments <br>added by previous steps are not equals to the quantity <br>pre-defined in flow during creation process.\n**FDR-4002** | *REPORTING_FLOW_WRONG_SUM_PAYMENT* | On flow with ID [%], an amount of [%] euro for all <br>payments were defined to be added but [%] is actually <br>calculated. | An error occurred during flow analysis before publish <br>operation. In particular, the number of total amout <br>for payments added by previous steps are not equals <br>to the quantity pre-defined in flow during creation <br>process.\n"
   },
   "servers": [
     {
-      "url": "https://api.dev.platform.pagopa.it/fdr-org/service/v1"
+      "url": "https://api.platform.pagopa.it/fdr-org/service/v1"
     }
   ],
   "paths": {
     "/organizations/{organizationId}/fdrs": {
       "get": {
+        "summary": "Get all published flow related to creditor institution",
+        "description": "## Description:\nThis API permits to search all published flows for a specific creditor institution,\nformatted in a paginated view. The search can be enhanced including the PSP identifier\nin order to filter only the flows for certain PSP. The only flows retrieved are the latest\nrevision, as same as \"nodoChiediElencoFlussiRendicontazione\" primitive does.<br>\nBefore executing the query, the search filters are validated against entities configured for\n<i>Nodo dei Pagamenti</i> environment, in particular on PSP (if that search filter is defined).<br>\nThe result of the query is paginated and contains all the metadata needed for pagination purposes.<br>\n\nQuery date-time filters are defined with UTC time-zone.<br>\n\n\n## Error codes:\nAPPLICATIVE CODE | HTTP CODE | MESSAGE\n- | - | -\n**FDR-2000** | 400 | PSP with ID [%] is invalid or unknown.\n**FDR-2001** | 400 | PSP with ID [%] is not enabled.\n**FDR-2008** | 400 | Creditor institution with ID [%] is invalid or unknown.\n**FDR-2009** | 400 | Creditor institution with ID [%] is not enabled.\n\n\n## API properties:\nPROPERTY | VALUE\n- | -\n***Internal*** | N\n***External*** | Y\n***Synchronous*** | Synchronous\n***Authorization*** | Y (Authorizer)\n***Authentication*** | Y (Subscription Key)\n***TPS*** | 1.0/sec\n***Idempotency*** | Y\n***Stateless*** | Y\n***Read/Write Intensive*** | Read\n***Cacheable*** | Y\n",
+        "operationId": "IOrganizationsController_getAllPublishedFlows",
         "tags": [
           "Organizations"
         ],
-        "summary": "Get all published flow related to creditor institution",
-        "description": "Get all published flow related to creditor institution",
-        "operationId": "IOrganizationsController_getAllPublishedFlows",
         "parameters": [
           {
+            "description": "The creditor institution identifier, used as a search filter",
+            "example": "15376371009",
             "name": "organizationId",
             "in": "path",
-            "description": "The creditor institution identifier, used as a search filter",
             "required": true,
             "schema": {
-              "pattern": "^(.{1,35})$",
-              "type": "string"
-            },
-            "example": 15376371009
+              "type": "string",
+              "pattern": "^(.{1,35})$"
+            }
           },
           {
+            "description": "A date-time to be used as a lower limit search on flow date. Defined with UTC time-zone and formatted as ISO-8601 (yyyy-MM-dd'T'HH:mm:ss'Z'). If omitted, the server uses a dynamic default equal to the start of the previous 30th day at 00:00:00Z.",
+            "example": "2025-01-01T12:00:00Z",
             "name": "flowDate",
             "in": "query",
-            "description": "A date-time to be used as a lower limit search on flow date. Defined with UTC time-zone and formatted as ISO-8601 (yyyy-MM-dd'T'HH:mm:ss'Z'). If omitted, the server uses a dynamic default equal to the start of the previous 30th day at 00:00:00Z.",
             "schema": {
               "$ref": "#/components/schemas/Instant"
             },
-            "example": "2025-01-01T12:00:00.0000000+00:00"
+            "required": false
           },
           {
+            "description": "The index of the page to be shown in the result",
+            "example": 1,
             "name": "page",
             "in": "query",
-            "description": "The index of the page to be shown in the result",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "format": "int64",
-              "default": 1
-            },
-            "example": 1
+              "default": 1,
+              "minimum": 1
+            }
           },
           {
+            "description": "The PSP identifier, used as a search filter",
+            "example": "88888888888",
             "name": "pspId",
             "in": "query",
-            "description": "The PSP identifier, used as a search filter",
             "schema": {
-              "pattern": "^(.{1,35})$",
-              "type": "string"
-            },
-            "example": 88888888888
+              "type": "string",
+              "pattern": "^(.{1,35})$"
+            }
           },
           {
+            "description": "A date-time to be used as a lower limit search on publication date. Defined with UTC time-zone and formatted as ISO-8601 (yyyy-MM-dd'T'HH:mm:ss'Z'). If omitted, the server uses a dynamic default equal to the start of the previous 30th day at 00:00:00Z.",
+            "example": "2025-01-01T12:00:00Z",
             "name": "publishedGt",
             "in": "query",
-            "description": "A date-time to be used as a lower limit search on publication date. Defined with UTC time-zone and formatted as ISO-8601 (yyyy-MM-dd'T'HH:mm:ss'Z'). If omitted, the server uses a dynamic default equal to the start of the previous 30th day at 00:00:00Z.",
             "schema": {
               "$ref": "#/components/schemas/Instant"
             },
-            "example": "2025-01-01T12:00:00.0000000+00:00"
+            "required": false
           },
           {
+            "description": "The number of the elements of the page to be shown in the result",
+            "example": 50,
             "name": "size",
             "in": "query",
-            "description": "The number of the elements of the page to be shown in the result",
             "schema": {
-              "maximum": 1000,
-              "minimum": 1,
               "type": "integer",
               "format": "int64",
-              "default": 1000
-            },
-            "example": 50
+              "default": 1000,
+              "maximum": 1000,
+              "minimum": 1
+            }
           }
         ],
         "responses": {
@@ -93,41 +95,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginatedFlowsResponse"
-                },
-                "example": {
-                  "metadata": {
-                    "pageSize": [
-                      25
-                    ],
-                    "pageNumber": [
-                      1
-                    ],
-                    "totPage": [
-                      3
-                    ]
-                  },
-                  "count": [
-                    100
-                  ],
-                  "data": [
-                    {
-                      "fdr": [
-                        "2025-01-0188888888888-0000001"
-                      ],
-                      "pspId": [
-                        "88888888888"
-                      ],
-                      "revision": [
-                        1
-                      ],
-                      "published": [
-                        "2022-03-10T04:15:50.0000000+00:00"
-                      ],
-                      "flowDate": [
-                        "2022-03-10T04:15:50.0000000+00:00"
-                      ]
-                    }
-                  ]
                 }
               }
             }
@@ -136,9 +103,6 @@
             "description": "Bad Request",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "httpStatusCode": 400,
                   "httpStatusDescription": "Bad Request",
@@ -149,6 +113,9 @@
                       "message": "<detail.message>"
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -157,9 +124,6 @@
             "description": "Not Found",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "httpStatusCode": 404,
                   "httpStatusDescription": "Not Found",
@@ -169,6 +133,9 @@
                       "message": "<detail.message>"
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -177,9 +144,6 @@
             "description": "Internal Server Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "errorId": "50905466-1881-457b-b42f-fb7b2bfb1610",
                   "httpStatusCode": 500,
@@ -190,6 +154,9 @@
                       "message": "An unexpected error has occurred. Please contact support."
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -199,54 +166,54 @@
     },
     "/organizations/{organizationId}/fdrs/{fdr}/revisions/{revision}/psps/{pspId}": {
       "get": {
+        "summary": "Get single published flow related to creditor institution, searching by name and revision",
+        "description": "## Description:\nThis API permits to search a single published flows for a specific creditor institution.\nIn order to do so, it is required to add the following search filters:\n - Creditor institution identifier: for filtering by specific organization\n - PSP identifier: for filtering by flow-related PSP\n - Flow name: for filtering by specific instance of the flow\n - Revision: for filtering by flow revision\n\nBefore executing the query, the search filters are validated against entities configured for\n<i>Nodo dei Pagamenti</i> environment, in particular on creditor institution and PSP. Also,\nthe name of the flow is validated against a specific standard format.<br>\n\nDate-time fields in the response are defined with UTC time-zone. Business-date fields preserve the original calendar day.<br>\n\n\n## Error codes:\nAPPLICATIVE CODE | HTTP CODE | MESSAGE\n- | - | -\n**FDR-2000** | 400 | PSP with ID [%] is invalid or unknown.\n**FDR-2001** | 400 | PSP with ID [%] is not enabled.\n**FDR-2008** | 400 | Creditor institution with ID [%] is invalid or unknown.\n**FDR-2009** | 400 | Creditor institution with ID [%] is not enabled.\n**FDR-3008** | 400 | Flow identifier [%] contains a date that is not compliant.\n**FDR-3009** | 400 | Flow identifier [%] contains a PSP ID that is not compliant.\n**FDR-3001** | 404 | Flow with ID [%] not found.\n\n\n## API properties:\nPROPERTY | VALUE\n- | -\n***Internal*** | N\n***External*** | Y\n***Synchronous*** | Synchronous\n***Authorization*** | Y (Authorizer)\n***Authentication*** | Y (Subscription Key)\n***TPS*** | 1.0/sec\n***Idempotency*** | Y\n***Stateless*** | Y\n***Read/Write Intensive*** | Read\n***Cacheable*** | Y\n",
+        "operationId": "IOrganizationsController_getSinglePublishedFlow",
         "tags": [
           "Organizations"
         ],
-        "summary": "Get single published flow related to creditor institution, searching by name and revision",
-        "description": "Get single published flow related to creditor institution, searching by name and revision",
-        "operationId": "IOrganizationsController_getSinglePublishedFlow",
         "parameters": [
           {
+            "description": "The flow name, used as a search filter",
+            "example": "2025-01-0188888888888-0001",
             "name": "fdr",
             "in": "path",
-            "description": "The flow name, used as a search filter",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "example": "2025-01-0188888888888-0001"
+            }
           },
           {
+            "description": "The creditor institution identifier, used as a search filter",
+            "example": "15376371009",
             "name": "organizationId",
             "in": "path",
-            "description": "The creditor institution identifier, used as a search filter",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "example": 15376371009
+            }
           },
           {
+            "description": "The PSP identifier, used as a search filter",
+            "example": "88888888888",
             "name": "pspId",
             "in": "path",
-            "description": "The PSP identifier, used as a search filter",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "example": 88888888888
+            }
           },
           {
+            "description": "The specific revision of the flow needed",
+            "example": 1,
             "name": "revision",
             "in": "path",
-            "description": "The specific revision of the flow needed",
             "required": true,
             "schema": {
-              "minimum": 1,
               "type": "integer",
-              "format": "int64"
-            },
-            "example": 1
+              "format": "int64",
+              "minimum": 1
+            }
           }
         ],
         "responses": {
@@ -256,78 +223,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SingleFlowResponse"
-                },
-                "example": {
-                  "status": "CREATED",
-                  "revision": [
-                    4
-                  ],
-                  "created": [
-                    "2022-03-10T04:15:50.0000000+00:00"
-                  ],
-                  "updated": [
-                    "2022-03-10T04:15:50.0000000+00:00"
-                  ],
-                  "fdr": [
-                    "2025-01-0188888888888-0000001"
-                  ],
-                  "fdrDate": [
-                    "2022-03-10T04:15:50.0000000+00:00"
-                  ],
-                  "regulation": [
-                    "SEPA - Bonifico X"
-                  ],
-                  "regulationDate": "string",
-                  "bicCodePouringBank": [
-                    "UNCRITMMXXX"
-                  ],
-                  "sender": {
-                    "type": "LEGAL_PERSON",
-                    "id": [
-                      "SELBIT2B"
-                    ],
-                    "pspId": [
-                      "60000000001"
-                    ],
-                    "pspName": [
-                      "PSP Name"
-                    ],
-                    "pspBrokerId": [
-                      "70000000001"
-                    ],
-                    "channelId": [
-                      "80000000001"
-                    ],
-                    "password": [
-                      "password"
-                    ]
-                  },
-                  "receiver": {
-                    "id": [
-                      "APPBIT2B"
-                    ],
-                    "organizationId": [
-                      "20000000001"
-                    ],
-                    "organizationName": [
-                      "Comune di Roma"
-                    ]
-                  },
-                  "published": [
-                    "2022-03-10T04:15:50.0000000+00:00"
-                  ],
-                  "computedTotPayments": [
-                    100
-                  ],
-                  "computedSumPayments": [
-                    100.95
-                  ],
-                  "totPayments": [
-                    100
-                  ],
-                  "sumPayments": [
-                    100.95
-                  ]
                 }
               }
             }
@@ -336,9 +231,6 @@
             "description": "Bad Request",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "httpStatusCode": 400,
                   "httpStatusDescription": "Bad Request",
@@ -349,6 +241,9 @@
                       "message": "<detail.message>"
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -357,9 +252,6 @@
             "description": "Not Found",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "httpStatusCode": 404,
                   "httpStatusDescription": "Not Found",
@@ -369,6 +261,9 @@
                       "message": "<detail.message>"
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -377,9 +272,6 @@
             "description": "Internal Server Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "errorId": "50905466-1881-457b-b42f-fb7b2bfb1610",
                   "httpStatusCode": 500,
@@ -390,6 +282,9 @@
                       "message": "An unexpected error has occurred. Please contact support."
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -399,78 +294,78 @@
     },
     "/organizations/{organizationId}/fdrs/{fdr}/revisions/{revision}/psps/{pspId}/payments": {
       "get": {
+        "summary": "Get all payments of single published flow related to creditor institution, searching by name and revision",
+        "description": "## Description:\nThis API permits to search all the payments of a single published flow for a specific creditor institution,\nformatted in a paginated view. In order to do so, it is required to add the following search filters:\n - Creditor institution identifier: for filtering by specific organization\n - PSP identifier: for filtering by flow-related PSP\n - Flow name: for filtering by specific instance of the flow\n - Revision: for filtering by flow revision\n\nBefore executing the query, the search filters are validated against entities configured for\n<i>Nodo dei Pagamenti</i> environment, in particular on creditor institution and PSP. Also,\nthe name of the flow is validated against a specific standard format.<br>\nThe result of the query is paginated and contains all the metadata needed for pagination purposes.<br>\n\nDate-time fields in the response are defined with UTC time-zone. Business-date fields preserve the original calendar day.<br>\n\n\n\n## Error codes:\nAPPLICATIVE CODE | HTTP CODE | MESSAGE\n- | - | -\n**FDR-2000** | 400 | PSP with ID [%] is invalid or unknown.\n**FDR-2001** | 400 | PSP with ID [%] is not enabled.\n**FDR-2008** | 400 | Creditor institution with ID [%] is invalid or unknown.\n**FDR-2009** | 400 | Creditor institution with ID [%] is not enabled.\n**FDR-3008** | 400 | Flow identifier [%] contains a date that is not compliant.\n**FDR-3009** | 400 | Flow identifier [%] contains a PSP ID that is not compliant.\n**FDR-3001** | 404 | Flow with ID [%] not found.\n\n\n## API properties:\nPROPERTY | VALUE\n- | -\n***Internal*** | N\n***External*** | Y\n***Synchronous*** | Synchronous\n***Authorization*** | Y (Authorizer)\n***Authentication*** | Y (Subscription Key)\n***TPS*** | 1.0/sec\n***Idempotency*** | Y\n***Stateless*** | Y\n***Read/Write Intensive*** | Read\n***Cacheable*** | Y\n",
+        "operationId": "IOrganizationsController_getPaymentsFromPublishedFlow",
         "tags": [
           "Organizations"
         ],
-        "summary": "Get all payments of single published flow related to creditor institution, searching by name and revision",
-        "description": "Get all payments of single published flow related to creditor institution, searching by name and revision",
-        "operationId": "IOrganizationsController_getPaymentsFromPublishedFlow",
         "parameters": [
           {
+            "description": "The flow name, used as a search filter",
+            "example": "2025-01-0188888888888-0001",
             "name": "fdr",
             "in": "path",
-            "description": "The flow name, used as a search filter",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "example": "2025-01-0188888888888-0001"
+            }
           },
           {
+            "description": "The creditor institution identifier, used as a search filter",
+            "example": "15376371009",
             "name": "organizationId",
             "in": "path",
-            "description": "The creditor institution identifier, used as a search filter",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "example": 15376371009
+            }
           },
           {
+            "description": "The PSP identifier, used as a search filter",
+            "example": "88888888888",
             "name": "pspId",
             "in": "path",
-            "description": "The PSP identifier, used as a search filter",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "example": 88888888888
+            }
           },
           {
+            "description": "The specific revision of the flow needed",
+            "example": 1,
             "name": "revision",
             "in": "path",
-            "description": "The specific revision of the flow needed",
             "required": true,
             "schema": {
-              "minimum": 1,
               "type": "integer",
-              "format": "int64"
-            },
-            "example": 1
+              "format": "int64",
+              "minimum": 1
+            }
           },
           {
+            "description": "The index of the page to be shown in the result",
+            "example": 1,
             "name": "page",
             "in": "query",
-            "description": "The index of the page to be shown in the result",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "format": "int64",
-              "default": 1
-            },
-            "example": 1
+              "default": 1,
+              "minimum": 1
+            }
           },
           {
+            "description": "The number of the elements of the page to be shown in the result",
+            "example": 50,
             "name": "size",
             "in": "query",
-            "description": "The number of the elements of the page to be shown in the result",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "format": "int64",
-              "default": 1000
-            },
-            "example": 50
+              "default": 1000,
+              "minimum": 1
+            }
           }
         ],
         "responses": {
@@ -480,47 +375,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginatedPaymentsResponse"
-                },
-                "example": {
-                  "metadata": {
-                    "pageSize": [
-                      25
-                    ],
-                    "pageNumber": [
-                      1
-                    ],
-                    "totPage": [
-                      3
-                    ]
-                  },
-                  "count": [
-                    100
-                  ],
-                  "data": [
-                    {
-                      "index": [
-                        1
-                      ],
-                      "iuv": [
-                        "17854456582215"
-                      ],
-                      "iur": [
-                        "3354426511008"
-                      ],
-                      "idTransfer": [
-                        1
-                      ],
-                      "pay": [
-                        0.01
-                      ],
-                      "payStatus": [
-                        "EXECUTED"
-                      ],
-                      "payDate": [
-                        "2022-03-10T04:15:50.0000000+00:00"
-                      ]
-                    }
-                  ]
                 }
               }
             }
@@ -529,9 +383,6 @@
             "description": "Bad Request",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "httpStatusCode": 400,
                   "httpStatusDescription": "Bad Request",
@@ -542,6 +393,9 @@
                       "message": "<detail.message>"
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -550,9 +404,6 @@
             "description": "Not Found",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "httpStatusCode": 404,
                   "httpStatusDescription": "Not Found",
@@ -562,6 +413,9 @@
                       "message": "<detail.message>"
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -570,9 +424,6 @@
             "description": "Internal Server Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
                 "example": {
                   "errorId": "50905466-1881-457b-b42f-fb7b2bfb1610",
                   "httpStatusCode": 500,
@@ -583,6 +434,9 @@
                       "message": "An unexpected error has occurred. Please contact support."
                     }
                   ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
