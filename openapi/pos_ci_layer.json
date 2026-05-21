@@ -846,30 +846,6 @@
         "maxLength": 17,
         "description": "the PagoPA `Identificativo Univoco Versamento`, the unique identifier that will track the payment and will be received in reconciliation flows"
       },
-      "AuthorizationOutcomeResponse": {
-        "type": "object",
-        "required": [
-          "terminalId",
-          "amount"
-        ],
-        "properties": {
-          "outcome": {
-            "$ref": "#/components/schemas/AuthorizationOutcome"
-          },
-          "terminalId": {
-            "$ref": "#/components/schemas/TerminalId"
-          },
-          "timestamp": {
-            "$ref": "#/components/schemas/Timestamp"
-          },
-          "amount": {
-            "$ref": "#/components/schemas/Amount"
-          },
-          "details": {
-            "$ref": "#/components/schemas/AuthorizationCallbackDetails"
-          }
-        }
-      },
       "AuthorizationCallbackRequest": {
         "type": "object",
         "required": [
