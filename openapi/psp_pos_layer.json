@@ -684,113 +684,6 @@
           }
         }
       }
-    },
-    "/pos/reconciliations/batches/{batchId}": {
-      "get": {
-        "tags": [
-          "psp-pos-layer"
-        ],
-        "summary": "Get reconciliation batch status",
-        "security": [
-          {
-            "MutualTLSAuth": []
-          }
-        ],
-        "description": "Get reconciliation batch status with sessions status",
-        "operationId": "pspGetReconciliationBatch",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/CorrelationId"
-          },
-          {
-            "$ref": "#/components/parameters/BatchIdPath"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Operation accepted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReconciliationStatusResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Formally invalid input",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 400,
-                  "detail": "Bad request"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 404,
-                  "detail": "Not found"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too many requests",
-            "headers": {
-              "Retry-After": {
-                "description": "Indicates how long the client should wait before making a follow-up request.",
-                "schema": {
-                  "type": "string"
-                },
-                "examples": {
-                  "http-date": {
-                    "value": "Wed, 21 Oct 2022 07:28:00 GMT"
-                  },
-                  "delay-seconds": {
-                    "value": "120"
-                  }
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 429,
-                  "detail": "Too many requests"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 500,
-                  "detail": "Internal server error"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -1278,102 +1171,6 @@
           }
         }
       },
-      "ReconciliationStatusResponse": {
-        "type": "object",
-        "required": [
-          "batchId",
-          "status",
-          "details"
-        ],
-        "properties": {
-          "batchId": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Unique identifier for the reconciliation batch."
-          },
-          "details": {
-            "type": "object",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ReconciliationSuccess"
-              },
-              {
-                "$ref": "#/components/schemas/ReconciliationError"
-              }
-            ],
-            "discriminator": {
-              "propertyName": "status",
-              "mapping": {
-                "SUCCESS": "#/components/schemas/ReconciliationSuccess",
-                "ERROR": "#/components/schemas/ReconciliationError"
-              }
-            }
-          }
-        }
-      },
-      "ReconciliationSuccess": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "enum": [
-              "SUCCESS"
-            ]
-          }
-        }
-      },
-      "ReconciliationError": {
-        "type": "object",
-        "required": [
-          "sessions"
-        ],
-        "properties": {
-          "status": {
-            "type": "string",
-            "enum": [
-              "ERROR"
-            ]
-          },
-          "sessions": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-              "$ref": "#/components/schemas/ReconciliationStatusSession"
-            }
-          }
-        }
-      },
-      "ReconciliationStatusSession": {
-        "type": "object",
-        "required": [
-          "sessionId",
-          "action"
-        ],
-        "properties": {
-          "sessionId": {
-            "$ref": "#/components/schemas/SessionId"
-          },
-          "action": {
-            "type": "string",
-            "description": "Mandatory compensatory action the PSP must perform.",
-            "enum": [
-              "REFUND",
-              "COMPLETE"
-            ],
-            "examples": [
-              "REFUND"
-            ]
-          },
-          "errorDescription": {
-            "type": "string",
-            "max": 40,
-            "description": "Description of reconciliation action error.",
-            "examples": [
-              "Session not found"
-            ]
-          }
-        }
-      },
       "ReconciliationSession": {
         "type": "object",
         "required": [
@@ -1393,8 +1190,7 @@
             "type": "string",
             "description": "Mandatory compensatory action the PSP must perform.",
             "enum": [
-              "REFUND",
-              "COMPLETE"
+              "REFUND"
             ],
             "examples": [
               "REFUND"
@@ -1404,8 +1200,7 @@
             "type": "string",
             "description": "Code indicating the reason for the reconciliation request.",
             "enum": [
-              "TIMEOUT_AUTHORIZATION",
-              "MISSING_PAYMENT_OUTCOME"
+              "TIMEOUT_AUTHORIZATION"
             ],
             "examples": [
               "TIMEOUT_AUTHORIZATION"
