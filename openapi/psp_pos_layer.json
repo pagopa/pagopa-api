@@ -330,9 +330,6 @@
         "operationId": "paymentAuthorizationCallback",
         "parameters": [
           {
-            "$ref": "#/components/parameters/AuthorizationIdPath"
-          },
-          {
             "$ref": "#/components/parameters/CorrelationId"
           },
           {
@@ -698,15 +695,6 @@
         },
         "description": "Subsequent API call correlation field. This should be the same for all APIs invoked in a given user session to track each call and for throubleshooting"
       },
-      "AuthorizationIdPath": {
-        "name": "authorizationRequestId",
-        "in": "path",
-        "required": true,
-        "description": "The authorization unique id",
-        "schema": {
-          "$ref": "#/components/schemas/AuthorizationId"
-        }
-      },
       "SessionIdPath": {
         "name": "sessionId",
         "in": "path",
@@ -714,15 +702,6 @@
         "description": "The pagoPA POS gateway payment session unique id",
         "schema": {
           "$ref": "#/components/schemas/SessionId"
-        }
-      },
-      "BatchIdPath": {
-        "name": "batchId",
-        "in": "path",
-        "required": true,
-        "description": "The pagoPA POS gateway reconciliation batch id",
-        "schema": {
-          "$ref": "#/components/schemas/BatchId"
         }
       }
     },
@@ -740,10 +719,6 @@
       "SessionId": {
         "type": "string",
         "description": "unique identifier of the POS Gateway payment session"
-      },
-      "BatchId": {
-        "type": "string",
-        "description": "unique identifier of the POS Gateway reconciliation batch"
       },
       "RRN": {
         "type": "string",
@@ -828,20 +803,6 @@
         "description": "duration expressed in seconds",
         "type": "number",
         "minValue": 1
-      },
-      "AuthorizationId": {
-        "type": "string",
-        "format": "uuid",
-        "description": "unique authorization request id"
-      },
-      "SessionStatus": {
-        "type": "string",
-        "enum": [
-          "SUCCESS",
-          "ERROR",
-          "ONGOING"
-        ],
-        "description": "enumeration of possible POS gateway payment\n\nit can be one of:\n- `SUCCESS`  - transaction have been processed successfully\n- `ERROR`  - transaction have been aborted (for both timeout or KO authorization outcome)\n- `ONGOING`  - transaction in progress (waiting for authorization outcome)\n"
       },
       "AuthorizationOutcomeDetails": {
         "type": "object",
@@ -1126,17 +1087,6 @@
             "description": "Authorization timeout as configured for the terminal for authorization process to be concluded: this is the max amount of time that POS gateway pagoPA will await to receive an outcome from the POS layer once authorization have been requested successfully. Any outcome callback API call received after this timeout will be rejected by pagoPA POS gateway",
             "minValue": 1,
             "maxValue": 60
-          }
-        }
-      },
-      "SessionResponse": {
-        "type": "object",
-        "required": [
-          "status"
-        ],
-        "properties": {
-          "status": {
-            "$ref": "#/components/schemas/SessionStatus"
           }
         }
       },
