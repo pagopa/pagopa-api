@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "PagoPA API Debt Position ${service}",
-    "description": "Progetto Gestione Posizioni Debitorie",
+    "title": "GPD for ACA pagoPA - Debt Positions service API for ACA",
+    "description": "API to support Debt Positions service for ACA",
     "termsOfService": "https://www.pagopa.gov.it/",
     "version": "1.1.35"
   },
