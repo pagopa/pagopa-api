@@ -1,10 +1,10 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "GPD for ACA pagoPA - Debt Positions service API for ACA",
-    "description": "API to support Debt Positions service for ACA",
+    "title": "PagoPA API Debt Position ${service}",
+    "description": "Progetto Gestione Posizioni Debitorie",
     "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "1.1.17"
+    "version": "1.1.35"
   },
   "servers": [
     {
@@ -96,6 +96,26 @@
             "schema": {
               "type": "string",
               "format": "date"
+            }
+          },
+          {
+            "name": "payment_date_time_from",
+            "in": "query",
+            "description": "Filter from payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not provided will be set to 30 days before the payment_date_time_from.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "payment_date_time_to",
+            "in": "query",
+            "description": "Filter to payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not will be set to 30 days after the payment_date_time_to.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
@@ -1392,12 +1412,13 @@
           },
           "paymentOptionMetadata": {
             "type": "array",
-            "description": "it can added a maximum of 10 key-value pairs for metadata",
+            "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same payment option.",
             "items": {
               "$ref": "#/components/schemas/PaymentOptionMetadataModel"
             },
             "maxItems": 10,
-            "minItems": 0
+            "minItems": 0,
+            "uniqueItems": true
           }
         },
         "required": [
@@ -1405,7 +1426,8 @@
           "description",
           "dueDate",
           "isPartialPayment",
-          "iuv"
+          "iuv",
+          "paymentOptionMetadata"
         ]
       },
       "PaymentPositionModel": {
@@ -1623,19 +1645,21 @@
           },
           "transferMetadata": {
             "type": "array",
-            "description": "it can added a maximum of 10 key-value pairs for metadata",
+            "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same transfer.",
             "items": {
               "$ref": "#/components/schemas/TransferMetadataModel"
             },
             "maxItems": 10,
-            "minItems": 0
+            "minItems": 0,
+            "uniqueItems": true
           }
         },
         "required": [
           "amount",
           "category",
           "idTransfer",
-          "remittanceInformation"
+          "remittanceInformation",
+          "transferMetadata"
         ]
       },
       "ProblemJson": {
