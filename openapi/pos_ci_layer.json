@@ -1081,6 +1081,39 @@
       "DebtPosition": {
         "type": "object",
         "required": [
+          "type",
+          "details"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "INTERNAL",
+              "EXTERNAL",
+              "EXTERNAL_ID"
+            ]
+          },
+          "details": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/InternalDebtPositionDetails"
+              }
+            ],
+            "discriminator": {
+              "propertyName": "type",
+              "mapping": {
+                "INTERNAL": "#/components/schemas/InternalDebtPositionDetails",
+                "EXTERNAL": "#/components/schemas/ExternalDebtPositionDetails",
+                "EXTERNAL_ID": "#/components/schemas/ExternalIdDebtPositionDetails"
+              }
+            }
+          }
+        }
+      },
+      "InternalDebtPositionDetails": {
+        "type": "object",
+        "required": [
           "transferList",
           "debtor",
           "description"
@@ -1092,7 +1125,7 @@
             "maxItems": 5,
             "description": "list of all transfer, max 5 items",
             "items": {
-              "$ref": "#/components/schemas/DebtPositionTransfer"
+              "$ref": "#/components/schemas/InternalDebtPositionTransfer"
             }
           },
           "debtor": {
@@ -1103,7 +1136,61 @@
           }
         }
       },
-      "DebtPositionTransfer": {
+      "ExternalIdDebtPositionDetails": {
+        "type": "object",
+        "required": [
+          "transferList",
+          "debtor",
+          "description"
+        ],
+        "properties": {
+          "transferList": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 5,
+            "description": "list of all transfer, max 5 items",
+            "items": {
+              "$ref": "#/components/schemas/ExternalIdDebtPositionTransfer"
+            }
+          },
+          "debtor": {
+            "$ref": "#/components/schemas/Debtor"
+          },
+          "description": {
+            "$ref": "#/components/schemas/PaymentDescription"
+          }
+        }
+      },
+      "ExternalDebtPositionDetails": {
+        "type": "object",
+        "required": [
+          "transferList"
+        ],
+        "properties": {
+          "transferList": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 5,
+            "description": "list of all transfer, max 5 items",
+            "items": {
+              "$ref": "#/components/schemas/ExternalDebtPositionTransfer"
+            }
+          }
+        }
+      },
+      "ExternalDebtPositionTransfer": {
+        "type": "object",
+        "description": "information for amount transfer",
+        "required": [
+          "noticeNumber"
+        ],
+        "properties": {
+          "noticeNumber": {
+            "$ref": "#/components/schemas/NoticeNumber"
+          }
+        }
+      },
+      "InternalDebtPositionTransfer": {
         "type": "object",
         "description": "information for amount transfer",
         "required": [
@@ -1113,6 +1200,35 @@
           "category"
         ],
         "properties": {
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "transferDescription": {
+            "$ref": "#/components/schemas/TransferDescription"
+          },
+          "iban": {
+            "$ref": "#/components/schemas/Iban",
+            "description": "the IBAN code where PSP will transfer money to after pagoPa payment transaction completion"
+          },
+          "category": {
+            "$ref": "#/components/schemas/TaxonomyCode"
+          }
+        }
+      },
+      "ExternalIdDebtPositionTransfer": {
+        "type": "object",
+        "description": "information for amount transfer",
+        "required": [
+          "iuv",
+          "amount",
+          "transferDescription",
+          "iban",
+          "category"
+        ],
+        "properties": {
+          "iuv": {
+            "$ref": "#/components/schemas/IUV"
+          },
           "amount": {
             "$ref": "#/components/schemas/Amount"
           },
