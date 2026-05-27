@@ -1088,36 +1088,45 @@
           "type": {
             "type": "string",
             "enum": [
-              "INTERNAL",
-              "EXTERNAL",
-              "EXTERNAL_ID"
-            ]
+              "TO_CREATE",
+              "TO_CREATE_PROVIDED_IUV",
+              "CI_PROVIDED"
+            ],
+            "description": "
+            Defines how the debt position is managed:
+
+            * `CI_PROVIDED`: The Creditor Institution provides the identifier of a pre-existing debt position.
+
+            * `TO_CREATE`: The POS Gateway pagoPA creates a new debt position on the fly using the provided details and generating a new IUV.
+
+            * `TO_CREATE_PROVIDED_IUV`: The POS Gateway pagoPA creates a new debt position on the fly using the provided details and the specific IUV supplied by the Creditor Institution.
+            "
           },
           "details": {
             "type": "object",
             "oneOf": [
               {
-                "$ref": "#/components/schemas/InternalDebtPositionDetails"
+                "$ref": "#/components/schemas/DebtPositionToCreateDetails"
               },
               {
-                "$ref": "#/components/schemas/ExternalDebtPositionDetails"
+                "$ref": "#/components/schemas/CiProvidedDebtPositionDetails"
               },
               {
-                "$ref": "#/components/schemas/ExternalIdDebtPositionDetails"
+                "$ref": "#/components/schemas/DebtPositionToCreateWithProvidedIuvDetails"
               }
             ],
             "discriminator": {
               "propertyName": "type",
               "mapping": {
-                "INTERNAL": "#/components/schemas/InternalDebtPositionDetails",
-                "EXTERNAL": "#/components/schemas/ExternalDebtPositionDetails",
-                "EXTERNAL_ID": "#/components/schemas/ExternalIdDebtPositionDetails"
+                "TO_CREATE": "#/components/schemas/DebtPositionToCreateDetails",
+                "CI_PROVIDED": "#/components/schemas/CiProvidedDebtPositionDetails",
+                "TO_CREATE_PROVIDED_IUV": "#/components/schemas/DebtPositionToCreateWithProvidedIuvDetails"
               }
             }
           }
         }
       },
-      "InternalDebtPositionDetails": {
+      "DebtPositionToCreateDetails": {
         "type": "object",
         "required": [
           "transferList",
@@ -1131,7 +1140,7 @@
             "maxItems": 5,
             "description": "list of all transfer, max 5 items",
             "items": {
-              "$ref": "#/components/schemas/InternalDebtPositionTransfer"
+              "$ref": "#/components/schemas/DebtPositionToCreateTransfer"
             }
           },
           "debtor": {
@@ -1142,7 +1151,7 @@
           }
         }
       },
-      "ExternalIdDebtPositionDetails": {
+      "DebtPositionToCreateWithProvidedIuvDetails": {
         "type": "object",
         "required": [
           "transferList",
@@ -1160,7 +1169,7 @@
             "maxItems": 5,
             "description": "list of all transfer, max 5 items",
             "items": {
-              "$ref": "#/components/schemas/ExternalIdDebtPositionTransfer"
+              "$ref": "#/components/schemas/DebtPositionToCreateWithProvidedIuvTransfer"
             }
           },
           "debtor": {
@@ -1171,7 +1180,7 @@
           }
         }
       },
-      "ExternalDebtPositionDetails": {
+      "CiProvidedDebtPositionDetails": {
         "type": "object",
         "required": [
           "noticeNumber"
@@ -1182,7 +1191,7 @@
           }
         }
       },
-      "InternalDebtPositionTransfer": {
+      "DebtPositionToCreateTransfer": {
         "type": "object",
         "description": "information for amount transfer",
         "required": [
@@ -1207,7 +1216,7 @@
           }
         }
       },
-      "ExternalIdDebtPositionTransfer": {
+      "DebtPositionToCreateWithProvidedIuvTransfer": {
         "type": "object",
         "description": "information for amount transfer",
         "required": [
