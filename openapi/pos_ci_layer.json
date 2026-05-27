@@ -1098,6 +1098,12 @@
             "oneOf": [
               {
                 "$ref": "#/components/schemas/InternalDebtPositionDetails"
+              },
+              {
+                "$ref": "#/components/schemas/ExternalDebtPositionDetails"
+              },
+              {
+                "$ref": "#/components/schemas/ExternalIdDebtPositionDetails"
               }
             ],
             "discriminator": {
@@ -1141,9 +1147,13 @@
         "required": [
           "transferList",
           "debtor",
-          "description"
+          "description",
+          "iuv"
         ],
         "properties": {
+          "iuv": {
+            "$ref": "#/components/schemas/IUV"
+          },
           "transferList": {
             "type": "array",
             "minItems": 1,
@@ -1163,24 +1173,6 @@
       },
       "ExternalDebtPositionDetails": {
         "type": "object",
-        "required": [
-          "transferList"
-        ],
-        "properties": {
-          "transferList": {
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 5,
-            "description": "list of all transfer, max 5 items",
-            "items": {
-              "$ref": "#/components/schemas/ExternalDebtPositionTransfer"
-            }
-          }
-        }
-      },
-      "ExternalDebtPositionTransfer": {
-        "type": "object",
-        "description": "information for amount transfer",
         "required": [
           "noticeNumber"
         ],
@@ -1219,16 +1211,12 @@
         "type": "object",
         "description": "information for amount transfer",
         "required": [
-          "iuv",
           "amount",
           "transferDescription",
           "iban",
           "category"
         ],
         "properties": {
-          "iuv": {
-            "$ref": "#/components/schemas/IUV"
-          },
           "amount": {
             "$ref": "#/components/schemas/Amount"
           },
