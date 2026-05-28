@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:cup="http://PuntoAccessoPSP.spcoop.gov.it/Cup"
+            xmlns:common="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/"
+            targetNamespace="http://PuntoAccessoPSP.spcoop.gov.it/Cup">
+
+    <xs:import namespace="http://pagopa-api.pagopa.gov.it/xsd/common-types/v1.0.0/" schemaLocation="../xsd-common/sac-common-types-1.0.xsd"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+
+    <xsd:simpleType name="stCatastaleCode">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="stIstatCode">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="6"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="ctPagamentoCup">
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="organizationFiscalCode" type="common:stFiscalCodePA" />
+                <xsd:element name="istatCode" type="cup:stIstatCode" />
+                <xsd:element name="catastaleCode" type="cup:stCatastaleCode" />
+            </xsd:choice>
+
+            <xsd:element name="companyName" type="common:stText140" />
+            <xsd:element name="debtorFiscalCode" type="common:stText20" />
+            <xsd:element name="debtorFullName" type="common:stText70"  />
+            <xsd:element name="debtorEmail" type="common:stEMail" minOccurs="0" />
+            <xsd:element name="amount" type="common:stAmount" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="pagamentoCup" type="cup:ctPagamentoCup" />
+
+</xsd:schema>
