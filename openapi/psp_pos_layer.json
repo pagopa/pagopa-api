@@ -1,0 +1,1224 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pagopa POS gateway services for POS integration - PSP integration",
+    "description": "API's that will be used for pagoPA POS flow integration",
+    "contact": {
+      "name": "pagoPA - Touchpoints team"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://{host}/pos-layer-service",
+      "variables": {
+        "host": {
+          "description": "The hostname of the API server",
+          "default": "api.platform.pagopa.it",
+          "enum": [
+            "api.platform.pagopa.it",
+            "api.dev.platform.pagopa.it",
+            "api.uat.platform.pagopa.it"
+          ]
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "psp-pos-layer",
+      "description": "PSP POS layer side operations. Those APIs will abstract physical POS integration"
+    },
+    {
+      "name": "pagopa-pos-gateway-layer",
+      "description": "pagoPA POS Gateway layer side operations."
+    }
+  ],
+  "externalDocs": {
+    "url": "https://pagopa.atlassian.net/wiki/spaces/I/pages/2813689945/DR+PFM-1+-+Vista+Dinamica+delle+Componenti",
+    "description": "Design review"
+  },
+  "security": [
+    {
+      "PagopaApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/pos/terminals": {
+      "post": {
+        "security": [
+          {
+            "MutualTLSAuth": []
+          }
+        ],
+        "tags": [
+          "psp-pos-layer"
+        ],
+        "summary": "Retrieve configured POS list",
+        "description": "GET with request body - No resource will be created. Retrieve all POS configured and available for external CI frontend that wants to pay a position via POS",
+        "operationId": "POS-list",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PosRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PosResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad request"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No result found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pos/sessions/{sessionId}/auth-requests": {
+      "post": {
+        "tags": [
+          "psp-pos-layer"
+        ],
+        "security": [
+          {
+            "MutualTLSAuth": []
+          }
+        ],
+        "summary": "Request payment authorization on POS",
+        "description": "Request the authorization for transaction payment via POS passing all the info needed by the payment gateway to authorize the transaction",
+        "operationId": "requestPaymentAuthorization",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/SessionIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthorizationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Operation accepted"
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad request"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 409,
+                  "detail": "Conflict"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 422,
+                  "detail": "Unprocessable entity"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Indicates how long the client should wait before making a follow-up request.",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "http-date": {
+                    "value": "Wed, 21 Oct 2022 07:28:00 GMT"
+                  },
+                  "delay-seconds": {
+                    "value": "120"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad gateway",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 502,
+                  "detail": "Bad gateway"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 503,
+                  "detail": "Service unavailable"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Gateway timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 504,
+                  "detail": "Gateway timeout"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "pagopa-pos-gateway-layer"
+        ],
+        "summary": "POS authorization outcome callback",
+        "security": [
+          {
+            "PagopaApiKeyAuth": []
+          },
+          {
+            "AuthOutcomeTokenAuth": []
+          }
+        ],
+        "description": "Notify the transaction handler about the outcome of the payment phase",
+        "operationId": "paymentAuthorizationCallback",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          },
+          {
+            "$ref": "#/components/parameters/SessionIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthorizationOutcomeDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Callback processed successfully"
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad request"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not found"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Indicates how long the client should wait before making a follow-up request.",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "http-date": {
+                    "value": "Wed, 21 Oct 2022 07:28:00 GMT"
+                  },
+                  "delay-seconds": {
+                    "value": "120"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad gateway",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 502,
+                  "detail": "Bad gateway"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 503,
+                  "detail": "Service unavailable"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Gateway timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 504,
+                  "detail": "Gateway timeout"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "psp-pos-layer"
+        ],
+        "summary": "Fetch POS gateway payment session info",
+        "security": [
+          {
+            "MutualTLSAuth": []
+          }
+        ],
+        "description": "Retrieve pagoPA POS gateway payment session info",
+        "operationId": "pspGetPaymentSession",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment session retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationOutcomeDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not found"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Indicates how long the client should wait before making a follow-up request.",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "http-date": {
+                    "value": "Wed, 21 Oct 2022 07:28:00 GMT"
+                  },
+                  "delay-seconds": {
+                    "value": "120"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pos/reconciliations/batches": {
+      "post": {
+        "tags": [
+          "psp-pos-layer"
+        ],
+        "summary": "Create a reconciliation batch",
+        "security": [
+          {
+            "MutualTLSAuth": []
+          }
+        ],
+        "description": "Create a reconciliation batch with all session ids to manage",
+        "operationId": "pspCreateReconciliationBatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CorrelationId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReconciliationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Operation accepted"
+          },
+          "400": {
+            "description": "Formally invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "detail": "Bad request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "detail": "Not found"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Indicates how long the client should wait before making a follow-up request.",
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "http-date": {
+                    "value": "Wed, 21 Oct 2022 07:28:00 GMT"
+                  },
+                  "delay-seconds": {
+                    "value": "120"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 429,
+                  "detail": "Too many requests"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "detail": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "CorrelationId": {
+        "name": "x-correlation-id",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "Subsequent API call correlation field. This should be the same for all APIs invoked in a given user session to track each call and for throubleshooting"
+      },
+      "SessionIdPath": {
+        "name": "sessionId",
+        "in": "path",
+        "required": true,
+        "description": "The pagoPA POS gateway payment session unique id",
+        "schema": {
+          "$ref": "#/components/schemas/SessionId"
+        }
+      }
+    },
+    "schemas": {
+      "Amount": {
+        "minimum": 1,
+        "type": "integer",
+        "description": "Amount expressed in eurocents",
+        "format": "int64"
+      },
+      "TerminalId": {
+        "type": "string",
+        "description": "the POS unique terminal identifier"
+      },
+      "SessionId": {
+        "type": "string",
+        "description": "unique identifier of the POS Gateway payment session"
+      },
+      "RRN": {
+        "type": "string",
+        "examples": [
+          "123456789012"
+        ],
+        "description": "Retrieval Reference Number -> payment unique identifier"
+      },
+      "Bin": {
+        "type": "string",
+        "examples": [
+          "400000"
+        ],
+        "minLength": 6,
+        "maxLength": 8,
+        "description": "debit/credit card bin number, used to print receipts"
+      },
+      "LastFourDigits": {
+        "type": "string",
+        "examples": [
+          "1234"
+        ],
+        "minLength": 4,
+        "maxLength": 4,
+        "description": "debit/credit card last four digits number, used to print receipts"
+      },
+      "PaymentAuthCode": {
+        "type": "string",
+        "examples": [
+          "889900"
+        ],
+        "description": "payment authorization code. PSP side identifier that can be used to track back to POS authorization process"
+      },
+      "PosTerminalStatus": {
+        "type": "string",
+        "description": "The POS terminal status",
+        "enum": [
+          "AVAILABLE",
+          "UNAVAILABLE",
+          "MAINTENANCE"
+        ]
+      },
+      "PosTerminalStatusCode": {
+        "type": "string",
+        "description": "POS terminal status code related to POS status",
+        "enum": [
+          "S0001",
+          "S0002",
+          "S0003"
+        ]
+      },
+      "AuthorizationOutcome": {
+        "type": "string",
+        "enum": [
+          "AUTHORIZED",
+          "DECLINED",
+          "REFUSED",
+          "CANCELED_BY_USER",
+          "TIMEOUT"
+        ],
+        "examples": [
+          "AUTHORIZED"
+        ],
+        "description": "authorization outcome"
+      },
+      "CardBrand": {
+        "type": "string",
+        "enum": [
+          "VISA",
+          "MASTERCARD",
+          "DINERS",
+          "AMEX",
+          "MAESTRO"
+        ],
+        "description": "the brand of the citized debit/credit card"
+      },
+      "OutcomeAuthToken": {
+        "description": "outcome authorization token, to be used to authorize authorization outcome callback API call",
+        "type": "string"
+      },
+      "DurationSeconds": {
+        "description": "duration expressed in seconds",
+        "type": "number",
+        "minValue": 1
+      },
+      "AuthorizationOutcomeDetails": {
+        "type": "object",
+        "required": [
+          "outcome",
+          "terminalId",
+          "timestamp",
+          "amount",
+          "details"
+        ],
+        "properties": {
+          "outcome": {
+            "$ref": "#/components/schemas/AuthorizationOutcome"
+          },
+          "terminalId": {
+            "$ref": "#/components/schemas/TerminalId"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2026-04-08T14:16:30Z"
+            ],
+            "description": "authorization timestamp"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "details": {
+            "$ref": "#/components/schemas/AuthorizationCallbackDetails"
+          }
+        }
+      },
+      "AuthorizationCallbackDetails": {
+        "type": "object",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AuthorizationCallbackDetailsOk"
+          },
+          {
+            "$ref": "#/components/schemas/AuthorizationCallbackDetailsKo"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "outcome",
+          "mapping": {
+            "AUTHORIZED": "#/components/schemas/AuthorizationCallbackDetailsOk",
+            "DECLINED": "#/components/schemas/AuthorizationCallbackDetailsKo",
+            "REFUSED": "#/components/schemas/AuthorizationCallbackDetailsKo",
+            "CANCELED_BY_USER": "#/components/schemas/AuthorizationCallbackDetailsKo",
+            "TIMEOUT": "#/components/schemas/AuthorizationCallbackDetailsKo"
+          }
+        }
+      },
+      "AuthorizationCallbackDetailsOk": {
+        "type": "object",
+        "description": "Authorization outcome OK details",
+        "required": [
+          "paymentType",
+          "details"
+        ],
+        "properties": {
+          "paymentType": {
+            "type": "string",
+            "enum": [
+              "CARD"
+            ]
+          },
+          "details": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AuthorizationCallbackCardDetailsOk"
+              }
+            ]
+          }
+        },
+        "discriminator": {
+          "propertyName": "paymentType",
+          "mapping": {
+            "CARD": "#/components/schemas/AuthorizationCallbackCardDetailsOk"
+          }
+        }
+      },
+      "AuthorizationCallbackCardDetailsOk": {
+        "type": "object",
+        "description": "Authorization outcome OK details",
+        "required": [
+          "bin",
+          "lastFourDigits",
+          "paymentAuthCode",
+          "rrn",
+          "brand"
+        ],
+        "properties": {
+          "bin": {
+            "$ref": "#/components/schemas/Bin"
+          },
+          "lastFourDigits": {
+            "$ref": "#/components/schemas/LastFourDigits"
+          },
+          "paymentAuthCode": {
+            "$ref": "#/components/schemas/PaymentAuthCode"
+          },
+          "rrn": {
+            "$ref": "#/components/schemas/RRN"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/CardBrand"
+          }
+        }
+      },
+      "AuthorizationCallbackDetailsKo": {
+        "type": "object",
+        "required": [
+          "errorDescription"
+        ],
+        "properties": {
+          "errorDescription": {
+            "type": "string",
+            "description": "error description"
+          }
+        }
+      },
+      "AuthorizationRequest": {
+        "type": "object",
+        "required": [
+          "amount",
+          "psp",
+          "creditorInstitution",
+          "terminalId",
+          "outcomeAuthToken",
+          "sessionId"
+        ],
+        "properties": {
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "psp": {
+            "$ref": "#/components/schemas/PspInfo"
+          },
+          "creditorInstitution": {
+            "$ref": "#/components/schemas/CreditorInstitutionInfo"
+          },
+          "terminalId": {
+            "$ref": "#/components/schemas/TerminalId"
+          },
+          "outcomeAuthToken": {
+            "$ref": "#/components/schemas/OutcomeAuthToken"
+          },
+          "sessionId": {
+            "$ref": "#/components/schemas/SessionId"
+          }
+        }
+      },
+      "PosRequest": {
+        "type": "object",
+        "description": "Request to inquiry for",
+        "required": [
+          "psp",
+          "creditorInstitution"
+        ],
+        "properties": {
+          "psp": {
+            "$ref": "#/components/schemas/PspInfo"
+          },
+          "creditorInstitution": {
+            "$ref": "#/components/schemas/CreditorInstitutionInfo"
+          }
+        }
+      },
+      "CreditorInstitutionInfo": {
+        "type": "object",
+        "description": "CI informations",
+        "required": [
+          "fiscalCode"
+        ],
+        "properties": {
+          "fiscalCode": {
+            "maxLength": 11,
+            "minLength": 11,
+            "type": "string",
+            "examples": [
+              "80001230456"
+            ],
+            "description": "CI identifier (such as fiscalCode)"
+          },
+          "logicalOffice": {
+            "maxLength": 140,
+            "minLength": 0,
+            "type": "string",
+            "examples": [
+              "ANAGRAFE"
+            ],
+            "description": "Logical office id that want to initialize the payment"
+          },
+          "workstation": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "examples": [
+              "SPORTELLO_02"
+            ],
+            "description": "Identifier of the workstatio that want to initialize the payment"
+          }
+        }
+      },
+      "PspInfo": {
+        "type": "object",
+        "description": "PSP informations",
+        "required": [
+          "id",
+          "broker",
+          "channel"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "examples": [
+              "PSP_001"
+            ],
+            "description": "the psp unique identifier"
+          },
+          "broker": {
+            "type": "string",
+            "examples": [
+              "INT_123"
+            ],
+            "description": "the psp broker code"
+          },
+          "channel": {
+            "type": "string",
+            "examples": [
+              "CANALE_POS"
+            ],
+            "description": "the psp channel code"
+          }
+        }
+      },
+      "PosResponse": {
+        "type": "object",
+        "properties": {
+          "terminals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PosTerminal"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "terminals"
+        ]
+      },
+      "PosTerminal": {
+        "type": "object",
+        "required": [
+          "id",
+          "description",
+          "status",
+          "authorizationTimeout"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/TerminalId"
+          },
+          "description": {
+            "type": "string",
+            "examples": [
+              "POS Sportello 02 - Main"
+            ],
+            "description": "An human readable POS terminal description"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PosTerminalStatus"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/PosTerminalStatusCode"
+          },
+          "authorizationTimeout": {
+            "$ref": "#/components/schemas/DurationSeconds",
+            "description": "Authorization timeout as configured for the terminal for authorization process to be concluded: this is the max amount of time that POS gateway pagoPA will await to receive an outcome from the POS layer once authorization have been requested successfully. Any outcome callback API call received after this timeout will be rejected by pagoPA POS gateway",
+            "minValue": 1,
+            "maxValue": 60
+          }
+        }
+      },
+      "ReconciliationRequest": {
+        "type": "object",
+        "required": [
+          "batchId",
+          "timestamp",
+          "sessions"
+        ],
+        "properties": {
+          "batchId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the reconciliation batch."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Generation timestamp of the batch.",
+            "examples": [
+              "2026-05-07T06:00:00Z"
+            ]
+          },
+          "sessions": {
+            "type": "array",
+            "description": "List of sessions requiring compensatory actions.",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/ReconciliationSession"
+            }
+          }
+        }
+      },
+      "ReconciliationSession": {
+        "type": "object",
+        "required": [
+          "sessionId",
+          "amount",
+          "action",
+          "reason"
+        ],
+        "properties": {
+          "sessionId": {
+            "$ref": "#/components/schemas/SessionId"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "action": {
+            "type": "string",
+            "description": "Mandatory compensatory action the PSP must perform.",
+            "enum": [
+              "REFUND"
+            ],
+            "examples": [
+              "REFUND"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Code indicating the reason for the reconciliation request.",
+            "enum": [
+              "TIMEOUT_AUTHORIZATION"
+            ],
+            "examples": [
+              "TIMEOUT_AUTHORIZATION"
+            ]
+          }
+        }
+      },
+      "ProblemJson": {
+        "description": "Body definition for error responses containing failure details",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri",
+            "description": "An absolute URI that identifies the problem type. When dereferenced,\nit SHOULD provide human-readable documentation for the problem type\n(e.g., using HTML).",
+            "default": "about:blank",
+            "examples": [
+              "https://example.com/problem/constraint-violation"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "A short, summary of the problem type. Written in english and readable\nfor engineers (usually not suited for non technical stakeholders and\nnot localized); example: Service Unavailable"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human readable explanation specific to this occurrence of the\nproblem.",
+            "examples": [
+              "There was an error processing the request"
+            ]
+          },
+          "instance": {
+            "type": "string",
+            "format": "uri",
+            "description": "An absolute URI that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced."
+          }
+        }
+      },
+      "HttpStatusCode": {
+        "type": "integer",
+        "format": "int32",
+        "description": "The HTTP status code generated by the origin server for this occurrence\nof the problem.",
+        "minimum": 100,
+        "exclusiveMaximum": 600,
+        "examples": [
+          200
+        ]
+      }
+    },
+    "securitySchemes": {
+      "PagopaApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Ocp-Apim-Subscription-Key",
+        "description": "pagoPA platform subscription key, generated as per `Nuova connettività specs`"
+      },
+      "MutualTLSAuth": {
+        "type": "mutualTLS",
+        "description": "Client-Server mutual authentication. As per `Nuova connettività specs` it's required a x.509 digital client certificate emitted by a CA/Browser Forum accredited certificate authority"
+      },
+      "AuthOutcomeTokenAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "token used to authorize outcome request, should be valued with the `outcomeAuthToken` value received in the requestPaymentAuthorization"
+      }
+    }
+  }
+}
