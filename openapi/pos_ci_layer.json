@@ -62,7 +62,7 @@
             "$ref": "#/components/parameters/CorrelationId"
           },
           {
-            "$ref": "#/components/parameters/IncludePos"
+            "$ref": "#/components/parameters/includeTerminals"
           }
         ],
         "requestBody": {
@@ -144,8 +144,8 @@
         "tags": [
           "pagopa-pos-gateway-layer"
         ],
-        "summary": "Get the list of POS available",
-        "description": "Get the list of POS available for the specify EC",
+        "summary": "Get the list of terminals available",
+        "description": "Get the list of terminals available for the specified CI",
         "operationId": "ciGetPosTerminalList",
         "parameters": [
           {
@@ -688,13 +688,13 @@
           "$ref": "#/components/schemas/SessionId"
         }
       },
-      "IncludePos": {
-        "name": "includePos",
+      "includeTerminals": {
+        "name": "includeTerminals",
         "in": "query",
         "required": false,
-        "description": "If true, get all the available POS",
+        "description": "If true, get all the available terminals",
         "schema": {
-          "$ref": "#/components/schemas/SessionId"
+          "type": "boolean"
         }
       }
     },
