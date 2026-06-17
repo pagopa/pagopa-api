@@ -51,11 +51,11 @@ jobs:
           compare_args["biz_events.json"]="--unmatch-path /info"
 
           apim_resource_id["checkout_v1.json"]="pagopa-<ENV>-checkout-ec-api-v1"
-          service_openapi_url_ref["checkout.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/checkout-app/api/checkout/checkout_ec/v1/_openapi.json.tpl"
+          service_openapi_url_ref["checkout_v1.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/checkout-app/api/checkout/checkout_ec/v1/_openapi.json.tpl"
           compare_args["checkout_v1.json"]="--unmatch-path /info"
           
           apim_resource_id["checkout_v2.json"]="pagopa-<ENV>-checkout-ec-api-v2"
-          service_openapi_url_ref["checkout.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/checkout-app/api/checkout/checkout_ec/v2/_openapi.json.tpl"
+          service_openapi_url_ref["checkout_v2.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/checkout-app/api/checkout/checkout_ec/v2/_openapi.json.tpl"
           compare_args["checkout_v2.json"]="--unmatch-path /info"
 
           apim_resource_id["fdr_organization.json"]="pagopa-<ENV>-weu-fdr-fdr-service-api-org-v1"
