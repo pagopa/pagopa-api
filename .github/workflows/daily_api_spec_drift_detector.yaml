@@ -9,7 +9,7 @@ on:
   workflow_dispatch:  # allow manual trigger
   pull_request: #TODO to remove, add here just to test trigger
     branches:
-      - main
+      - master
     types: [ opened, synchronize, labeled, unlabeled, reopened, edited ]
 
 permissions:
