@@ -137,6 +137,6 @@ jobs:
           
           echo "Processing $file | apim=$apim_resource_id | url=$service_openapi_url_ref | compare_args=$compare_args"
           docker run --rm -t \
-          tufin/oasdiff:v1.19.1 \
+          tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
           changelog --unmatch-path /info \
           "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/master/openapi/$file" "$service_openapi_url_ref"
