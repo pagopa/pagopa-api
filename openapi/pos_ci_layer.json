@@ -506,86 +506,6 @@
         }
       }
     },
-    "/pos/ci/sessions/{sessionId}": {
-      "get": {
-        "tags": [
-          "ci-layer"
-        ],
-        "summary": "Get creditor institution payment session info",
-        "security": [
-          {
-            "MutualTLSAuth": []
-          }
-        ],
-        "description": "Get creditor institution payment session info",
-        "operationId": "ciGetPaymentSession",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/SessionIdPath"
-          },
-          {
-            "$ref": "#/components/parameters/CorrelationId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payment session retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CiSessionStatusResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Formally invalid input",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 400,
-                  "detail": "Bad request"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 404,
-                  "detail": "Not found"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                },
-                "example": {
-                  "status": 500,
-                  "detail": "Internal server error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/pos/sessions/{sessionId}": {
       "get": {
         "tags": [
@@ -1388,22 +1308,6 @@
               "ONGOING"
             ],
             "description": "Payment session status.\n\nIt can be one of:\n    \n    - ERROR -> POS payment terminated with error, payment session can be discarded\n    \n    - ONGOING -> POS gateway payment still in progess, wait for notification\n    \n    - SUCCESS -> POS gateway payment completed and notified successfully to CI layer through the ciNotifyAuthorizationOutcome operation\n"
-          }
-        }
-      },
-      "CiSessionStatusResponse": {
-        "type": "object",
-        "required": [
-          "outcome"
-        ],
-        "properties": {
-          "outcome": {
-            "type": "string",
-            "enum": [
-              "SUCCESS",
-              "ERROR",
-              "ONGOING"
-            ]
           }
         }
       },
