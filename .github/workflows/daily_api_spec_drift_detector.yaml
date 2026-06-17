@@ -12,9 +12,6 @@ on:
       - master
     types: [ opened, synchronize, labeled, unlabeled, reopened, edited ]
 
-permissions:
-  contents: read
-
 jobs:
   setup:
     runs-on: ubuntu-latest
