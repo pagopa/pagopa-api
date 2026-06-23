@@ -89,8 +89,8 @@ jobs:
         uses: ./.github/actions/resolve-file-map
         with:
           file: ${{ matrix.file }}
-      - name: azure-dev-login
-        id: Login to Azure DEV subscription
+      - name: Login to Azure DEV subscription
+        id: azure-dev-login
         # from https://github.com/Azure/login/commits/master
         uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
         with:
