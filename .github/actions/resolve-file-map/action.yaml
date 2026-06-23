@@ -1,0 +1,119 @@
+name: Resolve file analysis map
+description: >
+  Resolves the APIM resource ID, service OpenAPI URL and comparison arguments
+  for a given OpenAPI filename. Centralises the file-to-configuration mapping
+  so multiple workflows can reuse it without duplication.
+
+inputs:
+  file:
+    description: OpenAPI filename (e.g. biz_events.json)
+    required: true
+
+outputs:
+  apim_resource_id:
+    description: APIM resource identifier (with <ENV> placeholder)
+    value: ${{ steps.resolve-map.outputs.apim_resource_id }}
+  service_openapi_url_ref:
+    description: URL of the service OpenAPI spec used for comparison
+    value: ${{ steps.resolve-map.outputs.service_openapi_url_ref }}
+  compare_args:
+    description: Extra arguments forwarded to oasdiff changelog
+    value: ${{ steps.resolve-map.outputs.compare_args }}
+
+runs:
+  using: composite
+  steps:
+    - name: File analysis map ${{ inputs.file }}
+      id: resolve-map
+      shell: bash
+      run: |
+        # Map where key=openapi/filename and values are: apim resource id,
+        # service openapi url ref and api paths to exclude from comparison.
+        declare -A apim_resource_id
+        declare -A service_openapi_url_ref
+        declare -A compare_args
+
+        apim_resource_id["biz_events.json"]="pagopa-<ENV>-weu-bizevents-bizevents-service-api-v1"
+        service_openapi_url_ref["biz_events.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/bizevents-app/api/bizevents-service/v1/_openapi.json.tpl"
+        compare_args["biz_events.json"]="--unmatch-path /info"
+
+        apim_resource_id["checkout_v1.json"]="pagopa-<ENV>-checkout-ec-api-v1"
+        service_openapi_url_ref["checkout_v1.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/checkout-app/api/checkout/checkout_ec/v1/_openapi.json.tpl"
+        compare_args["checkout_v1.json"]="--unmatch-path /info"
+
+        apim_resource_id["checkout_v2.json"]="pagopa-<ENV>-checkout-ec-api-v2"
+        service_openapi_url_ref["checkout_v2.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/checkout-app/api/checkout/checkout_ec/v2/_openapi.json.tpl"
+        compare_args["checkout_v2.json"]="--unmatch-path /info"
+
+        apim_resource_id["fdr_organization.json"]="pagopa-<ENV>-weu-fdr-fdr-service-api-org-v1"
+        service_openapi_url_ref["fdr_organization.json"]="https://raw.githubusercontent.com/pagopa/pagopa-fdr/refs/heads/main/openapi/org/openapi.json"
+        compare_args["fdr_organization.json"]="--unmatch-path /info"
+
+        apim_resource_id["fdr_psp.json"]="pagopa-<ENV>-weu-fdr-fdr-service-api-psp-v1"
+        service_openapi_url_ref["fdr_psp.json"]="https://raw.githubusercontent.com/pagopa/pagopa-fdr/refs/heads/main/openapi/psp/openapi.json"
+        compare_args["fdr_psp.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd-4-aca.json"]="pagopa-<ENV>-debt-positions-for-aca-service-api-v1"
+        service_openapi_url_ref["gpd-4-aca.json"]="https://raw.githubusercontent.com/pagopa/pagopa-debt-position/refs/heads/main/openapi/openapi_aca_v1.json"
+        compare_args["gpd-4-aca.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd-4-aca_massive_v2.json"]="pagopa-<ENV>-gpd-upload-api-v2"
+        service_openapi_url_ref["gpd-4-aca_massive_v2.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/gps-app/api/gpd-upload-service/v2/_openapi_v2.json"
+        compare_args["gpd-4-aca_massive_v2.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd.json"]="pagopa-<ENV>-debt-positions-service-api-v1"
+        service_openapi_url_ref["gpd.json"]="https://raw.githubusercontent.com/pagopa/pagopa-debt-position/refs/heads/main/openapi/openapi_external_v1.json"
+        compare_args["gpd.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd_fdr.json"]="<ENV>-api-gpd-reporting-analysis-api-v1"
+        service_openapi_url_ref["gpd_fdr.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/gps-app/api/reporting-analysis/v1/_openapi.json.tpl"
+        compare_args["gpd_fdr.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd_massive.json"]="pagopa-<ENV>-gpd-upload-api-v1"
+        service_openapi_url_ref["gpd_massive.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/gps-app/api/gpd-upload-service/v1/_openapi_v1.json"
+        compare_args["gpd_massive.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd_massive_v2.json"]="pagopa-<ENV>-gpd-upload-api-v2"
+        service_openapi_url_ref["gpd_massive_v2.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/gps-app/api/gpd-upload-service/v2/_openapi_v2.json"
+        compare_args["gpd_massive_v2.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd_payments.json"]="<ENV>-gpd-payments-rest-api-aks-v1"
+        service_openapi_url_ref["gpd_payments.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/gps-app/api/payments-service/v1/rest/external/_openapi.json.tpl"
+        compare_args["gpd_payments.json"]="--unmatch-path /info"
+
+        apim_resource_id["gpd_v3.json"]="pagopa-<ENV>-debt-positions-service-api-v3"
+        service_openapi_url_ref["gpd_v3.json"]="https://raw.githubusercontent.com/pagopa/pagopa-backoffice-external/refs/heads/main/openapi/openapi_backoffice_external_ec.json"
+        compare_args["gpd_v3.json"]="--unmatch-path /info"
+
+        apim_resource_id["openapi_backoffice_external_ec.json"]="<ENV>-backoffice-external-ec-api-v1"
+        service_openapi_url_ref["openapi_backoffice_external_ec.json"]="https://raw.githubusercontent.com/pagopa/pagopa-backoffice-external/refs/heads/main/openapi/openapi_backoffice_external_ec.json"
+        compare_args["openapi_backoffice_external_ec.json"]="--unmatch-path /info"
+
+        apim_resource_id["openapi_backoffice_external_psp.json"]="<ENV>-backoffice-external-psp-api-v1"
+        service_openapi_url_ref["openapi_backoffice_external_psp.json"]="https://raw.githubusercontent.com/pagopa/pagopa-backoffice-external/refs/heads/main/openapi/openapi_backoffice_external_psp.json"
+        compare_args["openapi_backoffice_external_psp.json"]="--unmatch-path /info"
+
+        apim_resource_id["orgs_payment_options.json"]="-" #api not deployed on apim
+        service_openapi_url_ref["orgs_payment_options.json"]="https://raw.githubusercontent.com/pagopa/pagopa-payment-options-service/refs/heads/main/openapi/openapiForOrgs.json"
+        compare_args["orgs_payment_options.json"]="--unmatch-path /info"
+
+        apim_resource_id["paCreatePosition.json"]="pagopa-<ENV>-weu-aca-api-v1"
+        service_openapi_url_ref["paCreatePosition.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/aca-app/api/aca/v1/_openapi.json.tpl"
+        compare_args["paCreatePosition.json"]="--unmatch-path /info"
+
+        apim_resource_id["print-payment-notice-service.json"]="<ENV>-pagopa-print-payment-notice-service-external-v1"
+        service_openapi_url_ref["print-payment-notice-service.json"]="https://raw.githubusercontent.com/pagopa/pagopa-print-payment-notice-service/refs/heads/main/openapi/openapi_external.json"
+        compare_args["print-payment-notice-service.json"]="--unmatch-path /info"
+
+        apim_resource_id["psp_payment_options.json"]="<ENV>-payment-options-service-api-v1"
+        service_openapi_url_ref["psp_payment_options.json"]="https://raw.githubusercontent.com/pagopa/pagopa-payment-options-service/refs/heads/main/openapi/openapi.json"
+        compare_args["psp_payment_options.json"]="--unmatch-path /info"
+
+        apim_resource_id["redirect.json"]="pagopa-<ENV>-weu-ecommerce-ecommerce-redirect-outcome-api-v1"
+        service_openapi_url_ref["redirect.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/ecommerce-app/api/redirect-outcome/v1/_openapi.json.tpl"
+        compare_args["redirect.json"]="--match-path /redirections/{idTransaction}/outcomes" #the only path to be compared
+
+        file="${{ inputs.file }}"
+        echo "apim_resource_id=${apim_resource_id[$file]}" >> "$GITHUB_OUTPUT"
+        echo "service_openapi_url_ref=${service_openapi_url_ref[$file]}" >> "$GITHUB_OUTPUT"
+        echo "compare_args=${compare_args[$file]}" >> "$GITHUB_OUTPUT"
