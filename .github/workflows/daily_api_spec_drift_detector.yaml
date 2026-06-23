@@ -2,6 +2,7 @@ name: Openapi specs file comparison
 
 permissions:
   contents: read
+  id-token: write
 
 on:
   schedule:
