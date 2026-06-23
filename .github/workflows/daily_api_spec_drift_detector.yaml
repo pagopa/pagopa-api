@@ -1,4 +1,4 @@
-name: Process OpenAPI Files
+name: Openapi specs file comparison
 
 permissions:
   contents: read
@@ -131,7 +131,7 @@ jobs:
           echo "service_openapi_url_ref=${service_openapi_url_ref[$file]}" >> "$GITHUB_OUTPUT"
           echo "compare_args=${compare_args[$file]}" >> "$GITHUB_OUTPUT"
 
-      - name: Process ${{ matrix.file }}
+      - name: "[${{ matrix.file }}] - pagopa-api master vs service main branch"
         run: |
           file="${{ matrix.file }}"
           apim_resource_id="${{ steps.resolve-map.outputs.apim_resource_id }}"
