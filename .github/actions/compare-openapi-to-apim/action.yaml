@@ -1,0 +1,52 @@
+name: Compare OpenAPI spec to APIM
+description: >
+  Exports an API spec from APIM and compares it to a pagopa-api spec
+  using oasdiff changelog. Centralises the az apim export + docker oasdiff
+  command so multiple jobs can reuse it without duplication.
+
+inputs:
+  file:
+    description: OpenAPI filename in pagopa-api (e.g. biz_events.json)
+    required: true
+  apim_resource_id:
+    description: APIM resource identifier (with <ENV> placeholder that will be replaced with the env_short value)
+    required: true
+  compare_args:
+    description: Extra arguments forwarded to oasdiff changelog
+    required: true
+  env_short:
+    description: Short environment name (d for dev, u for uat, p for prod)
+    required: true
+  environment:
+    description: The target environment to be used
+    required: true
+  pagopa_api_branch:
+    description: pagopa-api branch used to resolve the reference spec URL (e.g. develop, master...)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: "[${{ inputs.file }}] - pagopa-api ${{ inputs.pagopa_api_branch }} vs APIM ${{ inputs.env_short == 'd' && 'DEV' || inputs.env_short == 'u' && 'UAT' || 'PROD' }}"
+      shell: bash
+      run: |
+        file="${{ inputs.file }}"
+        apim_resource_id=$(echo "${{ inputs.apim_resource_id }}" | sed 's/<ENV>/${{ inputs.env_short }}/g')
+        compare_args="${{ inputs.compare_args }}"
+        pagopa_api_branch="${{ inputs.pagopa_api_branch }}"
+
+        echo "Processing $file | apim=$apim_resource_id | branch=$pagopa_api_branch | compare_args=$compare_args"
+
+        # az apim export creates a file named <resource-id>_openapi+json.json
+        az apim api export \
+          --resource-group "pagopa-${{ inputs.env_short }}-api-rg" \
+          --service-name "pagopa-${{ inputs.env_short }}-apim" \
+          --api-id "$apim_resource_id" \
+          --export-format "OpenApiJsonFile" \
+          --file-path "."
+
+        docker run --rm -t \
+          -v "$(pwd)/${apim_resource_id}_openapi+json.json:/apim_spec.json" \
+          tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
+          changelog $compare_args \
+          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$pagopa_api_branch/openapi/$file" "/apim_spec.json"

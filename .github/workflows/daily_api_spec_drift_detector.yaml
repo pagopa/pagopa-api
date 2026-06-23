@@ -73,11 +73,9 @@ jobs:
 
   compare_sanp_branch_to_apim_dev:
     needs: setup
-    name: "pagopa-api SANP ${{ needs.setup.outputs.latest_sanp_branch }} branch to APIM dev"
+    name: "pagopa-api SANP ${{ needs.setup.outputs.latest_sanp_branch }} branch to APIM DEV"
     runs-on: ubuntu-latest
     environment: dev
-    env:
-      LATEST_SANP_BRANCH: ${{ needs.setup.outputs.latest_sanp_branch }}
     strategy:
       matrix:
         file: ${{ fromJson(needs.setup.outputs.matrix) }}
@@ -98,23 +96,80 @@ jobs:
           client-id: ${{ secrets.CLIENT_ID }}
           tenant-id: ${{ secrets.TENANT_ID }}
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-      - name: "[${{ matrix.file }}] - pagopa-api ${{ env.LATEST_SANP_BRANCH }} vs APIM DEV"
+      - name: "[${{ matrix.file }}] - pagopa-api ${{ needs.setup.outputs.latest_sanp_branch }} vs APIM DEV"
         if: ${{ steps.resolve-map.outputs.apim_resource_id != '-' }}
-        run: |
-          file="${{ matrix.file }}"
-          apim_resource_id=$(echo "${{ steps.resolve-map.outputs.apim_resource_id }}" | sed 's/<ENV>/d/g') 
-          service_openapi_url_ref="${{ steps.resolve-map.outputs.service_openapi_url_ref }}"
-          compare_args="${{ steps.resolve-map.outputs.compare_args }}"
-          echo "Processing $file | apim=$apim_resource_id | url=$service_openapi_url_ref | compare_args=$compare_args"
-          #az apim export exports api creating a file with name <resource name>_openapi+json.json  
-          az apim api export \
-          --resource-group "pagopa-d-api-rg" \
-          --service-name "pagopa-d-apim" \
-          --api-id "$apim_resource_id" \
-          --export-format "OpenApiJsonFile" \
-          --file-path "."
-          docker run --rm -t \
-          -v "$(pwd)/${apim_resource_id}_openapi+json.json:/apim_spec.json" \
-          tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
-          changelog $compare_args \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$LATEST_SANP_BRANCH/openapi/$file" "/apim_spec.json"
+        uses: ./.github/actions/compare-openapi-to-apim
+        with:
+          file: ${{ matrix.file }}
+          apim_resource_id: ${{ steps.resolve-map.outputs.apim_resource_id }}
+          compare_args: ${{ steps.resolve-map.outputs.compare_args }}
+          env_short: d
+          pagopa_api_branch: ${{ needs.setup.outputs.latest_sanp_branch }}
+  compare_develop_to_apim_UAT:
+    needs: setup
+    name: "pagopa-api develop branch to APIM UAT"
+    runs-on: ubuntu-latest
+    environment: uat
+    strategy:
+      matrix:
+        file: ${{ fromJson(needs.setup.outputs.matrix) }}
+      fail-fast: false  # continue processing other files if one fails
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+      - name: File analysis map ${{ matrix.file }}
+        id: resolve-map
+        uses: ./.github/actions/resolve-file-map
+        with:
+          file: ${{ matrix.file }}
+      - name: Login to Azure UAT subscription
+        id: azure-uat-login
+        # from https://github.com/Azure/login/commits/master
+        uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
+        with:
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+      - name: "[${{ matrix.file }}] - pagopa-api develop vs APIM UAT"
+        if: ${{ steps.resolve-map.outputs.apim_resource_id != '-' }}
+        uses: ./.github/actions/compare-openapi-to-apim
+        with:
+          file: ${{ matrix.file }}
+          apim_resource_id: ${{ steps.resolve-map.outputs.apim_resource_id }}
+          compare_args: ${{ steps.resolve-map.outputs.compare_args }}
+          env_short: u
+          pagopa_api_branch: develop
+  compare_master_to_apim_PROD:
+    needs: setup
+    name: "pagopa-api master branch to APIM PROD"
+    runs-on: ubuntu-latest
+    environment: prod
+    strategy:
+      matrix:
+        file: ${{ fromJson(needs.setup.outputs.matrix) }}
+      fail-fast: false  # continue processing other files if one fails
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+      - name: File analysis map ${{ matrix.file }}
+        id: resolve-map
+        uses: ./.github/actions/resolve-file-map
+        with:
+          file: ${{ matrix.file }}
+      - name: Login to Azure PROD subscription
+        id: azure-uat-login
+        # from https://github.com/Azure/login/commits/master
+        uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
+        with:
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+      - name: "[${{ matrix.file }}] - pagopa-api master vs APIM PROD"
+        if: ${{ steps.resolve-map.outputs.apim_resource_id != '-' }}
+        uses: ./.github/actions/compare-openapi-to-apim
+        with:
+          file: ${{ matrix.file }}
+          apim_resource_id: ${{ steps.resolve-map.outputs.apim_resource_id }}
+          compare_args: ${{ steps.resolve-map.outputs.compare_args }}
+          env_short: p
+          pagopa_api_branch: master
