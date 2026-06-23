@@ -27,8 +27,9 @@ jobs:
           files=$(ls openapi/ | jq -R -s -c 'split("\n") | map(select(length > 0))')
           echo "matrix=$files" >> "$GITHUB_OUTPUT"
 
-  process:
+  compare_master_to_main:
     needs: setup
+    name: pagopa-api master branch to service main branch compare
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,15 +38,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
-
       - name: File analysis map ${{ matrix.file }}
         id: resolve-map
         uses: ./.github/actions/resolve-file-map
         with:
           file: ${{ matrix.file }}
-
-
-
       - name: "[${{ matrix.file }}] - pagopa-api master vs service main branch"
         run: |
           file="${{ matrix.file }}"
