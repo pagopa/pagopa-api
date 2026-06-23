@@ -113,6 +113,7 @@ jobs:
           --export-format "OpenApiJsonFile" \
           --file-path "."
           docker run --rm -t \
+          -v "$(pwd)/${apim_resource_id}_openapi+json.json:/apim_spec.json" \
           tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
           changelog $compare_args \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$LATEST_SANP_BRANCH/openapi/$file" "./${apim_resource_id}_openapi+json.json"
+          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$LATEST_SANP_BRANCH/openapi/$file" "/apim_spec.json"
