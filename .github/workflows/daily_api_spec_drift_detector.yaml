@@ -73,7 +73,7 @@ jobs:
 
   compare_sanp_branch_to_apim_dev:
     needs: setup
-    name: "pagopa-api SANP ${{ needs.setup.outputs.latest_sanp_branch }} branch to APIM DEV"
+    name: "pagopa-api latest SANP branch to APIM DEV"
     runs-on: ubuntu-latest
     environment: dev
     strategy:
