@@ -105,7 +105,7 @@ jobs:
           service_openapi_url_ref="${{ steps.resolve-map.outputs.service_openapi_url_ref }}"
           compare_args="${{ steps.resolve-map.outputs.compare_args }}"
           echo "Processing $file | apim=$apim_resource_id | url=$service_openapi_url_ref | compare_args=$compare_args"
-          #az apim export exports api creating a file with name <resource name>+json.json  
+          #az apim export exports api creating a file with name <resource name>_openapi+json.json  
           az apim api export \
           --resource-group "pagopa-d-api-rg" \
           --service-name "pagopa-d-apim" \
@@ -115,4 +115,4 @@ jobs:
           docker run --rm -t \
           tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
           changelog $compare_args \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$LATEST_SANP_BRANCH/openapi/$file" "./${apim_resource_id}+json.json"
+          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$LATEST_SANP_BRANCH/openapi/$file" "./${apim_resource_id}_openapi+json.json"
