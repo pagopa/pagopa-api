@@ -94,9 +94,9 @@ jobs:
         # from https://github.com/Azure/login/commits/master
         uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
         with:
-          client-id: ${{ secret.CLIENT_ID }}
-          tenant-id: ${{ secret.TENANT_ID }}
-          subscription-id: ${{ secret.SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
       - name: "[${{ matrix.file }}] - pagopa-api ${{ env.LATEST_SANP_BRANCH }} vs APIM DEV"
         run: |
           file="${{ matrix.file }}"
