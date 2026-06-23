@@ -1107,8 +1107,11 @@
           "terminalId": {
             "$ref": "#/components/schemas/TerminalId"
           },
-          "debtPosition": {
-            "$ref": "#/components/schemas/DebtPosition"
+          "debtPositions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DebtPosition"
+            }
           }
         }
       },
@@ -1313,38 +1316,65 @@
       },
       "PaymentResponse": {
         "type": "object",
-        "required": [
-          "outcome",
-          "details"
-        ],
-        "properties": {
-          "outcome": {
-            "type": "string",
-            "enum": [
-              "OK",
-              "KO"
-            ]
-          },
-          "details": {
-            "$ref": "#/components/schemas/PaymentResponseDetails"
-          }
-        }
-      },
-      "PaymentResponseDetails": {
-        "type": "object",
         "oneOf": [
           {
-            "$ref": "#/components/schemas/OkPaymentResponseDetails"
+            "$ref": "#/components/schemas/OkPaymentResponse"
           },
           {
-            "$ref": "#/components/schemas/KoPaymentResponseDetails"
+            "$ref": "#/components/schemas/KoPaymentResponse"
           }
         ],
         "discriminator": {
           "propertyName": "outcome",
           "mapping": {
-            "OK": "#/components/schemas/OkPaymentResponseDetails",
-            "KO": "#/components/schemas/KoPaymentResponseDetails"
+            "OK": "#/components/schemas/OkPaymentResponse",
+            "KO": "#/components/schemas/KoPaymentResponse"
+          }
+        }
+      },
+      "OkPaymentResponse": {
+        "type": "object",
+        "required": [
+          "outcome",
+          "amount",
+          "details"
+        ],
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": ["OK"]
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OkPaymentResponseDetails"
+            }
+          }
+        }
+      },
+      "KoPaymentResponse": {
+        "type": "object",
+        "required": [
+          "outcome",
+          "amount",
+          "details"
+        ],
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": ["KO"]
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KoPaymentResponseDetails"
+            }
           }
         }
       },
@@ -1372,7 +1402,37 @@
         }
       },
       "KoPaymentResponseDetails": {
-        "type": "object"
+        "type": "object",
+        "required": [
+          "creditorInstitutionFiscalCode",
+          "noticeNumber",
+          "iuv",
+          "amount",
+          "reason"
+        ],
+        "properties": {
+          "creditorInstitutionFiscalCode": {
+            "$ref": "#/components/schemas/CreditorInstitutionFiscalCode"
+          },
+          "noticeNumber": {
+            "$ref": "#/components/schemas/NoticeNumber"
+          },
+          "iuv": {
+            "$ref": "#/components/schemas/IUV"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Error reason",
+            "enum": [
+              "CREATION_ERROR",
+              "ACTIVATION_ERROR",
+              "AUTH_ERROR"
+            ]
+          }
+        }
       },
       "ProblemJson": {
         "description": "Body definition for error responses containing failure details",
