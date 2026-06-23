@@ -60,11 +60,10 @@ jobs:
       - name: "[${{ matrix.file }}] - pagopa-api master vs service main branch"
         run: |
           file="${{ matrix.file }}"
-          apim_resource_id="${{ steps.resolve-map.outputs.apim_resource_id }}"
           service_openapi_url_ref="${{ steps.resolve-map.outputs.service_openapi_url_ref }}"
           compare_args="${{ steps.resolve-map.outputs.compare_args }}"
           
-          echo "Processing $file | apim=$apim_resource_id | url=$service_openapi_url_ref | compare_args=$compare_args"
+          echo "Processing $file | url=$service_openapi_url_ref | compare_args=$compare_args"
           docker run --rm -t \
           tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
           changelog $compare_args \
@@ -75,6 +74,7 @@ jobs:
     needs: setup
     name: pagopa-api SANP branch to APIM dev
     runs-on: ubuntu-latest
+    environment: dev
     env:
       LATEST_SANP_BRANCH: ${{ needs.setup.outputs.latest_sanp_branch }}
     strategy:
@@ -89,15 +89,29 @@ jobs:
         uses: ./.github/actions/resolve-file-map
         with:
           file: ${{ matrix.file }}
-      - name: "[${{ matrix.file }}] - pagopa-api master vs service main branch"
+      - name: azure-dev-login
+        id: Login to Azure DEV subscription
+        # from https://github.com/Azure/login/commits/master
+        uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
+        with:
+          client-id: ${{ secret.CLIENT_ID }}
+          tenant-id: ${{ secret.TENANT_ID }}
+          subscription-id: ${{ secret.SUBSCRIPTION_ID }}
+      - name: "[${{ matrix.file }}] - pagopa-api ${{ env.LATEST_SANP_BRANCH }} vs APIM DEV"
         run: |
           file="${{ matrix.file }}"
-          apim_resource_id="${{ steps.resolve-map.outputs.apim_resource_id }}"
+          apim_resource_id=$(echo "${{ steps.resolve-map.outputs.apim_resource_id }}" | sed 's/<ENV>/d/g') 
           service_openapi_url_ref="${{ steps.resolve-map.outputs.service_openapi_url_ref }}"
           compare_args="${{ steps.resolve-map.outputs.compare_args }}"
-          
           echo "Processing $file | apim=$apim_resource_id | url=$service_openapi_url_ref | compare_args=$compare_args"
+          az apim api export \
+          --resource-group "pagopa-d-api-rg" \
+          --service-name "pagopa-d-apim" \
+          --api-id "$apim_resource_id" \
+          --export-format "OpenApiJsonFile" \
+          --file-path "."
           docker run --rm -t \
           tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
           changelog $compare_args \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/master/openapi/$file" "$service_openapi_url_ref"
+          #az apim export exports api creating a file with name <resource name>+json.json  
+          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$LATEST_SANP_BRANCH/openapi/$file" "./${apim_resource_id}+json.json"
