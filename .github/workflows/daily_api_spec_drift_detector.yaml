@@ -99,6 +99,7 @@ jobs:
           tenant-id: ${{ secrets.TENANT_ID }}
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
       - name: "[${{ matrix.file }}] - pagopa-api ${{ env.LATEST_SANP_BRANCH }} vs APIM DEV"
+        if: ${{ steps.resolve-map.outputs.apim_resource_id != '-' }}
         run: |
           file="${{ matrix.file }}"
           apim_resource_id=$(echo "${{ steps.resolve-map.outputs.apim_resource_id }}" | sed 's/<ENV>/d/g') 
