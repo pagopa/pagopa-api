@@ -17,9 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.list-files.outputs.matrix }}
+      latest_sanp_branch: ${{ steps.latest-sanp.outputs.branch }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+        with:
+          fetch-depth: 0  # needed to access all remote branches
 
       - name: List OpenAPI files
         id: list-files
@@ -27,10 +30,53 @@ jobs:
           files=$(ls openapi/ | jq -R -s -c 'split("\n") | map(select(length > 0))')
           echo "matrix=$files" >> "$GITHUB_OUTPUT"
 
+      - name: Resolve latest SANP branch
+        id: latest-sanp
+        run: |
+          branch=$(git branch -r \
+            | grep -oP 'origin/SANP\K[0-9]+\.[0-9]+\.[0-9]+' \
+            | sort -V \
+            | tail -1 \
+            | xargs -I{} echo "SANP{}")
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "Latest SANP branch: $branch"
+
   compare_master_to_main:
     needs: setup
     name: pagopa-api master branch to service main branch compare
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        file: ${{ fromJson(needs.setup.outputs.matrix) }}
+      fail-fast: false  # continue processing other files if one fails
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+      - name: File analysis map ${{ matrix.file }}
+        id: resolve-map
+        uses: ./.github/actions/resolve-file-map
+        with:
+          file: ${{ matrix.file }}
+      - name: "[${{ matrix.file }}] - pagopa-api master vs service main branch"
+        run: |
+          file="${{ matrix.file }}"
+          apim_resource_id="${{ steps.resolve-map.outputs.apim_resource_id }}"
+          service_openapi_url_ref="${{ steps.resolve-map.outputs.service_openapi_url_ref }}"
+          compare_args="${{ steps.resolve-map.outputs.compare_args }}"
+          
+          echo "Processing $file | apim=$apim_resource_id | url=$service_openapi_url_ref | compare_args=$compare_args"
+          docker run --rm -t \
+          tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
+          changelog $compare_args \
+          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/master/openapi/$file" "$service_openapi_url_ref"
+
+
+  compare_sanp_branch_to_apim_dev:
+    needs: setup
+    name: pagopa-api SANP branch to APIM dev
+    runs-on: ubuntu-latest
+    env:
+      LATEST_SANP_BRANCH: ${{ needs.setup.outputs.latest_sanp_branch }}
     strategy:
       matrix:
         file: ${{ fromJson(needs.setup.outputs.matrix) }}
