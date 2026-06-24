@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://api.platform.pagopa.it/checkout/ec/v1"
+            "url": "https://api.dev.platform.pagopa.it/checkout/ec/v1"
         }
     ],
     "paths": {
