@@ -59,16 +59,71 @@ jobs:
         with:
           file: ${{ matrix.file }}
       - name: "[${{ matrix.file }}] - pagopa-api master vs service main branch"
+        id: run-comparison
         run: |
           file="${{ matrix.file }}"
           service_openapi_url_ref="${{ steps.resolve-map.outputs.service_openapi_url_ref }}"
           compare_args="${{ steps.resolve-map.outputs.compare_args }}"
-          
+
           echo "Processing $file | url=$service_openapi_url_ref | compare_args=$compare_args"
-          docker run --rm -t \
-          tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
-          changelog $compare_args \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/master/openapi/$file" "$service_openapi_url_ref"
+
+          # Run oasdiff with JSON output (no -t to avoid TTY escape codes in JSON)
+          OASDIFF_EXIT=0
+          set +e
+          docker run --rm \
+            tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
+            changelog $compare_args --format json --fail-on ERR \
+            "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/master/openapi/$file" "$service_openapi_url_ref" \
+            > changes_raw.json
+          OASDIFF_EXIT=$?
+          set -e
+
+          # Ensure valid JSON (fallback to empty array on unexpected output)
+          if ! jq -e . changes_raw.json > /dev/null 2>&1; then
+            echo "[]" > changes_raw.json
+          fi
+
+          # Display human-readable summary in job log
+          TOTAL=$(jq 'length' changes_raw.json)
+          ERRORS=$(jq '[.[] | select(.level == 3)] | length' changes_raw.json)
+          WARNINGS=$(jq '[.[] | select(.level == 2)] | length' changes_raw.json)
+          INFOS=$(jq '[.[] | select(.level == 1)] | length' changes_raw.json)
+          echo "=== $TOTAL change(s): $ERRORS error(s), $WARNINGS warning(s), $INFOS info ==="
+          if [ "$TOTAL" -gt 0 ]; then
+            jq -r '.[] |
+              (if .level == 3 then "ERROR" elif .level == 2 then "WARN" else "INFO" end) +
+              "  [" + .id + "]" +
+              (if .path != null and .operation != null then " at " + .operation + " " + .path
+               elif .path != null then " at " + .path
+               elif .section != null then " in " + .section
+               else "" end) +
+              ": " + .text' changes_raw.json
+          fi
+
+          # Wrap with metadata for the report aggregation job
+          jq -n \
+            --arg file "$file" \
+            --arg env "MAIN" \
+            --arg branch "master" \
+            --argjson changes "$(cat changes_raw.json)" \
+            '{file: $file, env: $env, branch: $branch, changes: $changes}' > result.json
+
+          echo "oasdiff_exit=$OASDIFF_EXIT" >> "$GITHUB_OUTPUT"
+
+      - name: Upload comparison result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-main-${{ matrix.file }}
+          path: result.json
+          if-no-files-found: ignore
+          retention-days: 1
+
+      - name: Fail on breaking changes
+        if: steps.run-comparison.outputs.oasdiff_exit != '0'
+        run: |
+          echo "❌ Breaking changes detected in ${{ matrix.file }} vs service main!"
+          exit 1
 
 
   compare_sanp_branch_to_apim_dev:
@@ -173,3 +228,30 @@ jobs:
           compare_args: ${{ steps.resolve-map.outputs.compare_args }}
           env_short: p
           pagopa_api_branch: master
+
+  report:
+    name: "Drift Report — unified summary"
+    needs:
+      - compare_master_to_main
+      - compare_sanp_branch_to_apim_dev
+      - compare_develop_to_apim_UAT
+      - compare_master_to_apim_PROD
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+
+      - name: Download all drift artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: drift-*
+          path: artifacts
+          merge-multiple: false
+        continue-on-error: true  # gracefully handle runs where no artifacts were uploaded
+
+      - name: Generate unified drift report
+        run: |
+          python3 .github/scripts/generate_drift_report.py
+        env:
+          ARTIFACTS_DIR: artifacts

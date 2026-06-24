@@ -28,12 +28,15 @@ runs:
   using: composite
   steps:
     - name: "[${{ inputs.file }}] - pagopa-api ${{ inputs.pagopa_api_branch }} vs APIM ${{ inputs.env_short == 'd' && 'DEV' || inputs.env_short == 'u' && 'UAT' || 'PROD' }}"
+      id: run-comparison
       shell: bash
       run: |
         file="${{ inputs.file }}"
         apim_resource_id=$(echo "${{ inputs.apim_resource_id }}" | sed 's/<ENV>/${{ inputs.env_short }}/g')
         compare_args="${{ inputs.compare_args }}"
         pagopa_api_branch="${{ inputs.pagopa_api_branch }}"
+        env_short="${{ inputs.env_short }}"
+        env_label=$([ "$env_short" = "d" ] && echo "DEV" || ([ "$env_short" = "u" ] && echo "UAT" || echo "PROD"))
 
         echo "Processing $file | apim=$apim_resource_id | branch=$pagopa_api_branch | compare_args=$compare_args"
 
@@ -45,8 +48,62 @@ runs:
           --export-format "OpenApiJsonFile" \
           --file-path "."
 
-        docker run --rm -t \
+        # Run oasdiff with JSON output (no -t flag to avoid TTY escape codes in JSON)
+        OASDIFF_EXIT=0
+        set +e
+        docker run --rm \
           -v "$(pwd)/${apim_resource_id}_openapi+json.json:/apim_spec.json" \
           tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
-          changelog $compare_args \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$pagopa_api_branch/openapi/$file" "/apim_spec.json"
+          changelog $compare_args --format json --fail-on ERR \
+          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$pagopa_api_branch/openapi/$file" "/apim_spec.json" \
+          > changes_raw.json
+        OASDIFF_EXIT=$?
+        set -e
+
+        # Ensure valid JSON (fallback to empty array on unexpected output)
+        if ! jq -e . changes_raw.json > /dev/null 2>&1; then
+          echo "[]" > changes_raw.json
+        fi
+
+        # Display human-readable summary in job log
+        TOTAL=$(jq 'length' changes_raw.json)
+        ERRORS=$(jq '[.[] | select(.level == 3)] | length' changes_raw.json)
+        WARNINGS=$(jq '[.[] | select(.level == 2)] | length' changes_raw.json)
+        INFOS=$(jq '[.[] | select(.level == 1)] | length' changes_raw.json)
+        echo "=== $TOTAL change(s): $ERRORS error(s), $WARNINGS warning(s), $INFOS info ==="
+        if [ "$TOTAL" -gt 0 ]; then
+          jq -r '.[] |
+            (if .level == 3 then "ERROR" elif .level == 2 then "WARN" else "INFO" end) +
+            "  [" + .id + "]" +
+            (if .path != null and .operation != null then " at " + .operation + " " + .path
+             elif .path != null then " at " + .path
+             elif .section != null then " in " + .section
+             else "" end) +
+            ": " + .text' changes_raw.json
+        fi
+
+        # Wrap with metadata for the report aggregation job
+        jq -n \
+          --arg file "$file" \
+          --arg env "$env_label" \
+          --arg branch "$pagopa_api_branch" \
+          --argjson changes "$(cat changes_raw.json)" \
+          '{file: $file, env: $env, branch: $branch, changes: $changes}' > result.json
+
+        echo "oasdiff_exit=$OASDIFF_EXIT" >> "$GITHUB_OUTPUT"
+
+    - name: Upload comparison result artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: drift-${{ inputs.env_short }}-${{ inputs.file }}
+        path: result.json
+        if-no-files-found: ignore
+        retention-days: 1
+
+    - name: Fail on breaking changes
+      if: steps.run-comparison.outputs.oasdiff_exit != '0'
+      shell: bash
+      run: |
+        echo "❌ Breaking changes detected in ${{ inputs.file }} (APIM ${{ inputs.env_short }})!"
+        exit 1
