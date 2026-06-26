@@ -1109,6 +1109,7 @@
           },
           "debtPositions": {
             "type": "array",
+            "maxItems": 5,
             "items": {
               "$ref": "#/components/schemas/DebtPosition"
             }
@@ -1349,6 +1350,7 @@
           },
           "details": {
             "type": "array",
+            "maxItems": 5,
             "items": {
               "$ref": "#/components/schemas/OkPaymentResponseDetails"
             }
@@ -1372,6 +1374,7 @@
           },
           "details": {
             "type": "array",
+            "maxItems": 5,
             "items": {
               "$ref": "#/components/schemas/KoPaymentResponseDetails"
             }
