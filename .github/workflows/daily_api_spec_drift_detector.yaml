@@ -8,10 +8,6 @@ on:
   schedule:
     - cron: '0 6 * * *'  # every day at 6:00 UTC
   workflow_dispatch:  # allow manual trigger
-  pull_request: #TODO to remove, add here just to test trigger
-    branches:
-      - master
-    types: [ opened, synchronize, labeled, unlabeled, reopened, edited ]
 jobs:
   setup:
     runs-on: ubuntu-latest
