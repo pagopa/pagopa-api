@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "https://api.platform.pagopa.it/fdr-psp/service/v1"
+      "url": "https://api.dev.platform.pagopa.it/fdr-psp/service/v1"
     }
   ],
   "paths": {
