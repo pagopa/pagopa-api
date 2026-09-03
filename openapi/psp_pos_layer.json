@@ -580,14 +580,14 @@
         "tags": [
           "psp-pos-layer"
         ],
-        "summary": "Create a reconciliation batch",
+        "summary": "Create a reconciliation batch file",
         "security": [
           {
             "MutualTLSAuth": []
           }
         ],
-        "description": "Create a reconciliation batch with all session ids to manage",
-        "operationId": "pspCreateReconciliationBatch",
+        "description": "Create a reconciliation batch file with all session ids to manage",
+        "operationId": "pspCreateReconciliationBatchFile",
         "parameters": [
           {
             "$ref": "#/components/parameters/CorrelationId"
@@ -1093,31 +1093,120 @@
       "ReconciliationRequest": {
         "type": "object",
         "required": [
-          "batchId",
-          "timestamp",
-          "sessions"
+          "reportId",
+          "period",
+          "totalRecords",
+          "maxRowsPerFile",
+          "totalFiles",
+          "fileSchemaVersion",
+          "files"
         ],
         "properties": {
-          "batchId": {
+          "reportId": {
             "type": "string",
-            "format": "uuid",
-            "description": "Unique identifier for the reconciliation batch."
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Generation timestamp of the batch.",
+            "description": "Unique identifier of the reconciliation report",
             "examples": [
-              "2026-05-07T06:00:00Z"
+              "REC-20260817-PSP01"
             ]
           },
-          "sessions": {
+          "period": {
+            "type": "string",
+            "format": "date",
+            "description": "Financial reference date for the settlement (YYYY-MM-DD format)",
+            "examples": [
+              "2026-08-17"
+            ]
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Total number of transactions/sessions included in the daily overall report",
+            "examples": [
+              245000
+            ],
+            "minimum": 0
+          },
+          "maxRowsPerFile": {
+            "type": "integer",
+            "description": "Maximum threshold of rows/records allowed in a single partition file",
+            "examples": [
+              100000
+            ],
+            "minimum": 1
+          },
+          "totalFiles": {
+            "type": "integer",
+            "description": "Total number of parts/files constituting the complete report dataset",
+            "examples": [
+              3
+            ],
+            "minimum": 0
+          },
+          "fileSchemaVersion": {
+            "type": "string",
+            "description": "Version of the data schema used within the downloadable report files",
+            "examples": [
+              "1.0"
+            ]
+          },
+          "files": {
             "type": "array",
-            "description": "List of sessions requiring compensatory actions.",
-            "maxItems": 100,
+            "description": "Ordered list of files/parts composing the reconciliation report",
             "items": {
-              "$ref": "#/components/schemas/ReconciliationSession"
+              "$ref": "#/components/schemas/ReconciliationFile"
             }
+          }
+        }
+      },
+      "ReconciliationFile": {
+        "type": "object",
+        "required": [
+          "fileNumber",
+          "recordsCount",
+          "fileChecksumSha256",
+          "downloadUrl",
+          "expiresAt"
+        ],
+        "properties": {
+          "fileNumber": {
+            "type": "integer",
+            "description": "Sequential number of the file within the partition sequence",
+            "examples": [
+              1
+            ],
+            "minimum": 1
+          },
+          "recordsCount": {
+            "type": "integer",
+            "description": "Actual number of records contained in the specific file",
+            "examples": [
+              100000
+            ],
+            "minimum": 0
+          },
+          "fileChecksumSha256": {
+            "type": "string",
+            "description": "SHA-256 checksum of the compressed file for integrity verification",
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "examples": [
+              "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            ]
+          },
+          "downloadUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to download the compressed file",
+            "examples": [
+              "https://azure.blob/pagopa-reconciliations/REC-20260817-PSP01-1.csv.gz"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "UTC timestamp (ISO 8601) indicating the expiration of the download link",
+            "examples": [
+              "2026-08-18T23:59:59Z"
+            ]
           }
         }
       },
