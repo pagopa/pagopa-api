@@ -1128,13 +1128,12 @@
           "payStatus": {
             "enum": [
               "EXECUTED",
-              "REVOKED",
               "STAND_IN",
               "STAND_IN_NO_RPT",
               "NO_RPT"
             ],
             "type": "string",
-            "description": "The value of the status of the payment in relation to ist completion.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.codiceEsitoSingoloPagamento]</b>.<br>The enumeration is mapped with the following values:<br><ul><li>EXECUTED -> 0</li><li>REVOKED -> 3</li><li>STAND_IN -> 4</li><li>STAND_IN_NO_RPT -> 8</li><li>NO_RPT -> 9</li></ul>",
+            "description": "The value of the status of the payment in relation to ist completion.<br>In the XML request for SOAP primitives, this field is mappable with the tag <b>[FlussoRiversamento.datiSingoliPagamenti.codiceEsitoSingoloPagamento]</b>.<br>The enumeration is mapped with the following values:<br><ul><li>EXECUTED -> 3</li><li>STAND_IN -> 4</li><li>STAND_IN_NO_RPT -> 8</li><li>NO_RPT -> 9</li></ul>",
             "example": [
               "EXECUTED"
             ]
