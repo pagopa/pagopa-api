@@ -80,6 +80,7 @@
                                 "example": {
                                     "creditorInstitutions": [
                                         {
+                                            "aca": true,
                                             "activationDate": "string",
                                             "applicationCode": "string",
                                             "auxDigit": "string",
@@ -97,6 +98,7 @@
                                             "primitiveVersion": 0,
                                             "pspPayment": true,
                                             "segregationCode": "string",
+                                            "stationId": "string",
                                             "stationId": "string",
                                             "stationState": "enabled",
                                             "taxCode": "string",
