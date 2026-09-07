@@ -431,6 +431,10 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "aca": {
+                    "description": "True if ACA archive will be populated",
+                    "type": "boolean"
+                    },
                     "activationDate": {
                         "type": "string",
                         "description": "activation date",
@@ -501,6 +505,10 @@
                     "segregationCode": {
                         "type": "string",
                         "description": "segregation code of the relation station-ec (unique per auxdigit)"
+                    },
+                     "standIn": {
+                    "description": "True if the debt positions can be paid in Stan In",
+                    "type": "boolean"
                     },
                     "stationId": {
                         "type": "string",
