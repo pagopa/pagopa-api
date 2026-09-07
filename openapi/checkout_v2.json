@@ -31,7 +31,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartRequestV2"
+                "$ref": "#/components/schemas/CartRequest"
               },
               "example": {
                 "emailNotice": "my_email@mail.it",
@@ -154,7 +154,7 @@
         "format": "int32",
         "example": 200
       },
-      "CartRequestV2": {
+      "CartRequest": {
         "required": [
           "paymentNotices",
           "returnUrls"
