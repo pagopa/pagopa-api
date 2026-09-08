@@ -8,7 +8,23 @@
   },
   "servers": [
     {
-      "url": "https://api.platform.pagopa.it/pagopa-mbd-service/v1"
+      "url": "http://localhost:8080"
+    },
+    {
+      "url": "https://{host}{basePath}",
+      "variables": {
+        "host": {
+          "enum": [
+            "api.dev.platform.pagopa.it",
+            "api.uat.platform.pagopa.it",
+            "api.platform.pagopa.it"
+          ],
+          "default": "api.dev.platform.pagopa.it"
+        },
+        "basePath": {
+          "default": "/pagopa-mbd-service/v1"
+        }
+      }
     }
   ],
   "tags": [
