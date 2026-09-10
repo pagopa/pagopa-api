@@ -11,7 +11,7 @@
         }
     ],
     "paths": {
-         "/organizations/{organizationfiscalcode}/receipts/{iur}": {
+        "/organizations/{organizationfiscalcode}/receipts/{iur}": {
             "get": {
                 "description": "The organization get the receipt for the creditor institution using IUR.",
                 "operationId": "getOrganizationReceiptIur",
