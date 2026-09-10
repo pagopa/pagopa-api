@@ -139,6 +139,26 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "This header identifies the call"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
+                            }
+                        }
+                    },
                     "401": {
                         "description": "Wrong or missing function key.",
                         "headers": {
