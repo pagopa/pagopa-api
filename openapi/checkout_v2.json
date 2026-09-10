@@ -25,7 +25,7 @@
       "post": {
         "summary": "PostCarts V2",
         "description": "Create a cart that handles also the waiting case of checkout",
-        "operationId": "PostCartsV2",
+        "operationId": "PostCarts V2",
         "requestBody": {
           "description": "New Cart related to payment requests",
           "content": {
