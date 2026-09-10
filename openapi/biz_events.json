@@ -11,131 +11,124 @@
         }
     ],
     "paths": {
-        "/organizations/{organizationfiscalcode}/receipts/{iur}": {
+         "/organizations/{organizationfiscalcode}/receipts/{iur}": {
             "get": {
+                "description": "The organization get the receipt for the creditor institution using IUR.",
+                "operationId": "getOrganizationReceiptIur",
+                "summary": "The organization get the receipt for the creditor institution using IUR.",
                 "tags": [
                     "Payment Receipts REST APIs"
                 ],
-                "summary": "The organization get the receipt for the creditor institution using IUR.",
-                "description": "The organization get the receipt for the creditor institution using IUR.",
-                "operationId": "getOrganizationReceiptIur",
                 "parameters": [
                     {
                         "name": "organizationfiscalcode",
                         "in": "path",
                         "description": "The fiscal code of the Organization.",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
                     },
                     {
                         "name": "iur",
                         "in": "path",
                         "description": "The unique reference of the operation assigned to the payment (Payment Token).",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
                     },
                     {
                         "name": "X-Request-Id",
                         "in": "header",
                         "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
                     }
+                ],
+                "produces": [
+                    "application/json"
                 ],
                 "responses": {
                     "200": {
                         "description": "Obtained receipt.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/CtReceiptModelResponse"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CtReceiptModelResponse"
+                                "receiptId": "string",
+                                "noticeNumber": "string",
+                                "fiscalCode": "string",
+                                "outcome": "string",
+                                "creditorReferenceId": "string",
+                                "paymentAmount": 0,
+                                "description": "string",
+                                "companyName": "string",
+                                "officeName": "string",
+                                "debtor": {
+                                    "entityUniqueIdentifierType": "F",
+                                    "entityUniqueIdentifierValue": "string",
+                                    "fullName": "string",
+                                    "streetName": "string",
+                                    "civicNumber": "string",
+                                    "postalCode": "string",
+                                    "city": "string",
+                                    "stateProvinceRegion": "string",
+                                    "country": "string",
+                                    "email": "string"
                                 },
-                                "example": {
-                                    "receiptId": "string",
-                                    "noticeNumber": "string",
-                                    "fiscalCode": "string",
-                                    "outcome": "string",
-                                    "creditorReferenceId": "string",
-                                    "paymentAmount": 0,
-                                    "description": "string",
-                                    "companyName": "string",
-                                    "officeName": "string",
-                                    "debtor": {
-                                        "entityUniqueIdentifierType": "F",
-                                        "entityUniqueIdentifierValue": "string",
-                                        "fullName": "string",
-                                        "streetName": "string",
-                                        "civicNumber": "string",
-                                        "postalCode": "string",
-                                        "city": "string",
-                                        "stateProvinceRegion": "string",
-                                        "country": "string",
-                                        "email": "string"
-                                    },
-                                    "transferList": [
-                                        {
-                                            "idTransfer": 0,
-                                            "transferAmount": 0,
-                                            "fiscalCodePA": "string",
-                                            "iban": "string",
-                                            "mbdAttachment": "string",
-                                            "remittanceInformation": "string",
-                                            "transferCategory": "string",
-                                            "metadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "idPSP": "string",
-                                    "pspFiscalCode": "string",
-                                    "pspPartitaIVA": "string",
-                                    "pspCompanyName": "string",
-                                    "idChannel": "string",
-                                    "channelDescription": "string",
-                                    "payer": {
-                                        "entityUniqueIdentifierType": "F",
-                                        "entityUniqueIdentifierValue": "string",
-                                        "fullName": "string",
-                                        "streetName": "string",
-                                        "civicNumber": "string",
-                                        "postalCode": "string",
-                                        "city": "string",
-                                        "stateProvinceRegion": "string",
-                                        "country": "string",
-                                        "email": "string"
-                                    },
-                                    "paymentMethod": "string",
-                                    "fee": 0,
-                                    "primaryCiIncurredFee": 0,
-                                    "idBundle": "string",
-                                    "idCiBundle": "string",
-                                    "paymentDateTime": "string",
-                                    "paymentDateTimeFormatted": "string",
-                                    "applicationDate": "string",
-                                    "transferDate": "string",
-                                    "metadata": [
-                                        {
-                                            "key": "string",
-                                            "value": "string"
-                                        }
-                                    ]
-                                }
+                                "transferList": [
+                                    {
+                                        "idTransfer": 0,
+                                        "transferAmount": 0,
+                                        "fiscalCodePA": "string",
+                                        "iban": "string",
+                                        "mbdAttachment": "string",
+                                        "remittanceInformation": "string",
+                                        "transferCategory": "string",
+                                        "metadata": [
+                                            {
+                                                "key": "string",
+                                                "value": "string"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "idPSP": "string",
+                                "pspFiscalCode": "string",
+                                "pspPartitaIVA": "string",
+                                "pspCompanyName": "string",
+                                "idChannel": "string",
+                                "channelDescription": "string",
+                                "payer": {
+                                    "entityUniqueIdentifierType": "F",
+                                    "entityUniqueIdentifierValue": "string",
+                                    "fullName": "string",
+                                    "streetName": "string",
+                                    "civicNumber": "string",
+                                    "postalCode": "string",
+                                    "city": "string",
+                                    "stateProvinceRegion": "string",
+                                    "country": "string",
+                                    "email": "string"
+                                },
+                                "paymentMethod": "string",
+                                "fee": 0,
+                                "primaryCiIncurredFee": 0,
+                                "idBundle": "string",
+                                "idCiBundle": "string",
+                                "paymentDateTime": "string",
+                                "paymentDateTimeFormatted": "string",
+                                "applicationDate": "string",
+                                "transferDate": "string",
+                                "metadata": [
+                                    {
+                                        "key": "string",
+                                        "value": "string"
+                                    }
+                                ]
                             }
                         }
                     },
@@ -163,10 +156,8 @@
                         "description": "Wrong or missing function key.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         }
                     },
@@ -174,22 +165,19 @@
                         "description": "Not found the receipt.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
                             }
                         }
                     },
@@ -197,22 +185,19 @@
                         "description": "Unable to process the request.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
                             }
                         }
                     },
@@ -220,10 +205,8 @@
                         "description": "Too many requests.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         }
                     },
@@ -231,22 +214,19 @@
                         "description": "Service unavailable.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
                             }
                         }
                     }
@@ -255,138 +235,149 @@
         },
         "/organizations/{organizationfiscalcode}/receipts/{iur}/paymentoptions/{iuv}": {
             "get": {
+                "description": "The organization get the receipt for the creditor institution using IUV and IUR.",
+                "operationId": "getOrganizationReceiptIuvIur",
+                "summary": "The organization get the receipt for the creditor institution using IUV and IUR.",
                 "tags": [
                     "Payment Receipts REST APIs"
                 ],
-                "summary": "The organization get the receipt for the creditor institution using IUV and IUR.",
-                "description": "The organization get the receipt for the creditor institution using IUV and IUR.",
-                "operationId": "getOrganizationReceiptIuvIur",
                 "parameters": [
                     {
                         "name": "organizationfiscalcode",
                         "in": "path",
                         "description": "The fiscal code of the Organization.",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
                     },
                     {
                         "name": "iur",
                         "in": "path",
                         "description": "The unique reference of the operation assigned to the payment (Payment Token).",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
                     },
                     {
                         "name": "iuv",
                         "in": "path",
                         "description": "The unique payment identification. Alphanumeric code that uniquely associates and identifies three key elements of a payment: reason, payer, amount",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
                     },
                     {
                         "name": "X-Request-Id",
                         "in": "header",
                         "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
                     }
+                ],
+                "produces": [
+                    "application/json"
                 ],
                 "responses": {
                     "200": {
                         "description": "Obtained receipt.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/CtReceiptModelResponse"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CtReceiptModelResponse"
+                                "receiptId": "string",
+                                "noticeNumber": "string",
+                                "fiscalCode": "string",
+                                "outcome": "string",
+                                "creditorReferenceId": "string",
+                                "paymentAmount": 0,
+                                "description": "string",
+                                "companyName": "string",
+                                "officeName": "string",
+                                "debtor": {
+                                    "entityUniqueIdentifierType": "F",
+                                    "entityUniqueIdentifierValue": "string",
+                                    "fullName": "string",
+                                    "streetName": "string",
+                                    "civicNumber": "string",
+                                    "postalCode": "string",
+                                    "city": "string",
+                                    "stateProvinceRegion": "string",
+                                    "country": "string",
+                                    "email": "string"
                                 },
-                                "example": {
-                                    "receiptId": "string",
-                                    "noticeNumber": "string",
-                                    "fiscalCode": "string",
-                                    "outcome": "string",
-                                    "creditorReferenceId": "string",
-                                    "paymentAmount": 0,
-                                    "description": "string",
-                                    "companyName": "string",
-                                    "officeName": "string",
-                                    "debtor": {
-                                        "entityUniqueIdentifierType": "F",
-                                        "entityUniqueIdentifierValue": "string",
-                                        "fullName": "string",
-                                        "streetName": "string",
-                                        "civicNumber": "string",
-                                        "postalCode": "string",
-                                        "city": "string",
-                                        "stateProvinceRegion": "string",
-                                        "country": "string",
-                                        "email": "string"
-                                    },
-                                    "transferList": [
-                                        {
-                                            "idTransfer": 0,
-                                            "transferAmount": 0,
-                                            "fiscalCodePA": "string",
-                                            "iban": "string",
-                                            "mbdAttachment": "string",
-                                            "remittanceInformation": "string",
-                                            "transferCategory": "string",
-                                            "metadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "idPSP": "string",
-                                    "pspFiscalCode": "string",
-                                    "pspPartitaIVA": "string",
-                                    "pspCompanyName": "string",
-                                    "idChannel": "string",
-                                    "channelDescription": "string",
-                                    "payer": {
-                                        "entityUniqueIdentifierType": "F",
-                                        "entityUniqueIdentifierValue": "string",
-                                        "fullName": "string",
-                                        "streetName": "string",
-                                        "civicNumber": "string",
-                                        "postalCode": "string",
-                                        "city": "string",
-                                        "stateProvinceRegion": "string",
-                                        "country": "string",
-                                        "email": "string"
-                                    },
-                                    "paymentMethod": "string",
-                                    "fee": 0,
-                                    "primaryCiIncurredFee": 0,
-                                    "idBundle": "string",
-                                    "idCiBundle": "string",
-                                    "paymentDateTime": "string",
-                                    "paymentDateTimeFormatted": "string",
-                                    "applicationDate": "string",
-                                    "transferDate": "string",
-                                    "metadata": [
-                                        {
-                                            "key": "string",
-                                            "value": "string"
-                                        }
-                                    ]
-                                }
+                                "transferList": [
+                                    {
+                                        "idTransfer": 0,
+                                        "transferAmount": 0,
+                                        "fiscalCodePA": "string",
+                                        "iban": "string",
+                                        "mbdAttachment": "string",
+                                        "remittanceInformation": "string",
+                                        "transferCategory": "string",
+                                        "metadata": [
+                                            {
+                                                "key": "string",
+                                                "value": "string"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "idPSP": "string",
+                                "pspFiscalCode": "string",
+                                "pspPartitaIVA": "string",
+                                "pspCompanyName": "string",
+                                "idChannel": "string",
+                                "channelDescription": "string",
+                                "payer": {
+                                    "entityUniqueIdentifierType": "F",
+                                    "entityUniqueIdentifierValue": "string",
+                                    "fullName": "string",
+                                    "streetName": "string",
+                                    "civicNumber": "string",
+                                    "postalCode": "string",
+                                    "city": "string",
+                                    "stateProvinceRegion": "string",
+                                    "country": "string",
+                                    "email": "string"
+                                },
+                                "paymentMethod": "string",
+                                "fee": 0,
+                                "primaryCiIncurredFee": 0,
+                                "idBundle": "string",
+                                "idCiBundle": "string",
+                                "paymentDateTime": "string",
+                                "paymentDateTimeFormatted": "string",
+                                "applicationDate": "string",
+                                "transferDate": "string",
+                                "metadata": [
+                                    {
+                                        "key": "string",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "This header identifies the call"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
                             }
                         }
                     },
@@ -394,10 +385,8 @@
                         "description": "Wrong or missing function key.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         }
                     },
@@ -405,22 +394,19 @@
                         "description": "Not found the receipt.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
                             }
                         }
                     },
@@ -428,22 +414,19 @@
                         "description": "Unable to process the request.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
                             }
                         }
                     },
@@ -451,10 +434,8 @@
                         "description": "Too many requests.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         }
                     },
@@ -462,22 +443,19 @@
                         "description": "Service unavailable.",
                         "headers": {
                             "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
+                                "type": "string",
+                                "description": "This header identifies the call"
                             }
                         },
-                        "content": {
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
+                                "title": "string",
+                                "status": 200,
+                                "detail": "There was an error processing the request",
+                                "code": "The error code"
                             }
                         }
                     }
@@ -485,322 +463,313 @@
             }
         }
     },
-    "components": {
-        "schemas": {
-            "ProblemJson": {
-                "type": "object",
-                "properties": {
-                    "title": {
-                        "type": "string",
-                        "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
-                    },
-                    "status": {
-                        "maximum": 600,
-                        "minimum": 100,
-                        "type": "integer",
-                        "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
-                        "format": "int32",
-                        "example": 200
-                    },
-                    "detail": {
-                        "type": "string",
-                        "description": "A human readable explanation specific to this occurrence of the problem.",
-                        "example": "There was an error processing the request"
-                    }
+    "definitions": {
+        "ProblemJson": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+                },
+                "status": {
+                    "type": "integer",
+                    "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+                    "format": "int32",
+                    "maximum": 600,
+                    "minimum": 100,
+                    "example": 200
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "A human readable explanation specific to this occurrence of the problem.",
+                    "example": "There was an error processing the request"
+                },
+                "code": {
+                    "type": "string",
+                    "description": "A machine-readable code specific to this error.",
+                    "example": "The error code"
                 }
-            },
-            "CtReceiptModelResponse": {
-                "required": [
-                    "companyName",
-                    "creditorReferenceId",
-                    "debtor",
-                    "description",
-                    "fiscalCode",
-                    "idChannel",
-                    "idPSP",
-                    "noticeNumber",
-                    "outcome",
-                    "paymentAmount",
-                    "pspCompanyName",
-                    "receiptId",
-                    "transferList"
-                ],
-                "type": "object",
-                "properties": {
-                    "receiptId": {
-                        "type": "string"
-                    },
-                    "noticeNumber": {
-                        "type": "string"
-                    },
-                    "fiscalCode": {
-                        "type": "string"
-                    },
-                    "outcome": {
-                        "type": "string"
-                    },
-                    "creditorReferenceId": {
-                        "type": "string"
-                    },
-                    "paymentAmount": {
-                        "type": "number"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "companyName": {
-                        "type": "string"
-                    },
-                    "officeName": {
-                        "type": "string"
-                    },
-                    "debtor": {
-                        "$ref": "#/components/schemas/Debtor"
-                    },
-                    "transferList": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TransferPA"
-                        }
-                    },
-                    "idPSP": {
-                        "type": "string"
-                    },
-                    "pspFiscalCode": {
-                        "type": "string"
-                    },
-                    "pspPartitaIVA": {
-                        "type": "string"
-                    },
-                    "pspCompanyName": {
-                        "type": "string"
-                    },
-                    "idChannel": {
-                        "type": "string"
-                    },
-                    "channelDescription": {
-                        "type": "string"
-                    },
-                    "payer": {
-                        "$ref": "#/components/schemas/Payer"
-                    },
-                    "paymentMethod": {
-                        "type": "string"
-                    },
-                    "fee": {
-                        "type": "number"
-                    },
-                    "primaryCiIncurredFee": {
-                        "type": "number"
-                    },
-                    "idBundle": {
-                        "type": "string"
-                    },
-                    "idCiBundle": {
-                        "type": "string"
-                    },
-                    "paymentDateTime": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "paymentDateTimeFormatted": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "applicationDate": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "transferDate": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "metadata": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/MapEntry"
-                        }
+            }
+        },
+        "CtReceiptModelResponse": {
+            "type": "object",
+            "required": [
+                "companyName",
+                "creditorReferenceId",
+                "debtor",
+                "description",
+                "fiscalCode",
+                "idChannel",
+                "idPSP",
+                "noticeNumber",
+                "outcome",
+                "paymentAmount",
+                "pspCompanyName",
+                "receiptId",
+                "transferList"
+            ],
+            "properties": {
+                "receiptId": {
+                    "type": "string"
+                },
+                "noticeNumber": {
+                    "type": "string"
+                },
+                "fiscalCode": {
+                    "type": "string"
+                },
+                "outcome": {
+                    "type": "string"
+                },
+                "creditorReferenceId": {
+                    "type": "string"
+                },
+                "paymentAmount": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "companyName": {
+                    "type": "string"
+                },
+                "officeName": {
+                    "type": "string"
+                },
+                "debtor": {
+                    "$ref": "#/definitions/Debtor"
+                },
+                "transferList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TransferPA"
                     }
-                }
-            },
-            "Debtor": {
-                "required": [
-                    "entityUniqueIdentifierType",
-                    "entityUniqueIdentifierValue",
-                    "fullName"
-                ],
-                "type": "object",
-                "properties": {
-                    "entityUniqueIdentifierType": {
-                        "enum": [
-                            "F",
-                            "G"
-                        ],
-                        "type": "string"
-                    },
-                    "entityUniqueIdentifierValue": {
-                        "type": "string"
-                    },
-                    "fullName": {
-                        "type": "string"
-                    },
-                    "streetName": {
-                        "type": "string"
-                    },
-                    "civicNumber": {
-                        "type": "string"
-                    },
-                    "postalCode": {
-                        "type": "string"
-                    },
-                    "city": {
-                        "type": "string"
-                    },
-                    "stateProvinceRegion": {
-                        "type": "string"
-                    },
-                    "country": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    }
-                }
-            },
-            "MapEntry": {
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "type": "string"
-                    },
-                    "value": {
-                        "type": "string"
-                    }
-                }
-            },
-            "Payer": {
-                "required": [
-                    "entityUniqueIdentifierType",
-                    "entityUniqueIdentifierValue",
-                    "fullName"
-                ],
-                "type": "object",
-                "properties": {
-                    "entityUniqueIdentifierType": {
-                        "enum": [
-                            "F",
-                            "G"
-                        ],
-                        "type": "string"
-                    },
-                    "entityUniqueIdentifierValue": {
-                        "type": "string"
-                    },
-                    "fullName": {
-                        "type": "string"
-                    },
-                    "streetName": {
-                        "type": "string"
-                    },
-                    "civicNumber": {
-                        "type": "string"
-                    },
-                    "postalCode": {
-                        "type": "string"
-                    },
-                    "city": {
-                        "type": "string"
-                    },
-                    "stateProvinceRegion": {
-                        "type": "string"
-                    },
-                    "country": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    }
-                }
-            },
-            "TransferPA": {
-                "required": [
-                    "fiscalCodePA",
-                    "iban",
-                    "mbdAttachment",
-                    "remittanceInformation",
-                    "transferAmount",
-                    "transferCategory"
-                ],
-                "type": "object",
-                "properties": {
-                    "idTransfer": {
-                        "maximum": 5,
-                        "minimum": 1,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "transferAmount": {
-                        "type": "number"
-                    },
-                    "fiscalCodePA": {
-                        "type": "string"
-                    },
-                    "iban": {
-                        "type": "string"
-                    },
-                    "mbdAttachment": {
-                        "type": "string"
-                    },
-                    "remittanceInformation": {
-                        "type": "string"
-                    },
-                    "transferCategory": {
-                        "type": "string"
-                    },
-                    "metadata": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/MapEntry"
-                        }
-                    }
-                }
-            },
-            "AppInfo": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "version": {
-                        "type": "string"
-                    },
-                    "environment": {
-                        "type": "string"
+                },
+                "idPSP": {
+                    "type": "string"
+                },
+                "pspFiscalCode": {
+                    "type": "string"
+                },
+                "pspPartitaIVA": {
+                    "type": "string"
+                },
+                "pspCompanyName": {
+                    "type": "string"
+                },
+                "idChannel": {
+                    "type": "string"
+                },
+                "channelDescription": {
+                    "type": "string"
+                },
+                "payer": {
+                    "$ref": "#/definitions/Payer"
+                },
+                "paymentMethod": {
+                    "type": "string"
+                },
+                "fee": {
+                    "type": "number"
+                },
+                "primaryCiIncurredFee": {
+                    "type": "number"
+                },
+                "idBundle": {
+                    "type": "string"
+                },
+                "idCiBundle": {
+                    "type": "string"
+                },
+                "paymentDateTime": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "paymentDateTimeFormatted": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "applicationDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "transferDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "metadata": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MapEntry"
                     }
                 }
             }
         },
-        "securitySchemes": {
-            "apiKeyHeader": {
-                "type": "apiKey",
-                "name": "Ocp-Apim-Subscription-Key",
-                "in": "header"
-            },
-            "apiKeyQuery": {
-                "type": "apiKey",
-                "name": "subscription-key",
-                "in": "query"
+        "Debtor": {
+            "type": "object",
+            "required": [
+                "entityUniqueIdentifierType",
+                "entityUniqueIdentifierValue",
+                "fullName"
+            ],
+            "properties": {
+                "entityUniqueIdentifierType": {
+                    "type": "string",
+                    "enum": [
+                        "F",
+                        "G"
+                    ]
+                },
+                "entityUniqueIdentifierValue": {
+                    "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "streetName": {
+                    "type": "string"
+                },
+                "civicNumber": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "stateProvinceRegion": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "MapEntry": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "Payer": {
+            "type": "object",
+            "required": [
+                "entityUniqueIdentifierType",
+                "entityUniqueIdentifierValue",
+                "fullName"
+            ],
+            "properties": {
+                "entityUniqueIdentifierType": {
+                    "type": "string",
+                    "enum": [
+                        "F",
+                        "G"
+                    ]
+                },
+                "entityUniqueIdentifierValue": {
+                    "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "streetName": {
+                    "type": "string"
+                },
+                "civicNumber": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "stateProvinceRegion": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "TransferPA": {
+            "type": "object",
+            "required": [
+                "fiscalCodePA",
+                "iban",
+                "mbdAttachment",
+                "remittanceInformation",
+                "transferAmount",
+                "transferCategory"
+            ],
+            "properties": {
+                "idTransfer": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 5,
+                    "minimum": 1
+                },
+                "transferAmount": {
+                    "type": "number"
+                },
+                "fiscalCodePA": {
+                    "type": "string"
+                },
+                "iban": {
+                    "type": "string"
+                },
+                "mbdAttachment": {
+                    "type": "string"
+                },
+                "remittanceInformation": {
+                    "type": "string"
+                },
+                "transferCategory": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MapEntry"
+                    }
+                }
+            }
+        },
+        "AppInfo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "environment": {
+                    "type": "string"
+                }
             }
         }
     },
-    "security": [
-        {
-            "apiKeyHeader": []
-        },
-        {
-            "apiKeyQuery": []
-        }
-    ],
     "tags": [
+        {
+            "name": "Actuator",
+            "description": "Monitor and interact",
+            "externalDocs": {
+                "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/",
+                "description": "Spring Boot Actuator Web API Documentation"
+            }
+        }
     ]
 }
