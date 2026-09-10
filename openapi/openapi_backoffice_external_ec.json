@@ -434,6 +434,10 @@
                         "description": "activation date",
                         "format": "date-time"
                     },
+                    "aca": {
+                        "type": "boolean",
+                        "description": "True if ACA archive will be populated"
+                    },
                     "applicationCode": {
                         "type": "string",
                         "description": "application code of the relation station-ec (unique per auxdigit)"
@@ -499,6 +503,10 @@
                     "segregationCode": {
                         "type": "string",
                         "description": "segregation code of the relation station-ec (unique per auxdigit)"
+                    },
+                    "standIn": {
+                        "type": "boolean",
+                        "description": "True if the debt positions can be paid in Stand In"
                     },
                     "stationId": {
                         "type": "string",
@@ -672,7 +680,6 @@
         }
     },
     "security": [
-        {},
         {
             "apiKeyHeader": []
         },
