@@ -1,19 +1,19 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "GPD for ACA pagoPA - Debt Positions service API for ACA",
-    "description": "API to support Debt Positions service for ACA",
-    "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "https://api.platform.pagopa.it/aca/debt-positions-service/v1",
-      "description": "ACA Production environment"
-    }
-  ],
-  "paths": {
-    "/organizations/{organizationfiscalcode}/debtpositions": {
+    "openapi": "3.0.1",
+    "info": {
+        "title": "GPD for ACA pagoPA - Debt Positions service API for ACA",
+        "description": "API to support Debt Positions service for ACA",
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+        "url": "https://api.platform.pagopa.it/aca/debt-positions-service/v1",
+        "description": "ACA Production environment"
+        }
+    ],
+    "paths": {
+        "/organizations/{organizationfiscalcode}/debtpositions": {
             "get": {
                 "description": "Return the list of the organization debt positions. The due dates interval is mutually exclusive with the payment dates interval.",
                 "operationId": "getOrganizationDebtPositions",
