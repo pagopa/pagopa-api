@@ -3,13 +3,17 @@
     "info": {
         "title": "GPD for ACA pagoPA - Debt Positions service API for ACA",
         "description": "API to support Debt Positions service for ACA",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.0.0"
+        "version": "v1"
     },
     "servers": [
         {
-        "url": "https://api.platform.pagopa.it/aca/debt-positions-service/v1",
-        "description": "ACA Production environment"
+            "url": "https://api.platform.pagopa.it/aca/debt-positions-service/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/aca/debt-positions-service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/aca/debt-positions-service/v1"
         }
     ],
     "paths": {
@@ -1325,227 +1329,6 @@
                 }
             }
         },
-        "/organizations/{organizationfiscalcode}/debtpositions/{iupd}/invalidate": {
-            "post": {
-                "tags": [
-                    "Debt Position Actions API"
-                ],
-                "summary": "The Organization invalidate a debt Position.",
-                "description": "The Organization invalidate a debt Position.",
-                "operationId": "invalidatePosition",
-                "parameters": [
-                    {
-                        "name": "organizationfiscalcode",
-                        "in": "path",
-                        "description": "Organization fiscal code, the fiscal code of the Organization.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "iupd",
-                        "in": "path",
-                        "description": "IUPD (Unique identifier of the debt position). Format could be `<Organization fiscal code + UUID>` this would make it unique within the new PD management system. It's the responsibility of the EC to guarantee uniqueness. The pagoPa system shall verify that this is `true` and if not, notify the EC.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Request published.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PaymentPositionModel"
-                                },
-                                "example": {
-                                    "iupd": "string",
-                                    "type": "F",
-                                    "payStandIn": "true",
-                                    "fiscalCode": "string",
-                                    "fullName": "string",
-                                    "streetName": "string",
-                                    "civicNumber": "string",
-                                    "postalCode": "string",
-                                    "city": "string",
-                                    "province": "string",
-                                    "region": "string",
-                                    "country": "IT",
-                                    "email": "email@domain.com",
-                                    "phone": "string",
-                                    "switchToExpired": "false",
-                                    "companyName": "string",
-                                    "officeName": "string",
-                                    "validityDate": "string",
-                                    "paymentDate": "string",
-                                    "status": "DRAFT",
-                                    "paymentOption": [
-                                        {
-                                            "nav": "string",
-                                            "iuv": "string",
-                                            "amount": 0,
-                                            "description": "string",
-                                            "isPartialPayment": true,
-                                            "dueDate": "string",
-                                            "retentionDate": "string",
-                                            "fee": 0,
-                                            "notificationFee": 0,
-                                            "transfer": [
-                                                {
-                                                    "idTransfer": "1",
-                                                    "amount": 0,
-                                                    "organizationFiscalCode": "00000000000",
-                                                    "remittanceInformation": "string",
-                                                    "category": "string",
-                                                    "iban": "IT0000000000000000000000000",
-                                                    "postalIban": "IT0000000000000000000000000",
-                                                    "stamp": {
-                                                        "hashDocument": "string",
-                                                        "stampType": "string",
-                                                        "provincialResidence": "RM"
-                                                    },
-                                                    "companyName": "string",
-                                                    "transferMetadata": [
-                                                        {
-                                                            "key": "string",
-                                                            "value": "string"
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "paymentOptionMetadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "statusCode": 403,
-                                    "message": "You are not allowed to access this resource."
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No debt position found.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict: debt position is not in invalidable state.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/organizations/{organizationfiscalcode}/debtpositions/{iupd}/publish": {
             "post": {
                 "tags": [
@@ -1767,6 +1550,227 @@
                 }
             }
         },
+        "/organizations/{organizationfiscalcode}/debtpositions/{iupd}/invalidate": {
+            "post": {
+                "tags": [
+                    "Debt Position Actions API"
+                ],
+                "summary": "The Organization invalidate a debt Position.",
+                "description": "The Organization invalidate a debt Position.",
+                "operationId": "invalidatePosition",
+                "parameters": [
+                    {
+                        "name": "organizationfiscalcode",
+                        "in": "path",
+                        "description": "Organization fiscal code, the fiscal code of the Organization.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "iupd",
+                        "in": "path",
+                        "description": "IUPD (Unique identifier of the debt position). Format could be `<Organization fiscal code + UUID>` this would make it unique within the new PD management system. It's the responsibility of the EC to guarantee uniqueness. The pagoPa system shall verify that this is `true` and if not, notify the EC.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request published.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentPositionModel"
+                                },
+                                "example": {
+                                    "iupd": "string",
+                                    "type": "F",
+                                    "payStandIn": "true",
+                                    "fiscalCode": "string",
+                                    "fullName": "string",
+                                    "streetName": "string",
+                                    "civicNumber": "string",
+                                    "postalCode": "string",
+                                    "city": "string",
+                                    "province": "string",
+                                    "region": "string",
+                                    "country": "IT",
+                                    "email": "email@domain.com",
+                                    "phone": "string",
+                                    "switchToExpired": "false",
+                                    "companyName": "string",
+                                    "officeName": "string",
+                                    "validityDate": "string",
+                                    "paymentDate": "string",
+                                    "status": "DRAFT",
+                                    "paymentOption": [
+                                        {
+                                            "nav": "string",
+                                            "iuv": "string",
+                                            "amount": 0,
+                                            "description": "string",
+                                            "isPartialPayment": true,
+                                            "dueDate": "string",
+                                            "retentionDate": "string",
+                                            "fee": 0,
+                                            "notificationFee": 0,
+                                            "transfer": [
+                                                {
+                                                    "idTransfer": "1",
+                                                    "amount": 0,
+                                                    "organizationFiscalCode": "00000000000",
+                                                    "remittanceInformation": "string",
+                                                    "category": "string",
+                                                    "iban": "IT0000000000000000000000000",
+                                                    "postalIban": "IT0000000000000000000000000",
+                                                    "stamp": {
+                                                        "hashDocument": "string",
+                                                        "stampType": "string",
+                                                        "provincialResidence": "RM"
+                                                    },
+                                                    "companyName": "string",
+                                                    "transferMetadata": [
+                                                        {
+                                                            "key": "string",
+                                                            "value": "string"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "paymentOptionMetadata": [
+                                                {
+                                                    "key": "string",
+                                                    "value": "string"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "statusCode": 403,
+                                    "message": "You are not allowed to access this resource."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No debt position found.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict: debt position is not in invalidable state.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/info": {
             "get": {
                 "tags": [
@@ -1827,167 +1831,6 @@
                                 "description": "This header identifies the call",
                                 "schema": {
                                     "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/organizations/{organizationfiscalcode}/debtpositions/transfers": {
-            "patch": {
-                "tags": [
-                    "Debt Positions API"
-                ],
-                "summary": "The Organization updates the IBANs of every updatable payment option's transfers",
-                "description": "The Organization updates the IBANs of every updatable payment option's transfers",
-                "operationId": "updateTransferIbanMassive",
-                "parameters": [
-                    {
-                        "name": "organizationfiscalcode",
-                        "in": "path",
-                        "description": "Organization fiscal code, the fiscal code of the Organization.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "oldIban",
-                        "in": "query",
-                        "description": "The old iban to replace",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Number of Transfer to update (max = 1000, default = 1000)",
-                        "schema": {
-                            "maximum": 1000,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 1000
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateTransferIbanMassiveModel"
-                            },
-                            "example": {
-                                "newIban": "string"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "IBANs updated",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UpdateTransferIbanMassiveResponse"
-                                },
-                                "example": {
-                                    "description": "string",
-                                    "updatedTransfers": 0
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Malformed request.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "statusCode": 403,
-                                    "message": "You are not allowed to access this resource."
                                 }
                             }
                         }
@@ -2297,8 +2140,7 @@
                     "description",
                     "dueDate",
                     "isPartialPayment",
-                    "iuv",
-                    "paymentOptionMetadata"
+                    "iuv"
                 ],
                 "type": "object",
                 "properties": {
@@ -2340,6 +2182,8 @@
                         "readOnly": true
                     },
                     "transfer": {
+                        "maxItems": 5,
+                        "minItems": 1,
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/TransferModel"
@@ -2519,8 +2363,7 @@
                     "amount",
                     "category",
                     "idTransfer",
-                    "remittanceInformation",
-                    "transferMetadata"
+                    "remittanceInformation"
                 ],
                 "type": "object",
                 "properties": {
@@ -2788,29 +2631,6 @@
                         "items": {
                             "$ref": "#/components/schemas/TransferMetadataModelResponse"
                         }
-                    }
-                }
-            },
-            "UpdateTransferIbanMassiveModel": {
-                "required": [
-                    "newIban"
-                ],
-                "type": "object",
-                "properties": {
-                    "newIban": {
-                        "type": "string"
-                    }
-                }
-            },
-            "UpdateTransferIbanMassiveResponse": {
-                "type": "object",
-                "properties": {
-                    "description": {
-                        "type": "string"
-                    },
-                    "updatedTransfers": {
-                        "type": "integer",
-                        "format": "int32"
                     }
                 }
             },
