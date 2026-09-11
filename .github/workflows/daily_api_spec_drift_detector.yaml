@@ -263,10 +263,41 @@ jobs:
         env:
           ARTIFACTS_DIR: artifacts
 
-      - name: Create remediation PRs
-        if: always()
+      - name: Download APIM PROD exported specs
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: apim-prod-*
+          path: apim-prod
+          merge-multiple: true
+        continue-on-error: true
+
+      - name: Stage APIM PROD specs for unified PR
         run: |
-          python3 .github/scripts/create_drift_prs.py
-        env:
-          ARTIFACTS_DIR: artifacts
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          set -e
+          mkdir -p openapi
+          find apim-prod -type f -print0 | while IFS= read -r -d '' file; do
+            rel="${file#apim-prod/}"
+            mkdir -p "openapi/$(dirname "$rel")"
+            cp "$file" "openapi/$rel"
+          done
+          git status --short
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: master
+          branch: chore/sync-apim-prod-openapi
+          title: "chore: sync APIM PROD OpenAPI specs"
+          commit-message: "chore: sync APIM PROD OpenAPI specs"
+          body: |
+            ## Summary
+            - Sync the OpenAPI files exported from the APIM PROD environment.
+            - This PR is generated from the unified drift report workflow and targets `master`.
+
+            ## Included files
+            The PR contains the exported APIM PROD specs currently available in the workflow artifacts.
+          add-paths: |
+            openapi/**/*.json
+            openapi/*.json
+          delete-branch: true

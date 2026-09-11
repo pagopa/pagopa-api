@@ -48,6 +48,12 @@ runs:
           --export-format "OpenApiJsonFile" \
           --file-path "."
 
+        if [ "${{ inputs.env_short }}" = "p" ]; then
+          export_dir=".apim-export/prod"
+          mkdir -p "$export_dir/$(dirname "$file")"
+          cp "${apim_resource_id}_openapi+json.json" "$export_dir/$file"
+        fi
+
         # Run oasdiff with JSON output (no -t flag to avoid TTY escape codes in JSON)
         OASDIFF_EXIT=0
         set +e
@@ -101,9 +107,18 @@ runs:
         if-no-files-found: ignore
         retention-days: 1
 
-#    - name: Fail on breaking changes
-#      if: steps.run-comparison.outputs.oasdiff_exit != '0'
-#      shell: bash
-#      run: |
-#        echo "❌ Breaking changes detected in ${{ inputs.file }} (APIM ${{ inputs.env_short }})!"
-#        exit 1
+    - name: Upload APIM PROD export artifact
+      if: ${{ inputs.env_short == 'p' }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: apim-prod-${{ inputs.file }}
+        path: .apim-export/prod/${{ inputs.file }}
+        if-no-files-found: ignore
+        retention-days: 1
+
+    - name: Fail on breaking changes
+      if: steps.run-comparison.outputs.oasdiff_exit != '0'
+      shell: bash
+      run: |
+        echo "❌ Breaking changes detected in ${{ inputs.file }} (APIM ${{ inputs.env_short }})!"
+        exit 1
