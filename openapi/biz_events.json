@@ -148,7 +148,7 @@
                             }
                         },
                         "schema": {
-                            "$ref": "#/definitions/ProblemJson"
+                            "$ref": "#/components/schemas/ProblemJson"
                         },
                         "examples": {
                             "application/json": {
@@ -188,7 +188,7 @@
                                 "example": {
                                     "title": "string",
                                     "status": 200,
-                                    "detail": "There was an error processing the request"
+                                    "detail": "There was an error processing the request",
                                     "code": "The error code"
                                 }
                             }
@@ -212,7 +212,7 @@
                                 "example": {
                                     "title": "string",
                                     "status": 200,
-                                    "detail": "There was an error processing the request"
+                                    "detail": "There was an error processing the request",
                                     "code": "The error code"
                                 }
                             }
@@ -247,7 +247,7 @@
                                 "example": {
                                     "title": "string",
                                     "status": 200,
-                                    "detail": "There was an error processing the request"
+                                    "detail": "There was an error processing the request",
                                     "code": "The error code"
                                 }
                             }
@@ -402,7 +402,7 @@
                             }
                         },
                         "schema": {
-                            "$ref": "#/definitions/ProblemJson"
+                            "$ref": "#/components/schemas/ProblemJson"
                         },
                         "examples": {
                             "application/json": {
@@ -442,7 +442,7 @@
                                 "example": {
                                     "title": "string",
                                     "status": 200,
-                                    "detail": "There was an error processing the request"
+                                    "detail": "There was an error processing the request",
                                     "code": "The error code"
                                 }
                             }
@@ -466,7 +466,7 @@
                                 "example": {
                                     "title": "string",
                                     "status": 200,
-                                    "detail": "There was an error processing the request"
+                                    "detail": "There was an error processing the request",
                                     "code": "The error code"
                                 }
                             }
@@ -501,7 +501,7 @@
                                 "example": {
                                     "title": "string",
                                     "status": 200,
-                                    "detail": "There was an error processing the request"
+                                    "detail": "There was an error processing the request",
                                     "code": "The error code"
                                 }
                             }

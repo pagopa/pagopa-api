@@ -1,9 +1,8 @@
 name: Openapi specs file comparison
 
 permissions:
-  contents: write
+  contents: read
   id-token: write
-  pull-requests: write
 
 on:
   #schedule:
@@ -16,6 +15,7 @@ jobs:
       develop_matrix: ${{ steps.list-develop-files.outputs.matrix }}
       master_matrix: ${{ steps.list-master-files.outputs.matrix }}
       latest_sanp_branch: ${{ steps.latest-sanp.outputs.branch }}
+      latest_sanp_matrix: ${{ steps.list-latest-sanp-files.outputs.matrix }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
@@ -48,6 +48,14 @@ jobs:
             | xargs -I{} echo "SANP{}")
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
           echo "Latest SANP branch: $branch"
+
+      - name: List OpenAPI files from latest SANP branch
+        id: list-latest-sanp-files
+        run: |
+          files=$(git ls-tree -r --name-only "origin/${{ steps.latest-sanp.outputs.branch }}" openapi \
+            | sed 's#^openapi/##' \
+            | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "matrix=$files" >> "$GITHUB_OUTPUT"
 
   compare_master_to_main:
     needs: setup
@@ -140,7 +148,7 @@ jobs:
     environment: dev
     strategy:
       matrix:
-        file: ${{ fromJson(needs.setup.outputs.develop_matrix) }}
+        file: ${{ fromJson(needs.setup.outputs.latest_sanp_matrix) }}
       fail-fast: false  # continue processing other files if one fails
     steps:
       - name: Checkout repository
@@ -262,7 +270,6 @@ jobs:
           python3 .github/scripts/generate_drift_report.py
         env:
           ARTIFACTS_DIR: artifacts
-          DRIFT_REPORT_PATH: drift-report.md
 
       - name: Download APIM PROD exported specs
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -279,27 +286,11 @@ jobs:
           find apim-prod -type f -print0 | while IFS= read -r -d '' file; do
             rel="${file#apim-prod/}"
             mkdir -p "openapi/$(dirname "$rel")"
-            cp "$file" "openapi/$rel"
+            python3 -c 'import json, pathlib, sys; src = pathlib.Path(sys.argv[1]); out = pathlib.Path(sys.argv[2]); obj = json.loads(src.read_text(encoding="utf-8")); out.parent.mkdir(parents=True, exist_ok=True); out.write_text(json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")' "$file" "openapi/$rel"
           done
           git add -A openapi
           rm -rf apim-prod artifacts
           git status --short
-
-      - name: Prepare Pull Request body
-        run: |
-          {
-            echo "## Summary"
-            echo "- Sync the OpenAPI files exported from the APIM PROD environment."
-            echo "- This PR is generated from the unified drift report workflow and targets \`master\`."
-            echo
-            if [ -f drift-report.md ]; then
-              echo "## Semantic drift report"
-              cat drift-report.md
-            else
-              echo "## Semantic drift report"
-              echo "_No semantic drift report was generated._"
-            fi
-          } > pr-body.md
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
@@ -309,7 +300,13 @@ jobs:
           branch: chore/sync-apim-prod-openapi
           title: "chore: sync APIM PROD OpenAPI specs"
           commit-message: "chore: sync APIM PROD OpenAPI specs"
-          body-path: pr-body.md
+          body: |
+            ## Summary
+            - Sync the OpenAPI files exported from the APIM PROD environment.
+            - This PR is generated from the unified drift report workflow and targets `master`.
+
+            ## Included files
+            The PR contains the exported APIM PROD specs currently available in the workflow artifacts.
           add-paths: |
             openapi/**/*.json
             openapi/*.json
