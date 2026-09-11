@@ -1,462 +1,437 @@
-
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "PagoPA API Payments",
-    "description": "Payments",
-    "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "0.12.52"
-  },
-  "servers": [
-    {
-      "url": "https://api.uat.platform.pagopa.it/gpd/payments-receipts-service/v1",
-      "description": "Generated server url"
-    }
-  ],
-  "tags": [
-    {
-      "name": "Payments receipts API"
-    }
-  ],
-  "paths": {
-    "/payments/{organizationfiscalcode}/receipts": {
-      "get": {
-        "tags": [
-          "Payments receipts API"
-        ],
-        "summary": "Return the list of the organization receipts.",
-        "operationId": "getOrganizationReceipts",
-        "parameters": [
-          {
-            "name": "organizationfiscalcode",
-            "in": "path",
-            "description": "Organization fiscal code, the fiscal code of the Organization.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pageNum",
-            "in": "query",
-            "description": "Page number, starts from 0",
-            "required": false,
-            "schema": {
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "Number of elements per page. Default = 20",
-            "required": false,
-            "schema": {
-              "maximum": 100,
-              "type": "integer",
-              "format": "int32",
-              "default": 20
-            }
-          },
-          {
-            "name": "debtor",
-            "in": "query",
-            "description": "Filter by debtor",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "service",
-            "in": "query",
-            "description": "Filter by service",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "from",
-            "in": "query",
-            "description": "Filter by date, from this date",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "to",
-            "in": "query",
-            "description": "Filter by date, to this date",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "segregationCodes",
-            "in": "query",
-            "description": "Segregation codes for which broker is authorized",
-            "required": false,
-            "schema": {
-              "pattern": "\\d{2}(,\\d{2})*",
-              "type": "string"
-            }
-          },
-          {
-            "name": "debtorOrIuv",
-            "in": "query",
-            "description": "Filter start of debtor or IUV",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Obtained all organization payment positions.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaymentsResult"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Wrong or missing function key.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "example": {
-                  "statusCode": 403,
-                  "message": "You are not allowed to access this resource."
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "No receipts found.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Service unavailable.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          },
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
+    "openapi": "3.0.1",
+    "info": {
+        "title": "PagoPA API Payments",
+        "description": "Payments",
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "0.12.52"
     },
-    "/payments/{organizationfiscalcode}/receipts/{iuv}": {
-      "get": {
-        "tags": [
-          "Payments receipts API"
-        ],
-        "summary": "Return the details of a specific receipt.",
-        "operationId": "getReceiptByIUV",
-        "parameters": [
-          {
-            "name": "organizationfiscalcode",
-            "in": "path",
-            "description": "Organization fiscal code, the fiscal code of the Organization.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": 12345
-          },
-          {
-            "name": "iuv",
-            "in": "path",
-            "description": "IUV (Unique Payment Identification). Alphanumeric code that uniquely associates and identifies three key elements of a payment: reason, payer, amount",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "ABC123"
-          },
-          {
-            "name": "segregationCodes",
-            "in": "query",
-            "description": "Segregation codes for which broker is authorized",
-            "required": false,
-            "schema": {
-              "pattern": "\\d{2}(,\\d{2})*",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Obtained receipt details.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Wrong or missing function key.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "example": {
-                  "statusCode": 403,
-                  "message": "You are not allowed to access this resource."
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "No receipt found.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unable to process the request.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Service unavailable.",
-            "headers": {
-              "X-Request-Id": {
-                "description": "This header identifies the call",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          },
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "parameters": [
+    "servers": [
         {
-          "name": "X-Request-Id",
-          "in": "header",
-          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-          "schema": {
-            "type": "string"
-          }
+            "url": "https://api.uat.platform.pagopa.it/gpd/payments-receipts-service/v1",
+            "description": "Generated server url"
         }
-      ]
-    }
-  },
-  "components": {
-    "schemas": {
-      "PaymentsResult": {
-        "type": "object",
-        "properties": {
-          "currentPageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "length": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "results": {
-            "type": "array",
-            "items": {
-              "type": "object"
+    ],
+    "paths": {
+        "/payments/{organizationfiscalcode}/receipts": {
+            "get": {
+                "tags": [
+                    "Payments receipts API"
+                ],
+                "summary": "Return the list of the organization receipts.",
+                "description": "Return the list of the organization receipts.",
+                "operationId": "getOrganizationReceipts",
+                "parameters": [
+                    {
+                        "name": "organizationfiscalcode",
+                        "in": "path",
+                        "description": "Organization fiscal code, the fiscal code of the Organization.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "description": "Format - int32. Page number",
+                        "schema": {
+                            "minimum": 0,
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Format - int32. Number of elements per page",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "debtor",
+                        "in": "query",
+                        "description": "Filter by debtor",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "service",
+                        "in": "query",
+                        "description": "Filter by service",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Filter by date, from this date",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Filter by date, to this date",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Obtained all organization payment positions.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReceiptsInfo"
+                                },
+                                "example": {
+                                    "receipts_list": [
+                                        {
+                                            "organizationFiscalCode": "string",
+                                            "iuv": "string",
+                                            "debtor": "string",
+                                            "paymentDateTime": "string",
+                                            "status": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No receipts found.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
+        },
+        "/payments/{organizationfiscalcode}/receipts/{iuv}": {
+            "get": {
+                "tags": [
+                    "Payments receipts API"
+                ],
+                "summary": "Return the details of a specific receipt.",
+                "description": "Return the details of a specific receipt.",
+                "operationId": "getReceiptByIUV",
+                "parameters": [
+                    {
+                        "name": "organizationfiscalcode",
+                        "in": "path",
+                        "description": "Organization fiscal code, the fiscal code of the Organization.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": 12345
+                    },
+                    {
+                        "name": "iuv",
+                        "in": "path",
+                        "description": "IUV (Unique Payment Identification). Alphanumeric code that uniquely associates and identifies three key elements of a payment: reason, payer, amount",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ABC123"
+                    },
+                    {
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Obtained receipt details.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "<Payments-organizationfiscalcode-Receipts-iuv-Get200ApplicationXmlResponse>string</Payments-organizationfiscalcode-Receipts-iuv-Get200ApplicationXmlResponse>"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No receipt found.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": "<ProblemJson> <title>string</title> <status>200</status> <detail>There was an error processing the request</detail> </ProblemJson>"
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unable to process the request.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": "<ProblemJson> <title>string</title> <status>200</status> <detail>There was an error processing the request</detail> </ProblemJson>"
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      },
-      "ProblemJson": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
-          },
-          "status": {
-            "maximum": 600,
-            "minimum": 100,
-            "type": "integer",
-            "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
-            "format": "int32",
-            "example": 200
-          },
-          "detail": {
-            "type": "string",
-            "description": "A human readable explanation specific to this occurrence of the problem.",
-            "example": "There was an error processing the request"
-          }
-        }
-      }
     },
-    "securitySchemes": {
-      "ApiKey": {
-        "type": "apiKey",
-        "description": "The API key to access this function app.",
-        "name": "Ocp-Apim-Subscription-Key",
-        "in": "header"
-      },
-      "Authorization": {
-        "type": "http",
-        "description": "JWT token get after Azure Login",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    }
-  }
+    "components": {
+        "schemas": {
+            "ProblemJson": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+                    },
+                    "status": {
+                        "maximum": 600,
+                        "minimum": 100,
+                        "type": "integer",
+                        "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+                        "format": "int32",
+                        "example": 200
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human readable explanation specific to this occurrence of the problem.",
+                        "example": "There was an error processing the request"
+                    }
+                }
+            },
+            "ReceiptModelResponse": {
+                "type": "object",
+                "properties": {
+                    "organizationFiscalCode": {
+                        "type": "string"
+                    },
+                    "iuv": {
+                        "type": "string"
+                    },
+                    "debtor": {
+                        "type": "string"
+                    },
+                    "paymentDateTime": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ReceiptsInfo": {
+                "required": [
+                    "receipts_list"
+                ],
+                "type": "object",
+                "properties": {
+                    "receipts_list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReceiptModelResponse"
+                        }
+                    }
+                }
+            },
+            "AppInfo": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    },
+                    "environment": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Payments receipts API"
+        }
+    ]
 }
