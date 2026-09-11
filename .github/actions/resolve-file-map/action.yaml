@@ -112,6 +112,10 @@ runs:
         apim_resource_id["redirect.json"]="pagopa-<ENV>-weu-ecommerce-ecommerce-redirect-outcome-api-v1"
         service_openapi_url_ref["redirect.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/ecommerce-app/api/redirect-outcome/v1/_openapi.json.tpl"
         compare_args["redirect.json"]="--match-path /redirections/{idTransaction}/outcomes" #the only path to be compared
+        
+        apim_resource_id["e_bollo_20.json"]="<ENV>-mbd-api-v1"
+        service_openapi_url_ref["e_bollo_20.json"]="https://github.com/pagopa/pagopa-mbd-service/blob/main/openapi/openapi.json"
+        compare_args["e_bollo_20.json"]="--unmatch-path /info"
 
         file="${{ inputs.file }}"
         echo "apim_resource_id=${apim_resource_id[$file]}" >> "$GITHUB_OUTPUT"

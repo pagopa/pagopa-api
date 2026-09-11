@@ -287,7 +287,7 @@ jobs:
           find apim-prod -type f -print0 | while IFS= read -r -d '' file; do
             rel="${file#apim-prod/}"
             mkdir -p "openapi/$(dirname "$rel")"
-            python3 -c 'import json, pathlib, sys; src = pathlib.Path(sys.argv[1]); out = pathlib.Path(sys.argv[2]); obj = json.loads(src.read_text(encoding="utf-8")); out.parent.mkdir(parents=True, exist_ok=True); out.write_text(json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")' "$file" "openapi/$rel"
+            cp "$file" "openapi/$rel"
           done
           git add -A openapi
           rm -rf apim-prod artifacts
