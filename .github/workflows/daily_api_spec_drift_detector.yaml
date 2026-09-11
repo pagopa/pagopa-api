@@ -133,9 +133,9 @@ jobs:
           exit 1
 
 
-  compare_develop_to_apim_dev:
+  compare_sanp_branch_to_apim_dev:
     needs: setup
-    name: "pagopa-api develop branch to APIM DEV"
+    name: "pagopa-api latest SANP branch to APIM DEV"
     runs-on: ubuntu-latest
     environment: dev
     strategy:
@@ -158,7 +158,7 @@ jobs:
           client-id: ${{ secrets.CLIENT_ID }}
           tenant-id: ${{ secrets.TENANT_ID }}
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-      - name: "[${{ matrix.file }}] - pagopa-api develop vs APIM DEV"
+      - name: "[${{ matrix.file }}] - pagopa-api ${{ needs.setup.outputs.latest_sanp_branch }} vs APIM DEV"
         if: ${{ steps.resolve-map.outputs.apim_resource_id != '-' }}
         uses: ./.github/actions/compare-openapi-to-apim
         with:
@@ -166,7 +166,7 @@ jobs:
           apim_resource_id: ${{ steps.resolve-map.outputs.apim_resource_id }}
           compare_args: ${{ steps.resolve-map.outputs.compare_args }}
           env_short: d
-          pagopa_api_branch: develop
+          pagopa_api_branch: ${{ needs.setup.outputs.latest_sanp_branch }}
   compare_develop_to_apim_UAT:
     needs: setup
     name: "pagopa-api develop branch to APIM UAT"
@@ -240,7 +240,7 @@ jobs:
     name: "Drift Report — unified summary"
     needs:
       - compare_master_to_main
-      - compare_develop_to_apim_dev
+      - compare_sanp_branch_to_apim_dev
       - compare_develop_to_apim_UAT
       - compare_master_to_apim_PROD
     if: always()
@@ -264,7 +264,7 @@ jobs:
           ARTIFACTS_DIR: artifacts
 
       - name: Create remediation PRs
-        if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/master'
+        if: always()
         run: |
           python3 .github/scripts/create_drift_prs.py
         env:

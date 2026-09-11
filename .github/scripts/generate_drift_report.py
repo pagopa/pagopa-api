@@ -12,9 +12,7 @@ Expected artifact layout (produced by the drift-detector workflow):
 
 Each result.json has:
   { "file": "biz_events.json", "env": "MAIN"|"DEV"|"UAT"|"PROD",
-    "branch": "master"|"develop", "semantic_drift": bool,
-    "cosmetic_drift": bool, "apim_display_name": str,
-    "apim_description": str, "changes": [...oasdiff items] }
+    "branch": "master"|"develop"|"SANP...", "changes": [...oasdiff items] }
 
 oasdiff item fields used here:
   level   : 3=ERR (breaking), 2=WARN, 1=INFO
@@ -37,7 +35,7 @@ from datetime import datetime, timezone
 ENVS = ["MAIN", "DEV", "UAT", "PROD"]
 ENV_BRANCH = {
     "MAIN": "master → service main",
-    "DEV":  "develop → APIM DEV",
+    "DEV":  "SANP → APIM DEV",
     "UAT":  "develop → APIM UAT",
     "PROD": "master → APIM PROD",
 }
@@ -50,7 +48,7 @@ LEVEL_ICON  = {3: "❌", 2: "⚠️", 1: "🔵"}
 # ---------------------------------------------------------------------------
 
 def load_results(artifacts_dir: str) -> dict:
-    """Return {filename: {env: record}} from all result.json files."""
+    """Return {filename: {env: [changes]}} from all result.json files."""
     data: dict = defaultdict(dict)
     for path in sorted(glob.glob(f"{artifacts_dir}/*/result.json")):
         try:
@@ -61,20 +59,16 @@ def load_results(artifacts_dir: str) -> dict:
             changes = record.get("changes", [])
             if not isinstance(changes, list):
                 changes = []
-            record["changes"] = changes
-            data[fname][env] = record
+            data[fname][env] = changes
         except (json.JSONDecodeError, KeyError, OSError):
             pass
     return data
 
 
-def status_cell(record: Optional[dict]) -> str:
+def status_cell(changes: Optional[list]) -> str:
     """Compact cell for the summary table."""
-    if record is None:
+    if changes is None:
         return "—"
-    if record.get("cosmetic_drift"):
-        return "🟰 cosmetic"
-    changes = record.get("changes", [])
     if not changes:
         return "✅ OK"
     errors   = sum(1 for c in changes if c.get("level") == 3)
@@ -123,7 +117,7 @@ def build_report(files_data: dict) -> str:
         return "\n".join(lines)
 
     # Overall status
-    all_changes = [c for env_data in files_data.values() for record in env_data.values() for c in record.get("changes", [])]
+    all_changes = [c for env_data in files_data.values() for changes in env_data.values() for c in changes]
     has_errors   = any(c.get("level") == 3 for c in all_changes)
     has_warnings = any(c.get("level") == 2 for c in all_changes)
     total_files  = len(files_data)
@@ -159,7 +153,7 @@ def build_report(files_data: dict) -> str:
     for fname in sorted(files_data.keys()):
         env_data = files_data[fname]
 
-        file_changes = [c for record in env_data.values() for c in record.get("changes", [])]
+        file_changes = [c for changes in env_data.values() for c in changes]
         file_errors   = sum(1 for c in file_changes if c.get("level") == 3)
         file_warnings = sum(1 for c in file_changes if c.get("level") == 2)
         file_infos    = sum(1 for c in file_changes if c.get("level") == 1)
@@ -184,49 +178,36 @@ def build_report(files_data: dict) -> str:
         lines.append("")
 
         for env in ENVS:
-            record = env_data.get(env)
+            changes = env_data.get(env)
             lines.append(f"#### {env} &nbsp;<sub>({ENV_BRANCH[env]})</sub>")
             lines.append("")
 
-            if record is None:
+            if changes is None:
                 lines.append("_N/A — not configured for this environment_")
+            elif not changes:
+                lines.append("✅ **No changes detected** — specs are aligned")
             else:
-                display_name = record.get("apim_display_name") or "_N/A_"
-                description = record.get("apim_description") or "_No description_"
-                lines.append(f"**APIM display name:** {display_name}")
+                errors   = [c for c in changes if c.get("level") == 3]
+                warnings = [c for c in changes if c.get("level") == 2]
+                infos    = [c for c in changes if c.get("level") == 1]
+
+                lines.append(
+                    f"**{len(changes)} change(s):** "
+                    f"{len(errors)} error(s) &nbsp;·&nbsp; "
+                    f"{len(warnings)} warning(s) &nbsp;·&nbsp; "
+                    f"{len(infos)} info"
+                )
                 lines.append("")
-                lines.append(f"**APIM description:** {description}")
-                lines.append("")
-                if record.get("cosmetic_drift"):
-                    lines.append("🟰 **Cosmetic drift only** — canonical JSON is aligned, no remediation PR needed")
+
+                for severity_label, items in [("Errors", errors), ("Warnings", warnings), ("Info", infos)]:
+                    if not items:
+                        continue
+                    icon = LEVEL_ICON[{"Errors": 3, "Warnings": 2, "Info": 1}[severity_label]]
+                    lines.append(f"**{icon} {severity_label}**")
                     lines.append("")
-                    continue
-
-                changes = record.get("changes", [])
-                if not changes:
-                    lines.append("✅ **No changes detected** — specs are aligned")
-                else:
-                    errors   = [c for c in changes if c.get("level") == 3]
-                    warnings = [c for c in changes if c.get("level") == 2]
-                    infos    = [c for c in changes if c.get("level") == 1]
-
-                    lines.append(
-                        f"**{len(changes)} change(s):** "
-                        f"{len(errors)} error(s) &nbsp;·&nbsp; "
-                        f"{len(warnings)} warning(s) &nbsp;·&nbsp; "
-                        f"{len(infos)} info"
-                    )
+                    for c in items:
+                        lines.append(format_change(c))
                     lines.append("")
-
-                    for severity_label, items in [("Errors", errors), ("Warnings", warnings), ("Info", infos)]:
-                        if not items:
-                            continue
-                        icon = LEVEL_ICON[{"Errors": 3, "Warnings": 2, "Info": 1}[severity_label]]
-                        lines.append(f"**{icon} {severity_label}**")
-                        lines.append("")
-                        for c in items:
-                            lines.append(format_change(c))
-                        lines.append("")
 
             lines.append("")
 
