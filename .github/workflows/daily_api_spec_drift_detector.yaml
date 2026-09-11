@@ -280,6 +280,8 @@ jobs:
             mkdir -p "openapi/$(dirname "$rel")"
             cp "$file" "openapi/$rel"
           done
+          git add -A openapi
+          rm -rf apim-prod artifacts
           git status --short
 
       - name: Create Pull Request
