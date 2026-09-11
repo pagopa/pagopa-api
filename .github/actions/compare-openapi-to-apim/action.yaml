@@ -40,6 +40,14 @@ runs:
 
         echo "Processing $file | apim=$apim_resource_id | branch=$pagopa_api_branch | compare_args=$compare_args"
 
+        api_metadata=$(az apim api show \
+          --resource-group "pagopa-${{ inputs.env_short }}-api-rg" \
+          --service-name "pagopa-${{ inputs.env_short }}-apim" \
+          --api-id "$apim_resource_id" \
+          --query '{displayName:displayName,description:description}' \
+          --output json)
+        echo "APIM metadata: $(echo "$api_metadata" | jq -c '.')"
+
         # az apim export creates a file named <resource-id>_openapi+json.json
         az apim api export \
           --resource-group "pagopa-${{ inputs.env_short }}-api-rg" \
@@ -93,8 +101,10 @@ runs:
           --arg file "$file" \
           --arg env "$env_label" \
           --arg branch "$pagopa_api_branch" \
+          --arg display_name "$(echo "$api_metadata" | jq -r '.displayName // ""')" \
+          --arg description "$(echo "$api_metadata" | jq -r '.description // ""')" \
           --argjson changes "$(cat changes_raw.json)" \
-          '{file: $file, env: $env, branch: $branch, changes: $changes}' > result.json
+          '{file: $file, env: $env, branch: $branch, display_name: $display_name, description: $description, changes: $changes}' > result.json
 
         echo "oasdiff_exit=$OASDIFF_EXIT" >> "$GITHUB_OUTPUT"
 

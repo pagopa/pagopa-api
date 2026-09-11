@@ -12,7 +12,8 @@ Expected artifact layout (produced by the drift-detector workflow):
 
 Each result.json has:
   { "file": "biz_events.json", "env": "MAIN"|"DEV"|"UAT"|"PROD",
-    "branch": "master"|"develop"|"SANP...", "changes": [...oasdiff items] }
+    "branch": "master"|"develop"|"SANP...", "display_name": "...",
+    "description": "...", "changes": [...oasdiff items] }
 
 oasdiff item fields used here:
   level   : 3=ERR (breaking), 2=WARN, 1=INFO
@@ -48,7 +49,7 @@ LEVEL_ICON  = {3: "❌", 2: "⚠️", 1: "🔵"}
 # ---------------------------------------------------------------------------
 
 def load_results(artifacts_dir: str) -> dict:
-    """Return {filename: {env: [changes]}} from all result.json files."""
+    """Return {filename: {env: {changes, display_name, description, branch}}}."""
     data: dict = defaultdict(dict)
     for path in sorted(glob.glob(f"{artifacts_dir}/*/result.json")):
         try:
@@ -59,16 +60,22 @@ def load_results(artifacts_dir: str) -> dict:
             changes = record.get("changes", [])
             if not isinstance(changes, list):
                 changes = []
-            data[fname][env] = changes
+            data[fname][env] = {
+                "changes": changes,
+                "display_name": record.get("display_name", ""),
+                "description": record.get("description", ""),
+                "branch": record.get("branch", ""),
+            }
         except (json.JSONDecodeError, KeyError, OSError):
             pass
     return data
 
 
-def status_cell(changes: Optional[list]) -> str:
+def status_cell(entry: Optional[dict]) -> str:
     """Compact cell for the summary table."""
-    if changes is None:
+    if entry is None:
         return "—"
+    changes = entry.get("changes", [])
     if not changes:
         return "✅ OK"
     errors   = sum(1 for c in changes if c.get("level") == 3)
@@ -117,7 +124,12 @@ def build_report(files_data: dict) -> str:
         return "\n".join(lines)
 
     # Overall status
-    all_changes = [c for env_data in files_data.values() for changes in env_data.values() for c in changes]
+    all_changes = [
+        c
+        for env_data in files_data.values()
+        for entry in env_data.values()
+        for c in entry.get("changes", [])
+    ]
     has_errors   = any(c.get("level") == 3 for c in all_changes)
     has_warnings = any(c.get("level") == 2 for c in all_changes)
     total_files  = len(files_data)
@@ -153,7 +165,7 @@ def build_report(files_data: dict) -> str:
     for fname in sorted(files_data.keys()):
         env_data = files_data[fname]
 
-        file_changes = [c for changes in env_data.values() for c in changes]
+        file_changes = [c for entry in env_data.values() for c in entry.get("changes", [])]
         file_errors   = sum(1 for c in file_changes if c.get("level") == 3)
         file_warnings = sum(1 for c in file_changes if c.get("level") == 2)
         file_infos    = sum(1 for c in file_changes if c.get("level") == 1)
@@ -178,36 +190,50 @@ def build_report(files_data: dict) -> str:
         lines.append("")
 
         for env in ENVS:
-            changes = env_data.get(env)
+            entry = env_data.get(env)
             lines.append(f"#### {env} &nbsp;<sub>({ENV_BRANCH[env]})</sub>")
             lines.append("")
 
-            if changes is None:
+            if entry is None:
                 lines.append("_N/A — not configured for this environment_")
-            elif not changes:
-                lines.append("✅ **No changes detected** — specs are aligned")
             else:
-                errors   = [c for c in changes if c.get("level") == 3]
-                warnings = [c for c in changes if c.get("level") == 2]
-                infos    = [c for c in changes if c.get("level") == 1]
+                display_name = entry.get("display_name", "").strip()
+                description = entry.get("description", "").strip()
+                changes = entry.get("changes", [])
 
-                lines.append(
-                    f"**{len(changes)} change(s):** "
-                    f"{len(errors)} error(s) &nbsp;·&nbsp; "
-                    f"{len(warnings)} warning(s) &nbsp;·&nbsp; "
-                    f"{len(infos)} info"
-                )
-                lines.append("")
+                if display_name:
+                    lines.append(f"**Display Name:** `{display_name}`")
+                if description:
+                    lines.append(f"**Description:** {description}")
+                if display_name or description:
+                    lines.append("")
 
-                for severity_label, items in [("Errors", errors), ("Warnings", warnings), ("Info", infos)]:
-                    if not items:
-                        continue
-                    icon = LEVEL_ICON[{"Errors": 3, "Warnings": 2, "Info": 1}[severity_label]]
-                    lines.append(f"**{icon} {severity_label}**")
+                if not changes:
+                    lines.append("✅ **No changes detected** — specs are aligned")
+                else:
+                    errors   = [c for c in changes if c.get("level") == 3]
+                    warnings = [c for c in changes if c.get("level") == 2]
+                    infos    = [c for c in changes if c.get("level") == 1]
+
                     lines.append("")
-                    for c in items:
-                        lines.append(format_change(c))
+
+                    lines.append(
+                        f"**{len(changes)} change(s):** "
+                        f"{len(errors)} error(s) &nbsp;·&nbsp; "
+                        f"{len(warnings)} warning(s) &nbsp;·&nbsp; "
+                        f"{len(infos)} info"
+                    )
                     lines.append("")
+
+                    for severity_label, items in [("Errors", errors), ("Warnings", warnings), ("Info", infos)]:
+                        if not items:
+                            continue
+                        icon = LEVEL_ICON[{"Errors": 3, "Warnings": 2, "Info": 1}[severity_label]]
+                        lines.append(f"**{icon} {severity_label}**")
+                        lines.append("")
+                        for c in items:
+                            lines.append(format_change(c))
+                        lines.append("")
 
             lines.append("")
 
