@@ -1,8 +1,9 @@
 name: Openapi specs file comparison
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
+  pull-requests: write
 
 on:
   #schedule:
@@ -12,7 +13,8 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.list-files.outputs.matrix }}
+      develop_matrix: ${{ steps.list-develop-files.outputs.matrix }}
+      master_matrix: ${{ steps.list-master-files.outputs.matrix }}
       latest_sanp_branch: ${{ steps.latest-sanp.outputs.branch }}
     steps:
       - name: Checkout repository
@@ -20,10 +22,20 @@ jobs:
         with:
           fetch-depth: 0  # needed to access all remote branches
 
-      - name: List OpenAPI files
-        id: list-files
+      - name: List OpenAPI files from develop
+        id: list-develop-files
         run: |
-          files=$(ls openapi/ | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          files=$(git ls-tree -r --name-only origin/develop openapi \
+            | sed 's#^openapi/##' \
+            | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "matrix=$files" >> "$GITHUB_OUTPUT"
+
+      - name: List OpenAPI files from master
+        id: list-master-files
+        run: |
+          files=$(git ls-tree -r --name-only origin/master openapi \
+            | sed 's#^openapi/##' \
+            | jq -R -s -c 'split("\n") | map(select(length > 0))')
           echo "matrix=$files" >> "$GITHUB_OUTPUT"
 
       - name: Resolve latest SANP branch
@@ -43,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        file: ${{ fromJson(needs.setup.outputs.matrix) }}
+        file: ${{ fromJson(needs.setup.outputs.master_matrix) }}
       fail-fast: false  # continue processing other files if one fails
     steps:
       - name: Checkout repository
@@ -121,14 +133,14 @@ jobs:
           exit 1
 
 
-  compare_sanp_branch_to_apim_dev:
+  compare_develop_to_apim_dev:
     needs: setup
-    name: "pagopa-api latest SANP branch to APIM DEV"
+    name: "pagopa-api develop branch to APIM DEV"
     runs-on: ubuntu-latest
     environment: dev
     strategy:
       matrix:
-        file: ${{ fromJson(needs.setup.outputs.matrix) }}
+        file: ${{ fromJson(needs.setup.outputs.develop_matrix) }}
       fail-fast: false  # continue processing other files if one fails
     steps:
       - name: Checkout repository
@@ -146,7 +158,7 @@ jobs:
           client-id: ${{ secrets.CLIENT_ID }}
           tenant-id: ${{ secrets.TENANT_ID }}
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-      - name: "[${{ matrix.file }}] - pagopa-api ${{ needs.setup.outputs.latest_sanp_branch }} vs APIM DEV"
+      - name: "[${{ matrix.file }}] - pagopa-api develop vs APIM DEV"
         if: ${{ steps.resolve-map.outputs.apim_resource_id != '-' }}
         uses: ./.github/actions/compare-openapi-to-apim
         with:
@@ -154,7 +166,7 @@ jobs:
           apim_resource_id: ${{ steps.resolve-map.outputs.apim_resource_id }}
           compare_args: ${{ steps.resolve-map.outputs.compare_args }}
           env_short: d
-          pagopa_api_branch: ${{ needs.setup.outputs.latest_sanp_branch }}
+          pagopa_api_branch: develop
   compare_develop_to_apim_UAT:
     needs: setup
     name: "pagopa-api develop branch to APIM UAT"
@@ -162,7 +174,7 @@ jobs:
     environment: uat
     strategy:
       matrix:
-        file: ${{ fromJson(needs.setup.outputs.matrix) }}
+        file: ${{ fromJson(needs.setup.outputs.develop_matrix) }}
       fail-fast: false  # continue processing other files if one fails
     steps:
       - name: Checkout repository
@@ -196,7 +208,7 @@ jobs:
     environment: prod
     strategy:
       matrix:
-        file: ${{ fromJson(needs.setup.outputs.matrix) }}
+        file: ${{ fromJson(needs.setup.outputs.master_matrix) }}
       fail-fast: false  # continue processing other files if one fails
     steps:
       - name: Checkout repository
@@ -228,7 +240,7 @@ jobs:
     name: "Drift Report — unified summary"
     needs:
       - compare_master_to_main
-      - compare_sanp_branch_to_apim_dev
+      - compare_develop_to_apim_dev
       - compare_develop_to_apim_UAT
       - compare_master_to_apim_PROD
     if: always()
@@ -250,3 +262,11 @@ jobs:
           python3 .github/scripts/generate_drift_report.py
         env:
           ARTIFACTS_DIR: artifacts
+
+      - name: Create remediation PRs
+        if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/master'
+        run: |
+          python3 .github/scripts/create_drift_prs.py
+        env:
+          ARTIFACTS_DIR: artifacts
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

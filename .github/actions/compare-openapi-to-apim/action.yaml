@@ -17,12 +17,29 @@ inputs:
   env_short:
     description: Short environment name (d for dev, u for uat, p for prod)
     required: true
-  environment:
-    description: The target environment to be used
-    required: true
   pagopa_api_branch:
     description: pagopa-api branch used to resolve the reference spec URL (e.g. develop, master...)
     required: true
+
+outputs:
+  oasdiff_exit:
+    description: Exit code returned by oasdiff
+    value: ${{ steps.run-comparison.outputs.oasdiff_exit }}
+  semantic_drift:
+    description: Whether the canonical APIM spec differs from the canonical repo spec
+    value: ${{ steps.run-comparison.outputs.semantic_drift }}
+  cosmetic_drift:
+    description: Whether there are oasdiff changes but canonical specs are equal
+    value: ${{ steps.run-comparison.outputs.cosmetic_drift }}
+  apim_display_name:
+    description: APIM API display name
+    value: ${{ steps.run-comparison.outputs.apim_display_name }}
+  apim_description:
+    description: APIM API description
+    value: ${{ steps.run-comparison.outputs.apim_description }}
+  target_branch:
+    description: Repository branch used as comparison target
+    value: ${{ steps.run-comparison.outputs.target_branch }}
 
 runs:
   using: composite
@@ -40,6 +57,17 @@ runs:
 
         echo "Processing $file | apim=$apim_resource_id | branch=$pagopa_api_branch | compare_args=$compare_args"
 
+        az apim api show \
+          --resource-group "pagopa-${{ inputs.env_short }}-api-rg" \
+          --service-name "pagopa-${{ inputs.env_short }}-apim" \
+          --api-id "$apim_resource_id" \
+          > apim_api_metadata.json
+
+        apim_display_name=$(jq -r '.displayName // ""' apim_api_metadata.json)
+        apim_description=$(jq -r '.description // ""' apim_api_metadata.json)
+        printf 'APIM display name: %s\n' "$apim_display_name"
+        printf 'APIM description: %s\n' "$apim_description"
+
         # az apim export creates a file named <resource-id>_openapi+json.json
         az apim api export \
           --resource-group "pagopa-${{ inputs.env_short }}-api-rg" \
@@ -48,6 +76,32 @@ runs:
           --export-format "OpenApiJsonFile" \
           --file-path "."
 
+        repo_spec_url="https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$pagopa_api_branch/openapi/$file"
+        curl --fail --silent --show-error --location "$repo_spec_url" --output repo_spec.json
+
+        python3 - "${apim_resource_id}_openapi+json.json" repo_spec.json apim_spec_canonical.json repo_spec_canonical.json <<'PY'
+          import json
+          import sys
+
+          src_apim, src_repo, out_apim, out_repo = sys.argv[1:]
+
+          def canonicalize(src, dst):
+              with open(src, "r", encoding="utf-8") as f:
+                  data = json.load(f)
+              with open(dst, "w", encoding="utf-8") as f:
+                  json.dump(data, f, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+                  f.write("\n")
+
+          canonicalize(src_apim, out_apim)
+          canonicalize(src_repo, out_repo)
+          PY
+
+        if cmp -s repo_spec_canonical.json apim_spec_canonical.json; then
+          semantic_drift=false
+        else
+          semantic_drift=true
+        fi
+
         # Run oasdiff with JSON output (no -t flag to avoid TTY escape codes in JSON)
         OASDIFF_EXIT=0
         set +e
@@ -55,7 +109,7 @@ runs:
           -v "$(pwd)/${apim_resource_id}_openapi+json.json:/apim_spec.json" \
           tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
           changelog $compare_args --format json --fail-on ERR \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$pagopa_api_branch/openapi/$file" "/apim_spec.json" \
+          "$repo_spec_url" "/apim_spec.json" \
           > changes_raw.json
         OASDIFF_EXIT=$?
         set -e
@@ -71,6 +125,12 @@ runs:
         WARNINGS=$(jq '[.[] | select(.level == 2)] | length' changes_raw.json)
         INFOS=$(jq '[.[] | select(.level == 1)] | length' changes_raw.json)
         echo "=== $TOTAL change(s): $ERRORS error(s), $WARNINGS warning(s), $INFOS info ==="
+        if [ "$TOTAL" -gt 0 ] && [ "$semantic_drift" = false ]; then
+          echo "Canonical specs are equal: drift is cosmetic only."
+          cosmetic_drift=true
+        else
+          cosmetic_drift=false
+        fi
         if [ "$TOTAL" -gt 0 ]; then
           jq -r '.[] |
             (if .level == 3 then "ERROR" elif .level == 2 then "WARN" else "INFO" end) +
@@ -87,17 +147,32 @@ runs:
           --arg file "$file" \
           --arg env "$env_label" \
           --arg branch "$pagopa_api_branch" \
+          --arg apim_display_name "$apim_display_name" \
+          --arg apim_description "$apim_description" \
+          --argjson semantic_drift "$semantic_drift" \
+          --argjson cosmetic_drift "$cosmetic_drift" \
           --argjson changes "$(cat changes_raw.json)" \
-          '{file: $file, env: $env, branch: $branch, changes: $changes}' > result.json
+          '{file: $file, env: $env, branch: $branch, apim_display_name: $apim_display_name, apim_description: $apim_description, semantic_drift: $semantic_drift, cosmetic_drift: $cosmetic_drift, changes: $changes}' > result.json
 
         echo "oasdiff_exit=$OASDIFF_EXIT" >> "$GITHUB_OUTPUT"
+        echo "semantic_drift=$semantic_drift" >> "$GITHUB_OUTPUT"
+        echo "cosmetic_drift=$cosmetic_drift" >> "$GITHUB_OUTPUT"
+        echo "apim_display_name<<EOF" >> "$GITHUB_OUTPUT"
+        printf '%s\n' "$apim_display_name" >> "$GITHUB_OUTPUT"
+        echo "EOF" >> "$GITHUB_OUTPUT"
+        echo "apim_description<<EOF" >> "$GITHUB_OUTPUT"
+        printf '%s\n' "$apim_description" >> "$GITHUB_OUTPUT"
+        echo "EOF" >> "$GITHUB_OUTPUT"
+        echo "target_branch=$pagopa_api_branch" >> "$GITHUB_OUTPUT"
 
     - name: Upload comparison result artifact
       if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: drift-${{ inputs.env_short }}-${{ inputs.file }}
-        path: result.json
+        path: |
+          result.json
+          apim_spec_canonical.json
         if-no-files-found: ignore
         retention-days: 1
 
