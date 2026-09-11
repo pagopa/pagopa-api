@@ -51,7 +51,7 @@ runs:
         if [ "${{ inputs.env_short }}" = "p" ]; then
           export_dir=".apim-export/prod"
           mkdir -p "$export_dir/$(dirname "$file")"
-          cp "${apim_resource_id}_openapi+json.json" "$export_dir/$file"
+          python3 -c 'import json, pathlib, sys; out_path = pathlib.Path(sys.argv[1]); src = pathlib.Path(sys.argv[2]); obj = json.loads(src.read_text(encoding="utf-8")); out_path.parent.mkdir(parents=True, exist_ok=True); out_path.write_text(json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")' "$export_dir/$file" "${apim_resource_id}_openapi+json.json"
         fi
 
         # Run oasdiff with JSON output (no -t flag to avoid TTY escape codes in JSON)
