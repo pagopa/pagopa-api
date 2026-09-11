@@ -262,6 +262,7 @@ jobs:
           python3 .github/scripts/generate_drift_report.py
         env:
           ARTIFACTS_DIR: artifacts
+          DRIFT_REPORT_PATH: drift-report.md
 
       - name: Download APIM PROD exported specs
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -284,6 +285,22 @@ jobs:
           rm -rf apim-prod artifacts
           git status --short
 
+      - name: Prepare Pull Request body
+        run: |
+          {
+            echo "## Summary"
+            echo "- Sync the OpenAPI files exported from the APIM PROD environment."
+            echo "- This PR is generated from the unified drift report workflow and targets \`master\`."
+            echo
+            if [ -f drift-report.md ]; then
+              echo "## Semantic drift report"
+              cat drift-report.md
+            else
+              echo "## Semantic drift report"
+              echo "_No semantic drift report was generated._"
+            fi
+          } > pr-body.md
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
@@ -292,13 +309,7 @@ jobs:
           branch: chore/sync-apim-prod-openapi
           title: "chore: sync APIM PROD OpenAPI specs"
           commit-message: "chore: sync APIM PROD OpenAPI specs"
-          body: |
-            ## Summary
-            - Sync the OpenAPI files exported from the APIM PROD environment.
-            - This PR is generated from the unified drift report workflow and targets `master`.
-
-            ## Included files
-            The PR contains the exported APIM PROD specs currently available in the workflow artifacts.
+          body-path: pr-body.md
           add-paths: |
             openapi/**/*.json
             openapi/*.json

@@ -48,26 +48,54 @@ runs:
           --export-format "OpenApiJsonFile" \
           --file-path "."
 
+        apim_export_path="${apim_resource_id}_openapi+json.json"
+        normalized_apim_spec=".tmp/apim/$file"
+        normalized_local_spec=".tmp/local/$file"
+        mkdir -p "$(dirname "$normalized_apim_spec")" "$(dirname "$normalized_local_spec")"
+
+        python3 -c 'import json, pathlib, sys; out_path = pathlib.Path(sys.argv[1]); src = pathlib.Path(sys.argv[2]); obj = json.loads(src.read_text(encoding="utf-8")); out_path.parent.mkdir(parents=True, exist_ok=True); out_path.write_text(json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")' "$normalized_apim_spec" "$apim_export_path"
+
+        local_spec_path="openapi/$file"
+        local_spec_valid=true
+        local_spec_error=""
+        if python3 -c 'import json, pathlib, sys; out_path = pathlib.Path(sys.argv[1]); src = pathlib.Path(sys.argv[2]); obj = json.loads(src.read_text(encoding="utf-8")); out_path.parent.mkdir(parents=True, exist_ok=True); out_path.write_text(json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")' "$normalized_local_spec" "$local_spec_path"; then
+          compare_local_path="$normalized_local_spec"
+        else
+          local_spec_valid=false
+          local_spec_error=$(python3 -c 'import json, pathlib, sys; src = pathlib.Path(sys.argv[1]); text = src.read_text(encoding="utf-8"); 
+try:
+    json.loads(text)
+except json.JSONDecodeError as exc:
+    print(f"{exc.msg} (line {exc.lineno}, column {exc.colno})")
+    raise SystemExit(0)
+print("Unknown JSON validation error")' "$local_spec_path")
+          compare_local_path="$local_spec_path"
+        fi
+
         if [ "${{ inputs.env_short }}" = "p" ]; then
           export_dir=".apim-export/prod"
           mkdir -p "$export_dir/$(dirname "$file")"
-          cp "${apim_resource_id}_openapi+json.json" "$export_dir/$file"
+          cp "$normalized_apim_spec" "$export_dir/$file"
         fi
 
         # Run oasdiff with JSON output (no -t flag to avoid TTY escape codes in JSON)
         OASDIFF_EXIT=0
         set +e
         docker run --rm \
-          -v "$(pwd)/${apim_resource_id}_openapi+json.json:/apim_spec.json" \
+          -v "$(pwd)/$normalized_apim_spec:/apim_spec.json" \
+          -v "$(pwd)/$compare_local_path:/local_spec.json" \
           tufin/oasdiff:v1.19.1@sha256:fa2f6fd7569e858c28f93e417935dba11ba1b617cb46ebc47d8b082342f5d778 \
           changelog $compare_args --format json --fail-on ERR \
-          "https://raw.githubusercontent.com/pagopa/pagopa-api/refs/heads/$pagopa_api_branch/openapi/$file" "/apim_spec.json" \
+          "/local_spec.json" "/apim_spec.json" \
           > changes_raw.json
         OASDIFF_EXIT=$?
         set -e
 
-        # Ensure valid JSON (fallback to empty array on unexpected output)
-        if ! jq -e . changes_raw.json > /dev/null 2>&1; then
+        # Ensure valid JSON (fallback to empty array on unexpected output or invalid local specs)
+        if [ "$local_spec_valid" != "true" ]; then
+          echo "[]" > changes_raw.json
+          OASDIFF_EXIT=0
+        elif ! jq -e . changes_raw.json > /dev/null 2>&1; then
           echo "[]" > changes_raw.json
         fi
 
@@ -93,8 +121,10 @@ runs:
           --arg file "$file" \
           --arg env "$env_label" \
           --arg branch "$pagopa_api_branch" \
+          --argjson local_spec_valid "$local_spec_valid" \
+          --arg local_spec_error "$local_spec_error" \
           --argjson changes "$(cat changes_raw.json)" \
-          '{file: $file, env: $env, branch: $branch, changes: $changes}' > result.json
+          '{file: $file, env: $env, branch: $branch, local_spec_valid: $local_spec_valid, local_spec_error: $local_spec_error, changes: $changes}' > result.json
 
         echo "oasdiff_exit=$OASDIFF_EXIT" >> "$GITHUB_OUTPUT"
 

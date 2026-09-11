@@ -12,7 +12,8 @@ Expected artifact layout (produced by the drift-detector workflow):
 
 Each result.json has:
   { "file": "biz_events.json", "env": "MAIN"|"DEV"|"UAT"|"PROD",
-    "branch": "master"|"develop"|"SANP...", "changes": [...oasdiff items] }
+    "branch": "master"|"develop"|"SANP...", "local_spec_valid": bool,
+    "local_spec_error": str, "changes": [...oasdiff items] }
 
 oasdiff item fields used here:
   level   : 3=ERR (breaking), 2=WARN, 1=INFO
@@ -48,7 +49,7 @@ LEVEL_ICON  = {3: "❌", 2: "⚠️", 1: "🔵"}
 # ---------------------------------------------------------------------------
 
 def load_results(artifacts_dir: str) -> dict:
-    """Return {filename: {env: [changes]}} from all result.json files."""
+    """Return {filename: {env: result-record}} from all result.json files."""
     data: dict = defaultdict(dict)
     for path in sorted(glob.glob(f"{artifacts_dir}/*/result.json")):
         try:
@@ -59,16 +60,23 @@ def load_results(artifacts_dir: str) -> dict:
             changes = record.get("changes", [])
             if not isinstance(changes, list):
                 changes = []
-            data[fname][env] = changes
+            data[fname][env] = {
+                "changes": changes,
+                "local_spec_valid": bool(record.get("local_spec_valid", True)),
+                "local_spec_error": record.get("local_spec_error", ""),
+            }
         except (json.JSONDecodeError, KeyError, OSError):
             pass
     return data
 
 
-def status_cell(changes: Optional[list]) -> str:
+def status_cell(result: Optional[dict]) -> str:
     """Compact cell for the summary table."""
-    if changes is None:
+    if result is None:
         return "—"
+    if not result.get("local_spec_valid", True):
+        return "🛑 Invalid local JSON"
+    changes = result.get("changes", [])
     if not changes:
         return "✅ OK"
     errors   = sum(1 for c in changes if c.get("level") == 3)
@@ -117,13 +125,26 @@ def build_report(files_data: dict) -> str:
         return "\n".join(lines)
 
     # Overall status
-    all_changes = [c for env_data in files_data.values() for changes in env_data.values() for c in changes]
+    all_changes = [
+        c
+        for env_data in files_data.values()
+        for result in env_data.values()
+        for c in result.get("changes", [])
+    ]
+    invalid_locals = [
+        (fname, env, result.get("local_spec_error", ""))
+        for fname, env_data in files_data.items()
+        for env, result in env_data.items()
+        if not result.get("local_spec_valid", True)
+    ]
     has_errors   = any(c.get("level") == 3 for c in all_changes)
     has_warnings = any(c.get("level") == 2 for c in all_changes)
     total_files  = len(files_data)
     total_changes = len(all_changes)
 
-    if has_errors:
+    if invalid_locals:
+        lines.append(f"> 🛑 **Invalid local OpenAPI JSON detected** — semantic diff skipped for {len(invalid_locals)} file/environment pair(s)\n")
+    elif has_errors:
         lines.append(f"> ❌ **Breaking changes detected** — immediate review required\n")
     elif has_warnings:
         lines.append(f"> ⚠️ **Warnings detected** — review recommended\n")
@@ -146,6 +167,12 @@ def build_report(files_data: dict) -> str:
 
     lines.append("")
 
+    if invalid_locals:
+        lines.append("## 🛑 Invalid local JSON\n")
+        for fname, env, error in invalid_locals:
+            lines.append(f"- `{fname}` in **{env}**: {error or 'Invalid JSON'}")
+        lines.append("")
+
     # ---- Detailed sections per file ---------------------------------------
     lines.append("## 🔍 Details\n")
     lines.append("_Click on a file to expand its change details._\n")
@@ -153,12 +180,15 @@ def build_report(files_data: dict) -> str:
     for fname in sorted(files_data.keys()):
         env_data = files_data[fname]
 
-        file_changes = [c for changes in env_data.values() for c in changes]
+        file_changes = [c for result in env_data.values() for c in result.get("changes", [])]
         file_errors   = sum(1 for c in file_changes if c.get("level") == 3)
         file_warnings = sum(1 for c in file_changes if c.get("level") == 2)
         file_infos    = sum(1 for c in file_changes if c.get("level") == 1)
+        file_invalid  = any(not result.get("local_spec_valid", True) for result in env_data.values())
 
-        if file_errors:
+        if file_invalid:
+            status_badge = "🛑"
+        elif file_errors:
             status_badge = "❌"
         elif file_warnings:
             status_badge = "⚠️"
@@ -178,36 +208,42 @@ def build_report(files_data: dict) -> str:
         lines.append("")
 
         for env in ENVS:
-            changes = env_data.get(env)
+            result = env_data.get(env)
             lines.append(f"#### {env} &nbsp;<sub>({ENV_BRANCH[env]})</sub>")
             lines.append("")
 
-            if changes is None:
+            if result is None:
                 lines.append("_N/A — not configured for this environment_")
-            elif not changes:
-                lines.append("✅ **No changes detected** — specs are aligned")
-            else:
-                errors   = [c for c in changes if c.get("level") == 3]
-                warnings = [c for c in changes if c.get("level") == 2]
-                infos    = [c for c in changes if c.get("level") == 1]
-
-                lines.append(
-                    f"**{len(changes)} change(s):** "
-                    f"{len(errors)} error(s) &nbsp;·&nbsp; "
-                    f"{len(warnings)} warning(s) &nbsp;·&nbsp; "
-                    f"{len(infos)} info"
-                )
+            elif not result.get("local_spec_valid", True):
+                lines.append(f"🛑 **Invalid local JSON** — semantic diff skipped")
                 lines.append("")
+                lines.append(result.get("local_spec_error", "Unable to parse local OpenAPI JSON"))
+            else:
+                changes = result.get("changes", [])
+                if not changes:
+                    lines.append("✅ **No changes detected** — specs are aligned")
+                else:
+                    errors   = [c for c in changes if c.get("level") == 3]
+                    warnings = [c for c in changes if c.get("level") == 2]
+                    infos    = [c for c in changes if c.get("level") == 1]
 
-                for severity_label, items in [("Errors", errors), ("Warnings", warnings), ("Info", infos)]:
-                    if not items:
-                        continue
-                    icon = LEVEL_ICON[{"Errors": 3, "Warnings": 2, "Info": 1}[severity_label]]
-                    lines.append(f"**{icon} {severity_label}**")
+                    lines.append(
+                        f"**{len(changes)} change(s):** "
+                        f"{len(errors)} error(s) &nbsp;·&nbsp; "
+                        f"{len(warnings)} warning(s) &nbsp;·&nbsp; "
+                        f"{len(infos)} info"
+                    )
                     lines.append("")
-                    for c in items:
-                        lines.append(format_change(c))
-                    lines.append("")
+
+                    for severity_label, items in [("Errors", errors), ("Warnings", warnings), ("Info", infos)]:
+                        if not items:
+                            continue
+                        icon = LEVEL_ICON[{"Errors": 3, "Warnings": 2, "Info": 1}[severity_label]]
+                        lines.append(f"**{icon} {severity_label}**")
+                        lines.append("")
+                        for c in items:
+                            lines.append(format_change(c))
+                        lines.append("")
 
             lines.append("")
 
@@ -224,6 +260,7 @@ def build_report(files_data: dict) -> str:
 if __name__ == "__main__":
     artifacts_dir = os.environ.get("ARTIFACTS_DIR", "artifacts")
     summary_file  = os.environ.get("GITHUB_STEP_SUMMARY")
+    report_path   = os.environ.get("DRIFT_REPORT_PATH")
 
     files_data = load_results(artifacts_dir)
     report     = build_report(files_data)
@@ -234,3 +271,7 @@ if __name__ == "__main__":
         print(f"✅ Drift report written to GitHub Step Summary ({len(files_data)} file(s) processed)")
     else:
         print(report)
+
+    if report_path:
+        with open(report_path, "w") as f:
+            f.write(report)
