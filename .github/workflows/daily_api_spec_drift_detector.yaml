@@ -1,7 +1,8 @@
 name: Openapi specs file comparison
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
   id-token: write
 
 on:
