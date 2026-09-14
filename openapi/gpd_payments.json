@@ -3,16 +3,144 @@
     "info": {
         "title": "GPD Payments pagoPA - REST for Auth",
         "description": "REST API del servizio Payments per Gestione Posizione Debitorie - for Auth",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "0.12.52"
+        "version": "v1"
     },
     "servers": [
         {
-            "url": "https://api.platform.pagopa.it/gpd/payments-receipts-service/v1",
-            "description": "Generated server url"
+            "url": "https://api.platform.pagopa.it/gpd/payments-receipts-service/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/gpd/payments-receipts-service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/gpd/payments-receipts-service/v1"
         }
     ],
     "paths": {
+        "/info": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "health check",
+                "description": "Return OK if application is started",
+                "operationId": "healthCheck",
+                "parameters": [
+                    {
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AppInfo"
+                                },
+                                "example": {
+                                    "name": "string",
+                                    "version": "string",
+                                    "environment": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/payments/{organizationfiscalcode}/receipts": {
             "get": {
                 "tags": [
@@ -36,7 +164,7 @@
                         "in": "query",
                         "description": "Format - int32. Page number",
                         "schema": {
-                            "minimum": 0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "format": "int32"
                         }
@@ -345,8 +473,8 @@
                         "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
                     },
                     "status": {
-                        "maximum": 600,
-                        "minimum": 100,
+                        "maximum": 600.0,
+                        "minimum": 100.0,
                         "type": "integer",
                         "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
                         "format": "int32",
