@@ -1,0 +1,601 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "@e.bollo Service",
+    "description": "MBD - @e.bollo Service",
+    "termsOfService": "https://www.pagopa.gov.it/",
+    "version": "1.2.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    },
+    {
+      "url": "https://{host}{basePath}",
+      "variables": {
+        "host": {
+          "enum": [
+            "api.dev.platform.pagopa.it",
+            "api.uat.platform.pagopa.it",
+            "api.platform.pagopa.it"
+          ],
+          "default": "api.dev.platform.pagopa.it"
+        },
+        "basePath": {
+          "default": "/pagopa-mbd-service/v1"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "MBD",
+      "description": "APIs for @eBollo"
+    }
+  ],
+  "paths": {
+    "/info": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "summary": "health check",
+        "description": "Return OK if application is started",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppInfo"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/organizations/{fiscalCodeEC}/mbd": {
+      "post": {
+        "tags": [
+          "MBD"
+        ],
+        "summary": "getMbd",
+        "description": "Return mbd data for payment on requirement ",
+        "operationId": "getMdb",
+        "parameters": [
+          {
+            "name": "fiscalCodeEC",
+            "in": "path",
+            "description": "The organization fiscal code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetMbdRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCartResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 400,
+                  "title": "Bad Request",
+                  "detail": "<detail.message>"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "title": "Not Found",
+                  "detail": "<detail.message>"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Service unavailable",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCartErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/organizations/{fiscalCodeEC}/receipt/{nav}": {
+      "get": {
+        "tags": [
+          "MBD"
+        ],
+        "summary": "getPaymentReceipt",
+        "description": "Return receipt of payment on requirement ",
+        "operationId": "getPaymentReceipts",
+        "parameters": [
+          {
+            "name": "fiscalCodeEC",
+            "in": "path",
+            "description": "The organization fiscal code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nav",
+            "in": "path",
+            "description": "The notice number",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMdbReceipt"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 404,
+                  "title": "Not Found",
+                  "detail": "<detail.message>"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Service unavailable",
+            "headers": {
+              "X-Request-Id": {
+                "description": "This header identifies the call",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "detail": "<detail.message>"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetMbdRequest": {
+        "required": [
+          "idCIService",
+          "returnUrls"
+        ],
+        "type": "object",
+        "properties": {
+          "paymentNotices": {
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentNotice"
+            }
+          },
+          "idCIService": {
+            "type": "string",
+            "description": "Identifier of the association between the organization and MDB payment service.",
+            "example": "04"
+          },
+          "returnUrls": {
+            "$ref": "#/components/schemas/ReturnUrls"
+          }
+        }
+      },
+      "PaymentNotice": {
+        "required": [
+          "amount",
+          "documentHash",
+          "email",
+          "firstName",
+          "fiscalCode",
+          "lastName",
+          "province"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "Debtor name.",
+            "example": "Mario"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Debtor surname.",
+            "example": "Rossi"
+          },
+          "fiscalCode": {
+            "type": "string",
+            "description": "Debtor fiscal code.",
+            "example": "00000000000000000"
+          },
+          "email": {
+            "type": "string",
+            "description": "Debtor mail.",
+            "example": "mario.rossi@test.test"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "MBD amount.",
+            "format": "int64",
+            "example": 16
+          },
+          "province": {
+            "type": "string",
+            "description": "Debtor province.",
+            "example": "RM"
+          },
+          "documentHash": {
+            "maxLength": 44,
+            "minLength": 44,
+            "type": "string",
+            "description": "Document hash."
+          }
+        }
+      },
+      "ReturnUrls": {
+        "required": [
+          "cancelUrl",
+          "errorUrl",
+          "successUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "successUrl": {
+            "type": "string",
+            "description": "Redirect success URL.",
+            "example": "https://url1.it"
+          },
+          "cancelUrl": {
+            "type": "string",
+            "description": "Redirect cancel URL.",
+            "example": "https://url2.it"
+          },
+          "errorUrl": {
+            "type": "string",
+            "description": "Redirect error URL.",
+            "example": "https://url3.it"
+          }
+        }
+      },
+      "GetCartResponse": {
+        "type": "object",
+        "properties": {
+          "checkoutRedirectUrl": {
+            "type": "string",
+            "description": "Redirect URL to Checkout page.",
+            "example": "https://dev.checkout.pagopa.it.it/c/123"
+          },
+          "mbdDownloadLink": {
+            "type": "string",
+            "description": "URL to download MBD receipt.",
+            "example": "https://api.platform.pagopa.it/mbd/mbd-payment/v1/00000000000/receipt/300996299640641032"
+          },
+          "nav": {
+            "type": "string",
+            "description": "Notice number, used to download MBD receipt.",
+            "example": "300996299640641032"
+          }
+        }
+      },
+      "ProblemJson": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+          },
+          "status": {
+            "maximum": 600,
+            "minimum": 100,
+            "type": "integer",
+            "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+            "format": "int32",
+            "example": 400
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human readable explanation specific to this occurrence of the problem.",
+            "example": "There was an error processing the request"
+          }
+        }
+      },
+      "GetCartErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorUrl": {
+            "type": "string",
+            "description": "The error URL provided in the request.",
+            "example": "https://url.it"
+          }
+        }
+      },
+      "GetMdbReceipt": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "description": "The MBD receipt.",
+            "items": {
+              "type": "string",
+              "description": "The MBD receipt.",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "AppInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "description": "The API key to access this function app.",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      }
+    }
+  }
+}
