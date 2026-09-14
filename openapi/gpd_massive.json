@@ -1,85 +1,51 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "GPD-Upload-API-v1",
-        "description": "Microservice to manage PagoPA GPD Upload",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "0.5.3"
+        "title": "GPD Upload pagoPA - Massive Upload",
+        "description": "API to support Debt Positions massive upload for organizations",
+        "version": "v2"
     },
     "servers": [
         {
-            "url": "https://{host}{basePath}",
-            "variables": {
-                "basePath": {
-                    "default": "/upload/gpd/debt-positions-service/v1",
-                    "enum": [
-                        "/upload/gpd/debt-positions-service/v1"
-                    ]
-                },
-                "host": {
-                    "default": "api.platform.pagopa.it",
-                    "enum": [
-                        "api.uat.platform.pagopa.it",
-                        "api.platform.pagopa.it"
-                    ]
-                }
-            }
+            "url": "https://api.uat.platform.pagopa.it/upload/gpd/debt-positions-service/v2"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/upload/gpd/debt-positions-service/v2"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/upload/gpd/debt-positions-service/v2"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/upload/gpd/debt-positions-service/v2"
         }
     ],
     "paths": {
-        "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{upload-id}/status": {
+        "/info": {
             "get": {
                 "tags": [
-                    "Massive operation observability APIs - v1"
+                    "Health check"
                 ],
-                "summary": "Returns the debt positions upload status.",
-                "description": "Returns the debt positions upload status.",
-                "operationId": "get-debt-positions-upload-status",
-                "parameters": [
-                    {
-                        "name": "broker-code",
-                        "in": "path",
-                        "description": "The broker code",
-                        "required": true,
-                        "schema": {
-                            "minLength": 1,
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "organization-fiscal-code",
-                        "in": "path",
-                        "description": "The organization fiscal code",
-                        "required": true,
-                        "schema": {
-                            "minLength": 1,
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "upload-id",
-                        "in": "path",
-                        "description": "The unique identifier for file upload",
-                        "required": true,
-                        "schema": {
-                            "minLength": 1,
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "health check",
+                "description": "Return OK if application is started",
+                "operationId": "healthCheck",
                 "responses": {
                     "200": {
-                        "description": "Upload found.",
+                        "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UploadStatus"
+                                    "$ref": "#/components/schemas/AppInfo"
+                                },
+                                "example": {
+                                    "name": "string",
+                                    "version": "string",
+                                    "environment": "string"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Malformed request.",
+                        "description": "Bad Request",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -94,16 +60,11 @@
                         }
                     },
                     "401": {
-                        "description": "Wrong or missing function key.",
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 400,
-                                    "detail": "There was an error processing the request"
+                                    "type": "object"
                                 }
                             }
                         }
@@ -118,21 +79,6 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Upload not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 400,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
                     "429": {
                         "description": "Too many requests.",
                         "content": {
@@ -140,7 +86,7 @@
                         }
                     },
                     "500": {
-                        "description": "Service unavailable.",
+                        "description": "Service unavailable",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -160,7 +106,7 @@
         "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file": {
             "put": {
                 "tags": [
-                    "Massive operation APIs for Debt Positions - v1"
+                    "Massive operation APIs for Debt Positions - v2"
                 ],
                 "summary": "The Organization updates the debt positions listed in the file.",
                 "description": "The Organization updates the debt positions listed in the file.",
@@ -271,7 +217,7 @@
             },
             "post": {
                 "tags": [
-                    "Massive operation APIs for Debt Positions - v1"
+                    "Massive operation APIs for Debt Positions - v2"
                 ],
                 "summary": "The Organization creates the debt positions listed in the file.",
                 "description": "The Organization creates the debt positions listed in the file.",
@@ -382,7 +328,7 @@
             },
             "delete": {
                 "tags": [
-                    "Massive operation APIs for Debt Positions - v1"
+                    "Massive operation APIs for Debt Positions - v2"
                 ],
                 "summary": "The Organization deletes the debt positions based on IUPD listed in the file.",
                 "description": "The Organization deletes the debt positions based on IUPD listed in the file.",
@@ -495,7 +441,7 @@
         "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/report": {
             "get": {
                 "tags": [
-                    "Massive operation observability APIs - v1"
+                    "Massive operation observability APIs - v2"
                 ],
                 "summary": "Returns the debt positions upload report.",
                 "description": "Returns the debt positions upload report.",
@@ -538,23 +484,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UploadReport"
-                                },
-                                "example": {
-                                    "uploadID": "string",
-                                    "processedItem": 0,
-                                    "submittedItem": 0,
-                                    "responses": [
-                                        {
-                                            "statusCode": 400,
-                                            "statusMessage": "Bad request caused by invalid email address",
-                                            "requestIDs": [
-                                                "string"
-                                            ]
-                                        }
-                                    ],
-                                    "startTime": "2024-10-08T02:55:16.0000000+00:00",
-                                    "endTime": "2024-10-08T02:55:16.0000000+00:00"
+                                    "$ref": "#/components/schemas/UploadReportDTO"
                                 }
                             }
                         }
@@ -614,6 +544,151 @@
                             }
                         }
                     },
+                    "425": {
+                        "description": "The report has not been generated yet, wait for the operations to complete.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "text/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/file/{file-id}/status": {
+            "get": {
+                "tags": [
+                    "Massive operation observability APIs - v2"
+                ],
+                "summary": "Returns the debt positions upload status.",
+                "description": "Returns the debt positions upload status.",
+                "operationId": "get-debt-positions-upload-status",
+                "parameters": [
+                    {
+                        "name": "broker-code",
+                        "in": "path",
+                        "description": "The broker code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "The organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "file-id",
+                        "in": "path",
+                        "description": "The unique identifier for file upload",
+                        "required": true,
+                        "schema": {
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Upload found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UploadStatus"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Malformed request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Upload not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 400,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "Too many requests.",
                         "content": {
@@ -641,7 +716,7 @@
         "/brokers/{broker-code}/organizations/{organization-fiscal-code}/debtpositions/files": {
             "get": {
                 "tags": [
-                    "Massive operation observability APIs - v1"
+                    "Massive operation observability APIs - v2"
                 ],
                 "summary": "Returns the list of fileIds for a broker/organization in the given date range (max 7 days).",
                 "description": "Returns the list of fileIds for a broker/organization in the given date range (max 7 days).",
@@ -836,57 +911,8 @@
                 },
                 "description": "Object returned as response in case of an error."
             },
-            "ResponseEntry": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 400
-                    },
-                    "statusMessage": {
-                        "type": "string",
-                        "example": "Bad request caused by invalid email address"
-                    },
-                    "requestIDs": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "UploadReport": {
-                "type": "object",
-                "properties": {
-                    "uploadID": {
-                        "type": "string"
-                    },
-                    "processedItem": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "submittedItem": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "responses": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ResponseEntry"
-                        }
-                    },
-                    "startTime": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-10-08T02:55:16.0000000+00:00"
-                    },
-                    "endTime": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-10-08T02:55:16.0000000+00:00"
-                    }
-                }
+            "UploadReportDTO": {
+                "type": "object"
             },
             "UploadStatus": {
                 "type": "object"
