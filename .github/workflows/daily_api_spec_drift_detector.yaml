@@ -292,7 +292,7 @@ jobs:
               .paths |= with_entries(
                 select(.key != "/info" and (.key | contains("/internal") | not))
               )
-            ' "$file" > "$dest"
+            ' "$file" | jq --indent 4 '.' > "$dest"
           done
           git add -A openapi
           rm -rf apim-prod artifacts
@@ -343,7 +343,7 @@ jobs:
               .paths |= with_entries(
                 select(.key != "/info" and (.key | contains("/internal") | not))
               )
-            ' "$file" > "$dest"
+            ' "$file" | jq --indent 4 '.' > "$dest"
           done
           git add -A openapi
           rm -rf apim-uat
