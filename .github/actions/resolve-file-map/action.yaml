@@ -114,7 +114,7 @@ runs:
         compare_args["redirect.json"]="--match-path /redirections/{idTransaction}/outcomes" #the only path to be compared
         
         apim_resource_id["e_bollo_20.json"]="<ENV>-mbd-api-v1"
-        service_openapi_url_ref["e_bollo_20.json"]="https://github.com/pagopa/pagopa-mbd-service/blob/main/openapi/openapi.json"
+        service_openapi_url_ref["e_bollo_20.json"]="https://raw.githubusercontent.com/pagopa/pagopa-mbd-service/refs/heads/main/openapi/openapi.json"
         compare_args["e_bollo_20.json"]="--unmatch-path /info"
 
         file="${{ inputs.file }}"

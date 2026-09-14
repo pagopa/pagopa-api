@@ -56,8 +56,9 @@ runs:
           --export-format "OpenApiJsonFile" \
           --file-path "."
 
-        if [ "${{ inputs.env_short }}" = "p" ]; then
-          export_dir=".apim-export/prod"
+        if [ "${{ inputs.env_short }}" = "p" ] || [ "${{ inputs.env_short }}" = "u" ]; then
+          export_env=$([ "${{ inputs.env_short }}" = "p" ] && echo "prod" || echo "uat")
+          export_dir=".apim-export/$export_env"
           mkdir -p "$export_dir/$(dirname "$file")"
           cp "${apim_resource_id}_openapi+json.json" "$export_dir/$file"
         fi
@@ -123,6 +124,15 @@ runs:
       with:
         name: apim-prod-${{ inputs.file }}
         path: .apim-export/prod/${{ inputs.file }}
+        if-no-files-found: ignore
+        retention-days: 1
+
+    - name: Upload APIM UAT export artifact
+      if: ${{ inputs.env_short == 'u' }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: apim-uat-${{ inputs.file }}
+        path: .apim-export/uat/${{ inputs.file }}
         if-no-files-found: ignore
         retention-days: 1
 

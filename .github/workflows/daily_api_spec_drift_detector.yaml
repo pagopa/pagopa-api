@@ -312,3 +312,49 @@ jobs:
             openapi/**/*.json
             openapi/*.json
           delete-branch: true
+
+      - name: Reset workspace after PROD PR staging
+        run: |
+          git reset --hard HEAD
+          git clean -fd
+
+      - name: Download APIM UAT exported specs
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: apim-uat-*
+          path: apim-uat
+          merge-multiple: true
+        continue-on-error: true
+
+      - name: Stage APIM UAT specs for unified PR
+        run: |
+          set -e
+          mkdir -p openapi
+          find apim-uat -type f -print0 | while IFS= read -r -d '' file; do
+            rel="${file#apim-uat/}"
+            mkdir -p "openapi/$(dirname "$rel")"
+            cp "$file" "openapi/$rel"
+          done
+          git add -A openapi
+          rm -rf apim-uat
+          git status --short
+
+      - name: Create UAT Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: develop
+          branch: chore/sync-apim-uat-openapi
+          title: "chore: sync APIM UAT OpenAPI specs"
+          commit-message: "chore: sync APIM UAT OpenAPI specs"
+          body: |
+            ## Summary
+            - Sync the OpenAPI files exported from the APIM UAT environment.
+            - This PR is generated from the unified drift report workflow and targets `develop`.
+
+            ## Included files
+            The PR contains the exported APIM UAT specs currently available in the workflow artifacts.
+          add-paths: |
+            openapi/**/*.json
+            openapi/*.json
+          delete-branch: true
