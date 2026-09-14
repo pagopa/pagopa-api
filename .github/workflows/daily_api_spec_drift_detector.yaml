@@ -289,59 +289,10 @@ jobs:
             dest="openapi/$rel"
             mkdir -p "$(dirname "$dest")"
             jq '
-              def prune_paths:
-                .paths |= with_entries(
-                  select(.key != "/info" and (.key | contains("/internal") | not))
-                );
-
-              def initial_refs:
-                [ .. | ."$ref"? // empty
-                  | select(type == "string")
-                  | select(startswith("#/components/"))
-                ];
-
-              def normalize_ref:
-                sub("^#/components/"; "");
-
-              def collect_refs($queue; $seen):
-                if ($queue | length) == 0 then $seen
-                else
-                  ($queue[0] | normalize_ref) as $ref
-                  | ($queue[1:]) as $rest
-                  | if ($seen | index($ref)) != null then
-                      collect_refs($rest; $seen)
-                    else
-                      ($ref | split("/") ) as $p
-                      | if ($p | length) != 2 then
-                          collect_refs($rest; ($seen + [$ref]))
-                        else
-                          (getpath(["components", $p[0], $p[1]]) // null) as $node
-                          | (if $node == null then [] else
-                              [ $node
-                                | .. | ."$ref"? // empty
-                                | select(type == "string")
-                                | select(startswith("#/components/"))
-                              ]
-                            end) as $nested
-                          | collect_refs(($rest + $nested); ($seen + [$ref]))
-                        end
-                    end
-                end;
-
-              def prune_components:
-                (collect_refs(initial_refs; [])) as $used
-                | .components |= (
-                    if . == null then .
-                    else with_entries(
-                      .value |= with_entries(
-                        select(($used | index(.key as $n | "\(.key)/\($n)")) != null)
-                      )
-                    )
-                    end
-                  );
-
-              prune_paths | prune_components
-            ' "$file" | jq --sort-keys --indent 2 '.' > "$dest"
+              .paths |= with_entries(
+                select(.key != "/info" and (.key | contains("/internal") | not))
+              )
+            ' "$file" > "$dest"
           done
           git add -A openapi
           rm -rf apim-prod artifacts
@@ -389,59 +340,10 @@ jobs:
             dest="openapi/$rel"
             mkdir -p "$(dirname "$dest")"
             jq '
-              def prune_paths:
-                .paths |= with_entries(
-                  select(.key != "/info" and (.key | contains("/internal") | not))
-                );
-
-              def initial_refs:
-                [ .. | ."$ref"? // empty
-                  | select(type == "string")
-                  | select(startswith("#/components/"))
-                ];
-
-              def normalize_ref:
-                sub("^#/components/"; "");
-
-              def collect_refs($queue; $seen):
-                if ($queue | length) == 0 then $seen
-                else
-                  ($queue[0] | normalize_ref) as $ref
-                  | ($queue[1:]) as $rest
-                  | if ($seen | index($ref)) != null then
-                      collect_refs($rest; $seen)
-                    else
-                      ($ref | split("/") ) as $p
-                      | if ($p | length) != 2 then
-                          collect_refs($rest; ($seen + [$ref]))
-                        else
-                          (getpath(["components", $p[0], $p[1]]) // null) as $node
-                          | (if $node == null then [] else
-                              [ $node
-                                | .. | ."$ref"? // empty
-                                | select(type == "string")
-                                | select(startswith("#/components/"))
-                              ]
-                            end) as $nested
-                          | collect_refs(($rest + $nested); ($seen + [$ref]))
-                        end
-                    end
-                end;
-
-              def prune_components:
-                (collect_refs(initial_refs; [])) as $used
-                | .components |= (
-                    if . == null then .
-                    else with_entries(
-                      .value |= with_entries(
-                        select(($used | index(.key as $n | "\(.key)/\($n)")) != null)
-                      )
-                    )
-                    end
-                  );
-
-              prune_paths | prune_components
-            ' "$file" | jq --sort-keys --indent 2 '.' > "$dest"
+              .paths |= with_entries(
+                select(.key != "/info" and (.key | contains("/internal") | not))
+              )
+            ' "$file" > "$dest"
           done
           git add -A openapi
           rm -rf apim-uat
