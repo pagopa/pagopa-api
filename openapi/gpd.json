@@ -1,18 +1,22 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "PagoPA API Debt Position",
-    "description": "Progetto Gestione Posizioni Debitorie",
-    "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1/",
-      "description": "GPD Production environment"
-    }
-  ],
-  "paths": {
+    "openapi": "3.0.1",
+    "info": {
+        "title": "GPD pagoPA - Debt Positions service API for organizations",
+        "description": "API to support Debt Positions service for organizations",
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/gpd/debt-positions-service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/gpd/debt-positions-service/v1"
+        }
+    ],
+    "paths": {
         "/organizations/{organizationfiscalcode}/debtpositions": {
             "get": {
                 "tags": [
@@ -36,7 +40,7 @@
                         "in": "query",
                         "description": "Number of elements on one page. Default = 50",
                         "schema": {
-                            "maximum": 50,
+                            "maximum": 50.0,
                             "type": "integer",
                             "format": "int32",
                             "default": 10
@@ -47,7 +51,7 @@
                         "in": "query",
                         "description": "Page number. Page value starts from 0",
                         "schema": {
-                            "minimum": 0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "format": "int32",
                             "default": 0
@@ -1767,96 +1771,6 @@
                 }
             }
         },
-        "/info": {
-            "get": {
-                "tags": [
-                    "Home"
-                ],
-                "summary": "Return OK if application is started",
-                "description": "Return OK if application is started",
-                "operationId": "healthCheck",
-                "parameters": [
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AppInfo"
-                                },
-                                "example": {
-                                    "name": "string",
-                                    "version": "string",
-                                    "environment": "string"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/organizations/{organizationfiscalcode}/debtpositions/transfers": {
             "patch": {
                 "tags": [
@@ -1889,7 +1803,7 @@
                         "in": "query",
                         "description": "Number of Transfer to update (max = 1000, default = 1000)",
                         "schema": {
-                            "maximum": 1000,
+                            "maximum": 1000.0,
                             "type": "integer",
                             "format": "int32",
                             "default": 1000
@@ -2297,8 +2211,7 @@
                     "description",
                     "dueDate",
                     "isPartialPayment",
-                    "iuv",
-                    "paymentOptionMetadata"
+                    "iuv"
                 ],
                 "type": "object",
                 "properties": {
@@ -2309,7 +2222,7 @@
                         "type": "string"
                     },
                     "amount": {
-                        "minimum": 1,
+                        "minimum": 1.0,
                         "type": "integer",
                         "format": "int64"
                     },
@@ -2340,6 +2253,8 @@
                         "readOnly": true
                     },
                     "transfer": {
+                        "maxItems": 5,
+                        "minItems": 1,
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/TransferModel"
@@ -2519,8 +2434,7 @@
                     "amount",
                     "category",
                     "idTransfer",
-                    "remittanceInformation",
-                    "transferMetadata"
+                    "remittanceInformation"
                 ],
                 "type": "object",
                 "properties": {
@@ -2535,7 +2449,7 @@
                         "type": "string"
                     },
                     "amount": {
-                        "minimum": 1,
+                        "minimum": 1.0,
                         "type": "integer",
                         "format": "int64"
                     },
@@ -2596,8 +2510,8 @@
                         "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
                     },
                     "status": {
-                        "maximum": 600,
-                        "minimum": 100,
+                        "maximum": 600.0,
+                        "minimum": 100.0,
                         "type": "integer",
                         "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
                         "format": "int32",
