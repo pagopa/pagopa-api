@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "PagoPA API Debt Position Service V3",
-        "description": "Progetto Gestione Posizioni Debitorie",
+        "title": "GPD pagoPA - Debt Positions service API for organizations",
+        "description": "API to support Debt Positions service for organizations",
         "termsOfService": "https://www.pagopa.gov.it/",
         "version": "1.1.2"
     },
@@ -283,7 +283,7 @@
                             },
                             "example": {
                                 "iupd": "string",
-                                "payStandIn": true,
+                                "payStandIn": "true",
                                 "companyName": "string",
                                 "officeName": "string",
                                 "paymentDate": "string",
@@ -293,7 +293,7 @@
                                         "description": "string",
                                         "validityDate": "string",
                                         "retentionDate": "string",
-                                        "switchToExpired": false,
+                                        "switchToExpired": "false",
                                         "debtor": {
                                             "type": "F",
                                             "fiscalCode": "string",
@@ -373,7 +373,7 @@
                                 },
                                 "example": {
                                     "iupd": "string",
-                                    "payStandIn": true,
+                                    "payStandIn": "true",
                                     "companyName": "string",
                                     "officeName": "string",
                                     "paymentDate": "string",
@@ -383,7 +383,7 @@
                                             "description": "string",
                                             "validityDate": "string",
                                             "retentionDate": "string",
-                                            "switchToExpired": false,
+                                            "switchToExpired": "false",
                                             "debtor": {
                                                 "type": "F",
                                                 "fiscalCode": "string",
@@ -805,6 +805,24 @@
                         }
                     },
                     {
+                        "name": "payment_date_time_from",
+                        "in": "query",
+                        "description": "Filter from payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not provided will be set to 30 days before the payment_date_time_from.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "payment_date_time_to",
+                        "in": "query",
+                        "description": "Filter to payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not will be set to 30 days after the payment_date_time_to.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
                         "name": "status",
                         "in": "query",
                         "description": "Filter by debt position status",
@@ -1102,7 +1120,7 @@
                             },
                             "example": {
                                 "iupd": "string",
-                                "payStandIn": true,
+                                "payStandIn": "true",
                                 "companyName": "string",
                                 "officeName": "string",
                                 "paymentDate": "string",
@@ -1112,7 +1130,7 @@
                                         "description": "string",
                                         "validityDate": "string",
                                         "retentionDate": "string",
-                                        "switchToExpired": false,
+                                        "switchToExpired": "false",
                                         "debtor": {
                                             "type": "F",
                                             "fiscalCode": "string",
@@ -1192,7 +1210,7 @@
                                 },
                                 "example": {
                                     "iupd": "string",
-                                    "payStandIn": true,
+                                    "payStandIn": "true",
                                     "companyName": "string",
                                     "officeName": "string",
                                     "paymentDate": "string",
@@ -1202,7 +1220,7 @@
                                             "description": "string",
                                             "validityDate": "string",
                                             "retentionDate": "string",
-                                            "switchToExpired": false,
+                                            "switchToExpired": "false",
                                             "debtor": {
                                                 "type": "F",
                                                 "fiscalCode": "string",
@@ -1420,7 +1438,7 @@
                                 },
                                 "example": {
                                     "iupd": "string",
-                                    "payStandIn": true,
+                                    "payStandIn": "true",
                                     "companyName": "string",
                                     "officeName": "string",
                                     "paymentDate": "string",
@@ -1430,7 +1448,7 @@
                                             "description": "string",
                                             "validityDate": "string",
                                             "retentionDate": "string",
-                                            "switchToExpired": false,
+                                            "switchToExpired": "false",
                                             "debtor": {
                                                 "type": "F",
                                                 "fiscalCode": "string",
@@ -1716,7 +1734,7 @@
                         "readOnly": true
                     },
                     "transfer": {
-                        "maxItems": 2147483647,
+                        "maxItems": 5,
                         "minItems": 1,
                         "type": "array",
                         "items": {
@@ -1726,11 +1744,12 @@
                     "installmentMetadata": {
                         "maxItems": 10,
                         "minItems": 0,
+                        "uniqueItems": true,
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/InstallmentMetadataModel"
                         },
-                        "description": "it can added a maximum of 10 key-value pairs for metadata"
+                        "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same installment."
                     }
                 }
             },
@@ -1759,7 +1778,7 @@
                     "switchToExpired": {
                         "type": "boolean",
                         "description": "feature flag to enable the payment option to expire after the due date",
-                        "default": false,
+                        "default": "false",
                         "example": false
                     },
                     "debtor": {
@@ -1789,7 +1808,7 @@
                     "payStandIn": {
                         "type": "boolean",
                         "description": "feature flag to enable a debt position in stand-in mode",
-                        "default": true,
+                        "default": "true",
                         "example": true
                     },
                     "companyName": {
@@ -1874,8 +1893,7 @@
                         "minLength": 0,
                         "type": "string"
                     }
-                },
-                "description": "it can added a maximum of 10 key-value pairs for metadata"
+                }
             },
             "TransferModel": {
                 "required": [
@@ -1941,11 +1959,12 @@
                     "transferMetadata": {
                         "maxItems": 10,
                         "minItems": 0,
+                        "uniqueItems": true,
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/TransferMetadataModel"
                         },
-                        "description": "it can added a maximum of 10 key-value pairs for metadata"
+                        "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same transfer."
                     }
                 }
             },
