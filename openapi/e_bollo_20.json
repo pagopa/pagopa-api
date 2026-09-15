@@ -1,24 +1,16 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "title": "Marca da Bollo Digitale",
-        "description": "API for eBollo 2.0",
-        "version": "v1"
-    },
-    "servers": [
-        {
-            "url": "https://api.uat.platform.pagopa.it/pagopa-mbd-service/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/pagopa-mbd-service/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/pagopa-mbd-service/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/pagopa-mbd-service/v1"
-        }
-    ],
+  "openapi": "3.0.1",
+  "info": {
+    "title": "@e.bollo Service",
+    "description": "MBD - @e.bollo Service",
+    "termsOfService": "https://www.pagopa.gov.it/",
+    "version": "1.2.9"
+  },
+  "servers": [
+    {
+      "url": "https://api.uat.platform.pagopa.it/pagopa-mbd-service/v1"
+    }
+  ],
     "paths": {
         "/organizations/{organization-fiscal-code}/mbd": {
             "post": {
