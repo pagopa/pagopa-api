@@ -284,10 +284,15 @@ jobs:
         run: |
           set -e
           mkdir -p openapi
-          find apim-prod -type f -print0 | while IFS= read -r -d '' file; do
+          find apim-prod -type f -name '*.json' -print0 | while IFS= read -r -d '' file; do
             rel="${file#apim-prod/}"
-            mkdir -p "openapi/$(dirname "$rel")"
-            cp "$file" "openapi/$rel"
+            dest="openapi/$rel"
+            mkdir -p "$(dirname "$dest")"
+            jq '
+              .paths |= with_entries(
+                select(.key != "/info" and (.key | contains("/internal") | not))
+              )
+            ' "$file" | jq --indent 4 '.' > "$dest"
           done
           git add -A openapi
           rm -rf apim-prod artifacts
@@ -330,10 +335,15 @@ jobs:
         run: |
           set -e
           mkdir -p openapi
-          find apim-uat -type f -print0 | while IFS= read -r -d '' file; do
+          find apim-uat -type f -name '*.json' -print0 | while IFS= read -r -d '' file; do
             rel="${file#apim-uat/}"
-            mkdir -p "openapi/$(dirname "$rel")"
-            cp "$file" "openapi/$rel"
+            dest="openapi/$rel"
+            mkdir -p "$(dirname "$dest")"
+            jq '
+              .paths |= with_entries(
+                select(.key != "/info" and (.key | contains("/internal") | not))
+              )
+            ' "$file" | jq --indent 4 '.' > "$dest"
           done
           git add -A openapi
           rm -rf apim-uat
