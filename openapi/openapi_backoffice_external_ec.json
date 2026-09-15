@@ -8,6 +8,15 @@
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/backoffice/external/ec/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/backoffice/external/ec/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/backoffice/external/ec/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/backoffice/external/ec/v1"
         }
     ],
     "paths": {

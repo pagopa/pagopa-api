@@ -8,12 +8,16 @@
     },
     "servers": [
         {
-            "url": "https://api.uat.platform.pagopa.it/upload/aca/debt-positions-service/v2",
-            "description": "ACA test environment"
+            "url": "https://api.uat.platform.pagopa.it/upload/gpd/debt-positions-service/v2"
         },
         {
-            "url": "https://api.platform.pagopa.it/upload/aca/debt-positions-service/v2",
-            "description": "ACA production environment"
+            "url": "https://uat.checkout.pagopa.it/upload/gpd/debt-positions-service/v2"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/upload/gpd/debt-positions-service/v2"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/upload/gpd/debt-positions-service/v2"
         }
     ],
     "paths": {

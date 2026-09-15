@@ -13,20 +13,20 @@
       "name": "b2b - PSP side",
       "description": "Api's to initialize and refund a transaction"
     },
-    {
-      "name": "b2b - pagoPA side",
-      "description": "Api's to notify transaction outcome"
-    }
-  ],
-  "servers": [
-    {
-      "url": "https://${host}"
-    }
-  ],
-  "externalDocs": {
-    "url": "https://docs.pagopa.it/sanp/prestatore-di-servizi-di-pagamento/modalita-di-integrazione/integrazione-per-strumento-di-pagamento-tramite-redirect",
-    "description": "SANP"
-  },
+    "servers": [
+        {
+            "url": "https://api.uat.platform.pagopa.it/ecommerce/redirect/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/ecommerce/redirect/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/ecommerce/redirect/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/ecommerce/redirect/v1"
+        }
+    ],
     "paths": {
         "/redirections/{idTransaction}/outcomes": {
             "post": {
