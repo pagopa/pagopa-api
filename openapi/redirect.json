@@ -1,22 +1,13 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "ecommerce pagoPA - Redirect outcome API",
-        "description": "API to handle redirect transaction's outcome requests",
-        "version": "v1"
+        "title": "Biz Events Service",
+        "description": "API to handle biz events payments",
+        "version": "0.1.89"
     },
     "servers": [
         {
-            "url": "https://api.uat.platform.pagopa.it/ecommerce/redirect/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/ecommerce/redirect/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/ecommerce/redirect/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/ecommerce/redirect/v1"
+            "url": "https://api.uat.platform.pagopa.it/bizevents/service/v1"
         }
     ],
     "paths": {
