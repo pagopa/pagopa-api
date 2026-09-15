@@ -3,651 +3,24 @@
     "info": {
         "title": "GPD pagoPA - Debt Positions service API for organizations",
         "description": "API to support Debt Positions service for organizations",
-        "version": "v1"
+        "version": "v3"
     },
     "servers": [
         {
-            "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1"
+            "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v3"
         },
         {
-            "url": "https://checkout.pagopa.it/gpd/debt-positions-service/v1"
+            "url": "https://checkout.pagopa.it/gpd/debt-positions-service/v3"
         },
         {
-            "url": "https://payment-wallet.pagopa.it/gpd/debt-positions-service/v1"
+            "url": "https://payment-wallet.pagopa.it/gpd/debt-positions-service/v3"
         }
     ],
     "paths": {
-        "/organizations/{organizationfiscalcode}/debtpositions": {
-            "get": {
-                "tags": [
-                    "Debt Positions API"
-                ],
-                "summary": "Return the list of the organization debt positions. The due dates interval is mutually exclusive with the payment dates interval.",
-                "description": "Return the list of the organization debt positions. The due dates interval is mutually exclusive with the payment dates interval.",
-                "operationId": "getOrganizationDebtPositions",
-                "parameters": [
-                    {
-                        "name": "organizationfiscalcode",
-                        "in": "path",
-                        "description": "Organization fiscal code, the fiscal code of the Organization.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Number of elements on one page. Default = 50",
-                        "schema": {
-                            "maximum": 50.0,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 10
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "Page number. Page value starts from 0",
-                        "schema": {
-                            "minimum": 0.0,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 0
-                        }
-                    },
-                    {
-                        "name": "due_date_from",
-                        "in": "query",
-                        "description": "Filter from due_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days before the due_date_to.",
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date_to",
-                        "in": "query",
-                        "description": "Filter to due_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days after the due_date_from.",
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "payment_date_from",
-                        "in": "query",
-                        "description": "Filter from payment_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days before the payment_date_to.",
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "payment_date_to",
-                        "in": "query",
-                        "description": "Filter to payment_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days after the payment_date_from",
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "payment_date_time_from",
-                        "in": "query",
-                        "description": "Filter from payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not provided will be set to 30 days before the payment_date_time_from.",
-                        "schema": {
-                            "type": "string",
-                            "format": "date-time"
-                        }
-                    },
-                    {
-                        "name": "payment_date_time_to",
-                        "in": "query",
-                        "description": "Filter to payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not will be set to 30 days after the payment_date_time_to.",
-                        "schema": {
-                            "type": "string",
-                            "format": "date-time"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Filter by debt position status",
-                        "schema": {
-                            "enum": [
-                                "DRAFT",
-                                "PUBLISHED",
-                                "VALID",
-                                "INVALID",
-                                "EXPIRED",
-                                "PARTIALLY_PAID",
-                                "PAID",
-                                "REPORTED"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "orderby",
-                        "in": "query",
-                        "description": "Order by INSERTED_DATE, COMPANY_NAME, IUPD or STATUS",
-                        "schema": {
-                            "enum": [
-                                "INSERTED_DATE",
-                                "IUPD",
-                                "STATUS",
-                                "COMPANY_NAME"
-                            ],
-                            "type": "string",
-                            "default": "INSERTED_DATE"
-                        }
-                    },
-                    {
-                        "name": "ordering",
-                        "in": "query",
-                        "description": "Direction of ordering",
-                        "schema": {
-                            "enum": [
-                                "ASC",
-                                "DESC"
-                            ],
-                            "type": "string",
-                            "default": "DESC"
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Obtained all organization payment positions.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PaymentPositionsInfo"
-                                },
-                                "example": {
-                                    "payment_position_list": [
-                                        {
-                                            "iupd": "string",
-                                            "organizationFiscalCode": "string",
-                                            "type": "F",
-                                            "companyName": "string",
-                                            "officeName": "string",
-                                            "insertedDate": "string",
-                                            "publishDate": "string",
-                                            "validityDate": "string",
-                                            "paymentDate": "string",
-                                            "status": "DRAFT",
-                                            "lastUpdatedDate": "string",
-                                            "paymentOption": [
-                                                {
-                                                    "nav": "string",
-                                                    "iuv": "string",
-                                                    "organizationFiscalCode": "string",
-                                                    "amount": 0,
-                                                    "description": "string",
-                                                    "isPartialPayment": true,
-                                                    "dueDate": "string",
-                                                    "retentionDate": "string",
-                                                    "paymentDate": "string",
-                                                    "reportingDate": "string",
-                                                    "insertedDate": "string",
-                                                    "paymentMethod": "string",
-                                                    "fee": 0,
-                                                    "notificationFee": 0,
-                                                    "pspCompany": "string",
-                                                    "idReceipt": "string",
-                                                    "idFlowReporting": "string",
-                                                    "status": "PO_UNPAID",
-                                                    "lastUpdatedDate": "string",
-                                                    "paymentOptionMetadata": [
-                                                        {
-                                                            "key": "string",
-                                                            "value": "string"
-                                                        }
-                                                    ],
-                                                    "transfer": [
-                                                        {
-                                                            "organizationFiscalCode": "string",
-                                                            "companyName": "string",
-                                                            "idTransfer": "string",
-                                                            "amount": 0,
-                                                            "remittanceInformation": "string",
-                                                            "category": "string",
-                                                            "iban": "string",
-                                                            "postalIban": "string",
-                                                            "stamp": {
-                                                                "hashDocument": "string",
-                                                                "stampType": "string",
-                                                                "provincialResidence": "RM"
-                                                            },
-                                                            "insertedDate": "string",
-                                                            "status": "T_UNREPORTED",
-                                                            "lastUpdatedDate": "string",
-                                                            "transferMetadata": [
-                                                                {
-                                                                    "key": "string",
-                                                                    "value": "string"
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "page_info": {
-                                        "page": 0,
-                                        "limit": 0,
-                                        "items_found": 0,
-                                        "total_pages": 0
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Malformed request.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "statusCode": 403,
-                                    "message": "You are not allowed to access this resource."
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too many requests.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Debt Positions API"
-                ],
-                "summary": "The Organization creates a debt Position.",
-                "description": "The Organization creates a debt Position.",
-                "operationId": "createPosition",
-                "parameters": [
-                    {
-                        "name": "organizationfiscalcode",
-                        "in": "path",
-                        "description": "Organization fiscal code, the fiscal code of the Organization.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "toPublish",
-                        "in": "query",
-                        "schema": {
-                            "type": "boolean",
-                            "default": false
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PaymentPositionModel"
-                            },
-                            "example": {
-                                "iupd": "string",
-                                "type": "F",
-                                "payStandIn": "true",
-                                "fiscalCode": "string",
-                                "fullName": "string",
-                                "streetName": "string",
-                                "civicNumber": "string",
-                                "postalCode": "string",
-                                "city": "string",
-                                "province": "string",
-                                "region": "string",
-                                "country": "IT",
-                                "email": "email@domain.com",
-                                "phone": "string",
-                                "switchToExpired": "false",
-                                "companyName": "string",
-                                "officeName": "string",
-                                "validityDate": "string",
-                                "paymentDate": "string",
-                                "status": "DRAFT",
-                                "paymentOption": [
-                                    {
-                                        "nav": "string",
-                                        "iuv": "string",
-                                        "amount": 0,
-                                        "description": "string",
-                                        "isPartialPayment": true,
-                                        "dueDate": "string",
-                                        "retentionDate": "string",
-                                        "fee": 0,
-                                        "notificationFee": 0,
-                                        "transfer": [
-                                            {
-                                                "idTransfer": "1",
-                                                "amount": 0,
-                                                "organizationFiscalCode": "00000000000",
-                                                "remittanceInformation": "string",
-                                                "category": "string",
-                                                "iban": "IT0000000000000000000000000",
-                                                "postalIban": "IT0000000000000000000000000",
-                                                "stamp": {
-                                                    "hashDocument": "string",
-                                                    "stampType": "string",
-                                                    "provincialResidence": "RM"
-                                                },
-                                                "companyName": "string",
-                                                "transferMetadata": [
-                                                    {
-                                                        "key": "string",
-                                                        "value": "string"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "paymentOptionMetadata": [
-                                            {
-                                                "key": "string",
-                                                "value": "string"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Request created.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PaymentPositionModel"
-                                },
-                                "example": {
-                                    "iupd": "string",
-                                    "type": "F",
-                                    "payStandIn": "true",
-                                    "fiscalCode": "string",
-                                    "fullName": "string",
-                                    "streetName": "string",
-                                    "civicNumber": "string",
-                                    "postalCode": "string",
-                                    "city": "string",
-                                    "province": "string",
-                                    "region": "string",
-                                    "country": "IT",
-                                    "email": "email@domain.com",
-                                    "phone": "string",
-                                    "switchToExpired": "false",
-                                    "companyName": "string",
-                                    "officeName": "string",
-                                    "validityDate": "string",
-                                    "paymentDate": "string",
-                                    "status": "DRAFT",
-                                    "paymentOption": [
-                                        {
-                                            "nav": "string",
-                                            "iuv": "string",
-                                            "amount": 0,
-                                            "description": "string",
-                                            "isPartialPayment": true,
-                                            "dueDate": "string",
-                                            "retentionDate": "string",
-                                            "fee": 0,
-                                            "notificationFee": 0,
-                                            "transfer": [
-                                                {
-                                                    "idTransfer": "1",
-                                                    "amount": 0,
-                                                    "organizationFiscalCode": "00000000000",
-                                                    "remittanceInformation": "string",
-                                                    "category": "string",
-                                                    "iban": "IT0000000000000000000000000",
-                                                    "postalIban": "IT0000000000000000000000000",
-                                                    "stamp": {
-                                                        "hashDocument": "string",
-                                                        "stampType": "string",
-                                                        "provincialResidence": "RM"
-                                                    },
-                                                    "companyName": "string",
-                                                    "transferMetadata": [
-                                                        {
-                                                            "key": "string",
-                                                            "value": "string"
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "paymentOptionMetadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Malformed request.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "statusCode": 403,
-                                    "message": "You are not allowed to access this resource."
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict: duplicate debt position found.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/organizations/{organizationfiscalcode}/debtpositions/{iupd}": {
             "get": {
                 "tags": [
-                    "Debt Positions API"
+                    "Debt Positions API: Installments and Payment Options Manager"
                 ],
                 "summary": "Return the details of a specific debt position.",
                 "description": "Return the details of a specific debt position.",
@@ -696,69 +69,86 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaymentPositionModelBaseResponse"
+                                    "$ref": "#/components/schemas/PaymentPositionModelResponseV3"
                                 },
                                 "example": {
                                     "iupd": "string",
                                     "organizationFiscalCode": "string",
-                                    "type": "F",
                                     "companyName": "string",
                                     "officeName": "string",
                                     "insertedDate": "string",
                                     "publishDate": "string",
-                                    "validityDate": "string",
                                     "paymentDate": "string",
                                     "status": "DRAFT",
                                     "lastUpdatedDate": "string",
                                     "paymentOption": [
                                         {
-                                            "nav": "string",
-                                            "iuv": "string",
-                                            "organizationFiscalCode": "string",
-                                            "amount": 0,
-                                            "description": "string",
-                                            "isPartialPayment": true,
-                                            "dueDate": "string",
+                                            "switchToExpired": true,
                                             "retentionDate": "string",
-                                            "paymentDate": "string",
-                                            "reportingDate": "string",
                                             "insertedDate": "string",
-                                            "paymentMethod": "string",
-                                            "fee": 0,
-                                            "notificationFee": 0,
-                                            "pspCompany": "string",
-                                            "idReceipt": "string",
-                                            "idFlowReporting": "string",
-                                            "status": "PO_UNPAID",
-                                            "lastUpdatedDate": "string",
-                                            "paymentOptionMetadata": [
+                                            "validityDate": "string",
+                                            "debtor": {
+                                                "type": "F",
+                                                "fiscalCode": "string",
+                                                "fullName": "string",
+                                                "streetName": "string",
+                                                "civicNumber": "string",
+                                                "postalCode": "string",
+                                                "city": "string",
+                                                "province": "string",
+                                                "region": "string",
+                                                "country": "IT",
+                                                "email": "email@domain.com",
+                                                "phone": "string"
+                                            },
+                                            "installments": [
                                                 {
-                                                    "key": "string",
-                                                    "value": "string"
-                                                }
-                                            ],
-                                            "transfer": [
-                                                {
+                                                    "nav": "string",
+                                                    "iuv": "string",
                                                     "organizationFiscalCode": "string",
-                                                    "companyName": "string",
-                                                    "idTransfer": "string",
                                                     "amount": 0,
-                                                    "remittanceInformation": "string",
-                                                    "category": "string",
-                                                    "iban": "string",
-                                                    "postalIban": "string",
-                                                    "stamp": {
-                                                        "hashDocument": "string",
-                                                        "stampType": "string",
-                                                        "provincialResidence": "RM"
-                                                    },
-                                                    "insertedDate": "string",
-                                                    "status": "T_UNREPORTED",
+                                                    "description": "string",
+                                                    "dueDate": "string",
+                                                    "paymentDate": "string",
+                                                    "reportingDate": "string",
+                                                    "paymentMethod": "string",
+                                                    "pspCompany": "string",
+                                                    "fee": 0,
+                                                    "notificationFee": 0,
+                                                    "idReceipt": "string",
+                                                    "idFlowReporting": "string",
+                                                    "status": "UNPAID",
                                                     "lastUpdatedDate": "string",
-                                                    "transferMetadata": [
+                                                    "installmentMetadata": [
                                                         {
                                                             "key": "string",
                                                             "value": "string"
+                                                        }
+                                                    ],
+                                                    "transfer": [
+                                                        {
+                                                            "organizationFiscalCode": "string",
+                                                            "companyName": "string",
+                                                            "idTransfer": "string",
+                                                            "amount": 0,
+                                                            "remittanceInformation": "string",
+                                                            "category": "string",
+                                                            "iban": "string",
+                                                            "postalIban": "string",
+                                                            "stamp": {
+                                                                "hashDocument": "string",
+                                                                "stampType": "string",
+                                                                "provincialResidence": "RM"
+                                                            },
+                                                            "insertedDate": "string",
+                                                            "status": "T_UNREPORTED",
+                                                            "lastUpdatedDate": "string",
+                                                            "transferMetadata": [
+                                                                {
+                                                                    "key": "string",
+                                                                    "value": "string"
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 }
@@ -849,7 +239,7 @@
             },
             "put": {
                 "tags": [
-                    "Debt Positions API"
+                    "Debt Positions API: Installments and Payment Options Manager"
                 ],
                 "summary": "The Organization updates a debt position ",
                 "description": "The Organization updates a debt position ",
@@ -894,67 +284,74 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PaymentPositionModel"
+                                "$ref": "#/components/schemas/PaymentPositionModelV3"
                             },
                             "example": {
                                 "iupd": "string",
-                                "type": "F",
                                 "payStandIn": "true",
-                                "fiscalCode": "string",
-                                "fullName": "string",
-                                "streetName": "string",
-                                "civicNumber": "string",
-                                "postalCode": "string",
-                                "city": "string",
-                                "province": "string",
-                                "region": "string",
-                                "country": "IT",
-                                "email": "email@domain.com",
-                                "phone": "string",
-                                "switchToExpired": "false",
                                 "companyName": "string",
                                 "officeName": "string",
-                                "validityDate": "string",
                                 "paymentDate": "string",
                                 "status": "DRAFT",
                                 "paymentOption": [
                                     {
-                                        "nav": "string",
-                                        "iuv": "string",
-                                        "amount": 0,
                                         "description": "string",
-                                        "isPartialPayment": true,
-                                        "dueDate": "string",
+                                        "validityDate": "string",
                                         "retentionDate": "string",
-                                        "fee": 0,
-                                        "notificationFee": 0,
-                                        "transfer": [
+                                        "switchToExpired": "false",
+                                        "debtor": {
+                                            "type": "F",
+                                            "fiscalCode": "string",
+                                            "fullName": "string",
+                                            "streetName": "string",
+                                            "civicNumber": "string",
+                                            "postalCode": "string",
+                                            "city": "string",
+                                            "province": "string",
+                                            "region": "string",
+                                            "country": "IT",
+                                            "email": "email@domain.com",
+                                            "phone": "string"
+                                        },
+                                        "installments": [
                                             {
-                                                "idTransfer": "1",
+                                                "nav": "string",
+                                                "iuv": "string",
                                                 "amount": 0,
-                                                "organizationFiscalCode": "00000000000",
-                                                "remittanceInformation": "string",
-                                                "category": "string",
-                                                "iban": "IT0000000000000000000000000",
-                                                "postalIban": "IT0000000000000000000000000",
-                                                "stamp": {
-                                                    "hashDocument": "string",
-                                                    "stampType": "string",
-                                                    "provincialResidence": "RM"
-                                                },
-                                                "companyName": "string",
-                                                "transferMetadata": [
+                                                "description": "string",
+                                                "dueDate": "string",
+                                                "fee": 0,
+                                                "notificationFee": 0,
+                                                "status": "UNPAID",
+                                                "transfer": [
+                                                    {
+                                                        "idTransfer": "1",
+                                                        "amount": 0,
+                                                        "organizationFiscalCode": "00000000000",
+                                                        "remittanceInformation": "string",
+                                                        "category": "string",
+                                                        "iban": "IT0000000000000000000000000",
+                                                        "postalIban": "IT0000000000000000000000000",
+                                                        "stamp": {
+                                                            "hashDocument": "string",
+                                                            "stampType": "string",
+                                                            "provincialResidence": "RM"
+                                                        },
+                                                        "companyName": "string",
+                                                        "transferMetadata": [
+                                                            {
+                                                                "key": "string",
+                                                                "value": "string"
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "installmentMetadata": [
                                                     {
                                                         "key": "string",
                                                         "value": "string"
                                                     }
                                                 ]
-                                            }
-                                        ],
-                                        "paymentOptionMetadata": [
-                                            {
-                                                "key": "string",
-                                                "value": "string"
                                             }
                                         ]
                                     }
@@ -977,67 +374,74 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaymentPositionModel"
+                                    "$ref": "#/components/schemas/PaymentPositionModelV3"
                                 },
                                 "example": {
                                     "iupd": "string",
-                                    "type": "F",
                                     "payStandIn": "true",
-                                    "fiscalCode": "string",
-                                    "fullName": "string",
-                                    "streetName": "string",
-                                    "civicNumber": "string",
-                                    "postalCode": "string",
-                                    "city": "string",
-                                    "province": "string",
-                                    "region": "string",
-                                    "country": "IT",
-                                    "email": "email@domain.com",
-                                    "phone": "string",
-                                    "switchToExpired": "false",
                                     "companyName": "string",
                                     "officeName": "string",
-                                    "validityDate": "string",
                                     "paymentDate": "string",
                                     "status": "DRAFT",
                                     "paymentOption": [
                                         {
-                                            "nav": "string",
-                                            "iuv": "string",
-                                            "amount": 0,
                                             "description": "string",
-                                            "isPartialPayment": true,
-                                            "dueDate": "string",
+                                            "validityDate": "string",
                                             "retentionDate": "string",
-                                            "fee": 0,
-                                            "notificationFee": 0,
-                                            "transfer": [
+                                            "switchToExpired": "false",
+                                            "debtor": {
+                                                "type": "F",
+                                                "fiscalCode": "string",
+                                                "fullName": "string",
+                                                "streetName": "string",
+                                                "civicNumber": "string",
+                                                "postalCode": "string",
+                                                "city": "string",
+                                                "province": "string",
+                                                "region": "string",
+                                                "country": "IT",
+                                                "email": "email@domain.com",
+                                                "phone": "string"
+                                            },
+                                            "installments": [
                                                 {
-                                                    "idTransfer": "1",
+                                                    "nav": "string",
+                                                    "iuv": "string",
                                                     "amount": 0,
-                                                    "organizationFiscalCode": "00000000000",
-                                                    "remittanceInformation": "string",
-                                                    "category": "string",
-                                                    "iban": "IT0000000000000000000000000",
-                                                    "postalIban": "IT0000000000000000000000000",
-                                                    "stamp": {
-                                                        "hashDocument": "string",
-                                                        "stampType": "string",
-                                                        "provincialResidence": "RM"
-                                                    },
-                                                    "companyName": "string",
-                                                    "transferMetadata": [
+                                                    "description": "string",
+                                                    "dueDate": "string",
+                                                    "fee": 0,
+                                                    "notificationFee": 0,
+                                                    "status": "UNPAID",
+                                                    "transfer": [
+                                                        {
+                                                            "idTransfer": "1",
+                                                            "amount": 0,
+                                                            "organizationFiscalCode": "00000000000",
+                                                            "remittanceInformation": "string",
+                                                            "category": "string",
+                                                            "iban": "IT0000000000000000000000000",
+                                                            "postalIban": "IT0000000000000000000000000",
+                                                            "stamp": {
+                                                                "hashDocument": "string",
+                                                                "stampType": "string",
+                                                                "provincialResidence": "RM"
+                                                            },
+                                                            "companyName": "string",
+                                                            "transferMetadata": [
+                                                                {
+                                                                    "key": "string",
+                                                                    "value": "string"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "installmentMetadata": [
                                                         {
                                                             "key": "string",
                                                             "value": "string"
                                                         }
                                                     ]
-                                                }
-                                            ],
-                                            "paymentOptionMetadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
                                                 }
                                             ]
                                         }
@@ -1172,7 +576,7 @@
             },
             "delete": {
                 "tags": [
-                    "Debt Positions API"
+                    "Debt Positions API: Installments and Payment Options Manager"
                 ],
                 "summary": "The Organization deletes a debt position",
                 "description": "The Organization deletes a debt position",
@@ -1329,14 +733,14 @@
                 }
             }
         },
-        "/organizations/{organizationfiscalcode}/debtpositions/{iupd}/invalidate": {
-            "post": {
+        "/organizations/{organizationfiscalcode}/debtpositions": {
+            "get": {
                 "tags": [
-                    "Debt Position Actions API"
+                    "Debt Positions API: Installments and Payment Options Manager"
                 ],
-                "summary": "The Organization invalidate a debt Position.",
-                "description": "The Organization invalidate a debt Position.",
-                "operationId": "invalidatePosition",
+                "summary": "Return the list of the organization debt positions. The due dates interval is mutually exclusive with the payment dates interval.",
+                "description": "Return the list of the organization debt positions. The due dates interval is mutually exclusive with the payment dates interval.",
+                "operationId": "getOrganizationDebtPositions",
                 "parameters": [
                     {
                         "name": "organizationfiscalcode",
@@ -1348,12 +752,123 @@
                         }
                     },
                     {
-                        "name": "iupd",
-                        "in": "path",
-                        "description": "IUPD (Unique identifier of the debt position). Format could be `<Organization fiscal code + UUID>` this would make it unique within the new PD management system. It's the responsibility of the EC to guarantee uniqueness. The pagoPa system shall verify that this is `true` and if not, notify the EC.",
-                        "required": true,
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of elements on one page. Default = 50",
                         "schema": {
+                            "maximum": 50.0,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number. Page value starts from 0",
+                        "schema": {
+                            "minimum": 0.0,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "due_date_from",
+                        "in": "query",
+                        "description": "Filter from due_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days before the due_date_to.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "due_date_to",
+                        "in": "query",
+                        "description": "Filter to due_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days after the due_date_from.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "payment_date_from",
+                        "in": "query",
+                        "description": "Filter from payment_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days before the payment_date_to.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "payment_date_to",
+                        "in": "query",
+                        "description": "Filter to payment_date (if provided use the format yyyy-MM-dd). If not provided will be set to 30 days after the payment_date_from",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "payment_date_time_from",
+                        "in": "query",
+                        "description": "Filter from payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not provided will be set to 30 days before the payment_date_time_from.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "payment_date_time_to",
+                        "in": "query",
+                        "description": "Filter to payment_date_time (if provided use the format yyyy-MM-ddTHH:mm:ss). If not will be set to 30 days after the payment_date_time_to.",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by debt position status",
+                        "schema": {
+                            "enum": [
+                                "DRAFT",
+                                "PUBLISHED",
+                                "VALID",
+                                "UNPAYABLE",
+                                "PARTIALLY_PAID",
+                                "PAID"
+                            ],
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "Order by INSERTED_DATE, COMPANY_NAME, IUPD or STATUS",
+                        "schema": {
+                            "enum": [
+                                "INSERTED_DATE",
+                                "IUPD",
+                                "STATUS",
+                                "COMPANY_NAME"
+                            ],
+                            "type": "string",
+                            "default": "INSERTED_DATE"
+                        }
+                    },
+                    {
+                        "name": "ordering",
+                        "in": "query",
+                        "description": "Direction of ordering",
+                        "schema": {
+                            "enum": [
+                                "ASC",
+                                "DESC"
+                            ],
+                            "type": "string",
+                            "default": "DESC"
                         }
                     },
                     {
@@ -1367,7 +882,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Request published.",
+                        "description": "Obtained all organization payment positions.",
                         "headers": {
                             "X-Request-Id": {
                                 "description": "This header identifies the call",
@@ -1379,71 +894,125 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaymentPositionModel"
+                                    "$ref": "#/components/schemas/PaymentPositionsInfoV3"
                                 },
                                 "example": {
-                                    "iupd": "string",
-                                    "type": "F",
-                                    "payStandIn": "true",
-                                    "fiscalCode": "string",
-                                    "fullName": "string",
-                                    "streetName": "string",
-                                    "civicNumber": "string",
-                                    "postalCode": "string",
-                                    "city": "string",
-                                    "province": "string",
-                                    "region": "string",
-                                    "country": "IT",
-                                    "email": "email@domain.com",
-                                    "phone": "string",
-                                    "switchToExpired": "false",
-                                    "companyName": "string",
-                                    "officeName": "string",
-                                    "validityDate": "string",
-                                    "paymentDate": "string",
-                                    "status": "DRAFT",
-                                    "paymentOption": [
+                                    "payment_position_list": [
                                         {
-                                            "nav": "string",
-                                            "iuv": "string",
-                                            "amount": 0,
-                                            "description": "string",
-                                            "isPartialPayment": true,
-                                            "dueDate": "string",
-                                            "retentionDate": "string",
-                                            "fee": 0,
-                                            "notificationFee": 0,
-                                            "transfer": [
+                                            "iupd": "string",
+                                            "organizationFiscalCode": "string",
+                                            "companyName": "string",
+                                            "officeName": "string",
+                                            "insertedDate": "string",
+                                            "publishDate": "string",
+                                            "paymentDate": "string",
+                                            "status": "DRAFT",
+                                            "lastUpdatedDate": "string",
+                                            "paymentOption": [
                                                 {
-                                                    "idTransfer": "1",
-                                                    "amount": 0,
-                                                    "organizationFiscalCode": "00000000000",
-                                                    "remittanceInformation": "string",
-                                                    "category": "string",
-                                                    "iban": "IT0000000000000000000000000",
-                                                    "postalIban": "IT0000000000000000000000000",
-                                                    "stamp": {
-                                                        "hashDocument": "string",
-                                                        "stampType": "string",
-                                                        "provincialResidence": "RM"
+                                                    "switchToExpired": true,
+                                                    "retentionDate": "string",
+                                                    "insertedDate": "string",
+                                                    "validityDate": "string",
+                                                    "debtor": {
+                                                        "type": "F",
+                                                        "fiscalCode": "string",
+                                                        "fullName": "string",
+                                                        "streetName": "string",
+                                                        "civicNumber": "string",
+                                                        "postalCode": "string",
+                                                        "city": "string",
+                                                        "province": "string",
+                                                        "region": "string",
+                                                        "country": "IT",
+                                                        "email": "email@domain.com",
+                                                        "phone": "string"
                                                     },
-                                                    "companyName": "string",
-                                                    "transferMetadata": [
+                                                    "installments": [
                                                         {
-                                                            "key": "string",
-                                                            "value": "string"
+                                                            "nav": "string",
+                                                            "iuv": "string",
+                                                            "organizationFiscalCode": "string",
+                                                            "amount": 0,
+                                                            "description": "string",
+                                                            "dueDate": "string",
+                                                            "paymentDate": "string",
+                                                            "reportingDate": "string",
+                                                            "paymentMethod": "string",
+                                                            "pspCompany": "string",
+                                                            "fee": 0,
+                                                            "notificationFee": 0,
+                                                            "idReceipt": "string",
+                                                            "idFlowReporting": "string",
+                                                            "status": "UNPAID",
+                                                            "lastUpdatedDate": "string",
+                                                            "installmentMetadata": [
+                                                                {
+                                                                    "key": "string",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "transfer": [
+                                                                {
+                                                                    "organizationFiscalCode": "string",
+                                                                    "companyName": "string",
+                                                                    "idTransfer": "string",
+                                                                    "amount": 0,
+                                                                    "remittanceInformation": "string",
+                                                                    "category": "string",
+                                                                    "iban": "string",
+                                                                    "postalIban": "string",
+                                                                    "stamp": {
+                                                                        "hashDocument": "string",
+                                                                        "stampType": "string",
+                                                                        "provincialResidence": "RM"
+                                                                    },
+                                                                    "insertedDate": "string",
+                                                                    "status": "T_UNREPORTED",
+                                                                    "lastUpdatedDate": "string",
+                                                                    "transferMetadata": [
+                                                                        {
+                                                                            "key": "string",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 }
-                                            ],
-                                            "paymentOptionMetadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
-                                                }
                                             ]
                                         }
-                                    ]
+                                    ],
+                                    "page_info": {
+                                        "page": 0,
+                                        "limit": 0,
+                                        "items_found": 0,
+                                        "total_pages": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Malformed request.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
                                 }
                             }
                         }
@@ -1478,8 +1047,248 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "No debt position found.",
+                    "429": {
+                        "description": "Too many requests.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Service unavailable.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "title": "string",
+                                    "status": 200,
+                                    "detail": "There was an error processing the request"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Debt Positions API: Installments and Payment Options Manager"
+                ],
+                "summary": "The Organization creates a debt Position.",
+                "description": "The Organization creates a debt Position.",
+                "operationId": "createPosition",
+                "parameters": [
+                    {
+                        "name": "organizationfiscalcode",
+                        "in": "path",
+                        "description": "Organization fiscal code, the fiscal code of the Organization.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toPublish",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentPositionModelV3"
+                            },
+                            "example": {
+                                "iupd": "string",
+                                "payStandIn": "true",
+                                "companyName": "string",
+                                "officeName": "string",
+                                "paymentDate": "string",
+                                "status": "DRAFT",
+                                "paymentOption": [
+                                    {
+                                        "description": "string",
+                                        "validityDate": "string",
+                                        "retentionDate": "string",
+                                        "switchToExpired": "false",
+                                        "debtor": {
+                                            "type": "F",
+                                            "fiscalCode": "string",
+                                            "fullName": "string",
+                                            "streetName": "string",
+                                            "civicNumber": "string",
+                                            "postalCode": "string",
+                                            "city": "string",
+                                            "province": "string",
+                                            "region": "string",
+                                            "country": "IT",
+                                            "email": "email@domain.com",
+                                            "phone": "string"
+                                        },
+                                        "installments": [
+                                            {
+                                                "nav": "string",
+                                                "iuv": "string",
+                                                "amount": 0,
+                                                "description": "string",
+                                                "dueDate": "string",
+                                                "fee": 0,
+                                                "notificationFee": 0,
+                                                "status": "UNPAID",
+                                                "transfer": [
+                                                    {
+                                                        "idTransfer": "1",
+                                                        "amount": 0,
+                                                        "organizationFiscalCode": "00000000000",
+                                                        "remittanceInformation": "string",
+                                                        "category": "string",
+                                                        "iban": "IT0000000000000000000000000",
+                                                        "postalIban": "IT0000000000000000000000000",
+                                                        "stamp": {
+                                                            "hashDocument": "string",
+                                                            "stampType": "string",
+                                                            "provincialResidence": "RM"
+                                                        },
+                                                        "companyName": "string",
+                                                        "transferMetadata": [
+                                                            {
+                                                                "key": "string",
+                                                                "value": "string"
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "installmentMetadata": [
+                                                    {
+                                                        "key": "string",
+                                                        "value": "string"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Request created.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentPositionModelV3"
+                                },
+                                "example": {
+                                    "iupd": "string",
+                                    "payStandIn": "true",
+                                    "companyName": "string",
+                                    "officeName": "string",
+                                    "paymentDate": "string",
+                                    "status": "DRAFT",
+                                    "paymentOption": [
+                                        {
+                                            "description": "string",
+                                            "validityDate": "string",
+                                            "retentionDate": "string",
+                                            "switchToExpired": "false",
+                                            "debtor": {
+                                                "type": "F",
+                                                "fiscalCode": "string",
+                                                "fullName": "string",
+                                                "streetName": "string",
+                                                "civicNumber": "string",
+                                                "postalCode": "string",
+                                                "city": "string",
+                                                "province": "string",
+                                                "region": "string",
+                                                "country": "IT",
+                                                "email": "email@domain.com",
+                                                "phone": "string"
+                                            },
+                                            "installments": [
+                                                {
+                                                    "nav": "string",
+                                                    "iuv": "string",
+                                                    "amount": 0,
+                                                    "description": "string",
+                                                    "dueDate": "string",
+                                                    "fee": 0,
+                                                    "notificationFee": 0,
+                                                    "status": "UNPAID",
+                                                    "transfer": [
+                                                        {
+                                                            "idTransfer": "1",
+                                                            "amount": 0,
+                                                            "organizationFiscalCode": "00000000000",
+                                                            "remittanceInformation": "string",
+                                                            "category": "string",
+                                                            "iban": "IT0000000000000000000000000",
+                                                            "postalIban": "IT0000000000000000000000000",
+                                                            "stamp": {
+                                                                "hashDocument": "string",
+                                                                "stampType": "string",
+                                                                "provincialResidence": "RM"
+                                                            },
+                                                            "companyName": "string",
+                                                            "transferMetadata": [
+                                                                {
+                                                                    "key": "string",
+                                                                    "value": "string"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "installmentMetadata": [
+                                                        {
+                                                            "key": "string",
+                                                            "value": "string"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Malformed request.",
                         "headers": {
                             "X-Request-Id": {
                                 "description": "This header identifies the call",
@@ -1501,8 +1310,38 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Wrong or missing function key.",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "headers": {
+                            "X-Request-Id": {
+                                "description": "This header identifies the call",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "statusCode": 403,
+                                    "message": "You are not allowed to access this resource."
+                                }
+                            }
+                        }
+                    },
                     "409": {
-                        "description": "Conflict: debt position is not in invalidable state.",
+                        "description": "Conflict: duplicate debt position found.",
                         "headers": {
                             "X-Request-Id": {
                                 "description": "This header identifies the call",
@@ -1600,67 +1439,74 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PaymentPositionModel"
+                                    "$ref": "#/components/schemas/PaymentPositionModelV3"
                                 },
                                 "example": {
                                     "iupd": "string",
-                                    "type": "F",
                                     "payStandIn": "true",
-                                    "fiscalCode": "string",
-                                    "fullName": "string",
-                                    "streetName": "string",
-                                    "civicNumber": "string",
-                                    "postalCode": "string",
-                                    "city": "string",
-                                    "province": "string",
-                                    "region": "string",
-                                    "country": "IT",
-                                    "email": "email@domain.com",
-                                    "phone": "string",
-                                    "switchToExpired": "false",
                                     "companyName": "string",
                                     "officeName": "string",
-                                    "validityDate": "string",
                                     "paymentDate": "string",
                                     "status": "DRAFT",
                                     "paymentOption": [
                                         {
-                                            "nav": "string",
-                                            "iuv": "string",
-                                            "amount": 0,
                                             "description": "string",
-                                            "isPartialPayment": true,
-                                            "dueDate": "string",
+                                            "validityDate": "string",
                                             "retentionDate": "string",
-                                            "fee": 0,
-                                            "notificationFee": 0,
-                                            "transfer": [
+                                            "switchToExpired": "false",
+                                            "debtor": {
+                                                "type": "F",
+                                                "fiscalCode": "string",
+                                                "fullName": "string",
+                                                "streetName": "string",
+                                                "civicNumber": "string",
+                                                "postalCode": "string",
+                                                "city": "string",
+                                                "province": "string",
+                                                "region": "string",
+                                                "country": "IT",
+                                                "email": "email@domain.com",
+                                                "phone": "string"
+                                            },
+                                            "installments": [
                                                 {
-                                                    "idTransfer": "1",
+                                                    "nav": "string",
+                                                    "iuv": "string",
                                                     "amount": 0,
-                                                    "organizationFiscalCode": "00000000000",
-                                                    "remittanceInformation": "string",
-                                                    "category": "string",
-                                                    "iban": "IT0000000000000000000000000",
-                                                    "postalIban": "IT0000000000000000000000000",
-                                                    "stamp": {
-                                                        "hashDocument": "string",
-                                                        "stampType": "string",
-                                                        "provincialResidence": "RM"
-                                                    },
-                                                    "companyName": "string",
-                                                    "transferMetadata": [
+                                                    "description": "string",
+                                                    "dueDate": "string",
+                                                    "fee": 0,
+                                                    "notificationFee": 0,
+                                                    "status": "UNPAID",
+                                                    "transfer": [
+                                                        {
+                                                            "idTransfer": "1",
+                                                            "amount": 0,
+                                                            "organizationFiscalCode": "00000000000",
+                                                            "remittanceInformation": "string",
+                                                            "category": "string",
+                                                            "iban": "IT0000000000000000000000000",
+                                                            "postalIban": "IT0000000000000000000000000",
+                                                            "stamp": {
+                                                                "hashDocument": "string",
+                                                                "stampType": "string",
+                                                                "provincialResidence": "RM"
+                                                            },
+                                                            "companyName": "string",
+                                                            "transferMetadata": [
+                                                                {
+                                                                    "key": "string",
+                                                                    "value": "string"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "installmentMetadata": [
                                                         {
                                                             "key": "string",
                                                             "value": "string"
                                                         }
                                                     ]
-                                                }
-                                            ],
-                                            "paymentOptionMetadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
                                                 }
                                             ]
                                         }
@@ -1770,534 +1616,24 @@
                     }
                 }
             }
-        },
-        "/organizations/{organizationfiscalcode}/debtpositions/transfers": {
-            "patch": {
-                "tags": [
-                    "Debt Positions API"
-                ],
-                "summary": "The Organization updates the IBANs of every updatable payment option's transfers",
-                "description": "The Organization updates the IBANs of every updatable payment option's transfers",
-                "operationId": "updateTransferIbanMassive",
-                "parameters": [
-                    {
-                        "name": "organizationfiscalcode",
-                        "in": "path",
-                        "description": "Organization fiscal code, the fiscal code of the Organization.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "oldIban",
-                        "in": "query",
-                        "description": "The old iban to replace",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Number of Transfer to update (max = 1000, default = 1000)",
-                        "schema": {
-                            "maximum": 1000.0,
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 1000
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateTransferIbanMassiveModel"
-                            },
-                            "example": {
-                                "newIban": "string"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "IBANs updated",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UpdateTransferIbanMassiveResponse"
-                                },
-                                "example": {
-                                    "description": "string",
-                                    "updatedTransfers": 0
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Malformed request.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "statusCode": 403,
-                                    "message": "You are not allowed to access this resource."
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/organizations/{organizationfiscalcode}/paymentoptions/paids/{nav}": {
-            "post": {
-                "tags": [
-                    "Payments API"
-                ],
-                "summary": "The Organization mark a payment option as already paid.",
-                "description": "The Organization mark a payment option as already paid.",
-                "operationId": "setPaymentOptionAsAlreadyPaid",
-                "parameters": [
-                    {
-                        "name": "organizationfiscalcode",
-                        "in": "path",
-                        "description": "Organization fiscal code, the fiscal code of the Organization.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "nav",
-                        "in": "path",
-                        "description": "NAV (notice number) is the unique reference assigned to the payment by a creditor institution.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/AlreadyPaidPaymentOptionModel"
-                            },
-                            "example": {
-                                "paymentDate": "string"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Request set as paid.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PaymentsModelResponse"
-                                },
-                                "example": {
-                                    "nav": "string",
-                                    "iuv": "string",
-                                    "organizationFiscalCode": "string",
-                                    "amount": 0,
-                                    "description": "string",
-                                    "isPartialPayment": true,
-                                    "dueDate": "string",
-                                    "retentionDate": "string",
-                                    "paymentDate": "string",
-                                    "reportingDate": "string",
-                                    "insertedDate": "string",
-                                    "paymentMethod": "string",
-                                    "fee": 0,
-                                    "notificationFee": 0,
-                                    "pspCompany": "string",
-                                    "idReceipt": "string",
-                                    "idFlowReporting": "string",
-                                    "status": "PO_UNPAID",
-                                    "lastUpdatedDate": "string",
-                                    "lastUpdatedDateNotificationFee": "string",
-                                    "paymentOptionMetadata": [
-                                        {
-                                            "key": "string",
-                                            "value": "string"
-                                        }
-                                    ],
-                                    "transfer": [
-                                        {
-                                            "organizationFiscalCode": "string",
-                                            "companyName": "string",
-                                            "idTransfer": "string",
-                                            "amount": 0,
-                                            "remittanceInformation": "string",
-                                            "category": "string",
-                                            "iban": "string",
-                                            "postalIban": "string",
-                                            "stamp": {
-                                                "hashDocument": "string",
-                                                "stampType": "string",
-                                                "provincialResidence": "RM"
-                                            },
-                                            "insertedDate": "string",
-                                            "status": "T_UNREPORTED",
-                                            "lastUpdatedDate": "string",
-                                            "transferMetadata": [
-                                                {
-                                                    "key": "string",
-                                                    "value": "string"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "serviceType": "string"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Malformed request.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No payment option found.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict: existing related payment found.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable: not in payable state.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "components": {
         "schemas": {
-            "PaymentOptionMetadataModel": {
+            "DebtorModel": {
                 "required": [
-                    "key",
-                    "value"
-                ],
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "maxLength": 140,
-                        "minLength": 0,
-                        "type": "string"
-                    },
-                    "value": {
-                        "maxLength": 140,
-                        "minLength": 0,
-                        "type": "string"
-                    }
-                }
-            },
-            "PaymentOptionModel": {
-                "required": [
-                    "amount",
-                    "description",
-                    "dueDate",
-                    "isPartialPayment",
-                    "iuv"
-                ],
-                "type": "object",
-                "properties": {
-                    "nav": {
-                        "type": "string"
-                    },
-                    "iuv": {
-                        "type": "string"
-                    },
-                    "amount": {
-                        "minimum": 1.0,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "description": {
-                        "maxLength": 140,
-                        "minLength": 0,
-                        "type": "string"
-                    },
-                    "isPartialPayment": {
-                        "type": "boolean"
-                    },
-                    "dueDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "retentionDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "fee": {
-                        "type": "integer",
-                        "format": "int64",
-                        "readOnly": true
-                    },
-                    "notificationFee": {
-                        "type": "integer",
-                        "format": "int64",
-                        "readOnly": true
-                    },
-                    "transfer": {
-                        "maxItems": 5,
-                        "minItems": 1,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TransferModel"
-                        }
-                    },
-                    "paymentOptionMetadata": {
-                        "maxItems": 10,
-                        "minItems": 0,
-                        "uniqueItems": true,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PaymentOptionMetadataModel"
-                        },
-                        "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same payment option."
-                    }
-                }
-            },
-            "PaymentPositionModel": {
-                "required": [
-                    "companyName",
                     "fiscalCode",
                     "fullName",
-                    "iupd",
-                    "switchToExpired",
                     "type"
                 ],
                 "type": "object",
                 "properties": {
-                    "iupd": {
-                        "type": "string"
-                    },
                     "type": {
                         "enum": [
                             "F",
                             "G"
                         ],
                         "type": "string"
-                    },
-                    "payStandIn": {
-                        "type": "boolean",
-                        "description": "feature flag to enable a debt position in stand-in mode",
-                        "default": "true",
-                        "example": true
                     },
                     "fiscalCode": {
                         "type": "string"
@@ -2334,12 +1670,151 @@
                     },
                     "phone": {
                         "type": "string"
+                    }
+                }
+            },
+            "InstallmentMetadataModel": {
+                "required": [
+                    "key"
+                ],
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            },
+            "InstallmentModel": {
+                "required": [
+                    "amount",
+                    "description",
+                    "dueDate",
+                    "iuv"
+                ],
+                "type": "object",
+                "properties": {
+                    "nav": {
+                        "type": "string"
+                    },
+                    "iuv": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "minimum": 1.0,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "description": {
+                        "maxLength": 140,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "fee": {
+                        "type": "integer",
+                        "format": "int64",
+                        "readOnly": true
+                    },
+                    "notificationFee": {
+                        "type": "integer",
+                        "format": "int64",
+                        "readOnly": true
+                    },
+                    "status": {
+                        "enum": [
+                            "UNPAID",
+                            "PAID",
+                            "PARTIALLY_REPORTED",
+                            "REPORTED",
+                            "UNPAYABLE",
+                            "EXPIRED"
+                        ],
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "transfer": {
+                        "maxItems": 5,
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransferModel"
+                        }
+                    },
+                    "installmentMetadata": {
+                        "maxItems": 10,
+                        "minItems": 0,
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InstallmentMetadataModel"
+                        },
+                        "description": "It can be added a maximum of 10 key-value pairs for metadata. Metadata keys must be unique within the same installment."
+                    }
+                }
+            },
+            "PaymentOptionModelV3": {
+                "required": [
+                    "debtor",
+                    "installments",
+                    "switchToExpired"
+                ],
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "maxLength": 140,
+                        "minLength": 0,
+                        "type": "string",
+                        "writeOnly": true
+                    },
+                    "validityDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "retentionDate": {
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "switchToExpired": {
                         "type": "boolean",
-                        "description": "feature flag to enable the debt position to expire after the due date",
+                        "description": "feature flag to enable the payment option to expire after the due date",
                         "default": "false",
                         "example": false
+                    },
+                    "debtor": {
+                        "$ref": "#/components/schemas/DebtorModel"
+                    },
+                    "installments": {
+                        "maxItems": 100,
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InstallmentModel"
+                        }
+                    }
+                }
+            },
+            "PaymentPositionModelV3": {
+                "required": [
+                    "companyName",
+                    "iupd",
+                    "paymentOption"
+                ],
+                "type": "object",
+                "properties": {
+                    "iupd": {
+                        "type": "string"
+                    },
+                    "payStandIn": {
+                        "type": "boolean",
+                        "description": "feature flag to enable a debt position in stand-in mode",
+                        "default": "true",
+                        "example": true
                     },
                     "companyName": {
                         "maxLength": 140,
@@ -2351,10 +1826,6 @@
                         "minLength": 0,
                         "type": "string"
                     },
-                    "validityDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
                     "paymentDate": {
                         "type": "string",
                         "format": "date-time",
@@ -2365,19 +1836,19 @@
                             "DRAFT",
                             "PUBLISHED",
                             "VALID",
-                            "INVALID",
-                            "EXPIRED",
+                            "UNPAYABLE",
                             "PARTIALLY_PAID",
-                            "PAID",
-                            "REPORTED"
+                            "PAID"
                         ],
                         "type": "string",
                         "readOnly": true
                     },
                     "paymentOption": {
+                        "maxItems": 100,
+                        "minItems": 1,
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/PaymentOptionModel"
+                            "$ref": "#/components/schemas/PaymentOptionModelV3"
                         }
                     }
                 }
@@ -2524,27 +1995,7 @@
                     }
                 }
             },
-            "AlreadyPaidPaymentOptionModel": {
-                "type": "object",
-                "properties": {
-                    "paymentDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                }
-            },
-            "PaymentOptionMetadataModelResponse": {
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "type": "string"
-                    },
-                    "value": {
-                        "type": "string"
-                    }
-                }
-            },
-            "PaymentsModelResponse": {
+            "InstallmentModelResponse": {
                 "type": "object",
                 "properties": {
                     "nav": {
@@ -2563,14 +2014,7 @@
                     "description": {
                         "type": "string"
                     },
-                    "isPartialPayment": {
-                        "type": "boolean"
-                    },
                     "dueDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "retentionDate": {
                         "type": "string",
                         "format": "date-time"
                     },
@@ -2582,11 +2026,10 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "insertedDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
                     "paymentMethod": {
+                        "type": "string"
+                    },
+                    "pspCompany": {
                         "type": "string"
                     },
                     "fee": {
@@ -2597,9 +2040,6 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "pspCompany": {
-                        "type": "string"
-                    },
                     "idReceipt": {
                         "type": "string"
                     },
@@ -2608,10 +2048,12 @@
                     },
                     "status": {
                         "enum": [
-                            "PO_UNPAID",
-                            "PO_PAID",
-                            "PO_PARTIALLY_REPORTED",
-                            "PO_REPORTED"
+                            "UNPAID",
+                            "PAID",
+                            "PARTIALLY_REPORTED",
+                            "REPORTED",
+                            "UNPAYABLE",
+                            "EXPIRED"
                         ],
                         "type": "string"
                     },
@@ -2619,14 +2061,10 @@
                         "type": "string",
                         "format": "date-time"
                     },
-                    "lastUpdatedDateNotificationFee": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "paymentOptionMetadata": {
+                    "installmentMetadata": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/PaymentOptionMetadataModelResponse"
+                            "$ref": "#/components/schemas/InstallmentMetadataModel"
                         }
                     },
                     "transfer": {
@@ -2634,9 +2072,134 @@
                         "items": {
                             "$ref": "#/components/schemas/TransferModelResponse"
                         }
+                    }
+                }
+            },
+            "PageInfo": {
+                "required": [
+                    "items_found",
+                    "limit",
+                    "page",
+                    "total_pages"
+                ],
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "integer",
+                        "description": "Page number",
+                        "format": "int32"
                     },
-                    "serviceType": {
+                    "limit": {
+                        "type": "integer",
+                        "description": "Required number of items per page",
+                        "format": "int32"
+                    },
+                    "items_found": {
+                        "type": "integer",
+                        "description": "Number of items found. (The last page may have fewer elements than required)",
+                        "format": "int32"
+                    },
+                    "total_pages": {
+                        "type": "integer",
+                        "description": "Total number of pages",
+                        "format": "int32"
+                    }
+                }
+            },
+            "PaymentOptionModelResponseV3": {
+                "type": "object",
+                "properties": {
+                    "switchToExpired": {
+                        "type": "boolean"
+                    },
+                    "retentionDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "insertedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "validityDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "debtor": {
+                        "$ref": "#/components/schemas/DebtorModel"
+                    },
+                    "installments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InstallmentModelResponse"
+                        }
+                    }
+                }
+            },
+            "PaymentPositionModelResponseV3": {
+                "type": "object",
+                "properties": {
+                    "iupd": {
                         "type": "string"
+                    },
+                    "organizationFiscalCode": {
+                        "type": "string"
+                    },
+                    "companyName": {
+                        "type": "string"
+                    },
+                    "officeName": {
+                        "type": "string"
+                    },
+                    "insertedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "publishDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "paymentDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "enum": [
+                            "DRAFT",
+                            "PUBLISHED",
+                            "VALID",
+                            "UNPAYABLE",
+                            "PARTIALLY_PAID",
+                            "PAID"
+                        ],
+                        "type": "string"
+                    },
+                    "lastUpdatedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "paymentOption": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentOptionModelResponseV3"
+                        }
+                    }
+                }
+            },
+            "PaymentPositionsInfoV3": {
+                "required": [
+                    "page_info",
+                    "payment_position_list"
+                ],
+                "type": "object",
+                "properties": {
+                    "payment_position_list": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentPositionModelResponseV3"
+                        }
+                    },
+                    "page_info": {
+                        "$ref": "#/components/schemas/PageInfo"
                     }
                 }
             },
@@ -2704,244 +2267,6 @@
                         }
                     }
                 }
-            },
-            "UpdateTransferIbanMassiveModel": {
-                "required": [
-                    "newIban"
-                ],
-                "type": "object",
-                "properties": {
-                    "newIban": {
-                        "type": "string"
-                    }
-                }
-            },
-            "UpdateTransferIbanMassiveResponse": {
-                "type": "object",
-                "properties": {
-                    "description": {
-                        "type": "string"
-                    },
-                    "updatedTransfers": {
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                }
-            },
-            "PageInfo": {
-                "required": [
-                    "items_found",
-                    "limit",
-                    "page",
-                    "total_pages"
-                ],
-                "type": "object",
-                "properties": {
-                    "page": {
-                        "type": "integer",
-                        "description": "Page number",
-                        "format": "int32"
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "description": "Required number of items per page",
-                        "format": "int32"
-                    },
-                    "items_found": {
-                        "type": "integer",
-                        "description": "Number of items found. (The last page may have fewer elements than required)",
-                        "format": "int32"
-                    },
-                    "total_pages": {
-                        "type": "integer",
-                        "description": "Total number of pages",
-                        "format": "int32"
-                    }
-                }
-            },
-            "PaymentOptionModelResponse": {
-                "type": "object",
-                "properties": {
-                    "nav": {
-                        "type": "string"
-                    },
-                    "iuv": {
-                        "type": "string"
-                    },
-                    "organizationFiscalCode": {
-                        "type": "string"
-                    },
-                    "amount": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "isPartialPayment": {
-                        "type": "boolean"
-                    },
-                    "dueDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "retentionDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "paymentDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "reportingDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "insertedDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "paymentMethod": {
-                        "type": "string"
-                    },
-                    "fee": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "notificationFee": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "pspCompany": {
-                        "type": "string"
-                    },
-                    "idReceipt": {
-                        "type": "string"
-                    },
-                    "idFlowReporting": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "enum": [
-                            "PO_UNPAID",
-                            "PO_PAID",
-                            "PO_PARTIALLY_REPORTED",
-                            "PO_REPORTED"
-                        ],
-                        "type": "string"
-                    },
-                    "lastUpdatedDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "paymentOptionMetadata": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PaymentOptionMetadataModelResponse"
-                        }
-                    },
-                    "transfer": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TransferModelResponse"
-                        }
-                    }
-                }
-            },
-            "PaymentPositionModelBaseResponse": {
-                "type": "object",
-                "properties": {
-                    "iupd": {
-                        "type": "string"
-                    },
-                    "organizationFiscalCode": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "enum": [
-                            "F",
-                            "G"
-                        ],
-                        "type": "string"
-                    },
-                    "companyName": {
-                        "type": "string"
-                    },
-                    "officeName": {
-                        "type": "string"
-                    },
-                    "insertedDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "publishDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "validityDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "paymentDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "status": {
-                        "enum": [
-                            "DRAFT",
-                            "PUBLISHED",
-                            "VALID",
-                            "INVALID",
-                            "EXPIRED",
-                            "PARTIALLY_PAID",
-                            "PAID",
-                            "REPORTED"
-                        ],
-                        "type": "string"
-                    },
-                    "lastUpdatedDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "paymentOption": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PaymentOptionModelResponse"
-                        }
-                    }
-                }
-            },
-            "PaymentPositionsInfo": {
-                "required": [
-                    "page_info",
-                    "payment_position_list"
-                ],
-                "type": "object",
-                "properties": {
-                    "payment_position_list": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PaymentPositionModelBaseResponse"
-                        }
-                    },
-                    "page_info": {
-                        "$ref": "#/components/schemas/PageInfo"
-                    }
-                }
-            },
-            "AppInfo": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "version": {
-                        "type": "string"
-                    },
-                    "environment": {
-                        "type": "string"
-                    }
-                }
             }
         },
         "securitySchemes": {
@@ -2963,14 +2288,6 @@
         },
         {
             "apiKeyQuery": []
-        }
-    ],
-    "tags": [
-        {
-            "name": "Debt Positions API"
-        },
-        {
-            "name": "Debt Position Actions API"
         }
     ]
 }
