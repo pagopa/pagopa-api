@@ -1,24 +1,15 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "title": "pagoPA - A.C.A. API",
-        "description": "API for A.C.A. service",
-        "version": "v1"
-    },
-    "servers": [
-        {
-            "url": "https://api.uat.platform.pagopa.it/aca/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/aca/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/aca/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/aca/v1"
-        }
-    ],
+  "openapi": "3.0.1",
+  "info": {
+    "title": "pagoPA - A.C.A. API",
+    "description": "API for A.C.A. service",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api.uat.platform.pagopa.it/aca/v1"
+    }
+  ],
     "paths": {
         "/paCreatePosition": {
             "post": {
