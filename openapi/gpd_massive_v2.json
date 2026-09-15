@@ -1,22 +1,14 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "GPD Upload pagoPA - Massive Upload",
-        "description": "API to support Debt Positions massive upload for organizations",
-        "version": "v2"
+        "title": "GPD-Upload-API-v2",
+        "description": "Microservice to manage PagoPA GPD Upload",
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "0.5.3"
     },
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/upload/gpd/debt-positions-service/v2"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/upload/gpd/debt-positions-service/v2"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/upload/gpd/debt-positions-service/v2"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/upload/gpd/debt-positions-service/v2"
         }
     ],
     "paths": {
