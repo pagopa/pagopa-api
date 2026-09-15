@@ -3,12 +3,17 @@
     "info": {
         "title": "Biz Events Service",
         "description": "API to handle biz events payments",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "0.1.72"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/bizevents/service/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/bizevents/service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/bizevents/service/v1"
         }
     ],
     "paths": {
@@ -317,9 +322,6 @@
                                 }
                             }
                         },
-                        "schema": {
-                            "$ref": "#/components/schemas/ProblemJson"
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -444,10 +446,77 @@
                                     "$ref": "#/components/schemas/CtReceiptModelResponse"
                                 },
                                 "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request",
-                                    "code": "The error code"
+                                    "receiptId": "string",
+                                    "noticeNumber": "string",
+                                    "fiscalCode": "string",
+                                    "outcome": "string",
+                                    "creditorReferenceId": "string",
+                                    "paymentAmount": 0,
+                                    "description": "string",
+                                    "companyName": "string",
+                                    "officeName": "string",
+                                    "debtor": {
+                                        "entityUniqueIdentifierType": "F",
+                                        "entityUniqueIdentifierValue": "string",
+                                        "fullName": "string",
+                                        "streetName": "string",
+                                        "civicNumber": "string",
+                                        "postalCode": "string",
+                                        "city": "string",
+                                        "stateProvinceRegion": "string",
+                                        "country": "string",
+                                        "email": "string"
+                                    },
+                                    "transferList": [
+                                        {
+                                            "idTransfer": 0,
+                                            "transferAmount": 0,
+                                            "fiscalCodePA": "string",
+                                            "iban": "string",
+                                            "mbdAttachment": "string",
+                                            "remittanceInformation": "string",
+                                            "transferCategory": "string",
+                                            "metadata": [
+                                                {
+                                                    "key": "string",
+                                                    "value": "string"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "idPSP": "string",
+                                    "pspFiscalCode": "string",
+                                    "pspPartitaIVA": "string",
+                                    "pspCompanyName": "string",
+                                    "idChannel": "string",
+                                    "channelDescription": "string",
+                                    "payer": {
+                                        "entityUniqueIdentifierType": "F",
+                                        "entityUniqueIdentifierValue": "string",
+                                        "fullName": "string",
+                                        "streetName": "string",
+                                        "civicNumber": "string",
+                                        "postalCode": "string",
+                                        "city": "string",
+                                        "stateProvinceRegion": "string",
+                                        "country": "string",
+                                        "email": "string"
+                                    },
+                                    "paymentMethod": "string",
+                                    "fee": 0,
+                                    "primaryCiIncurredFee": 0,
+                                    "idBundle": "string",
+                                    "idCiBundle": "string",
+                                    "paymentDateTime": "string",
+                                    "paymentDateTimeFormatted": "string",
+                                    "applicationDate": "string",
+                                    "transferDate": "string",
+                                    "metadata": [
+                                        {
+                                            "key": "string",
+                                            "value": "string"
+                                        }
+                                    ]
                                 }
                             }
                         }
