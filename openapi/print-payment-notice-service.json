@@ -1,22 +1,14 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "External Payment Notices Print Service APIs",
-        "description": "External Payment Notices Print Service APIs",
-        "version": "v1"
+        "description": "Microservice to expose the APIs for Print Payment Notices",
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "title": "Print Payment Notices - Service - Payment Notice Service (External)",
+        "version": "0.9.8"
     },
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/print-payment-notice-service/external/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/print-payment-notice-service/external/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/print-payment-notice-service/external/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/print-payment-notice-service/external/v1"
         }
     ],
     "paths": {
