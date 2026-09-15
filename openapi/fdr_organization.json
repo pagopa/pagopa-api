@@ -1,24 +1,15 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "title": "FDR Fase3 - Flussi di rendicontazione (ORGS)",
-        "description": "FDR - Flussi di rendicontazione (ORGS)",
-        "version": "v1"
-    },
-    "servers": [
-        {
-            "url": "https://api.uat.platform.pagopa.it/fdr-org/service/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/fdr-org/service/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/fdr-org/service/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/fdr-org/service/v1"
-        }
-    ],
+  "openapi": "3.0.1",
+  "info": {
+    "title": "FDR - Flussi di Rendicontazione (ORGs)",
+    "termsOfService": "https://www.pagopa.gov.it/",
+    "version": "1.1.54"
+  },
+  "servers": [
+    {
+      "url": "https://api.uat.platform.pagopa.it/fdr-org/service/v1"
+    }
+  ],
     "paths": {
         "/organizations/{organizationId}/fdrs": {
             "get": {
