@@ -9,15 +9,6 @@
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/aca/debt-positions-service/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/aca/debt-positions-service/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/aca/debt-positions-service/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/aca/debt-positions-service/v1"
         }
     ],
     "paths": {
