@@ -20,39 +20,6 @@
         }
     ],
     "paths": {
-        "/info": {
-            "get": {
-                "tags": [
-                    "Generic"
-                ],
-                "summary": "Info",
-                "description": "Info",
-                "operationId": "get-info",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AppInfo"
-                                },
-                                "example": {
-                                    "name": "string",
-                                    "version": "string",
-                                    "environment": "string"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
         "/payment-options/organizations/{organization-fiscal-code}/notices/{notice-number}": {
             "get": {
                 "tags": [
