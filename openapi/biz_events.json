@@ -3,20 +3,11 @@
     "info": {
         "title": "Biz Events Service",
         "description": "API to handle biz events payments",
-        "version": "v1"
+        "version": "0.1.89"
     },
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/bizevents/service/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/bizevents/service/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/bizevents/service/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/bizevents/service/v1"
         }
     ],
     "paths": {
