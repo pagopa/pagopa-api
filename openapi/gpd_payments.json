@@ -8,8 +8,16 @@
     },
     "servers": [
         {
-            "url": "https://api.uat.platform.pagopa.it/gpd/payments-receipts-service/v1",
-            "description": "Generated server url"
+            "url": "https://api.uat.platform.pagopa.it/gpd/payments-receipts-service/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/gpd/payments-receipts-service/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/gpd/payments-receipts-service/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/gpd/payments-receipts-service/v1"
         }
     ],
     "paths": {

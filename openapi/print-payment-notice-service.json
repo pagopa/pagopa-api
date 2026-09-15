@@ -9,6 +9,15 @@
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/print-payment-notice-service/external/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/print-payment-notice-service/external/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/print-payment-notice-service/external/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/print-payment-notice-service/external/v1"
         }
     ],
     "paths": {

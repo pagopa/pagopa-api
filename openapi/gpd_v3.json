@@ -8,12 +8,16 @@
     },
     "servers": [
         {
-            "url": "https://api.uat.platform.pagopa.it/gpd/debt-positions-service/v3",
-            "description": "GPD Test environment"
+            "url": "https://api.uat.platform.pagopa.it/gpd/debt-positions-service/v3"
         },
         {
-            "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v3",
-            "description": "GPD Production Environment"
+            "url": "https://uat.checkout.pagopa.it/gpd/debt-positions-service/v3"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/gpd/debt-positions-service/v3"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/gpd/debt-positions-service/v3"
         }
     ],
     "paths": {
