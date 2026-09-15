@@ -3,20 +3,11 @@
     "info": {
         "title": "Selfcare Backoffice External for PSP",
         "description": "API for Backoffice External for PSP",
-        "version": "v1"
+        "version": "1.6.9"
     },
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/backoffice/external/psp/v1"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/backoffice/external/psp/v1"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/backoffice/external/psp/v1"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/backoffice/external/psp/v1"
         }
     ],
     "paths": {
