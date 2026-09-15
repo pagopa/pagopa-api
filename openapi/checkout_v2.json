@@ -1,24 +1,25 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "title": "Checkout - EC API",
-        "description": "Checkout API for EC",
-        "version": "v2"
-    },
-    "servers": [
-        {
-            "url": "https://api.uat.platform.pagopa.it/checkout/ec/v2"
-        },
-        {
-            "url": "https://uat.checkout.pagopa.it/checkout/ec/v2"
-        },
-        {
-            "url": "https://uat.payment-wallet.pagopa.it/checkout/ec/v2"
-        },
-        {
-            "url": "https://api.prf.platform.pagopa.it/checkout/ec/v2"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Checkout - EC API",
+    "description": "Checkout API for EC",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://${host}",
+      "variables":{
+        "host": {
+          "description": "The hostname of the API server",
+          "default": "api.platform.pagopa.it/checkout/ec/v2",
+          "enum":[
+            "api.uat.platform.pagopa.it/checkout/ec/v2",
+            "api.platform.pagopa.it/checkout/ec/v2"
+          ]
         }
-    ],
+      }
+    }
+  ],
     "paths": {
         "/carts": {
             "post": {
