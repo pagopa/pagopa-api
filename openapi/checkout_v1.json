@@ -3,25 +3,25 @@
     "info": {
         "title": "Checkout - EC API",
         "description": "Checkout API for EC",
-        "version": "v1"
+        "version": "v2"
     },
     "servers": [
         {
-            "url": "https://api.platform.pagopa.it/checkout/ec/v1"
+            "url": "https://api.platform.pagopa.it/checkout/ec/v2"
         },
         {
-            "url": "https://checkout.pagopa.it/checkout/ec/v1"
+            "url": "https://checkout.pagopa.it/checkout/ec/v2"
         },
         {
-            "url": "https://payment-wallet.pagopa.it/checkout/ec/v1"
+            "url": "https://payment-wallet.pagopa.it/checkout/ec/v2"
         }
     ],
     "paths": {
         "/carts": {
             "post": {
-                "summary": "PostCarts",
+                "summary": "PostCartsV2",
                 "description": "create a cart",
-                "operationId": "PostCarts",
+                "operationId": "PostCartsV2",
                 "requestBody": {
                     "description": "New Cart related to payment requests",
                     "content": {
@@ -35,18 +35,23 @@
                                     {
                                         "noticeNumber": "302012387654312384",
                                         "fiscalCode": "77777777777",
-                                        "amount": 1000
+                                        "amount": 1000,
+                                        "companyName": "companyName",
+                                        "description": "description"
                                     },
                                     {
                                         "noticeNumber": "302012387654312385",
                                         "fiscalCode": "77777777777",
-                                        "amount": 2000
+                                        "amount": 2000,
+                                        "companyName": "companyName",
+                                        "description": "description"
                                     }
                                 ],
                                 "returnUrls": {
-                                    "returnOkUrl": "www.comune.di.prova.it/pagopa/success.html",
-                                    "returnCancelUrl": "www.comune.di.prova.it/pagopa/cancel.html",
-                                    "returnErrorUrl": "www.comune.di.prova.it/pagopa/error.html"
+                                    "returnOkUrl": "https://www.comune.di.prova.it/pagopa/success.html",
+                                    "returnCancelUrl": "https://www.comune.di.prova.it/pagopa/cancel.html",
+                                    "returnErrorUrl": "https://www.comune.di.prova.it/pagopa/error.html",
+                                    "returnWaitingUrl": "https://www.comune.di.prova.it/pagopa/waiting.html"
                                 },
                                 "idCart": "id_cart",
                                 "allCCP": "false"
@@ -168,12 +173,16 @@
                             {
                                 "noticeNumber": "302012387654312384",
                                 "fiscalCode": "77777777777",
-                                "amount": 1000
+                                "amount": 1000,
+                                "companyName": "companyName",
+                                "description": "description"
                             },
                             {
                                 "noticeNumber": "302012387654312385",
                                 "fiscalCode": "77777777777",
-                                "amount": 2000
+                                "amount": 2000,
+                                "companyName": "companyName",
+                                "description": "description"
                             }
                         ]
                     },
@@ -181,24 +190,31 @@
                         "required": [
                             "returnOkUrl",
                             "returnCancelUrl",
-                            "returnErrorUrl"
+                            "returnErrorUrl",
+                            "returnWaitingUrl"
                         ],
                         "type": "object",
                         "properties": {
                             "returnOkUrl": {
                                 "type": "string",
                                 "format": "uri",
-                                "example": "www.comune.di.prova.it/pagopa/success.html"
+                                "example": "https://www.comune.di.prova.it/pagopa/success.html"
                             },
                             "returnCancelUrl": {
                                 "type": "string",
                                 "format": "uri",
-                                "example": "www.comune.di.prova.it/pagopa/cancel.html"
+                                "example": "https://www.comune.di.prova.it/pagopa/cancel.html"
                             },
                             "returnErrorUrl": {
                                 "type": "string",
                                 "format": "uri",
-                                "example": "www.comune.di.prova.it/pagopa/error.html"
+                                "example": "https://www.comune.di.prova.it/pagopa/error.html"
+                            },
+                            "returnWaitingUrl": {
+                                "type": "string",
+                                "description": "URL where the user is redirected while payment is pending",
+                                "format": "uri",
+                                "example": "https://www.comune.di.prova.it/pagopa/waiting.html"
                             }
                         }
                     },

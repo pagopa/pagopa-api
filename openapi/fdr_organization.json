@@ -17,63 +17,6 @@
         }
     ],
     "paths": {
-        "/info": {
-            "get": {
-                "tags": [
-                    "Info"
-                ],
-                "summary": "Health-check",
-                "description": "## Description:\nGet health check and deployment-related information",
-                "operationId": "IInfoController_healthCheck",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/InfoResponse"
-                                },
-                                "example": {
-                                    "name": [
-                                        "pagopa-fdr"
-                                    ],
-                                    "version": [
-                                        "2003-01-02"
-                                    ],
-                                    "environment": [
-                                        "dev"
-                                    ],
-                                    "description": [
-                                        "FDR - Flussi di rendicontazione"
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                },
-                                "example": {
-                                    "errorId": "50905466-1881-457b-b42f-fb7b2bfb1610",
-                                    "httpStatusCode": 500,
-                                    "httpStatusDescription": "Internal Server Error",
-                                    "appErrorCode": "FDR-0500",
-                                    "errors": [
-                                        {
-                                            "message": "An unexpected error has occurred. Please contact support."
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/organizations/{organizationId}/fdrs": {
             "get": {
                 "tags": [
