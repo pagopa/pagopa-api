@@ -3,17 +3,12 @@
     "info": {
         "title": "GPD Reporting Analysis pagoPA",
         "description": "Api GPD Reporting Analysis",
-        "version": "v1"
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "0.3.3"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/gpd-reporting/api/v1"
-        },
-        {
-            "url": "https://checkout.pagopa.it/gpd-reporting/api/v1"
-        },
-        {
-            "url": "https://payment-wallet.pagopa.it/gpd-reporting/api/v1"
         }
     ],
     "paths": {
