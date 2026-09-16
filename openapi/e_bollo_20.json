@@ -3,65 +3,15 @@
     "info": {
         "title": "Marca da Bollo Digitale",
         "description": "API for eBollo 2.0",
-        "version": "v1"
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "1.2.11"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/pagopa-mbd-service/v1"
         },
-        {
-            "url": "https://checkout.pagopa.it/pagopa-mbd-service/v1"
-        },
-        {
-            "url": "https://payment-wallet.pagopa.it/pagopa-mbd-service/v1"
-        }
     ],
     "paths": {
-        "/info": {
-            "get": {
-                "tags": [
-                    "Home"
-                ],
-                "summary": "health check",
-                "description": "Return OK if application is started",
-                "operationId": "healthCheck",
-                "parameters": [
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AppInfo"
-                                },
-                                "examples": {
-                                    "default": {
-                                        "value": null
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/organizations/{fiscalCodeEC}/mbd": {
             "post": {
                 "tags": [
