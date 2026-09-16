@@ -3,17 +3,12 @@
     "info": {
         "title": "ecommerce pagoPA - Redirect outcome API",
         "description": "API to handle redirect transaction's outcome requests",
-        "version": "v1"
+        "termsOfService": "https://www.pagopa.gov.it/",
+        "version": "0.0.1",
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/ecommerce/redirect/v1"
-        },
-        {
-            "url": "https://checkout.pagopa.it/ecommerce/redirect/v1"
-        },
-        {
-            "url": "https://payment-wallet.pagopa.it/ecommerce/redirect/v1"
         }
     ],
     "paths": {
