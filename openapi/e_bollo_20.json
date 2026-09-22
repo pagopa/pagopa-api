@@ -321,8 +321,6 @@
                         "example": 1600
                     },
                     "documentHash": {
-                        "maxLength": 44,
-                        "minLength": 44,
                         "type": "string",
                         "description": "Document hash."
                     },
