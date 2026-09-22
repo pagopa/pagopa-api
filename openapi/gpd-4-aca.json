@@ -3,17 +3,20 @@
     "info": {
         "title": "GPD for ACA pagoPA - Debt Positions service API for ACA",
         "description": "API to support Debt Positions service for ACA",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.1.17"
+        "version": "v1"
     },
     "servers": [
         {
-            "url": "https://api.uat.platform.pagopa.it/aca/debt-positions-service/v1",
-            "description": "ACA Test environment"
+            "url": "https://api.uat.platform.pagopa.it/aca/debt-positions-service/v1"
         },
         {
-            "url": "https://api.platform.pagopa.it/aca/debt-positions-service/v1",
-            "description": "ACA Production Environment"
+            "url": "https://uat.checkout.pagopa.it/aca/debt-positions-service/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/aca/debt-positions-service/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/aca/debt-positions-service/v1"
         }
     ],
     "paths": {
