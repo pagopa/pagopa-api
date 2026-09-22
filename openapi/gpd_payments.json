@@ -3,12 +3,17 @@
     "info": {
         "title": "GPD Payments pagoPA - REST for Auth",
         "description": "REST API del servizio Payments per Gestione Posizione Debitorie - for Auth",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "0.12.52"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/gpd/payments-receipts-service/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/gpd/payments-receipts-service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/gpd/payments-receipts-service/v1"
         }
     ],
     "paths": {

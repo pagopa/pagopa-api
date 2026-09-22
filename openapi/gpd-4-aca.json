@@ -3,13 +3,17 @@
     "info": {
         "title": "GPD for ACA pagoPA - Debt Positions service API for ACA",
         "description": "API to support Debt Positions service for ACA",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.0.0"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/aca/debt-positions-service/v1"
-            "description": "ACA Production environment"
+        },
+        {
+            "url": "https://checkout.pagopa.it/aca/debt-positions-service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/aca/debt-positions-service/v1"
         }
     ],
     "paths": {
@@ -1737,96 +1741,6 @@
                                     "title": "string",
                                     "status": 200,
                                     "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Service unavailable.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "title": "string",
-                                    "status": 200,
-                                    "detail": "There was an error processing the request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/info": {
-            "get": {
-                "tags": [
-                    "Home"
-                ],
-                "summary": "Return OK if application is started",
-                "description": "Return OK if application is started",
-                "operationId": "healthCheck",
-                "parameters": [
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AppInfo"
-                                },
-                                "example": {
-                                    "name": "string",
-                                    "version": "string",
-                                    "environment": "string"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Wrong or missing function key.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
                                 }
                             }
                         }
