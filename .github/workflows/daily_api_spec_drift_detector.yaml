@@ -294,13 +294,29 @@ jobs:
       #         ]
       #       }
 
-      - name: Notify Slack
-        if: ${{ always() && steps.drift-report.outputs.has_issues == 'true' }}
+      # - name: Notify Slack
+      #   if: ${{ always() && steps.drift-report.outputs.has_issues == 'true' }}
+      #   uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+      #   with:
+      #     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     webhook-type: incoming-webhook
+      #     payload-file-path: ${{ steps.drift-report.outputs.payload_file }}
+
+      - name: Notify Slack — MAIN
+        if: ${{ always() }}
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
-          payload-file-path: ${{ steps.drift-report.outputs.payload_file }}
+          payload-file-path: ${{ steps.drift-report.outputs.payload_file_main }}
+
+      - name: Notify Slack — DEV/UAT/PROD
+        if: ${{ always() }}
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload-file-path: ${{ steps.drift-report.outputs.payload_file_other }}
       
       - name: Download APIM PROD exported specs
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
