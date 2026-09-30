@@ -242,71 +242,9 @@ def build_report(files_data: dict) -> str:
 
     return "\n".join(lines)
 
-# def build_slack_payload(files_data: dict) -> tuple[dict, bool]:
-#     """Build the Slack message. Returns (payload, has_issues).
-#     has_issues is True when there is at least one error/warning
-#     (or no results at all)."""
-#     server = os.environ.get("GITHUB_SERVER_URL", "https://github.com")
-#     repo = os.environ.get("GITHUB_REPOSITORY", "")
-#     run_id = os.environ.get("GITHUB_RUN_ID", "")
-#     run_url = f"{server}/{repo}/actions/runs/{run_id}"
-
-#     all_changes = [
-#         c
-#         for env_data in files_data.values()
-#         for entry in env_data.values()
-#         for c in entry.get("changes", [])
-#     ]
-#     errors = sum(1 for c in all_changes if c.get("level") == 3)
-#     warnings = sum(1 for c in all_changes if c.get("level") == 2)
-
-#     if not files_data:
-#         status = "⚠️ Nessun risultato trovato: i job di confronto potrebbero essere falliti"
-#     elif errors:
-#         status = "❌ Breaking changes rilevate"
-#     elif warnings:
-#         status = "⚠️ Warning rilevati"
-#     elif all_changes:
-#         status = "🔵 Solo modifiche informative"
-#     else:
-#         status = "✅ Tutte le spec sono allineate"
-
-#     has_issues = (not files_data) or bool(all_changes)
-
-#     # One line per file, listing only the environments with errors/warnings
-#     lines = []
-#     for fname in sorted(files_data.keys()):
-#         parts = []
-#         for env in ENVS:
-#             entry = files_data[fname].get(env)
-#             if entry and entry.get("changes"):
-#                 parts.append(f"*{env}* {status_cell(entry)}")
-#         if parts:
-#             lines.append(f"• `{fname}` — " + "  |  ".join(parts))
-
-#     blocks = [
-#         {"type": "header",
-#          "text": {"type": "plain_text", "text": "API Spec Drift Report"}},
-#         {"type": "section",
-#          "text": {"type": "mrkdwn",
-#                   "text": f"{status}\n{len(files_data)} file monitorati — "
-#                           f"*{errors}* error, *{warnings}* warning"}},
-#     ]
-
-#     # Slack limits a section to 3000 chars: split into chunks
-#     chunk = ""
-#     for line in lines:
-#         if len(chunk) + len(line) + 1 > 2800:
-#             blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": chunk}})
-#             chunk = ""
-#         chunk += line + "\n"
-#     if chunk:
-#         blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": chunk}})
-
-#     blocks.append({"type": "section",
-#                    "text": {"type": "mrkdwn", "text": f"<{run_url}|Apri la run su GitHub>"}})
-
-#     return {"blocks": blocks}, has_issues
+# ---------------------------------------------------------------------------
+# Function to build Slack message payloads
+# ---------------------------------------------------------------------------
 
 MAIN_ENVS = ["MAIN"]
 OTHER_ENVS = ["DEV", "UAT", "PROD"]
@@ -352,7 +290,7 @@ def _build_message(files_data: dict, envs: list, title: str) -> tuple[list, int,
         cells = []
         for env in envs:
             entry = files_data[fname].get(env)
-            cell = status_cell(entry) if entry else "❔ N/D"
+            cell = status_cell(entry) if entry else "N/D"
             cells.append(f"*{env}*: {cell}")
         lines.append(f"• `{fname}` — " + "  ||||  ".join(cells))
 
@@ -410,29 +348,3 @@ if __name__ == "__main__":
             f.write(f"has_issues_other={'true' if (other_e or other_w) else 'false'}\n")
             f.write(f"payload_file_main={main_payload_path}\n")
             f.write(f"payload_file_other={other_payload_path}\n")
-
-# if __name__ == "__main__":
-#     artifacts_dir = os.environ.get("ARTIFACTS_DIR", "artifacts")
-#     summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
-#     output_file = os.environ.get("GITHUB_OUTPUT")
-
-#     files_data = load_results(artifacts_dir)
-#     report = build_report(files_data)
-
-#     if summary_file:
-#         with open(summary_file, "w") as f:
-#             f.write(report)
-#         print(f"✅ Drift report written to GitHub Step Summary ({len(files_data)} file(s) processed)")
-#     else:
-#         print(report)
-
-#     # Slack payload (written outside the workspace so it doesn't end up in the PRs)
-#     payload, has_issues = build_slack_payload(files_data)
-#     payload_path = os.path.join(os.environ.get("RUNNER_TEMP", "."), "slack_payload.json")
-#     with open(payload_path, "w", encoding="utf-8") as f:
-#         json.dump(payload, f, ensure_ascii=False)
-
-#     if output_file:
-#         with open(output_file, "a") as f:
-#             f.write(f"has_issues={'true' if has_issues else 'false'}\n")
-#             f.write(f"payload_file={payload_path}\n")

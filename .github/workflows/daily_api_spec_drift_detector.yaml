@@ -279,32 +279,9 @@ jobs:
           echo "=== payload content ==="
           cat "${{ steps.drift-report.outputs.payload_file }}"
 
-      # - name: Test Slack webhook mechanics
-      #   uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
-      #   with:
-      #     webhook: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
-      #     webhook-type: incoming-webhook
-      #     payload: |
-      #       {
-      #         "blocks": [
-      #           {
-      #             "type": "section",
-      #             "text": { "type": "mrkdwn", "text": "Test invio Slack — meccanica OK ✅" }
-      #           }
-      #         ]
-      #       }
-
-      # - name: Notify Slack
-      #   if: ${{ always() && steps.drift-report.outputs.has_issues == 'true' }}
-      #   uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
-      #   with:
-      #     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #     webhook-type: incoming-webhook
-      #     payload-file-path: ${{ steps.drift-report.outputs.payload_file }}
-
       - name: Notify Slack — MAIN
         if: ${{ always() }}
-        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
@@ -312,7 +289,7 @@ jobs:
 
       - name: Notify Slack — DEV/UAT/PROD
         if: ${{ always() }}
-        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
