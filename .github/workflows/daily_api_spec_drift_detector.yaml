@@ -267,11 +267,26 @@ jobs:
         continue-on-error: true  # gracefully handle runs where no artifacts were uploaded
 
       - name: Generate unified drift report
+        id: drift-report
         run: |
           python3 .github/scripts/generate_drift_report.py
         env:
           ARTIFACTS_DIR: artifacts
+      
+      - name: Show Slack payload (debug, no send)
+        run: |
+          echo "=== has_issues: ${{ steps.drift-report.outputs.has_issues }} ==="
+          echo "=== payload content ==="
+          cat "${{ steps.drift-report.outputs.payload_file }}"
 
+      # - name: Notify Slack
+      #   if: ${{ always() && steps.drift-report.outputs.has_issues == 'true' }}
+      #   uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+      #   with:
+      #     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     webhook-type: incoming-webhook
+      #     payload-file-path: ${{ steps.drift-report.outputs.payload_file }}
+      
       - name: Download APIM PROD exported specs
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
