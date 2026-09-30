@@ -3,37 +3,34 @@
     "info": {
         "title": "Marca da Bollo Digitale",
         "description": "API for eBollo 2.0",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.2.11"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/pagopa-mbd-service/v1"
         },
+        {
+            "url": "https://checkout.pagopa.it/pagopa-mbd-service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/pagopa-mbd-service/v1"
+        }
     ],
     "paths": {
-        "/organizations/{fiscalCodeEC}/mbd": {
+        "/organizations/{organization-fiscal-code}/mbd": {
             "post": {
                 "tags": [
-                    "MBD"
+                    "MBD - v1"
                 ],
                 "summary": "getMbd",
-                "description": "Return mbd data for payment on requirement ",
+                "description": "Return mbd data for payment on requirement",
                 "operationId": "getMdb",
                 "parameters": [
                     {
-                        "name": "fiscalCodeEC",
+                        "name": "organization-fiscal-code",
                         "in": "path",
-                        "description": "The organization fiscal code",
+                        "description": "Organization fiscal code",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
                         "schema": {
                             "type": "string"
                         }
@@ -46,22 +43,22 @@
                                 "$ref": "#/components/schemas/GetMbdRequest"
                             },
                             "example": {
+                                "idCIService": "04",
                                 "paymentNotices": [
                                     {
-                                        "firstName": "Mario",
-                                        "lastName": "Rossi",
-                                        "fiscalCode": "00000000000000000",
+                                        "amount": 1600,
+                                        "documentHash": "string",
                                         "email": "mario.rossi@test.test",
-                                        "amount": 16,
-                                        "province": "RM",
-                                        "documentHash": "string"
+                                        "firstName": "Mario",
+                                        "fiscalCode": "00000000000000000",
+                                        "lastName": "Rossi",
+                                        "province": "RM"
                                     }
                                 ],
-                                "idCIService": "04",
                                 "returnUrls": {
-                                    "successUrl": "https://url1.it",
                                     "cancelUrl": "https://url2.it",
-                                    "errorUrl": "https://url3.it"
+                                    "errorUrl": "https://url3.it",
+                                    "successUrl": "https://url1.it"
                                 }
                             }
                         }
@@ -70,14 +67,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -93,14 +82,6 @@
                     },
                     "400": {
                         "description": "Bad Request",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -115,71 +96,16 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
+                        "description": "Unauthorized"
                     },
                     "403": {
-                        "description": "Forbidden",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemJson"
-                                },
-                                "example": {
-                                    "status": 404,
-                                    "title": "Not Found",
-                                    "detail": "<detail.message>"
-                                }
-                            }
-                        }
+                        "description": "Forbidden"
                     },
                     "429": {
-                        "description": "Too many requests",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
+                        "description": "Too many requests"
                     },
                     "500": {
                         "description": "Service unavailable",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -194,19 +120,19 @@
                 }
             }
         },
-        "/organizations/{fiscalCodeEC}/receipt/{nav}": {
+        "/organizations/{organization-fiscal-code}/receipt/{nav}": {
             "get": {
                 "tags": [
-                    "MBD"
+                    "MBD - v1"
                 ],
                 "summary": "getPaymentReceipt",
-                "description": "Return receipt of payment on requirement ",
+                "description": "Return the Marca da Bollo Digitale",
                 "operationId": "getPaymentReceipts",
                 "parameters": [
                     {
-                        "name": "fiscalCodeEC",
+                        "name": "organization-fiscal-code",
                         "in": "path",
-                        "description": "The organization fiscal code",
+                        "description": "Organization fiscal code",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -215,16 +141,8 @@
                     {
                         "name": "nav",
                         "in": "path",
-                        "description": "The notice number",
+                        "description": "Notice number",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "X-Request-Id",
-                        "in": "header",
-                        "description": "This header identifies the call, if not passed it is self-generated. This ID is returned in the response.",
                         "schema": {
                             "type": "string"
                         }
@@ -233,14 +151,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -256,59 +166,27 @@
                     },
                     "400": {
                         "description": "Bad Request",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ProblemJson"
                                 },
                                 "example": {
-                                    "title": "string",
+                                    "detail": "There was an error processing the request",
                                     "status": 400,
-                                    "detail": "There was an error processing the request"
+                                    "title": "string"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
+                        "description": "Unauthorized"
                     },
                     "403": {
-                        "description": "Forbidden",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
+                        "description": "Forbidden"
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -323,26 +201,10 @@
                         }
                     },
                     "429": {
-                        "description": "Too many requests",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
+                        "description": "Too many requests"
                     },
                     "500": {
                         "description": "Service unavailable",
-                        "headers": {
-                            "X-Request-Id": {
-                                "description": "This header identifies the call",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -362,104 +224,27 @@
     },
     "components": {
         "schemas": {
-            "GetMbdRequest": {
-                "required": [
-                    "idCIService",
-                    "returnUrls"
-                ],
+            "AppInfo": {
                 "type": "object",
                 "properties": {
-                    "paymentNotices": {
-                        "maxItems": 1,
-                        "minItems": 1,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PaymentNotice"
-                        }
+                    "environment": {
+                        "type": "string"
                     },
-                    "idCIService": {
-                        "type": "string",
-                        "description": "Identifier of the association between the organization and MDB payment service.",
-                        "example": "04"
+                    "name": {
+                        "type": "string"
                     },
-                    "returnUrls": {
-                        "$ref": "#/components/schemas/ReturnUrls"
+                    "version": {
+                        "type": "string"
                     }
                 }
             },
-            "PaymentNotice": {
-                "required": [
-                    "amount",
-                    "documentHash",
-                    "email",
-                    "firstName",
-                    "fiscalCode",
-                    "lastName",
-                    "province"
-                ],
+            "GetCartErrorResponse": {
                 "type": "object",
                 "properties": {
-                    "firstName": {
-                        "type": "string",
-                        "description": "Debtor name.",
-                        "example": "Mario"
-                    },
-                    "lastName": {
-                        "type": "string",
-                        "description": "Debtor surname.",
-                        "example": "Rossi"
-                    },
-                    "fiscalCode": {
-                        "type": "string",
-                        "description": "Debtor fiscal code.",
-                        "example": "00000000000000000"
-                    },
-                    "email": {
-                        "type": "string",
-                        "description": "Debtor mail.",
-                        "example": "mario.rossi@test.test"
-                    },
-                    "amount": {
-                        "type": "integer",
-                        "description": "MBD amount.",
-                        "format": "int64",
-                        "example": 16
-                    },
-                    "province": {
-                        "type": "string",
-                        "description": "Debtor province.",
-                        "example": "RM"
-                    },
-                    "documentHash": {
-                        "maxLength": 44,
-                        "minLength": 44,
-                        "type": "string",
-                        "description": "Document hash."
-                    }
-                }
-            },
-            "ReturnUrls": {
-                "required": [
-                    "cancelUrl",
-                    "errorUrl",
-                    "successUrl"
-                ],
-                "type": "object",
-                "properties": {
-                    "successUrl": {
-                        "type": "string",
-                        "description": "Redirect success URL.",
-                        "example": "https://url1.it"
-                    },
-                    "cancelUrl": {
-                        "type": "string",
-                        "description": "Redirect cancel URL.",
-                        "example": "https://url2.it"
-                    },
                     "errorUrl": {
                         "type": "string",
-                        "description": "Redirect error URL.",
-                        "example": "https://url3.it"
+                        "description": "The error URL provided in the request.",
+                        "example": "https://url.it"
                     }
                 }
             },
@@ -483,35 +268,28 @@
                     }
                 }
             },
-            "ProblemJson": {
+            "GetMbdRequest": {
+                "required": [
+                    "idCIService",
+                    "returnUrls"
+                ],
                 "type": "object",
                 "properties": {
-                    "title": {
+                    "idCIService": {
                         "type": "string",
-                        "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+                        "description": "Identifier of the association between the organization and MDB payment service.",
+                        "example": "04"
                     },
-                    "status": {
-                        "maximum": 600.0,
-                        "minimum": 100.0,
-                        "type": "integer",
-                        "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
-                        "format": "int32",
-                        "example": 400
+                    "paymentNotices": {
+                        "maxItems": 1,
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentNotice"
+                        }
                     },
-                    "detail": {
-                        "type": "string",
-                        "description": "A human readable explanation specific to this occurrence of the problem.",
-                        "example": "There was an error processing the request"
-                    }
-                }
-            },
-            "GetCartErrorResponse": {
-                "type": "object",
-                "properties": {
-                    "errorUrl": {
-                        "type": "string",
-                        "description": "The error URL provided in the request.",
-                        "example": "https://url.it"
+                    "returnUrls": {
+                        "$ref": "#/components/schemas/ReturnUrls"
                     }
                 }
             },
@@ -529,17 +307,100 @@
                     }
                 }
             },
-            "AppInfo": {
+            "PaymentNotice": {
+                "required": [
+                    "amount",
+                    "documentHash",
+                    "email",
+                    "firstName",
+                    "fiscalCode",
+                    "lastName",
+                    "province"
+                ],
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "type": "string"
+                    "amount": {
+                        "type": "integer",
+                        "description": "MBD amount (Eurocents value).",
+                        "format": "int64",
+                        "example": 1600
                     },
-                    "version": {
-                        "type": "string"
+                    "documentHash": {
+                        "type": "string",
+                        "description": "Document hash."
                     },
-                    "environment": {
-                        "type": "string"
+                    "email": {
+                        "type": "string",
+                        "description": "Debtor mail.",
+                        "example": "mario.rossi@test.test"
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "description": "Debtor name.",
+                        "example": "Mario"
+                    },
+                    "fiscalCode": {
+                        "pattern": "^(?:[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]|\\d{11})$",
+                        "type": "string",
+                        "description": "Debtor fiscal code.",
+                        "example": "00000000000000000"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "description": "Debtor surname.",
+                        "example": "Rossi"
+                    },
+                    "province": {
+                        "type": "string",
+                        "description": "Debtor province.",
+                        "example": "RM"
+                    }
+                }
+            },
+            "ProblemJson": {
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "type": "string",
+                        "description": "A human readable explanation specific to this occurrence of the problem.",
+                        "example": "There was an error processing the request"
+                    },
+                    "status": {
+                        "maximum": 600.0,
+                        "minimum": 100.0,
+                        "type": "integer",
+                        "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+                        "format": "int32",
+                        "example": 400
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+                    }
+                }
+            },
+            "ReturnUrls": {
+                "required": [
+                    "cancelUrl",
+                    "errorUrl",
+                    "successUrl"
+                ],
+                "type": "object",
+                "properties": {
+                    "cancelUrl": {
+                        "type": "string",
+                        "description": "Redirect cancel URL.",
+                        "example": "https://url2.it"
+                    },
+                    "errorUrl": {
+                        "type": "string",
+                        "description": "Redirect error URL.",
+                        "example": "https://url3.it"
+                    },
+                    "successUrl": {
+                        "type": "string",
+                        "description": "Redirect success URL.",
+                        "example": "https://url1.it"
                     }
                 }
             }
@@ -567,8 +428,8 @@
     ],
     "tags": [
         {
-            "name": "MBD",
-            "description": "APIs for @eBollo"
+            "name": "MBD - v1",
+            "description": "APIs for @eBollo v1"
         }
     ]
 }
