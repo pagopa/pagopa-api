@@ -347,16 +347,26 @@ def _build_message(files_data: dict, envs: list, title: str) -> tuple[list, int,
         {"type": "divider"},
     ]
 
-    # Punto 2: ogni file, ogni ambiente richiesto, sempre — OK incluso
+    lines = []
     for fname in sorted(files_data.keys()):
-        lines = [f"*`{fname}`*"]
+        cells = []
         for env in envs:
             entry = files_data[fname].get(env)
             cell = status_cell(entry) if entry else "❔ N/D"
-            lines.append(f"   •  *{env}*  —  {cell}")
-        blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": "\n\n".join(lines)}})
-        blocks.append({"type": "divider"})  # Punto 3: separatore dopo ogni file
+            cells.append(f"*{env}*: {cell}")
+        lines.append(f"• `{fname}` — " + "  ||||  ".join(cells))
 
+    # Slack limita ogni sezione a 3000 caratteri: spezza in più blocchi se serve
+    chunk = ""
+    for line in lines:
+        if len(chunk) + len(line) + 2 > 2800:
+            blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": chunk}})
+            chunk = ""
+        chunk += line + "\n\n"
+    if chunk:
+        blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": chunk}})
+
+    blocks.append({"type": "divider"})
     blocks.append({"type": "section",
                    "text": {"type": "mrkdwn", "text": f"<{run_url}|Apri la run su GitHub>"}})
 
