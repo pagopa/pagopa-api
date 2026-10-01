@@ -242,6 +242,73 @@ def build_report(files_data: dict) -> str:
 
     return "\n".join(lines)
 
+# ---------------------------------------------------------------------------
+# Function to build Slack message payloads
+# ---------------------------------------------------------------------------
+
+MAIN_ENVS = ["MAIN"]
+OTHER_ENVS = ["DEV", "UAT", "PROD"]
+
+
+def _build_message(files_data: dict, envs: list, title: str) -> tuple[list, int, int]:
+    server = os.environ.get("GITHUB_SERVER_URL", "https://github.com")
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    run_id = os.environ.get("GITHUB_RUN_ID", "")
+    run_url = f"{server}/{repo}/actions/runs/{run_id}"
+
+    relevant_changes = [
+        c
+        for env_data in files_data.values()
+        for env, entry in env_data.items()
+        if env in envs
+        for c in entry.get("changes", [])
+    ]
+    errors = sum(1 for c in relevant_changes if c.get("level") == 3)
+    warnings = sum(1 for c in relevant_changes if c.get("level") == 2)
+
+    if not files_data:
+        status = "⚠️ Nessun risultato trovato"
+    elif errors:
+        status = "❌ Breaking changes rilevate"
+    elif warnings:
+        status = "⚠️ Warning rilevati"
+    elif relevant_changes:
+        status = "🔵 Solo modifiche informative"
+    else:
+        status = "✅ Tutte le spec sono allineate"
+
+    blocks = [
+        {"type": "header", "text": {"type": "plain_text", "text": title}},
+        {"type": "section",
+         "text": {"type": "mrkdwn",
+                  "text": f"{status}\n{len(files_data)} file monitorati — *{errors}* error, *{warnings}* warning"}},
+        {"type": "divider"},
+    ]
+
+    lines = []
+    for fname in sorted(files_data.keys()):
+        cells = []
+        for env in envs:
+            entry = files_data[fname].get(env)
+            cell = status_cell(entry) if entry else "N/D"
+            cells.append(f"*{env}*: {cell}")
+        lines.append(f"• `{fname}` — " + "  ||||  ".join(cells))
+
+    # Slack limita ogni sezione a 3000 caratteri: spezza in più blocchi se serve
+    chunk = ""
+    for line in lines:
+        if len(chunk) + len(line) + 2 > 2800:
+            blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": chunk}})
+            chunk = ""
+        chunk += line + "\n\n"
+    if chunk:
+        blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": chunk}})
+
+    blocks.append({"type": "divider"})
+    blocks.append({"type": "section",
+                   "text": {"type": "mrkdwn", "text": f"<{run_url}|Apri la run su GitHub>"}})
+
+    return blocks, errors, warnings
 
 # ---------------------------------------------------------------------------
 # Entry point
@@ -249,10 +316,11 @@ def build_report(files_data: dict) -> str:
 
 if __name__ == "__main__":
     artifacts_dir = os.environ.get("ARTIFACTS_DIR", "artifacts")
-    summary_file  = os.environ.get("GITHUB_STEP_SUMMARY")
+    summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
+    output_file = os.environ.get("GITHUB_OUTPUT")
 
     files_data = load_results(artifacts_dir)
-    report     = build_report(files_data)
+    report = build_report(files_data)
 
     if summary_file:
         with open(summary_file, "w") as f:
@@ -260,3 +328,23 @@ if __name__ == "__main__":
         print(f"✅ Drift report written to GitHub Step Summary ({len(files_data)} file(s) processed)")
     else:
         print(report)
+
+    runner_temp = os.environ.get("RUNNER_TEMP", ".")
+
+    main_blocks, main_e, main_w = _build_message(files_data, MAIN_ENVS, "Open API Differences Check — SERVICE MAIN Vs APIM")
+    other_blocks, other_e, other_w = _build_message(files_data, OTHER_ENVS, "Open API Differences Check —pagopa/pagopa-api DEV / UAT / PROD Vs APIM")
+
+    main_payload_path = os.path.join(runner_temp, "slack_payload_main.json")
+    other_payload_path = os.path.join(runner_temp, "slack_payload_other.json")
+
+    with open(main_payload_path, "w", encoding="utf-8") as f:
+        json.dump({"blocks": main_blocks}, f, ensure_ascii=False)
+    with open(other_payload_path, "w", encoding="utf-8") as f:
+        json.dump({"blocks": other_blocks}, f, ensure_ascii=False)
+
+    if output_file:
+        with open(output_file, "a") as f:
+            f.write(f"has_issues_main={'true' if (main_e or main_w) else 'false'}\n")
+            f.write(f"has_issues_other={'true' if (other_e or other_w) else 'false'}\n")
+            f.write(f"payload_file_main={main_payload_path}\n")
+            f.write(f"payload_file_other={other_payload_path}\n")
