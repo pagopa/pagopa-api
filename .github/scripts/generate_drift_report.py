@@ -331,8 +331,8 @@ if __name__ == "__main__":
 
     runner_temp = os.environ.get("RUNNER_TEMP", ".")
 
-    main_blocks, main_e, main_w = _build_message(files_data, MAIN_ENVS, "Open API Differences Check — MAIN")
-    other_blocks, other_e, other_w = _build_message(files_data, OTHER_ENVS, "Open API Differences Check — DEV / UAT / PROD")
+    main_blocks, main_e, main_w = _build_message(files_data, MAIN_ENVS, "Open API Differences Check — SERVICE MAIN Vs APIM")
+    other_blocks, other_e, other_w = _build_message(files_data, OTHER_ENVS, "Open API Differences Check —pagopa/pagopa-api DEV / UAT / PROD Vs APIM")
 
     main_payload_path = os.path.join(runner_temp, "slack_payload_main.json")
     other_payload_path = os.path.join(runner_temp, "slack_payload_other.json")
