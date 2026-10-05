@@ -29,406 +29,448 @@
       }
     }
   ],
-  "tags": [
-    {
-      "description": "APIs for @eBollo v2",
-      "name": "MBD - v2"
-    }
-  ],
   "paths": {
-    "/organizations/{organization-fiscal-code}/mbd": {
-      "post": {
-        "description": "Create debt position with Marca da Bollo Digitale data for payment",
-        "operationId": "createMbdV2",
-        "parameters": [
-          {
-            "description": "Organization fiscal code",
-            "in": "path",
-            "name": "organization-fiscal-code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateMbdRequestV2"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetCartResponse"
+        "/organizations/{organization-fiscal-code}/noticeNumbers/{nav}/mbd": {
+            "get": {
+                "tags": [
+                    "MBD - v2"
+                ],
+                "summary": "getPaymentReceiptV2",
+                "description": "Return the Marca da Bollo Digitale",
+                "operationId": "getPaymentReceiptsV2",
+                "parameters": [
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "Organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "nav",
+                        "in": "path",
+                        "description": "Notice number",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetMdbReceipt"
+                                },
+                                "example": {
+                                    "content": [
+                                        "string"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "detail": "There was an error processing the request",
+                                    "status": 400,
+                                    "title": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 404,
+                                    "title": "Not Found",
+                                    "detail": "<detail.message>"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests"
+                    },
+                    "500": {
+                        "description": "Service unavailable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 500,
+                                    "title": "Internal Server Error",
+                                    "detail": "<detail.message>"
+                                }
+                            }
+                        }
+                    }
                 }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": 400,
-                  "title": "Bad Request",
-                  "detail": "<detail.message>"
+            }
+        },
+        "/organizations/{organization-fiscal-code}/mbd": {
+            "post": {
+                "tags": [
+                    "MBD - v2"
+                ],
+                "summary": "createMbdV2",
+                "description": "Create debt position with Marca da Bollo Digitale data for payment",
+                "operationId": "createMbdV2",
+                "parameters": [
+                    {
+                        "name": "organization-fiscal-code",
+                        "in": "path",
+                        "description": "Organization fiscal code",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateMbdRequestV2"
+                            },
+                            "example": {
+                                "paymentNotices": [
+                                    {
+                                        "amount": 1600,
+                                        "debtor": {
+                                            "email": "mario.rossi@test.test",
+                                            "fullName": "Mario Rossi",
+                                            "uniqueIdentifier": {
+                                                "type": "F",
+                                                "value": "00000000000000000"
+                                            }
+                                        },
+                                        "documentHash": "string",
+                                        "province": "RM"
+                                    }
+                                ],
+                                "returnUrls": {
+                                    "cancelUrl": "https://url2.it",
+                                    "errorUrl": "https://url3.it",
+                                    "successUrl": "https://url1.it",
+                                    "waitingUrl": "https://url4.it"
+                                }
+                            }
+                        }
+                    }
                 },
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCartResponse"
+                                },
+                                "example": {
+                                    "checkoutRedirectUrl": "https://dev.checkout.pagopa.it.it/c/123",
+                                    "mbdDownloadLink": "https://api.platform.pagopa.it/mbd/mbd-payment/v1/00000000000/receipt/300996299640641032",
+                                    "nav": "300996299640641032"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemJson"
+                                },
+                                "example": {
+                                    "status": 400,
+                                    "title": "Bad Request",
+                                    "detail": "<detail.message>"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "429": {
+                        "description": "Too many requests"
+                    },
+                    "500": {
+                        "description": "Service unavailable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCartErrorResponse"
+                                },
+                                "example": {
+                                    "errorUrl": "https://url.it"
+                                }
+                            }
+                        }
+                    }
                 }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "429": {
-            "description": "Too many requests"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetCartErrorResponse"
-                }
-              }
-            },
-            "description": "Service unavailable"
-          }
-        },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ],
-        "summary": "createMbdV2",
-        "tags": [
-          "MBD - v2"
-        ]
-      }
+            }
+        }
     },
-    "/organizations/{organization-fiscal-code}/noticeNumbers/{nav}/mbd": {
-      "get": {
-        "description": "Return the Marca da Bollo Digitale",
-        "operationId": "getPaymentReceiptsV2",
-        "parameters": [
-          {
-            "description": "Organization fiscal code",
-            "in": "path",
-            "name": "organization-fiscal-code",
-            "required": true,
-            "schema": {
-              "type": "string"
+    "components": {
+        "schemas": {
+            "AppInfo": {
+                "type": "object",
+                "properties": {
+                    "environment": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateMbdRequestV2": {
+                "required": [
+                    "returnUrls"
+                ],
+                "type": "object",
+                "properties": {
+                    "paymentNotices": {
+                        "maxItems": 1,
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentNoticeV2"
+                        }
+                    },
+                    "returnUrls": {
+                        "$ref": "#/components/schemas/ReturnUrlsV2"
+                    }
+                }
+            },
+            "Debtor": {
+                "required": [
+                    "email",
+                    "fullName"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "Debtor mail.",
+                        "example": "mario.rossi@test.test"
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "description": "Debtor full name.",
+                        "example": "Mario Rossi"
+                    },
+                    "uniqueIdentifier": {
+                        "$ref": "#/components/schemas/UniqueIdentifier"
+                    }
+                }
+            },
+            "GetCartErrorResponse": {
+                "type": "object",
+                "properties": {
+                    "errorUrl": {
+                        "type": "string",
+                        "description": "The error URL provided in the request.",
+                        "example": "https://url.it"
+                    }
+                }
+            },
+            "GetCartResponse": {
+                "type": "object",
+                "properties": {
+                    "checkoutRedirectUrl": {
+                        "type": "string",
+                        "description": "Redirect URL to Checkout page.",
+                        "example": "https://dev.checkout.pagopa.it.it/c/123"
+                    },
+                    "mbdDownloadLink": {
+                        "type": "string",
+                        "description": "URL to download MBD receipt.",
+                        "example": "https://api.platform.pagopa.it/mbd/mbd-payment/v1/00000000000/receipt/300996299640641032"
+                    },
+                    "nav": {
+                        "type": "string",
+                        "description": "Notice number, used to download MBD receipt.",
+                        "example": "300996299640641032"
+                    }
+                }
+            },
+            "GetMdbReceipt": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "The MBD receipt.",
+                            "format": "byte"
+                        },
+                        "description": "The MBD receipt."
+                    }
+                }
+            },
+            "PaymentNoticeV2": {
+                "required": [
+                    "amount",
+                    "debtor",
+                    "documentHash",
+                    "province"
+                ],
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "integer",
+                        "description": "MBD amount (Eurocents value).",
+                        "format": "int64",
+                        "example": 1600
+                    },
+                    "debtor": {
+                        "$ref": "#/components/schemas/Debtor"
+                    },
+                    "documentHash": {
+                        "type": "string",
+                        "description": "Document hash."
+                    },
+                    "province": {
+                        "type": "string",
+                        "description": "Organization province.",
+                        "example": "RM"
+                    }
+                }
+            },
+            "ProblemJson": {
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "type": "string",
+                        "description": "A human readable explanation specific to this occurrence of the problem.",
+                        "example": "There was an error processing the request"
+                    },
+                    "status": {
+                        "maximum": 600,
+                        "minimum": 100,
+                        "type": "integer",
+                        "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
+                        "format": "int32",
+                        "example": 400
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
+                    }
+                }
+            },
+            "ReturnUrlsV2": {
+                "required": [
+                    "cancelUrl",
+                    "errorUrl",
+                    "successUrl",
+                    "waitingUrl"
+                ],
+                "type": "object",
+                "properties": {
+                    "cancelUrl": {
+                        "type": "string",
+                        "description": "Redirect cancel URL.",
+                        "example": "https://url2.it"
+                    },
+                    "errorUrl": {
+                        "type": "string",
+                        "description": "Redirect error URL.",
+                        "example": "https://url3.it"
+                    },
+                    "successUrl": {
+                        "type": "string",
+                        "description": "Redirect success URL.",
+                        "example": "https://url1.it"
+                    },
+                    "waitingUrl": {
+                        "type": "string",
+                        "description": "Redirect waiting URL.",
+                        "example": "https://url4.it"
+                    }
+                }
+            },
+            "UniqueIdentifier": {
+                "required": [
+                    "type",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "enum": [
+                            "F",
+                            "G"
+                        ],
+                        "type": "string",
+                        "description": "Describe if the debtor is a Natural Person (''F') or a Legal Entity ('G').",
+                        "example": "F"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "Fiscal Code for Natural Persons ('F'), VAT number for Legal Entities ('G')",
+                        "example": "00000000000000000"
+                    }
+                }
             }
-          },
-          {
-            "description": "Notice number",
-            "in": "path",
-            "name": "nav",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetMdbReceipt"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": 404,
-                  "title": "Not Found",
-                  "detail": "<detail.message>"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "429": {
-            "description": "Too many requests"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": 500,
-                  "title": "Internal Server Error",
-                  "detail": "<detail.message>"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemJson"
-                }
-              }
-            },
-            "description": "Service unavailable"
-          }
         },
-        "security": [
-          {
-            "ApiKey": []
-          }
-        ],
-        "summary": "getPaymentReceiptV2",
-        "tags": [
-          "MBD - v2"
-        ]
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "AppInfo": {
-        "type": "object",
-        "properties": {
-          "environment": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "version": {
-            "type": "string"
-          }
-        }
-      },
-      "CreateMbdRequestV2": {
-        "required": [
-          "returnUrls"
-        ],
-        "type": "object",
-        "properties": {
-          "paymentNotices": {
-            "maxItems": 1,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PaymentNoticeV2"
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
             }
-          },
-          "returnUrls": {
-            "$ref": "#/components/schemas/ReturnUrlsV2"
-          }
         }
-      },
-      "Debtor": {
-        "required": [
-          "email",
-          "fullName"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "description": "Debtor mail.",
-            "example": "mario.rossi@test.test"
-          },
-          "fullName": {
-            "type": "string",
-            "description": "Debtor full name.",
-            "example": "Mario Rossi"
-          },
-          "uniqueIdentifier": {
-            "$ref": "#/components/schemas/UniqueIdentifier"
-          }
-        }
-      },
-      "GetCartErrorResponse": {
-        "type": "object",
-        "properties": {
-          "errorUrl": {
-            "type": "string",
-            "description": "The error URL provided in the request.",
-            "example": "https://url.it"
-          }
-        }
-      },
-      "GetCartResponse": {
-        "type": "object",
-        "properties": {
-          "checkoutRedirectUrl": {
-            "type": "string",
-            "description": "Redirect URL to Checkout page.",
-            "example": "https://dev.checkout.pagopa.it.it/c/123"
-          },
-          "mbdDownloadLink": {
-            "type": "string",
-            "description": "URL to download MBD receipt.",
-            "example": "https://api.platform.pagopa.it/mbd/mbd-payment/v1/00000000000/receipt/300996299640641032"
-          },
-          "nav": {
-            "type": "string",
-            "description": "Notice number, used to download MBD receipt.",
-            "example": "300996299640641032"
-          }
-        }
-      },
-      "GetMdbReceipt": {
-        "type": "object",
-        "properties": {
-          "content": {
-            "type": "array",
-            "description": "The MBD receipt.",
-            "items": {
-              "type": "string",
-              "description": "The MBD receipt.",
-              "format": "byte"
-            }
-          }
-        }
-      },
-      "PaymentNoticeV2": {
-        "required": [
-          "amount",
-          "debtor",
-          "documentHash",
-          "province"
-        ],
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "integer",
-            "description": "MBD amount (Eurocents value).",
-            "format": "int64",
-            "example": 1600
-          },
-          "debtor": {
-            "$ref": "#/components/schemas/Debtor"
-          },
-          "documentHash": {
-            "type": "string",
-            "description": "Document hash."
-          },
-          "province": {
-            "type": "string",
-            "description": "Organization province.",
-            "example": "RM"
-          }
-        }
-      },
-      "ProblemJson": {
-        "type": "object",
-        "properties": {
-          "detail": {
-            "type": "string",
-            "description": "A human readable explanation specific to this occurrence of the problem.",
-            "example": "There was an error processing the request"
-          },
-          "status": {
-            "maximum": 600,
-            "minimum": 100,
-            "type": "integer",
-            "description": "The HTTP status code generated by the origin server for this occurrence of the problem.",
-            "format": "int32",
-            "example": 400
-          },
-          "title": {
-            "type": "string",
-            "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable"
-          }
-        }
-      },
-      "ReturnUrlsV2": {
-        "required": [
-          "cancelUrl",
-          "errorUrl",
-          "successUrl",
-          "waitingUrl"
-        ],
-        "type": "object",
-        "properties": {
-          "cancelUrl": {
-            "type": "string",
-            "description": "Redirect cancel URL.",
-            "example": "https://url2.it"
-          },
-          "errorUrl": {
-            "type": "string",
-            "description": "Redirect error URL.",
-            "example": "https://url3.it"
-          },
-          "successUrl": {
-            "type": "string",
-            "description": "Redirect success URL.",
-            "example": "https://url1.it"
-          },
-          "waitingUrl": {
-            "type": "string",
-            "description": "Redirect waiting URL.",
-            "example": "https://url4.it"
-          }
-        }
-      },
-      "UniqueIdentifier": {
-        "required": [
-          "type",
-          "value"
-        ],
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "Describe if the debtor is a Natural Person (''F') or a Legal Entity ('G').",
-            "example": "F",
-            "enum": [
-              "F",
-              "G"
-            ]
-          },
-          "value": {
-            "type": "string",
-            "description": "Fiscal Code for Natural Persons ('F'), VAT number for Legal Entities ('G')",
-            "example": "00000000000000000"
-          }
-        }
-      }
     },
-    "securitySchemes": {
-      "ApiKey": {
-        "description": "The API key to access this function app.",
-        "in": "header",
-        "name": "Ocp-Apim-Subscription-Key",
-        "type": "apiKey"
-      }
-    }
-  }
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "MBD - v2",
+            "description": "APIs for @eBollo v2"
+        }
+    ]
 }
