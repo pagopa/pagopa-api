@@ -82,7 +82,7 @@ runs:
         compare_args["gpd_payments.json"]="--unmatch-path /info"
 
         apim_resource_id["gpd_v3.json"]="pagopa-<ENV>-debt-positions-service-api-v3"
-        service_openapi_url_ref["gpd_v3.json"]="https://raw.githubusercontent.com/pagopa/pagopa-backoffice-external/refs/heads/main/openapi/openapi_backoffice_external_ec.json"
+        service_openapi_url_ref["gpd_v3.json"]="https://raw.githubusercontent.com/pagopa/pagopa-debt-position/refs/heads/main/openapi/openapi_external_v3.json"
         compare_args["gpd_v3.json"]="--unmatch-path /info"
 
         apim_resource_id["openapi_backoffice_external_ec.json"]="<ENV>-backoffice-external-ec-api-v1"
@@ -113,9 +113,13 @@ runs:
         service_openapi_url_ref["redirect.json"]="https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/heads/main/src/domains/ecommerce-app/api/redirect-outcome/v1/_openapi.json.tpl"
         compare_args["redirect.json"]="--match-path /redirections/{idTransaction}/outcomes" #the only path to be compared
         
-        apim_resource_id["e_bollo_20.json"]="<ENV>-mbd-api-v1"
-        service_openapi_url_ref["e_bollo_20.json"]="https://raw.githubusercontent.com/pagopa/pagopa-mbd-service/refs/heads/main/openapi/openapi.json"
-        compare_args["e_bollo_20.json"]="--unmatch-path /info"
+        apim_resource_id["e_bollo_20_v1.json"]="<ENV>-mbd-api-v1"
+        service_openapi_url_ref["e_bollo_20_v1.json"]="https://raw.githubusercontent.com/pagopa/pagopa-mbd-service/refs/heads/main/openapi/openapi_v1.json"
+        compare_args["e_bollo_20_v1.json"]="--unmatch-path /info"
+        
+        apim_resource_id["e_bollo_20_v2.json"]="<ENV>-mbd-api-v2"
+        service_openapi_url_ref["e_bollo_20_v2.json"]="https://raw.githubusercontent.com/pagopa/pagopa-mbd-service/refs/heads/main/openapi/openapi_v2.json"
+        compare_args["e_bollo_20_v2.json"]="--unmatch-path /info"
 
         file="${{ inputs.file }}"
         echo "apim_resource_id=${apim_resource_id[$file]}" >> "$GITHUB_OUTPUT"
