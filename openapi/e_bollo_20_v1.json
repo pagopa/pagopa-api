@@ -3,13 +3,13 @@
     "info": {
         "title": "Marca da Bollo Digitale",
         "description": "API for eBollo 2.0",
-        "termsOfService": "https://www.pagopa.gov.it/",
+         "termsOfService": "https://www.pagopa.gov.it/",
         "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/pagopa-mbd-service/v1"
-        }        
+        }
     ],
     "paths": {
         "/organizations/{organization-fiscal-code}/mbd": {
