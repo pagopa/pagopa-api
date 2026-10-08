@@ -6,8 +6,8 @@ permissions:
   id-token: write
 
 on:
-  #schedule:
-  #  - cron: '0 6 * * *'  # every day at 6:00 UTC
+  schedule:
+   - cron: '30 7 * * 1'  # every monday at 7:30 UTC
   workflow_dispatch:  # allow manual trigger
 jobs:
   setup:
@@ -273,12 +273,6 @@ jobs:
         env:
           ARTIFACTS_DIR: artifacts
       
-      - name: Show Slack payload (debug, no send)
-        run: |
-          echo "=== has_issues: ${{ steps.drift-report.outputs.has_issues }} ==="
-          echo "=== payload content ==="
-          cat "${{ steps.drift-report.outputs.payload_file }}"
-
       - name: Notify Slack — MAIN
         if: ${{ always() }}
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d
