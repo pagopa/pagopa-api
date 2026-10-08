@@ -1,19 +1,22 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "PagoPA API Debt Position",
-        "description": "Progetto Gestione Posizioni Debitorie",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.1.17"
+        "title": "GPD pagoPA - Debt Positions service API for organizations",
+        "description": "API to support Debt Positions service for organizations",
+        "version": "v1"
     },
     "servers": [
         {
-            "url": "https://api.uat.platform.pagopa.it/gpd/debt-positions-service/v1",
-            "description": "GPD Test environment"
+            "url": "https://api.uat.platform.pagopa.it/gpd/debt-positions-service/v1"
         },
         {
-            "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1",
-            "description": "GPD Production Environment"
+            "url": "https://uat.checkout.pagopa.it/gpd/debt-positions-service/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/gpd/debt-positions-service/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/gpd/debt-positions-service/v1"
         }
     ],
     "paths": {

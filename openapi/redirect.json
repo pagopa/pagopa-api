@@ -1,32 +1,24 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "version": "0.0.1",
-    "title": "Pagopa Redirect",
-    "description": "Collection of all api used for perform a transaction using redirect payment instrument.\nApi's are tagged as follow:\n  * `b2b - PSP side` are implemented and exposed by PSP to expose api's  to p retrieve redirection URL and perform refund. For further information on connectivity, see [pagoPA connettivity](https://docs.pagopa.it/sanp/appendici/connettivita#nodo-dei-pagamenti-client).\n  * `b2b - pagoPA side` are implemented and exposed by pagoPA to receive authorization outcome. For further information on connectivity, see [pagoPA connettivity](https://docs.pagopa.it/sanp/appendici/connettivita#nodo-dei-pagamenti-server).\n",
-    "contact": {
-      "name": "pagoPA - Touchpoints team"
-    }
-  },
-  "tags": [
-    {
-      "name": "b2b - PSP side",
-      "description": "Api's to initialize and refund a transaction"
+    "openapi": "3.0.1",
+    "info": {
+        "title": "ecommerce pagoPA - Redirect outcome API",
+        "description": "API to handle redirect transaction's outcome requests",
+        "version": "v1"
     },
-    {
-      "name": "b2b - pagoPA side",
-      "description": "Api's to notify transaction outcome"
-    }
-  ],
-  "servers": [
-    {
-      "url": "https://${host}"
-    }
-  ],
-  "externalDocs": {
-    "url": "https://docs.pagopa.it/sanp/prestatore-di-servizi-di-pagamento/modalita-di-integrazione/integrazione-per-strumento-di-pagamento-tramite-redirect",
-    "description": "SANP"
-  },
+    "servers": [
+        {
+            "url": "https://api.uat.platform.pagopa.it/ecommerce/redirect/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/ecommerce/redirect/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/ecommerce/redirect/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/ecommerce/redirect/v1"
+        }
+    ],
     "paths": {
         "/redirections/{idTransaction}/outcomes": {
             "post": {
