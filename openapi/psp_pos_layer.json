@@ -859,17 +859,7 @@
           {
             "$ref": "#/components/schemas/AuthorizationCallbackDetailsKo"
           }
-        ],
-        "discriminator": {
-          "propertyName": "outcome",
-          "mapping": {
-            "AUTHORIZED": "#/components/schemas/AuthorizationCallbackDetailsOk",
-            "DECLINED": "#/components/schemas/AuthorizationCallbackDetailsKo",
-            "REFUSED": "#/components/schemas/AuthorizationCallbackDetailsKo",
-            "CANCELED_BY_USER": "#/components/schemas/AuthorizationCallbackDetailsKo",
-            "TIMEOUT": "#/components/schemas/AuthorizationCallbackDetailsKo"
-          }
-        }
+        ]
       },
       "AuthorizationCallbackDetailsOk": {
         "type": "object",
