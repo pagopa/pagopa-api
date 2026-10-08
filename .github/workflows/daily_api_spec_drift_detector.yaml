@@ -133,7 +133,7 @@ jobs:
           name: drift-main-${{ matrix.file }}
           path: result.json
           if-no-files-found: ignore
-          retention-days: 1
+          retention-days: 7 # keep for 7 days because the workflow runs weekly, so we want to keep at least one run's artifacts
 
       - name: Fail on breaking changes
         if: steps.run-comparison.outputs.oasdiff_exit != '0'
