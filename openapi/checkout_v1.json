@@ -3,11 +3,20 @@
     "info": {
         "title": "Checkout - EC API",
         "description": "Checkout API for EC",
-        "version": "1.0.0"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.uat.platform.pagopa.it/checkout/ec/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/checkout/ec/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/checkout/ec/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/checkout/ec/v1"
         }
     ],
     "paths": {
