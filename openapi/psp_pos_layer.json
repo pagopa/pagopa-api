@@ -381,6 +381,20 @@
               }
             }
           },
+          "422": {
+            "description": "Session expired: the outcome was received after the terminal authorizationTimeout plus the grace period. Terminal response, the PSP must not retry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "status": 422,
+                  "detail": "Session expired"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Too many requests",
             "headers": {
