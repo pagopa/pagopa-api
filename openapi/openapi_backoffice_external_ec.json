@@ -453,10 +453,6 @@
                         "description": "Activation date",
                         "format": "date-time"
                     },
-                    "aca": {
-                        "type": "boolean",
-                        "description": "True if ACA archive will be populated"
-                    },
                     "applicationCode": {
                         "type": "string",
                         "description": "Application code of the relation station-ec (unique per auxdigit)"
