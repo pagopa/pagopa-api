@@ -8,8 +8,11 @@ on:
   # schedule:
   #   - cron: "0 7 * * 1-5"   # opzionale: ogni giorno feriale alle 07:00 UTC
   # Opzionale: a ogni modifica dello script o dei link
-  # push:
-  #   paths: ["check-devportal-pages/**"]
+  push:
+    branches: feat/check-devportal-pages
+    paths:
+      - "check-devportal-pages/**"
+      - ".github/workflows/check-devportal-pages.yml"
 
 jobs:
   check:
