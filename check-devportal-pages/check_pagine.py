@@ -19,6 +19,7 @@ Per ogni link presente in links.txt:
      di rapi-doc ha probabilmente avuto problemi con il contenuto del file.
 
 Output: tabella a console + CSV nella cartella 'output/'.
+Su GitHub Actions la tabella viene scritta anche nel riepilogo (Summary) dell'esecuzione.
 Codice di uscita: 0 se tutti i controlli sono OK, 1 se almeno uno e' KO
 (utile per l'esecuzione automatica, es. GitHub Actions).
 
@@ -524,6 +525,41 @@ def save_csv(results):
     return path
 
 
+def write_github_summary(results):
+    """
+    Su GitHub Actions scrive la tabella dei risultati nel riepilogo dell'esecuzione
+    (pagina "Summary"). GitHub imposta la variabile d'ambiente GITHUB_STEP_SUMMARY con il
+    percorso di un file: tutto il Markdown scritto li' viene mostrato nella pagina.
+    In locale la variabile non esiste e la funzione non fa nulla.
+    """
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+
+    def cell(outcome, detail):
+        icon = {OK: "✅", KO: "❌"}.get(outcome, "⏭️")
+        text = f"{icon} {outcome}" + (f" ({detail})" if detail else "")
+        return text.replace("|", "\\|")  # il carattere | romperebbe la tabella Markdown
+
+    ko_count = sum(KO in (r["controllo_pagina"], r["controllo_parsing"]) for r in results)
+    lines = [
+        "## Controllo pagine developer.pagopa.it",
+        "",
+        f"Controlli eseguiti: {len(results)} | con esito KO: {ko_count}",
+        "",
+        "| link | versione | file json | controllo pagina | controllo parsing |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for r in results:
+        lines.append(
+            f"| {r['link']} | {r['versione']} | {r['file_json'] or '-'} | "
+            f"{cell(r['controllo_pagina'], r['dettaglio_pagina'])} | "
+            f"{cell(r['controllo_parsing'], r['dettaglio_parsing'])} |"
+        )
+    with open(summary_path, "a", encoding="utf-8") as f:  # "a" = aggiunge in coda
+        f.write("\n".join(lines) + "\n")
+
+
 # ----------------------------------------------------------------------------
 # MAIN
 # ----------------------------------------------------------------------------
@@ -547,6 +583,7 @@ def main():
 
     print_table(results)
     print(f"CSV salvato in: {save_csv(results)}")
+    write_github_summary(results)
 
     return any(KO in (r["controllo_pagina"], r["controllo_parsing"]) for r in results)
 
