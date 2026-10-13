@@ -1,0 +1,2 @@
+selenium>=4.20
+requests>=2.31

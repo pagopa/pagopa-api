@@ -1,0 +1,15 @@
+# Un link per riga. Le righe che iniziano con # vengono ignorate.
+https://developer.pagopa.it/it/pago-pa/api/gestione-posizioni-debitorie
+https://developer.pagopa.it/it/pago-pa/api/gestione-massiva-delle-posizioni-debitorie
+https://developer.pagopa.it/it/pago-pa/api/gpd-fdr
+https://developer.pagopa.it/it/pago-pa/api/gpd-recupero-receipt
+https://developer.pagopa.it/it/pago-pa/api/flussi-di-rendicontazione
+https://developer.pagopa.it/it/pago-pa/api/inserimento-posizioni-debitorie
+https://developer.pagopa.it/it/pago-pa/api/elenco-IBAN-stazioni
+https://developer.pagopa.it/it/pago-pa/api/pagamento-fe-ec
+https://developer.pagopa.it/it/pago-pa/api/recupero-receipt
+https://developer.pagopa.it/it/pago-pa/api/stampa-avvisi-pagamento
+https://developer.pagopa.it/it/pago-pa/api/gpd-aca
+https://developer.pagopa.it/it/pago-pa/api/psp_opzioni_pagamento
+https://developer.pagopa.it/it/pago-pa/api/e-bollo
+https://developer.pagopa.it/it/pago-pa/api/psp-redirect
