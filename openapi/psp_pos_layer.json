@@ -320,9 +320,7 @@
         "summary": "POS authorization outcome callback",
         "security": [
           {
-            "PagopaApiKeyAuth": []
-          },
-          {
+            "PagopaApiKeyAuth": [],
             "AuthOutcomeTokenAuth": []
           }
         ],
