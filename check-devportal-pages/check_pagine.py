@@ -26,10 +26,8 @@ Codice di uscita: 0 se tutti i controlli sono OK, 1 se almeno uno e' KO
 Uso:  python check_pagine.py
 """
 
-import csv
 import os
 import sys
-from datetime import datetime
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -68,7 +66,7 @@ HEADLESS = True
 DEBUG = True
 
 # Attese massime (secondi)
-PAGE_TIMEOUT = 20      # caricamento della pagina e comparsa di <rapi-doc>
+PAGE_TIMEOUT = 30      # caricamento della pagina e comparsa di <rapi-doc>
 PARSING_TIMEOUT = 15   # comparsa dei bottoni dentro <rapi-doc>
 HTTP_TIMEOUT = 15      # chiamata HTTP al file spec-url
 DROPDOWN_TIMEOUT = 3   # ricerca del menu delle versioni
@@ -513,18 +511,6 @@ def print_table(results):
     print()
 
 
-# def save_csv(results):
-#     """Salva i risultati in output/risultati_<data_ora>.csv (separatore ';', apribile con Excel)."""
-#     os.makedirs(OUTPUT_DIR, exist_ok=True)
-#     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-#     path = os.path.join(OUTPUT_DIR, f"risultati_{stamp}.csv")
-#     with open(path, "w", newline="", encoding="utf-8-sig") as f:
-#         writer = csv.DictWriter(f, fieldnames=list(results[0].keys()), delimiter=";")
-#         writer.writeheader()
-#         writer.writerows(results)
-#     return path
-
-
 def write_github_summary(results):
     """
     Su GitHub Actions scrive la tabella dei risultati nel riepilogo dell'esecuzione
@@ -581,7 +567,6 @@ def main():
         driver.quit()  # chiude sempre il browser, anche in caso di errore
 
     print_table(results)
-    # print(f"CSV salvato in: {save_csv(results)}")
     write_github_summary(results)
 
     return any(KO in (r["controllo_pagina"], r["controllo_parsing"]) for r in results)
