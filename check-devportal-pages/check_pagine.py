@@ -18,7 +18,12 @@ Per ogni link presente in links.txt:
      abbia renderizzato l'elemento con i due bottoni. Se manca, il parser
      di rapi-doc ha probabilmente avuto problemi con il contenuto del file.
 
-Output: tabella a console + CSV nella cartella 'output/'.
+Tentativi: se in una pagina almeno un controllo e' KO, l'intera pagina viene
+ricontrollata fino a PAGE_ATTEMPTS volte (con una pausa tra un tentativo e l'altro),
+per evitare falsi KO dovuti a caricamenti lenti o errori temporanei.
+Il risultato finale e' quello dell'ultimo tentativo.
+
+Output: tabella a console.
 Su GitHub Actions la tabella viene scritta anche nel riepilogo (Summary) dell'esecuzione.
 Codice di uscita: 0 se tutti i controlli sono OK, 1 se almeno uno e' KO
 (utile per l'esecuzione automatica, es. GitHub Actions).
@@ -28,6 +33,7 @@ Uso:  python check_pagine.py
 
 import os
 import sys
+import time
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -49,15 +55,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 # CONFIGURAZIONE
 # ----------------------------------------------------------------------------
 
-# Cartella dello script: i percorsi sotto sono relativi ad essa, quindi lo script
+# Cartella dello script: il percorso sotto e' relativo ad essa, quindi lo script
 # funziona da qualunque cartella venga lanciato
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # File con l'elenco dei link (uno per riga; righe vuote e righe con # vengono ignorate)
 LINKS_FILE = os.path.join(BASE_DIR, "links.txt")
-
-# Cartella in cui viene salvato il CSV dei risultati
-OUTPUT_DIR = os.path.join(BASE_DIR, "output")
 
 # True = Chrome senza finestra; False = il browser si apre e puoi vedere cosa succede
 HEADLESS = True
@@ -65,8 +68,13 @@ HEADLESS = True
 # True = stampa a console il dettaglio dei passaggi per ogni pagina
 DEBUG = True
 
+# Tentativi per ogni pagina: se almeno un controllo e' KO, la pagina viene ricontrollata
+# fino a PAGE_ATTEMPTS volte in totale (1 = nessun nuovo tentativo)
+PAGE_ATTEMPTS = 3
+RETRY_PAUSE = 5        # secondi di pausa prima di ogni nuovo tentativo
+
 # Attese massime (secondi)
-PAGE_TIMEOUT = 30      # caricamento della pagina e comparsa di <rapi-doc>
+PAGE_TIMEOUT = 20      # caricamento della pagina e comparsa di <rapi-doc>
 PARSING_TIMEOUT = 15   # comparsa dei bottoni dentro <rapi-doc>
 HTTP_TIMEOUT = 15      # chiamata HTTP al file spec-url
 DROPDOWN_TIMEOUT = 3   # ricerca del menu delle versioni
@@ -150,6 +158,11 @@ def new_result(link, version):
         "dettaglio_parsing": "",
         "note": "",
     }
+
+
+def has_ko(results):
+    """True se almeno uno dei risultati ha un controllo KO."""
+    return any(KO in (r["controllo_pagina"], r["controllo_parsing"]) for r in results)
 
 
 def get_rapidoc(driver):
@@ -404,7 +417,7 @@ def analyze_current_version(driver, link, version):
 
 def check_page(driver, link):
     """
-    Controlla un link e ritorna una LISTA di risultati:
+    Esegue UN tentativo di controllo su un link e ritorna una LISTA di risultati:
     uno solo se la pagina non ha il menu versioni, uno per versione altrimenti.
     """
     # --- apertura della pagina ------------------------------------------------
@@ -481,6 +494,25 @@ def check_page(driver, link):
     return results
 
 
+def check_page_with_retries(driver, link):
+    """
+    Controlla un link; se almeno un controllo e' KO, ricontrolla l'intera pagina
+    (ricaricandola) fino a PAGE_ATTEMPTS tentativi in totale.
+    Si ferma al primo tentativo senza KO; altrimenti ritorna i risultati dell'ultimo.
+    """
+    for attempt in range(1, PAGE_ATTEMPTS + 1):
+        if attempt > 1:
+            debug(f"Nuovo tentativo {attempt}/{PAGE_ATTEMPTS} tra {RETRY_PAUSE} secondi...")
+            time.sleep(RETRY_PAUSE)
+        results = check_page(driver, link)
+        if not has_ko(results):
+            if attempt > 1:
+                debug(f"Tutti i controlli OK al tentativo {attempt}/{PAGE_ATTEMPTS}")
+            return results
+        debug(f"Tentativo {attempt}/{PAGE_ATTEMPTS}: almeno un controllo KO")
+    return results
+
+
 # ----------------------------------------------------------------------------
 # OUTPUT
 # ----------------------------------------------------------------------------
@@ -536,11 +568,11 @@ def write_github_summary(results):
         "| --- | --- | --- | --- | --- |",
     ]
     for r in results:
-            lines.append(
-                f"| {r['link']} | {r['versione']} | {r['file_json'] or '-'} | "
-                f"{cell(r['controllo_pagina'])} | "
-                f"{cell(r['controllo_parsing'])} |"
-            )
+        lines.append(
+            f"| {r['link']} | {r['versione']} | {r['file_json'] or '-'} | "
+            f"{cell(r['controllo_pagina'])} | "
+            f"{cell(r['controllo_parsing'])} |"
+        )
     with open(summary_path, "a", encoding="utf-8") as f:  # "a" = aggiunge in coda
         f.write("\n".join(lines) + "\n")
 
@@ -562,14 +594,14 @@ def main():
     try:
         for i, link in enumerate(links, start=1):
             print(f"[{i}/{len(links)}] {link}")
-            results.extend(check_page(driver, link))  # un risultato per ogni versione
+            results.extend(check_page_with_retries(driver, link))  # un risultato per versione
     finally:
         driver.quit()  # chiude sempre il browser, anche in caso di errore
 
     print_table(results)
     write_github_summary(results)
 
-    return any(KO in (r["controllo_pagina"], r["controllo_parsing"]) for r in results)
+    return has_ko(results)
 
 
 if __name__ == "__main__":
