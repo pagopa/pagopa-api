@@ -10,15 +10,12 @@ on:
     branches: feat/check-devportal-pages
     paths:
       - "check-devportal-pages/**"
-      - ".github/workflows/check-devportal-pages.yml"
+      - ".github/workflows/check-devportal-pages.yaml"
 
 jobs:
   check:
     runs-on: ubuntu-latest   # Google Chrome e' gia' installato sul runner
     timeout-minutes: 30
-    defaults:
-      run:
-        working-directory: check-devportal-pages   # i comandi "run" partono da qui
     steps:
       - name: Scarica il codice
         uses: actions/checkout@v4
@@ -27,18 +24,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
-          cache-dependency-path: check-devportal-pages/requirements.txt
 
       - name: Installa le librerie
-        run: pip install -r requirements.txt
+        run: pip install "selenium>=4.20" "requests>=2.31"
 
       - name: Esegui il controllo
         run: python check_pagine.py   # esce con codice 1 se c'e' almeno un KO
-
-      # - name: Salva il CSV dei risultati
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: risultati-controllo-pagine
-      #     path: check-devportal-pages/output/*.csv   # qui il percorso parte dalla root del repo

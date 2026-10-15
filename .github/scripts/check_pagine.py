@@ -5,7 +5,7 @@ Ogni pagina mostra una specifica OpenAPI (file JSON) tramite il componente <rapi
 Lo script verifica che, dopo le modifiche ai file delle specifiche, le pagine
 continuino a funzionare.
 
-Per ogni link presente in links.txt:
+Per ogni link presente nell'elenco LINKS (sezione CONFIGURAZIONE):
   0. Cerca il menu a tendina delle versioni:
        - se non c'e', la pagina viene controllata una volta sola
        - se c'e', la pagina viene controllata una volta per ogni versione del menu
@@ -28,7 +28,8 @@ Su GitHub Actions la tabella viene scritta anche nel riepilogo (Summary) dell'es
 Codice di uscita: 0 se tutti i controlli sono OK, 1 se almeno uno e' KO
 (utile per l'esecuzione automatica, es. GitHub Actions).
 
-Uso:  python check_pagine.py
+Requisiti: Python 3.9+, Google Chrome e le librerie  pip install selenium requests
+Uso:       python .github/scripts/check_pagine.py   (da qualunque cartella)
 """
 
 import os
@@ -55,12 +56,25 @@ from selenium.webdriver.support.ui import WebDriverWait
 # CONFIGURAZIONE
 # ----------------------------------------------------------------------------
 
-# Cartella dello script: il percorso sotto e' relativo ad essa, quindi lo script
-# funziona da qualunque cartella venga lanciato
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# File con l'elenco dei link (uno per riga; righe vuote e righe con # vengono ignorate)
-LINKS_FILE = os.path.join(BASE_DIR, "links.txt")
+# Pagine da controllare (una per riga). Per aggiungerne una, aggiungi una riga
+# con il link tra virgolette seguito da una virgola.
+LINKS = [
+    "https://developer.pagopa.it/it/pago-pa/api/gestione-posizioni-debitorie",
+    "https://developer.pagopa.it/it/pago-pa/api/gestione-massiva-delle-posizioni-debitorie",
+    "https://developer.pagopa.it/it/pago-pa/api/gpd-fdr",
+    "https://developer.pagopa.it/it/pago-pa/api/gpd-recupero-receipt",
+    "https://developer.pagopa.it/it/pago-pa/api/flussi-di-rendicontazione",
+    "https://developer.pagopa.it/it/pago-pa/api/inserimento-posizioni-debitorie",
+    "https://developer.pagopa.it/it/pago-pa/api/elenco-IBAN-stazioni",
+    "https://developer.pagopa.it/it/pago-pa/api/pagamento-fe-ec",
+    "https://developer.pagopa.it/it/pago-pa/api/recupero-receipt",
+    "https://developer.pagopa.it/it/pago-pa/api/stampa-avvisi-pagamento",
+    "https://developer.pagopa.it/it/pago-pa/api/gpd-aca",
+    "https://developer.pagopa.it/it/pago-pa/api/psp_opzioni_pagamento",
+    "https://developer.pagopa.it/it/pago-pa/api/e-bollo",
+    "https://developer.pagopa.it/it/pago-pa/api/psp-redirect",
+    # ... aggiungi qui gli altri link
+]
 
 # True = Chrome senza finestra; False = il browser si apre e puoi vedere cosa succede
 HEADLESS = True
@@ -74,7 +88,7 @@ PAGE_ATTEMPTS = 3
 RETRY_PAUSE = 5        # secondi di pausa prima di ogni nuovo tentativo
 
 # Attese massime (secondi)
-PAGE_TIMEOUT = 30      # caricamento della pagina e comparsa di <rapi-doc>
+PAGE_TIMEOUT = 20      # caricamento della pagina e comparsa di <rapi-doc>
 PARSING_TIMEOUT = 15   # comparsa dei bottoni dentro <rapi-doc>
 HTTP_TIMEOUT = 15      # chiamata HTTP al file spec-url
 DROPDOWN_TIMEOUT = 3   # ricerca del menu delle versioni
@@ -122,13 +136,6 @@ def debug(message):
     """Stampa un messaggio solo se DEBUG e' attivo."""
     if DEBUG:
         print(f"    {message}")
-
-
-def read_links(path):
-    """Legge i link dal file di testo, ignorando righe vuote e commenti (#)."""
-    with open(path, encoding="utf-8") as f:
-        lines = [line.strip() for line in f]
-    return [line for line in lines if line and not line.startswith("#")]
 
 
 def create_driver():
@@ -583,9 +590,9 @@ def write_github_summary(results):
 
 def main():
     """Controlla tutti i link. Ritorna True se almeno un controllo e' KO."""
-    links = read_links(LINKS_FILE)
+    links = LINKS
     if not links:
-        print(f"Nessun link trovato in {LINKS_FILE}")
+        print("Nessun link nell'elenco LINKS")
         return False
 
     print(f"Trovati {len(links)} link da controllare...")
