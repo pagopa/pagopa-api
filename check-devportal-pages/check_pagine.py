@@ -513,16 +513,16 @@ def print_table(results):
     print()
 
 
-def save_csv(results):
-    """Salva i risultati in output/risultati_<data_ora>.csv (separatore ';', apribile con Excel)."""
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    path = os.path.join(OUTPUT_DIR, f"risultati_{stamp}.csv")
-    with open(path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=list(results[0].keys()), delimiter=";")
-        writer.writeheader()
-        writer.writerows(results)
-    return path
+# def save_csv(results):
+#     """Salva i risultati in output/risultati_<data_ora>.csv (separatore ';', apribile con Excel)."""
+#     os.makedirs(OUTPUT_DIR, exist_ok=True)
+#     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+#     path = os.path.join(OUTPUT_DIR, f"risultati_{stamp}.csv")
+#     with open(path, "w", newline="", encoding="utf-8-sig") as f:
+#         writer = csv.DictWriter(f, fieldnames=list(results[0].keys()), delimiter=";")
+#         writer.writeheader()
+#         writer.writerows(results)
+#     return path
 
 
 def write_github_summary(results):
@@ -536,10 +536,9 @@ def write_github_summary(results):
     if not summary_path:
         return
 
-    def cell(outcome, detail):
+    def cell(outcome):
         icon = {OK: "✅", KO: "❌"}.get(outcome, "⏭️")
-        text = f"{icon} {outcome}" + (f" ({detail})" if detail else "")
-        return text.replace("|", "\\|")  # il carattere | romperebbe la tabella Markdown
+        return f"{icon} {outcome}"
 
     ko_count = sum(KO in (r["controllo_pagina"], r["controllo_parsing"]) for r in results)
     lines = [
@@ -551,11 +550,11 @@ def write_github_summary(results):
         "| --- | --- | --- | --- | --- |",
     ]
     for r in results:
-        lines.append(
-            f"| {r['link']} | {r['versione']} | {r['file_json'] or '-'} | "
-            f"{cell(r['controllo_pagina'], r['dettaglio_pagina'])} | "
-            f"{cell(r['controllo_parsing'], r['dettaglio_parsing'])} |"
-        )
+            lines.append(
+                f"| {r['link']} | {r['versione']} | {r['file_json'] or '-'} | "
+                f"{cell(r['controllo_pagina'])} | "
+                f"{cell(r['controllo_parsing'])} |"
+            )
     with open(summary_path, "a", encoding="utf-8") as f:  # "a" = aggiunge in coda
         f.write("\n".join(lines) + "\n")
 
@@ -582,7 +581,7 @@ def main():
         driver.quit()  # chiude sempre il browser, anche in caso di errore
 
     print_table(results)
-    print(f"CSV salvato in: {save_csv(results)}")
+    # print(f"CSV salvato in: {save_csv(results)}")
     write_github_summary(results)
 
     return any(KO in (r["controllo_pagina"], r["controllo_parsing"]) for r in results)
