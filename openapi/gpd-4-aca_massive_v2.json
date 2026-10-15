@@ -3,12 +3,17 @@
     "info": {
         "title": "GPD Upload pagoPA - Massive Upload",
         "description": "API to support Debt Positions massive upload for organizations",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.2.4"
+        "version": "v2"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/upload/gpd/debt-positions-service/v2"
+        },
+        {
+            "url": "https://checkout.pagopa.it/upload/gpd/debt-positions-service/v2"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/upload/gpd/debt-positions-service/v2"
         }
     ],
     "paths": {
