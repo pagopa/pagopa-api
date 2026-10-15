@@ -3,12 +3,17 @@
     "info": {
         "title": "External Payment Notices Print Service APIs",
         "description": "External Payment Notices Print Service APIs",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "0.9.8"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/print-payment-notice-service/external/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/print-payment-notice-service/external/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/print-payment-notice-service/external/v1"
         }
     ],
     "paths": {
