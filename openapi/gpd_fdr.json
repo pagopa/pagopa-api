@@ -1,14 +1,24 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "Reporting Analysis - GPD",
-    "version": "0.3.3"
-  },
-  "servers": [
-    {
-      "url": "https://api.uat.platform.pagopa.it/gpd-reporting/api/v1"
-    }
-  ],
+    "openapi": "3.0.1",
+    "info": {
+        "title": "GPD Reporting Analysis pagoPA",
+        "description": "Api GPD Reporting Analysis",
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "https://api.uat.platform.pagopa.it/gpd-reporting/api/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/gpd-reporting/api/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/gpd-reporting/api/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/gpd-reporting/api/v1"
+        }
+    ],
     "paths": {
         "/organizations/{organizationId}/reportings": {
             "get": {
