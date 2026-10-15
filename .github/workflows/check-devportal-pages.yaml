@@ -29,4 +29,4 @@ jobs:
         run: pip install "selenium>=4.20" "requests>=2.31"
 
       - name: Esegui il controllo
-        run: python check_pagine.py   # esce con codice 1 se c'e' almeno un KO
+        run: python .github/scripts/check_pagine.py   # esce con codice 1 se c'e' almeno un KO
