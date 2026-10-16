@@ -72,8 +72,7 @@ LINKS = [
     "https://developer.pagopa.it/it/pago-pa/api/gpd-aca",
     "https://developer.pagopa.it/it/pago-pa/api/psp_opzioni_pagamento",
     "https://developer.pagopa.it/it/pago-pa/api/e-bollo",
-    "https://developer.pagopa.it/it/pago-pa/api/psp-redirect",
-    # ... aggiungi qui gli altri link
+    "https://developer.pagopa.it/it/pago-pa/api/psp-redirect"
 ]
 
 # True = Chrome senza finestra; False = il browser si apre e puoi vedere cosa succede
@@ -262,7 +261,7 @@ def close_menu(driver):
     try:
         WebDriverWait(driver, 5).until(lambda d: len(find_options(d)) == 0)
     except TimeoutException:
-        pass  # se resta aperto, il tentativo successivo lo gestisce
+        pass
 
 
 def list_versions(driver, dropdown):
@@ -400,7 +399,7 @@ def analyze_current_version(driver, link, version):
         debug("STEP 3 - Controllo parsing: NON ESEGUITO")
         return result
 
-    spec_url = urljoin(link, spec_url)  # se fosse relativo, lo rende assoluto
+    spec_url = urljoin(link, spec_url)
     result["spec_url"] = spec_url
     result["file_json"] = os.path.basename(urlparse(spec_url).path)
     debug(f"  -> titolo:   {result['titolo']}")
@@ -413,7 +412,7 @@ def analyze_current_version(driver, link, version):
     debug(f"  -> {result['controllo_pagina']} ({result['dettaglio_pagina']})")
     if result["controllo_pagina"] != OK:
         debug("STEP 3 - Controllo parsing: NON ESEGUITO (file non raggiungibile)")
-        return result  # senza file il controllo sul parsing non ha senso
+        return result
 
     # --- STEP 3: <rapi-doc> ha fatto il parsing correttamente? ----------------
     debug("STEP 3 - Controllo parsing (elemento con i due bottoni)")
@@ -580,7 +579,7 @@ def write_github_summary(results):
             f"{cell(r['controllo_pagina'])} | "
             f"{cell(r['controllo_parsing'])} |"
         )
-    with open(summary_path, "a", encoding="utf-8") as f:  # "a" = aggiunge in coda
+    with open(summary_path, "a", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
 
