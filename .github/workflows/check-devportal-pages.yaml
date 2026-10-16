@@ -1,0 +1,32 @@
+# Esegue check-devportal-pages/check_pagine.py e fallisce se almeno un controllo e' KO.
+
+name: Controllo pagine developer.pagopa.it
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "0 7 * * 1-5"   # opzionale: ogni giorno feriale alle 07:00 UTC
+  push:
+    branches: feat/check-devportal-pages
+    paths:
+      - "check-devportal-pages/**"
+      - ".github/workflows/check-devportal-pages.yaml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest   # Google Chrome e' gia' installato sul runner
+    timeout-minutes: 30
+    steps:
+      - name: Scarica il codice
+        uses: actions/checkout@v4
+
+      - name: Installa Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa le librerie
+        run: pip install "selenium>=4.20" "requests>=2.31"
+
+      - name: Esegui il controllo
+        run: python .github/scripts/check_pagine.py   # esce con codice 1 (errore) se c'e' almeno un KO
