@@ -2,6 +2,11 @@
 
 name: Controllo pagine developer.pagopa.it
 
+permissions:
+  contents: write
+  #pull-requests: write
+  #id-token: write
+
 on:
   workflow_dispatch:
   # schedule:
