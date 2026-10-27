@@ -1,15 +1,24 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "FDR - Flussi di Rendicontazione (ORGs)",
-    "termsOfService": "https://www.pagopa.gov.it/",
-    "version": "1.1.54"
-  },
-  "servers": [
-    {
-      "url": "https://api.uat.platform.pagopa.it/fdr-org/service/v1"
-    }
-  ],
+    "openapi": "3.0.1",
+    "info": {
+        "title": "FDR Fase3 - Flussi di rendicontazione (ORGS)",
+        "description": "FDR - Flussi di rendicontazione (ORGS)",
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "https://api.uat.platform.pagopa.it/fdr-org/service/v1"
+        },
+        {
+            "url": "https://uat.checkout.pagopa.it/fdr-org/service/v1"
+        },
+        {
+            "url": "https://uat.payment-wallet.pagopa.it/fdr-org/service/v1"
+        },
+        {
+            "url": "https://api.prf.platform.pagopa.it/fdr-org/service/v1"
+        }
+    ],
     "paths": {
         "/organizations/{organizationId}/fdrs": {
             "get": {
@@ -515,9 +524,7 @@
                                             "payStatus": [
                                                 "EXECUTED"
                                             ],
-                                            "payDate": [
-                                                "2022-03-10T04:15:50.0000000+00:00"
-                                            ]
+                                            "payDate": "2026-07-28T12:00:00.0000000+00:00"
                                         }
                                     ]
                                 }
@@ -1174,7 +1181,7 @@
                         "items": {
                             "$ref": "#/components/schemas/Payment"
                         },
-                        "description": "The list of payments that are included in this page. Date-time fields inside each item are defined with UTC time-zone. The original business day is preserved where applicable."
+                        "description": "The list of payments that are included in this page. Date-time fields inside each item are defined with UTC time-zone."
                     }
                 }
             },
@@ -1248,7 +1255,10 @@
                         ]
                     },
                     "payDate": {
-                        "$ref": "#/components/schemas/Instant"
+                        "type": "string",
+                        "description": "For REST reporting flows, payDate represents the local calendar date (Europe/Rome) on which the individual payment was ordered by the PSP. The format to use is YYYY-MM-DDT00:00:00Z. Preserve the YYYY-MM-DD date component and append T00:00:00Z, without converting that date to UTC. For example, a payment ordered at 2026-07-28 00:30:00 in Europe/Rome must be reported as 2026-07-28T00:00:00Z.<br>In SOAP reporting flows, the corresponding calendar date is represented by <b>[FlussoRiversamento.datiSingoliPagamenti.dataEsitoSingoloPagamento]</b> in YYYY-MM-DD format.",
+                        "format": "date-time",
+                        "example": "2026-07-28T12:00:00.0000000+00:00"
                     }
                 }
             },
