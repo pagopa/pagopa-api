@@ -3,12 +3,17 @@
     "info": {
         "title": "Selfcare Backoffice External for EC",
         "description": "API for Backoffice External for EC",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.6.9"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/backoffice/external/ec/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/backoffice/external/ec/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/backoffice/external/ec/v1"
         }
     ],
     "paths": {
