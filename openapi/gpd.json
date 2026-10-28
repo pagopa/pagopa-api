@@ -3,12 +3,17 @@
     "info": {
         "title": "GPD pagoPA - Debt Positions service API for organizations",
         "description": "API to support Debt Positions service for organizations",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "1.0.0"
+        "version": "v1"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/gpd/debt-positions-service/v1"
+        },
+        {
+            "url": "https://checkout.pagopa.it/gpd/debt-positions-service/v1"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/gpd/debt-positions-service/v1"
         }
     ],
     "paths": {

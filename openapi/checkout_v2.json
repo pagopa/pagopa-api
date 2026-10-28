@@ -3,13 +3,18 @@
     "info": {
         "title": "Checkout - EC API",
         "description": "Checkout API for EC",
-        "termsOfService": "https://www.pagopa.gov.it/",
-        "version": "2.0.0"
+        "version": "v2"
     },
     "servers": [
         {
             "url": "https://api.platform.pagopa.it/checkout/ec/v2"
         },
+        {
+            "url": "https://checkout.pagopa.it/checkout/ec/v2"
+        },
+        {
+            "url": "https://payment-wallet.pagopa.it/checkout/ec/v2"
+        }
     ],
     "paths": {
         "/carts": {
