@@ -1,0 +1,479 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "pagoPA - Spontaneous Payments API for Creditor Institutions (paDemandPaymentNotice REST)",
+    "description": "**DRAFT** – REST interface that a creditor institution (EC) station exposes to the pagoPA Node\nto create a debt position for a **spontaneous payment**. REST equivalent of the SOAP primitive\n`paDemandPaymentNotice`.\n\nThe Node calls this endpoint after it has validated the user answers against the form descriptor\nof the service. Answers are sent as `code`/`value` pairs, using the field codes defined in the\nservice form descriptor (no more service-specific XML in `datiSpecificiServizio`).\n\nCreditor institutions already integrated via SOAP do not need to implement this API:\nthe Node keeps calling SOAP `paDemandPaymentNotice`, generating `datiSpecificiServizioRequest`\nfrom the answers through a per-service mapping template.\n",
+    "termsOfService": "https://www.pagopa.gov.it/",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://{stationHost}/{basePath}",
+      "description": "Endpoint configured on the creditor institution station",
+      "variables": {
+        "stationHost": {
+          "default": "ec.example.it"
+        },
+        "basePath": {
+          "default": "pagopa/spontaneous-payments/v1"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "Demand",
+      "description": "Debt position creation from user answers"
+    }
+  ],
+  "security": [
+    {
+      "apiKeyHeader": []
+    }
+  ],
+  "paths": {
+    "/demands": {
+      "post": {
+        "tags": [
+          "Demand"
+        ],
+        "summary": "Create the debt position for a spontaneous payment",
+        "description": "The creditor institution creates (or retrieves) the debt position matching the answers and returns\nthe payment notice (`qrCode`), the beneficiary and the payment options.\nBusiness rejections (e.g. unknown plate) must be returned with `422` and, when possible,\nper-field `violations` and a `userMessage` the PSP can show to the user.\n",
+        "operationId": "paDemandPaymentNotice",
+        "parameters": [
+          {
+            "name": "X-Request-Id",
+            "in": "header",
+            "required": true,
+            "description": "Node correlation identifier (equals `demandId` returned to the PSP).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaDemandRequest"
+              },
+              "examples": {
+                "bolloAuto": {
+                  "value": {
+                    "idPA": "80001234567",
+                    "idBrokerPA": "80001234567",
+                    "idStation": 8000123456701,
+                    "serviceId": "00002",
+                    "subjectServiceId": "00042",
+                    "formVersion": "3",
+                    "touchpoint": "ATM",
+                    "answers": [
+                      {
+                        "code": "vehicleType",
+                        "value": "1"
+                      },
+                      {
+                        "code": "plate",
+                        "value": "AB123CD"
+                      }
+                    ]
+                  }
+                },
+                "passaporto": {
+                  "value": {
+                    "idPA": "97000000000",
+                    "idBrokerPA": "97000000000",
+                    "idStation": 9700000000001,
+                    "serviceId": "00010",
+                    "subjectServiceId": "00051",
+                    "formVersion": "1",
+                    "touchpoint": "PSP",
+                    "answers": [
+                      {
+                        "code": "codicePratica",
+                        "value": "A001"
+                      },
+                      {
+                        "code": "pagatore.codiceFiscalePagatore",
+                        "value": "RSSMRA80A01H501U"
+                      },
+                      {
+                        "code": "pagatore.denominazionePagatore",
+                        "value": "Mario Rossi"
+                      },
+                      {
+                        "code": "intestatario.codiceFiscaleIntestatario",
+                        "value": "VRNGPP80A01H501U"
+                      },
+                      {
+                        "code": "intestatario.denominazioneIntestatario",
+                        "value": "Giuseppe Verdi"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Debt position created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaDemandResponse"
+                },
+                "example": {
+                  "qrCode": {
+                    "fiscalCode": "80001234567",
+                    "noticeNumber": "302000000000000001"
+                  },
+                  "paymentDescription": "Tassa automobilistica 2026 AB123CD",
+                  "creditorInstitution": {
+                    "fiscalCode": "80001234567",
+                    "companyName": "Regione Lazio"
+                  },
+                  "paymentOptions": [
+                    {
+                      "amount": 15250,
+                      "option": "EQ",
+                      "dueDate": "2026-12-31",
+                      "description": "Bollo auto 2026"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Formally invalid request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Request rejected for business reasons",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                },
+                "example": {
+                  "title": "Targa sconosciuta",
+                  "status": 422,
+                  "appErrorCode": "PAA_TARGA_SCONOSCIUTA",
+                  "detail": "Nessun veicolo trovato per la targa indicata",
+                  "userMessage": {
+                    "it": "Nessun veicolo trovato per la targa indicata"
+                  },
+                  "violations": [
+                    {
+                      "code": "plate",
+                      "reason": "NOT_FOUND"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemJson"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header",
+        "description": "Key configured on the station (same mechanism used for the other Node → EC REST calls)."
+      }
+    },
+    "schemas": {
+      "LocalizedText": {
+        "type": "object",
+        "required": [
+          "it"
+        ],
+        "properties": {
+          "it": {
+            "type": "string"
+          },
+          "en": {
+            "type": "string"
+          },
+          "de": {
+            "type": "string"
+          },
+          "fr": {
+            "type": "string"
+          },
+          "sl": {
+            "type": "string"
+          }
+        }
+      },
+      "FiscalCodePA": {
+        "type": "string",
+        "pattern": "^[0-9]{11}$"
+      },
+      "QrCode": {
+        "type": "object",
+        "required": [
+          "fiscalCode",
+          "noticeNumber"
+        ],
+        "properties": {
+          "fiscalCode": {
+            "$ref": "#/components/schemas/FiscalCodePA"
+          },
+          "noticeNumber": {
+            "type": "string",
+            "pattern": "^[0-9]{18}$"
+          }
+        }
+      },
+      "CreditorInstitution": {
+        "type": "object",
+        "required": [
+          "fiscalCode",
+          "companyName"
+        ],
+        "properties": {
+          "fiscalCode": {
+            "$ref": "#/components/schemas/FiscalCodePA"
+          },
+          "companyName": {
+            "type": "string",
+            "maxLength": 140
+          },
+          "officeName": {
+            "type": "string",
+            "maxLength": 140
+          }
+        }
+      },
+      "Answer": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Field code as defined in the service form descriptor (dot notation for nested fields). HIDDEN fields are included by the Node."
+          },
+          "value": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PaDemandRequest": {
+        "type": "object",
+        "required": [
+          "idPA",
+          "idBrokerPA",
+          "idStation",
+          "serviceId",
+          "subjectServiceId",
+          "formVersion",
+          "answers"
+        ],
+        "properties": {
+          "idPA": {
+            "type": "string",
+            "maxLength": 35
+          },
+          "idBrokerPA": {
+            "type": "string",
+            "maxLength": 35
+          },
+          "idStation": {
+            "type": "string",
+            "maxLength": 35
+          },
+          "serviceId": {
+            "type": "string",
+            "description": "`idServizio`"
+          },
+          "subjectServiceId": {
+            "type": "string",
+            "description": "`idSoggettoServizio`"
+          },
+          "formVersion": {
+            "type": "string"
+          },
+          "touchpoint": {
+            "type": "string",
+            "enum": [
+              "PSP",
+              "ATM",
+              "POS",
+              "HOME_BANKING",
+              "APP",
+              "IO",
+              "CHECKOUT"
+            ]
+          },
+          "idPSP": {
+            "type": "string",
+            "description": "PSP that collected the request (informative)."
+          },
+          "answers": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/Answer"
+            }
+          }
+        }
+      },
+      "PaymentOption": {
+        "type": "object",
+        "required": [
+          "amount",
+          "option"
+        ],
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1,
+            "description": "Amount in euro cents"
+          },
+          "option": {
+            "type": "string",
+            "enum": [
+              "EQ",
+              "LS",
+              "GT",
+              "ANY"
+            ]
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 140
+          }
+        }
+      },
+      "PaDemandResponse": {
+        "type": "object",
+        "required": [
+          "qrCode",
+          "paymentDescription",
+          "creditorInstitution",
+          "paymentOptions"
+        ],
+        "properties": {
+          "qrCode": {
+            "$ref": "#/components/schemas/QrCode"
+          },
+          "paymentDescription": {
+            "type": "string",
+            "maxLength": 140
+          },
+          "creditorInstitution": {
+            "$ref": "#/components/schemas/CreditorInstitution"
+          },
+          "paymentOptions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/PaymentOption"
+            }
+          }
+        }
+      },
+      "Violation": {
+        "type": "object",
+        "required": [
+          "code",
+          "reason"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "REQUIRED",
+              "PATTERN",
+              "INVALID_FORMAT",
+              "INVALID_CHECKSUM",
+              "NOT_FOUND",
+              "NOT_ALLOWED",
+              "OTHER"
+            ]
+          },
+          "message": {
+            "$ref": "#/components/schemas/LocalizedText"
+          }
+        }
+      },
+      "ProblemJson": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "appErrorCode": {
+            "type": "string",
+            "description": "Creditor institution error code (mapped to `faultCode` towards PSP with extended fault bean)."
+          },
+          "userMessage": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "violations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Violation"
+            }
+          }
+        }
+      }
+    }
+  }
+}
