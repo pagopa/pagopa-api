@@ -1,0 +1,802 @@
+openapi: 3.0.1
+info:
+  title: pagoPA - Spontaneous Payments API for PSP
+  description: |
+    **DRAFT** – REST interface exposed by the pagoPA Node to PSPs for **spontaneous payments**
+    (SANP use case "Pagamento spontaneo presso PSP"). It supersedes the SOAP primitive `demandPaymentNotice`.
+
+    Flow:
+    1. `GET /psps/{idPSP}/services` – catalogue of spontaneous services available to the PSP.
+    2. `GET /psps/{idPSP}/services/{subjectServiceId}/form` – server-driven form descriptor
+       (list of typed fields, discriminated by `_type`), rendered generically by the PSP touchpoint.
+    3. `POST /psps/{idPSP}/services/{subjectServiceId}/demands` – answers collected from the user;
+       the Node validates them against the descriptor, asks the creditor institution to create the
+       debt position and returns the `qrCode` (fiscalCode + noticeNumber).
+    4. The PSP continues with `activatePaymentNoticeV2` using the returned `qrCode` (unchanged flow).
+  termsOfService: https://www.pagopa.gov.it/
+  version: 0.1.0
+servers:
+  - url: https://api.platform.pagopa.it/nodo/spontaneous-payments/v1
+  - url: https://api.uat.platform.pagopa.it/nodo/spontaneous-payments/v1
+tags:
+  - name: Catalogue
+    description: Spontaneous services available to the PSP
+  - name: Form
+    description: Server-driven form descriptors
+  - name: Demand
+    description: Creation of the debt position from the user answers
+security:
+  - apiKeyHeader: []
+paths:
+  /psps/{idPSP}/services:
+    get:
+      tags: [Catalogue]
+      summary: List spontaneous services
+      description: Returns the spontaneous services currently enabled on pagoPA. Replaces `nodoChiediCatalogoServiziV2`.
+      operationId: getSpontaneousServices
+      parameters:
+        - $ref: '#/components/parameters/IdPSP'
+        - $ref: '#/components/parameters/IdBrokerPSP'
+        - $ref: '#/components/parameters/IdChannel'
+        - name: category
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ServiceCategory'
+        - name: touchpoint
+          in: query
+          required: false
+          description: Filters services renderable on the given touchpoint.
+          schema:
+            $ref: '#/components/schemas/Touchpoint'
+      responses:
+        '200':
+          description: Service catalogue
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceList'
+              example:
+                services:
+                  - serviceId: '00002'
+                    subjectServiceId: '00042'
+                    name: { it: Bollo auto, en: Car tax }
+                    category: TAX
+                    creditorInstitution: { fiscalCode: '80001234567', companyName: ACI }
+                    formVersion: '3'
+                    validFrom: '2026-01-01T00:00:00Z'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /psps/{idPSP}/services/{subjectServiceId}/form:
+    get:
+      tags: [Form]
+      summary: Get the form descriptor of a service
+      description: |
+        Returns the descriptor of the fields the PSP must collect from the user.
+        The descriptor is versioned (`formVersion`, also returned as `ETag`) and cacheable:
+        PSPs should use `If-None-Match` and refresh it when `412` is returned by the demand.
+      operationId: getServiceForm
+      parameters:
+        - $ref: '#/components/parameters/IdPSP'
+        - $ref: '#/components/parameters/SubjectServiceId'
+        - $ref: '#/components/parameters/IdBrokerPSP'
+        - $ref: '#/components/parameters/IdChannel'
+        - name: If-None-Match
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Form descriptor
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+            Cache-Control:
+              schema:
+                type: string
+                example: max-age=3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceForm'
+              examples:
+                bolloAuto:
+                  $ref: '#/components/examples/FormBolloAuto'
+                passaporto:
+                  $ref: '#/components/examples/FormPassaporto'
+                canoneUnicoPatrimoniale:
+                  $ref: '#/components/examples/FormCup'
+        '304':
+          description: Not modified
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/ServiceNotFound' }
+        '409': { $ref: '#/components/responses/ServiceNotActive' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /psps/{idPSP}/services/{subjectServiceId}/demands:
+    post:
+      tags: [Demand]
+      summary: Demand a payment notice
+      description: |
+        Sends the answers collected from the user. The Node:
+        1. checks PSP / broker / channel and the service status (as `demandPaymentNotice`);
+        2. validates the answers against the form descriptor (`400` with per-field `violations`);
+        3. forwards them to the creditor institution (REST `paDemandPaymentNotice` or, for legacy
+           creditor institutions, SOAP `paDemandPaymentNotice` with `datiSpecificiServizio`
+           generated by the Node);
+        4. returns the payment notice data to be used in `activatePaymentNoticeV2`.
+      operationId: demandPaymentNotice
+      parameters:
+        - $ref: '#/components/parameters/IdPSP'
+        - $ref: '#/components/parameters/SubjectServiceId'
+        - name: Idempotency-Key
+          in: header
+          required: false
+          description: Client generated key; repeated requests with the same key return the same result for 30 minutes.
+          schema:
+            type: string
+            maxLength: 64
+        - name: If-Match
+          in: header
+          required: false
+          description: Form version (`ETag`) used to render the form.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandRequest'
+            examples:
+              bolloAuto:
+                value:
+                  idBrokerPSP: '60000000001'
+                  idChannel: 60000000001_01
+                  formVersion: '3'
+                  touchpoint: ATM
+                  answers:
+                    - { code: vehicleType, value: '1' }
+                    - { code: plate, value: AB123CD }
+              passaporto:
+                value:
+                  idBrokerPSP: '60000000001'
+                  idChannel: 60000000001_01
+                  formVersion: '1'
+                  touchpoint: PSP
+                  answers:
+                    - { code: pagatore.codiceFiscalePagatore, value: RSSMRA80A01H501U }
+                    - { code: pagatore.denominazionePagatore, value: Mario Rossi }
+                    - { code: intestatario.codiceFiscaleIntestatario, value: VRNGPP80A01H501U }
+                    - { code: intestatario.denominazioneIntestatario, value: Giuseppe Verdi }
+              canoneUnicoPatrimoniale:
+                value:
+                  idBrokerPSP: '60000000001'
+                  idChannel: 60000000001_01
+                  formVersion: '1'
+                  touchpoint: PSP
+                  answers:
+                    - { code: organizationFiscalCode, value: '77777777777' }
+                    - { code: companyName, value: Corporate S.r.l. }
+                    - { code: debtorFiscalCode, value: '01234567890' }
+                    - { code: debtorFullName, value: Corporate }
+                    - { code: debtorEmail, value: administration@corporate.it }
+                    - { code: amount, value: '15050' }
+                    - { code: autodichiarazione, value: 'true' }
+      responses:
+        '201':
+          description: Debt position created by the creditor institution
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandResponse'
+              example:
+                demandId: 01JD3Z6S9V7Q2K4X8N5M1T0ABC
+                qrCode: { fiscalCode: '80001234567', noticeNumber: '302000000000000001' }
+                paymentDescription: Tassa automobilistica 2026 AB123CD
+                creditorInstitution: { fiscalCode: '80001234567', companyName: Regione Lazio }
+                paymentOptions:
+                  - { amount: 15250, option: EQ, dueDate: '2026-12-31', description: Bollo auto 2026 }
+                receiptRequirements: { noticeBarcode: NONE }
+        '400': { $ref: '#/components/responses/InvalidAnswers' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/ServiceNotFound' }
+        '409': { $ref: '#/components/responses/ServiceNotActive' }
+        '412':
+          description: Form version outdated, reload the descriptor
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+              example:
+                type: https://developer.pagopa.it/errors/FORM_VERSION_MISMATCH
+                title: Form version mismatch
+                status: 412
+                appErrorCode: FORM_VERSION_MISMATCH
+                detail: Form version 2 is outdated, current version is 3
+        '422':
+          description: Request rejected by the creditor institution (e.g. plate not found)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+              example:
+                type: https://developer.pagopa.it/errors/EC_REJECTED
+                title: Rejected by creditor institution
+                status: 422
+                appErrorCode: EC_REJECTED
+                detail: Nessun veicolo trovato per la targa indicata
+                userMessage: { it: Nessun veicolo trovato per la targa indicata }
+                violations:
+                  - { code: plate, reason: NOT_FOUND }
+                creditorInstitutionFault:
+                  faultCode: PAA_TARGA_SCONOSCIUTA
+                  faultString: Targa sconosciuta
+        '500': { $ref: '#/components/responses/InternalError' }
+        '502':
+          description: Invalid response from the creditor institution (PPT_STAZIONE_INT_PA_ERRORE_RESPONSE)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+        '504':
+          description: Creditor institution timeout (PPT_STAZIONE_INT_PA_TIMEOUT)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+
+  parameters:
+    IdPSP:
+      name: idPSP
+      in: path
+      required: true
+      schema: { type: string, maxLength: 35 }
+    IdBrokerPSP:
+      name: idBrokerPSP
+      in: query
+      required: true
+      schema: { type: string, maxLength: 35 }
+    IdChannel:
+      name: idChannel
+      in: query
+      required: true
+      schema: { type: string, maxLength: 35 }
+    SubjectServiceId:
+      name: subjectServiceId
+      in: path
+      required: true
+      description: Identifier of the subject-service (`idSoggettoServizio`).
+      schema: { type: string, pattern: '^[0-9]{5}$' }
+
+  headers:
+    ETag:
+      description: Version of the returned resource
+      schema: { type: string }
+
+  responses:
+    BadRequest:
+      description: Formally invalid input
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemJson' }
+    InvalidAnswers:
+      description: Answers not compliant with the form descriptor
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemJson' }
+          example:
+            type: https://developer.pagopa.it/errors/INVALID_ANSWERS
+            title: Invalid answers
+            status: 400
+            appErrorCode: INVALID_ANSWERS
+            detail: One or more answers are not valid
+            violations:
+              - { code: plate, reason: PATTERN, message: { it: Targa non valida } }
+              - { code: vehicleType, reason: REQUIRED }
+    Unauthorized:
+      description: Missing or invalid subscription key
+    Forbidden:
+      description: PSP / broker / channel not enabled (PPT_AUTORIZZAZIONE, PPT_CANALE_DISABILITATO, ...)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemJson' }
+    ServiceNotFound:
+      description: Unknown service (PPT_SERVIZIO_SCONOSCIUTO)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemJson' }
+    ServiceNotActive:
+      description: Service not active (PPT_SERVIZIO_NONATTIVO)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemJson' }
+    InternalError:
+      description: Internal error (PPT_SYSTEM_ERROR)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemJson' }
+
+  schemas:
+    LocalizedText:
+      type: object
+      description: Localized text; `it` is mandatory, the other pagoPA languages are optional.
+      required: [it]
+      properties:
+        it: { type: string }
+        en: { type: string }
+        de: { type: string }
+        fr: { type: string }
+        sl: { type: string }
+    Touchpoint:
+      type: string
+      enum: [PSP, ATM, POS, HOME_BANKING, APP, IO, CHECKOUT]
+    ServiceCategory:
+      type: string
+      enum: [TAX, DOCUMENT, FEE, FINE, OTHER]
+    FiscalCodePA:
+      type: string
+      pattern: '^[0-9]{11}$'
+    QrCode:
+      type: object
+      required: [fiscalCode, noticeNumber]
+      properties:
+        fiscalCode: { $ref: '#/components/schemas/FiscalCodePA' }
+        noticeNumber: { type: string, pattern: '^[0-9]{18}$' }
+    CreditorInstitution:
+      type: object
+      required: [fiscalCode, companyName]
+      properties:
+        fiscalCode: { $ref: '#/components/schemas/FiscalCodePA' }
+        companyName: { type: string, maxLength: 140 }
+        officeName: { type: string, maxLength: 140 }
+
+    ServiceList:
+      type: object
+      required: [services]
+      properties:
+        services:
+          type: array
+          items: { $ref: '#/components/schemas/ServiceSummary' }
+    ServiceSummary:
+      type: object
+      required: [serviceId, subjectServiceId, name, category, creditorInstitution, formVersion]
+      properties:
+        serviceId: { type: string, description: '`idServizio` (CDS_SERVIZIO)' }
+        subjectServiceId: { type: string, description: '`idSoggettoServizio` (CDS_SOGGETTO_SERVIZIO)' }
+        name: { $ref: '#/components/schemas/LocalizedText' }
+        description: { $ref: '#/components/schemas/LocalizedText' }
+        category: { $ref: '#/components/schemas/ServiceCategory' }
+        creditorInstitution: { $ref: '#/components/schemas/CreditorInstitution' }
+        formVersion: { type: string }
+        logoUrl: { type: string, format: uri }
+        touchpoints:
+          type: array
+          description: Touchpoints on which the form is renderable (absent = all).
+          items: { $ref: '#/components/schemas/Touchpoint' }
+        validFrom: { type: string, format: date-time }
+        validTo: { type: string, format: date-time }
+
+    ServiceForm:
+      type: object
+      required: [subjectServiceId, formVersion, title, fields]
+      properties:
+        subjectServiceId: { type: string }
+        formVersion: { type: string }
+        title: { $ref: '#/components/schemas/LocalizedText' }
+        description: { $ref: '#/components/schemas/LocalizedText' }
+        fields:
+          type: array
+          minItems: 1
+          items: { $ref: '#/components/schemas/FormField' }
+
+    FormField:
+      description: |
+        Polymorphic form field, discriminated by `_type`. The set of types is closed: a PSP that
+        implements all of them can render any present and future spontaneous service.
+      oneOf:
+        - $ref: '#/components/schemas/TextField'
+        - $ref: '#/components/schemas/FiscalCodeField'
+        - $ref: '#/components/schemas/EmailField'
+        - $ref: '#/components/schemas/AmountField'
+        - $ref: '#/components/schemas/NumberField'
+        - $ref: '#/components/schemas/DateField'
+        - $ref: '#/components/schemas/SelectField'
+        - $ref: '#/components/schemas/MultiField'
+        - $ref: '#/components/schemas/BooleanField'
+        - $ref: '#/components/schemas/OneOfField'
+        - $ref: '#/components/schemas/GroupField'
+        - $ref: '#/components/schemas/InformativeField'
+        - $ref: '#/components/schemas/ConsentField'
+        - $ref: '#/components/schemas/HiddenField'
+      discriminator:
+        propertyName: _type
+        mapping:
+          TEXT: '#/components/schemas/TextField'
+          FISCAL_CODE: '#/components/schemas/FiscalCodeField'
+          EMAIL: '#/components/schemas/EmailField'
+          AMOUNT: '#/components/schemas/AmountField'
+          NUMBER: '#/components/schemas/NumberField'
+          DATE: '#/components/schemas/DateField'
+          SELECT: '#/components/schemas/SelectField'
+          MULTI: '#/components/schemas/MultiField'
+          BOOLEAN: '#/components/schemas/BooleanField'
+          ONE_OF: '#/components/schemas/OneOfField'
+          GROUP: '#/components/schemas/GroupField'
+          INFORMATIVE: '#/components/schemas/InformativeField'
+          CONSENT: '#/components/schemas/ConsentField'
+          HIDDEN: '#/components/schemas/HiddenField'
+
+    FieldType:
+      type: string
+      enum: [TEXT, FISCAL_CODE, EMAIL, AMOUNT, NUMBER, DATE, SELECT, MULTI, BOOLEAN, ONE_OF, GROUP, INFORMATIVE, CONSENT, HIDDEN]
+
+    BaseField:
+      type: object
+      required: [_type, code]
+      properties:
+        _type: { $ref: '#/components/schemas/FieldType' }
+        code:
+          type: string
+          pattern: '^[A-Za-z][A-Za-z0-9_]{0,49}$'
+          description: Field key used in `answers`. Nested fields are addressed with dot notation (`group.field`).
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        hint: { $ref: '#/components/schemas/LocalizedText' }
+        required: { type: boolean, default: false }
+        sensitive:
+          type: boolean
+          default: false
+          description: Personal data; must be masked in logs and receipts.
+        visibleIf:
+          $ref: '#/components/schemas/Condition'
+
+    InputField:
+      allOf:
+        - $ref: '#/components/schemas/BaseField'
+        - type: object
+          properties:
+            defaultValue: { type: string }
+            prefill:
+              type: string
+              description: The PSP may prefill the value with data already known about its customer.
+              enum: [PAYER_FISCAL_CODE, PAYER_FULL_NAME, PAYER_EMAIL]
+
+    Condition:
+      type: object
+      description: The field is shown (and validated) only if the referenced field has the given value.
+      required: [code, equals]
+      properties:
+        code: { type: string }
+        equals: { type: string }
+
+    TextValidation:
+      type: object
+      properties:
+        pattern: { type: string, description: ECMA-262 regular expression }
+        minLength: { type: integer, minimum: 0 }
+        maxLength: { type: integer, minimum: 1 }
+        transform: { type: string, enum: [NONE, UPPERCASE, LOWERCASE, TRIM] }
+
+    TextField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          properties:
+            validation: { $ref: '#/components/schemas/TextValidation' }
+
+    FiscalCodeField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          required: [subjectKind]
+          properties:
+            subjectKind:
+              type: string
+              description: 'F = natural person (16 chars), G = legal person (11 digits), ANY = both. Checksum validated by the Node.'
+              enum: [F, G, ANY]
+
+    EmailField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          properties:
+            businessOnly: { type: boolean, default: false }
+
+    AmountField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          description: Amount entered by the user (e.g. self-assessment); value expressed in euro cents.
+          properties:
+            min: { type: integer, format: int64, minimum: 1 }
+            max: { type: integer, format: int64 }
+
+    NumberField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          properties:
+            min: { type: number }
+            max: { type: number }
+            integer: { type: boolean, default: true }
+
+    DateField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          description: Value as ISO 8601 date (YYYY-MM-DD).
+          properties:
+            min: { type: string, format: date }
+            max: { type: string, format: date }
+
+    Option:
+      type: object
+      required: [value, label]
+      properties:
+        value: { type: string }
+        label: { $ref: '#/components/schemas/LocalizedText' }
+
+    SelectField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          required: [options]
+          properties:
+            options:
+              type: array
+              minItems: 1
+              items: { $ref: '#/components/schemas/Option' }
+
+    MultiField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+        - type: object
+          required: [options]
+          properties:
+            options:
+              type: array
+              minItems: 1
+              items: { $ref: '#/components/schemas/Option' }
+            minItems: { type: integer, minimum: 0 }
+            maxItems: { type: integer, minimum: 1 }
+
+    BooleanField:
+      allOf:
+        - $ref: '#/components/schemas/InputField'
+
+    OneOfField:
+      allOf:
+        - $ref: '#/components/schemas/BaseField'
+        - type: object
+          description: The user must fill exactly one of the alternatives (e.g. fiscal code OR ISTAT code OR cadastral code). Answers use the alternative `code`.
+          required: [alternatives]
+          properties:
+            alternatives:
+              type: array
+              minItems: 2
+              items: { $ref: '#/components/schemas/FormField' }
+
+    GroupField:
+      allOf:
+        - $ref: '#/components/schemas/BaseField'
+        - type: object
+          required: [fields]
+          properties:
+            fields:
+              type: array
+              minItems: 1
+              items: { $ref: '#/components/schemas/FormField' }
+            repeatable:
+              type: boolean
+              default: false
+              description: If true, answers are addressed as `group[i].field`.
+            maxItems: { type: integer, minimum: 1 }
+
+    InformativeField:
+      allOf:
+        - $ref: '#/components/schemas/BaseField'
+        - type: object
+          description: Read-only text to be shown to the user; no answer expected.
+          required: [text]
+          properties:
+            text: { $ref: '#/components/schemas/LocalizedText' }
+
+    ConsentField:
+      allOf:
+        - $ref: '#/components/schemas/BaseField'
+        - type: object
+          description: Acknowledgement the user must accept; answer value `true`.
+          required: [text]
+          properties:
+            text: { $ref: '#/components/schemas/LocalizedText' }
+            url: { type: string, format: uri }
+
+    HiddenField:
+      allOf:
+        - $ref: '#/components/schemas/BaseField'
+        - type: object
+          description: Constant value added by the Node; not shown and not sent by the PSP.
+          required: [value]
+          properties:
+            value: { type: string }
+
+    Answer:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+          description: Field code; dot notation for nested fields, `[i]` for repeatable groups.
+          example: pagatore.codiceFiscalePagatore
+        value:
+          type: string
+          maxLength: 1024
+          description: Value as string (amounts in euro cents, dates ISO 8601, booleans `true`/`false`).
+        values:
+          type: array
+          description: Only for `MULTI` fields.
+          items: { type: string }
+
+    DemandRequest:
+      type: object
+      required: [idBrokerPSP, idChannel, formVersion, answers]
+      properties:
+        idBrokerPSP: { type: string, maxLength: 35 }
+        idChannel: { type: string, maxLength: 35 }
+        formVersion: { type: string }
+        touchpoint: { $ref: '#/components/schemas/Touchpoint' }
+        answers:
+          type: array
+          minItems: 1
+          items: { $ref: '#/components/schemas/Answer' }
+
+    PaymentOption:
+      type: object
+      required: [amount, option]
+      properties:
+        amount:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Amount in euro cents
+        option:
+          type: string
+          description: Amount constraint for activatePaymentNoticeV2 (EQ = equal, LS = less, GT = greater, ANY)
+          enum: [EQ, LS, GT, ANY]
+        dueDate: { type: string, format: date }
+        description: { type: string, maxLength: 140 }
+
+    DemandResponse:
+      type: object
+      required: [demandId, qrCode, paymentDescription, creditorInstitution, paymentOptions]
+      properties:
+        demandId:
+          type: string
+          description: Node identifier of the demand (for tracing / support).
+        qrCode: { $ref: '#/components/schemas/QrCode' }
+        paymentDescription: { type: string, maxLength: 210 }
+        creditorInstitution: { $ref: '#/components/schemas/CreditorInstitution' }
+        paymentOptions:
+          type: array
+          minItems: 1
+          items: { $ref: '#/components/schemas/PaymentOption' }
+        receiptRequirements:
+          type: object
+          description: Additional requirements for the receipt issued by the PSP.
+          properties:
+            noticeBarcode:
+              type: string
+              description: GS1_128 = print the notice barcode (e.g. passport service).
+              enum: [NONE, GS1_128]
+
+    Violation:
+      type: object
+      required: [code, reason]
+      properties:
+        code: { type: string, description: Field code }
+        reason:
+          type: string
+          enum: [REQUIRED, PATTERN, MIN_LENGTH, MAX_LENGTH, MIN, MAX, INVALID_OPTION, INVALID_FORMAT, INVALID_CHECKSUM, ONE_OF_VIOLATION, UNKNOWN_FIELD, NOT_FOUND, NOT_ALLOWED]
+        message: { $ref: '#/components/schemas/LocalizedText' }
+
+    ProblemJson:
+      type: object
+      description: RFC 7807 problem details, extended with pagoPA fields.
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer, format: int32, minimum: 100, maximum: 600 }
+        detail: { type: string }
+        instance: { type: string }
+        appErrorCode:
+          type: string
+          description: Application error code (INVALID_ANSWERS, EC_REJECTED, FORM_VERSION_MISMATCH or the legacy PPT_* code).
+        userMessage: { $ref: '#/components/schemas/LocalizedText' }
+        violations:
+          type: array
+          items: { $ref: '#/components/schemas/Violation' }
+        creditorInstitutionFault:
+          type: object
+          description: Original fault of the creditor institution (only for brokers with extended fault bean).
+          properties:
+            faultCode: { type: string }
+            faultString: { type: string }
+            description: { type: string }
+
+  examples:
+    FormBolloAuto:
+      value:
+        subjectServiceId: '00042'
+        formVersion: '3'
+        title: { it: Pagamento bollo auto, en: Car tax payment }
+        fields:
+          - _type: SELECT
+            code: vehicleType
+            label: { it: Tipo veicolo }
+            required: true
+            options:
+              - { value: '1', label: { it: Autoveicolo } }
+              - { value: '2', label: { it: Motoveicolo } }
+              - { value: '3', label: { it: Rimorchio } }
+          - _type: TEXT
+            code: plate
+            label: { it: Targa }
+            required: true
+            validation: { pattern: '^[A-Z0-9]{5,8}$', maxLength: 8, transform: UPPERCASE }
+    FormPassaporto:
+      value:
+        subjectServiceId: '00051'
+        formVersion: '1'
+        title: { it: Passaporto - contributo amministrativo }
+        fields:
+          - { _type: HIDDEN, code: codicePratica, value: A001 }
+          - _type: GROUP
+            code: pagatore
+            label: { it: Chi paga }
+            fields:
+              - { _type: FISCAL_CODE, code: codiceFiscalePagatore, label: { it: Codice fiscale }, subjectKind: F, required: true, sensitive: true, prefill: PAYER_FISCAL_CODE }
+              - { _type: TEXT, code: denominazionePagatore, label: { it: Nome e cognome }, required: true, validation: { maxLength: 70 }, prefill: PAYER_FULL_NAME }
+          - _type: GROUP
+            code: intestatario
+            label: { it: Intestatario del passaporto }
+            fields:
+              - { _type: FISCAL_CODE, code: codiceFiscaleIntestatario, label: { it: Codice fiscale }, subjectKind: F, required: true, sensitive: true }
+              - { _type: TEXT, code: denominazioneIntestatario, label: { it: Nome e cognome }, required: true, validation: { maxLength: 70 } }
+          - { _type: INFORMATIVE, code: infoRicevuta, text: { it: Conserva la ricevuta con il codice a barre da presentare in Questura. } }
+    FormCup:
+      value:
+        subjectServiceId: '00060'
+        formVersion: '1'
+        title: { it: Canone Unico Patrimoniale }
+        fields:
+          - _type: ONE_OF
+            code: ente
+            label: { it: Ente beneficiario }
+            required: true
+            alternatives:
+              - { _type: FISCAL_CODE, code: organizationFiscalCode, label: { it: Codice fiscale ente }, subjectKind: G }
+              - { _type: TEXT, code: istatCode, label: { it: Codice ISTAT }, validation: { pattern: '^[0-9]{6}$' } }
+              - { _type: TEXT, code: cadastralCode, label: { it: Codice catastale }, validation: { pattern: '^[A-Z][0-9]{3}$', transform: UPPERCASE } }
+          - { _type: TEXT, code: companyName, label: { it: Ragione sociale }, required: true, validation: { maxLength: 140 } }
+          - { _type: FISCAL_CODE, code: debtorFiscalCode, label: { it: Codice fiscale / P.IVA }, subjectKind: G, required: true }
+          - { _type: TEXT, code: debtorFullName, label: { it: Denominazione }, required: true, validation: { maxLength: 70 } }
+          - { _type: EMAIL, code: debtorEmail, label: { it: Email aziendale }, businessOnly: true }
+          - { _type: AMOUNT, code: amount, label: { it: Importo }, required: true, min: 1 }
+          - { _type: CONSENT, code: autodichiarazione, required: true, text: { it: "Dichiaro che l'importo è stato calcolato in autoliquidazione." } }

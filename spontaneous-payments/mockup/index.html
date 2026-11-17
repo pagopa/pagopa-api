@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pagoPA · Pagamenti spontanei 2.0 – mock-up</title>
+<style>
+  :root { --blue:#0073E6; --dark:#17324D; --grey:#5C6F82; --light:#EBF4FD; --red:#D85C5C; --green:#2E8B57; --bg:#F5F7FA; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Titillium Web",-apple-system,Segoe UI,Roboto,sans-serif; color:var(--dark); background:var(--bg); }
+  header { background:var(--blue); color:#fff; padding:14px 24px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  header h1 { font-size:20px; margin:0; flex:1; }
+  header .sub { font-size:13px; opacity:.85; }
+  .seg { display:flex; background:rgba(255,255,255,.15); border-radius:8px; padding:3px; }
+  .seg button { background:none; border:0; color:#fff; padding:6px 14px; border-radius:6px; cursor:pointer; font:inherit; font-size:14px; }
+  .seg button.on { background:#fff; color:var(--blue); font-weight:700; }
+  main { display:grid; grid-template-columns: minmax(420px,1fr) minmax(380px,1fr); gap:20px; padding:20px 24px; }
+  @media (max-width:1000px){ main { grid-template-columns:1fr; } }
+  .panel-title { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--grey); font-weight:700; margin:0 0 8px; display:flex; justify-content:space-between; align-items:center; }
+  .panel-title small { text-transform:none; letter-spacing:0; font-weight:400; }
+
+  /* ---------- device / skins ---------- */
+  .device { border-radius:16px; overflow:hidden; box-shadow:0 6px 24px rgba(23,50,77,.15); background:#fff; min-height:560px; display:flex; flex-direction:column; transition:all .2s; }
+  .device .bar { padding:12px 18px; display:flex; align-items:center; gap:10px; font-weight:700; }
+  .device .screen { padding:20px 22px; flex:1; overflow:auto; }
+  .device .crumbs { font-size:13px; color:var(--grey); margin-bottom:12px; }
+  .device .crumbs a { color:var(--blue); cursor:pointer; text-decoration:underline; }
+
+  .skin-hb .bar { background:#fff; border-bottom:1px solid #e3e7eb; color:var(--dark); }
+  .skin-hb .bar .logo { background:#00594F; color:#fff; border-radius:6px; padding:3px 8px; font-size:13px; }
+  .skin-hb .bar .user { margin-left:auto; font-weight:400; font-size:13px; color:var(--grey); }
+
+  .skin-atm { background:#0B2A4A; color:#fff; border:14px solid #3a4652; border-radius:22px; }
+  .skin-atm .bar { background:#081F37; color:#9fd0ff; justify-content:center; font-size:15px; letter-spacing:.1em; }
+  .skin-atm .screen { font-size:19px; }
+  .skin-atm .crumbs, .skin-atm .muted { color:#9fb4c8; }
+  .skin-atm .crumbs a { color:#9fd0ff; }
+  .skin-atm input, .skin-atm select { background:#fff; font-size:22px; padding:12px; font-family:monospace; text-transform:uppercase; }
+  .skin-atm .btn { font-size:20px; padding:14px 22px; background:#F5B700; color:#0B2A4A; }
+  .skin-atm .btn.secondary { background:#4a6075; color:#fff; }
+  .skin-atm .card { background:#123A63; border-color:#1d4f80; color:#fff; }
+  .skin-atm .info { background:#123A63; color:#cfe6ff; }
+  .skin-atm .tile { background:#123A63; border-color:#1d4f80; color:#fff; }
+  .skin-atm fieldset { border-color:#1d4f80; }
+
+  .skin-pos { max-width:360px; margin:0 auto; border:12px solid #222; border-radius:28px; }
+  .skin-pos .bar { background:#222; color:#fff; font-size:13px; justify-content:space-between; }
+  .skin-pos .screen { padding:14px; font-size:14px; }
+  .skin-pos .tiles { grid-template-columns:1fr; }
+
+  /* ---------- generic components ---------- */
+  .tiles { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
+  .tile { border:1px solid #dfe5ea; border-radius:12px; padding:14px; cursor:pointer; background:#fff; transition:transform .1s, box-shadow .1s; position:relative; }
+  .tile:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.08); }
+  .tile .ico { font-size:28px; }
+  .tile .nm { font-weight:700; margin-top:6px; }
+  .tile .ec { font-size:13px; opacity:.75; }
+  .badge { position:absolute; top:8px; right:8px; background:var(--green); color:#fff; font-size:11px; padding:2px 7px; border-radius:10px; font-weight:700; }
+  h2 { margin:4px 0 14px; font-size:22px; }
+  label.f { display:block; margin:14px 0 4px; font-weight:600; }
+  .req::after { content:" *"; color:var(--red); }
+  input, select { width:100%; padding:9px 11px; border:1px solid #b9c3cc; border-radius:8px; font:inherit; color:var(--dark); }
+  input.bad, select.bad { border-color:var(--red); background:#fff6f6; }
+  .err { color:var(--red); font-size:13px; margin-top:4px; }
+  .skin-atm .err { color:#ffb3b3; }
+  .hint { font-size:12px; color:var(--grey); margin-top:3px; }
+  .prefilled { font-size:11px; background:var(--light); color:var(--blue); padding:1px 6px; border-radius:8px; margin-left:6px; font-weight:600; }
+  fieldset { border:1px solid #dfe5ea; border-radius:10px; padding:4px 14px 14px; margin:14px 0 0; }
+  legend { font-weight:700; padding:0 6px; }
+  .oneof-choice { display:flex; gap:12px; flex-wrap:wrap; margin:6px 0; }
+  .oneof-choice label { font-weight:400; display:flex; gap:6px; align-items:center; }
+  .oneof-choice input { width:auto; }
+  .info { background:var(--light); border-radius:10px; padding:10px 14px; margin-top:14px; font-size:14px; }
+  .consent { display:flex; gap:10px; align-items:flex-start; margin-top:14px; }
+  .consent input { width:auto; margin-top:5px; }
+  .opts { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .opt { padding:16px; border-radius:10px; border:2px solid #1d4f80; background:#123A63; color:#fff; cursor:pointer; text-align:center; font-size:20px; }
+  .opt.on { border-color:#F5B700; background:#1d4f80; }
+  .actions { display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
+  .btn { background:var(--blue); color:#fff; border:0; border-radius:8px; padding:10px 20px; font:inherit; font-weight:700; cursor:pointer; }
+  .btn.secondary { background:#e3e9ef; color:var(--dark); }
+  .btn:disabled { opacity:.5; cursor:wait; }
+  .card { border:1px solid #dfe5ea; border-radius:12px; padding:16px; background:#fff; }
+  .kv { display:grid; grid-template-columns:150px 1fr; gap:6px 12px; font-size:15px; }
+  .kv b { font-weight:600; opacity:.75; }
+  .amount { font-size:30px; font-weight:800; margin:8px 0; }
+  .ok { color:var(--green); font-size:44px; text-align:center; }
+  .alert { background:#fdeeee; color:#8a2c2c; border-radius:10px; padding:10px 14px; margin-top:14px; }
+  .muted { color:var(--grey); font-size:13px; }
+  .barcode { height:60px; display:flex; align-items:flex-end; gap:1px; margin:10px 0 2px; background:#fff; padding:6px; border-radius:4px; }
+  .barcode i { background:#000; height:100%; display:block; }
+
+  /* ---------- log ---------- */
+  .log { background:#0f1e2e; color:#d7e3ef; border-radius:12px; padding:12px; height:560px; overflow:auto; font-size:13px; }
+  .entry { border-left:3px solid #4a6075; padding:6px 10px; margin-bottom:10px; background:#152a40; border-radius:0 8px 8px 0; }
+  .entry .hd { display:flex; gap:8px; align-items:center; cursor:pointer; flex-wrap:wrap; }
+  .entry .who { font-weight:700; font-size:12px; padding:1px 7px; border-radius:6px; }
+  .who.psp { background:#00594F; } .who.node { background:var(--blue); } .who.ec { background:#7a4fb3; } .who.note { background:#4a6075; }
+  .entry .st { margin-left:auto; font-family:monospace; }
+  .st.s2 { color:#7be0a6; } .st.s4 { color:#ffb36b; } .st.s5 { color:#ff8080; }
+  .entry pre { margin:6px 0 0; white-space:pre-wrap; word-break:break-all; font-size:12px; color:#bcd3ea; max-height:260px; overflow:auto; }
+  .entry.soap { border-left-color:#c58b2a; }
+  .entry.rest { border-left-color:#4fb3ff; }
+  .entry.note { border-left-color:#7be0a6; font-style:italic; }
+
+  /* ---------- publisher ---------- */
+  .publisher { grid-column:1 / -1; }
+  details.pub { background:#fff; border-radius:12px; box-shadow:0 2px 10px rgba(23,50,77,.08); padding:12px 18px; }
+  details.pub summary { cursor:pointer; font-weight:700; font-size:16px; }
+  .pubgrid { display:grid; grid-template-columns:1fr 320px; gap:16px; margin-top:12px; }
+  @media (max-width:1000px){ .pubgrid { grid-template-columns:1fr; } }
+  textarea { width:100%; height:300px; font-family:monospace; font-size:12px; border:1px solid #b9c3cc; border-radius:8px; padding:10px; }
+  .legend-types { font-size:13px; line-height:1.7; }
+  .legend-types code { background:var(--light); padding:1px 5px; border-radius:4px; color:var(--blue); }
+</style>
+</head>
+<body>
+<header>
+  <div style="flex:1">
+    <h1>pagoPA · Pagamenti spontanei 2.0</h1>
+    <div class="sub">Mock-up: lo stesso motore PSP disegna qualunque servizio a partire dal descrittore pubblicato da pagoPA</div>
+  </div>
+  <div class="seg" id="skins">
+    <button data-skin="hb" class="on">🏦 Home banking</button>
+    <button data-skin="atm">🏧 ATM</button>
+    <button data-skin="pos">📟 POS / sportello</button>
+  </div>
+</header>
+
+<main>
+  <section>
+    <p class="panel-title">Touchpoint del PSP <small id="skinNote">stesso codice, grafica del PSP</small></p>
+    <div id="device" class="device skin-hb">
+      <div class="bar" id="bar"></div>
+      <div class="screen" id="screen"></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="panel-title">Dietro le quinte · chiamate API <small><a href="#" id="clearLog">pulisci</a></small></p>
+    <div class="log" id="log"></div>
+  </section>
+
+  <section class="publisher">
+    <details class="pub">
+      <summary>➕ Pubblica un nuovo servizio su pagoPA (lato Ente / pagoPA) – nessuno sviluppo per il PSP</summary>
+      <div class="pubgrid">
+        <div>
+          <textarea id="newSvc"></textarea>
+          <div class="actions">
+            <button class="btn" id="publishBtn">Pubblica su pagoPA</button>
+            <span id="pubMsg" class="muted"></span>
+          </div>
+        </div>
+        <div class="legend-types">
+          <b>"Mattoncini" disponibili (<code>_type</code>)</b><br>
+          <code>TEXT</code> <code>FISCAL_CODE</code> <code>EMAIL</code> <code>AMOUNT</code> <code>NUMBER</code> <code>DATE</code>
+          <code>SELECT</code> <code>BOOLEAN</code> <code>ONE_OF</code> <code>GROUP</code> <code>INFORMATIVE</code> <code>CONSENT</code> <code>HIDDEN</code>
+          <p class="muted">Il PSP implementa questi tipi <b>una sola volta</b>. Qualunque nuovo servizio composto da questi mattoncini appare automaticamente su home banking, ATM e POS.</p>
+          <p class="muted">Campo <code>ec.interface</code>: <code>REST</code> (nuovi Enti) oppure <code>SOAP_LEGACY</code> con <code>xmlTemplate</code>: pagoPA traduce le risposte nell'XML che l'Ente già riceve oggi.</p>
+        </div>
+      </div>
+    </details>
+  </section>
+</main>
+
+<script>
+/* =====================================================================
+ *  1. "pagoPA" side: service catalogue + form descriptors (as in the OpenAPI draft)
+ * ===================================================================== */
+const SERVICES = [
+  {
+    serviceId: "00002", subjectServiceId: "00042", icon: "🚗",
+    name: { it: "Bollo auto" }, category: "TAX",
+    creditorInstitution: { fiscalCode: "80001234567", companyName: "ACI" },
+    formVersion: "3",
+    form: {
+      title: { it: "Pagamento bollo auto" },
+      fields: [
+        { _type: "SELECT", code: "vehicleType", label: { it: "Tipo veicolo" }, required: true,
+          options: [ { value: "1", label: { it: "Autoveicolo" } }, { value: "2", label: { it: "Motoveicolo" } }, { value: "3", label: { it: "Rimorchio" } } ] },
+        { _type: "TEXT", code: "plate", label: { it: "Targa" }, required: true, hint: { it: "Prova ZZ999ZZ per simulare un rifiuto dell'Ente" },
+          validation: { pattern: "^[A-Z0-9]{5,8}$", maxLength: 8, transform: "UPPERCASE" } }
+      ]
+    },
+    ec: {
+      interface: "SOAP_LEGACY", station: "ACI_01",
+      xmlTemplate: "<tassaAuto>\n  <veicoloConTarga>\n    <tipoVeicoloTarga>{{vehicleType}}</tipoVeicoloTarga>\n    <veicoloTarga>{{plate}}</veicoloTarga>\n  </veicoloConTarga>\n</tassaAuto>",
+      simulate: a => a.plate === "ZZ999ZZ"
+        ? { reject: { faultCode: "PAA_TARGA_SCONOSCIUTA", text: "Nessun veicolo trovato per la targa indicata", field: "plate" } }
+        : { amount: 9000 + (hash(a.plate) % 30000), description: `Tassa automobilistica 2026 ${a.plate}`,
+            beneficiary: { fiscalCode: "80143490581", companyName: "Regione Lazio" }, dueDate: "2026-12-31" }
+    }
+  },
+  {
+    serviceId: "00010", subjectServiceId: "00051", icon: "🛂",
+    name: { it: "Passaporto" }, category: "DOCUMENT",
+    creditorInstitution: { fiscalCode: "97000000000", companyName: "Ministero dell'Interno" },
+    formVersion: "1",
+    form: {
+      title: { it: "Passaporto – contributo amministrativo" },
+      fields: [
+        { _type: "HIDDEN", code: "codicePratica", value: "A001" },
+        { _type: "GROUP", code: "pagatore", label: { it: "Chi paga" }, fields: [
+          { _type: "FISCAL_CODE", code: "codiceFiscalePagatore", label: { it: "Codice fiscale" }, subjectKind: "F", required: true, sensitive: true, prefill: "PAYER_FISCAL_CODE" },
+          { _type: "TEXT", code: "denominazionePagatore", label: { it: "Nome e cognome" }, required: true, validation: { maxLength: 70 }, prefill: "PAYER_FULL_NAME" } ] },
+        { _type: "GROUP", code: "intestatario", label: { it: "Intestatario del passaporto" }, fields: [
+          { _type: "FISCAL_CODE", code: "codiceFiscaleIntestatario", label: { it: "Codice fiscale" }, subjectKind: "F", required: true, sensitive: true, hint: { it: "Es. BNCLRA85M41F205C" } },
+          { _type: "TEXT", code: "denominazioneIntestatario", label: { it: "Nome e cognome" }, required: true, validation: { maxLength: 70 } } ] },
+        { _type: "INFORMATIVE", code: "infoRicevuta", text: { it: "ℹ️ Conserva la ricevuta: contiene il codice a barre da presentare in Questura." } }
+      ]
+    },
+    ec: {
+      interface: "SOAP_LEGACY", station: "MININT_01",
+      xmlTemplate: "<pagamentoPratica xmlns=\"http://PuntoAccessoPSP.spcoop.gov.it/pagamentoPratica\">\n  <codicePratica>{{codicePratica}}</codicePratica>\n  <pagatore>\n    <codiceFiscalePagatore>{{pagatore.codiceFiscalePagatore}}</codiceFiscalePagatore>\n    <denominazionePagatore>{{pagatore.denominazionePagatore}}</denominazionePagatore>\n  </pagatore>\n  <intestatario>\n    <codiceFiscaleIntestatario>{{intestatario.codiceFiscaleIntestatario}}</codiceFiscaleIntestatario>\n    <denominazioneIntestatario>{{intestatario.denominazioneIntestatario}}</denominazioneIntestatario>\n  </intestatario>\n</pagamentoPratica>",
+      simulate: a => ({ amount: 11600, description: `Passaporto ordinario - ${a["intestatario.denominazioneIntestatario"]}`,
+        beneficiary: { fiscalCode: "97000000000", companyName: "Ministero dell'Interno" }, dueDate: null, barcode: "GS1_128" })
+    }
+  },
+  {
+    serviceId: "00020", subjectServiceId: "00060", icon: "🏢",
+    name: { it: "Canone Unico Patrimoniale" }, category: "FEE",
+    creditorInstitution: { fiscalCode: "00000000000", companyName: "Comuni aderenti" },
+    formVersion: "1",
+    form: {
+      title: { it: "Canone Unico Patrimoniale (autoliquidazione)" },
+      fields: [
+        { _type: "ONE_OF", code: "ente", label: { it: "Ente beneficiario" }, required: true, alternatives: [
+          { _type: "FISCAL_CODE", code: "organizationFiscalCode", label: { it: "Codice fiscale ente" }, subjectKind: "G", hint: { it: "Es. 02438750586" } },
+          { _type: "TEXT", code: "istatCode", label: { it: "Codice ISTAT" }, validation: { pattern: "^[0-9]{6}$" }, hint: { it: "Es. 058091" } },
+          { _type: "TEXT", code: "cadastralCode", label: { it: "Codice catastale" }, validation: { pattern: "^[A-Z][0-9]{3}$", transform: "UPPERCASE" }, hint: { it: "Es. H501" } } ] },
+        { _type: "TEXT", code: "companyName", label: { it: "Ragione sociale" }, required: true, validation: { maxLength: 140 } },
+        { _type: "FISCAL_CODE", code: "debtorFiscalCode", label: { it: "Codice fiscale / P.IVA azienda" }, subjectKind: "G", required: true, hint: { it: "Es. 12345678903" } },
+        { _type: "TEXT", code: "debtorFullName", label: { it: "Denominazione" }, required: true, validation: { maxLength: 70 } },
+        { _type: "EMAIL", code: "debtorEmail", label: { it: "Email aziendale" }, businessOnly: true, hint: { it: "Facoltativa, es. info@azienda.it" } },
+        { _type: "AMOUNT", code: "amount", label: { it: "Importo autodichiarato (€)" }, required: true, min: 1 },
+        { _type: "CONSENT", code: "autodichiarazione", required: true, text: { it: "Dichiaro che l'importo è stato calcolato in autoliquidazione." } }
+      ]
+    },
+    ec: {
+      interface: "REST", station: "INTERMEDIARIO_CUP_01",
+      simulate: a => ({ amount: Number(a.amount), description: `CUP 2026 - ${a.companyName}`,
+        beneficiary: { fiscalCode: a.organizationFiscalCode || "02438750586", companyName: a.organizationFiscalCode ? "Comune selezionato" : (a.istatCode ? `Comune ISTAT ${a.istatCode}` : `Comune ${a.cadastralCode}`) }, dueDate: "2026-04-30", option: "EQ" })
+    }
+  }
+];
+
+const NEW_SERVICE_EXAMPLE = {
+  serviceId: "00030", subjectServiceId: "00077", icon: "📄",
+  name: { it: "Certificato anagrafico" }, category: "DOCUMENT",
+  creditorInstitution: { fiscalCode: "02438750586", companyName: "Comune di Roma" },
+  formVersion: "1",
+  form: {
+    title: { it: "Diritti di segreteria – certificato anagrafico" },
+    fields: [
+      { _type: "SELECT", code: "certType", label: { it: "Tipo certificato" }, required: true, options: [
+        { value: "RES", label: { it: "Residenza" } }, { value: "NASC", label: { it: "Nascita" } }, { value: "FAM", label: { it: "Stato di famiglia" } } ] },
+      { _type: "BOOLEAN", code: "bollo", label: { it: "In bollo (+16 €)" } },
+      { _type: "FISCAL_CODE", code: "cf", label: { it: "Codice fiscale richiedente" }, subjectKind: "F", required: true, prefill: "PAYER_FISCAL_CODE" },
+      { _type: "INFORMATIVE", code: "info", text: { it: "Il certificato sarà disponibile sul portale del Comune dopo il pagamento." } }
+    ]
+  },
+  ec: { interface: "REST", station: "ROMA_01", defaultAmount: 52 }
+};
+
+/* =====================================================================
+ *  2. Utilities: validation (done by the Node), i18n, logging
+ * ===================================================================== */
+const t = o => (o && (o.it || Object.values(o)[0])) || "";
+const eur = c => (c / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" });
+function hash(s) { let h = 7; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
+const CUSTOMER = { PAYER_FISCAL_CODE: "RSSMRA80A01H501U", PAYER_FULL_NAME: "Mario Rossi", PAYER_EMAIL: "mario.rossi@email.it" };
+
+function cfPFValid(cf) {
+  if (!/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$/.test(cf)) return false;
+  const odd = { 0:1,1:0,2:5,3:7,4:9,5:13,6:15,7:17,8:19,9:21,A:1,B:0,C:5,D:7,E:9,F:13,G:15,H:17,I:19,J:21,K:2,L:4,M:18,N:20,O:11,P:3,Q:6,R:8,S:12,T:14,U:16,V:10,W:22,X:25,Y:24,Z:23 };
+  let s = 0;
+  for (let i = 0; i < 15; i++) { const c = cf[i]; s += i % 2 === 0 ? odd[c] : (/[0-9]/.test(c) ? +c : c.charCodeAt(0) - 65); }
+  return String.fromCharCode(65 + s % 26) === cf[15];
+}
+function pivaValid(p) {
+  if (!/^[0-9]{11}$/.test(p)) return false;
+  let s = 0;
+  for (let i = 0; i < 10; i++) { let d = +p[i]; if (i % 2) { d *= 2; if (d > 9) d -= 9; } s += d; }
+  return (10 - s % 10) % 10 === +p[10];
+}
+
+function flatten(fields, prefix = "") {
+  const out = [];
+  for (const f of fields) {
+    if (f._type === "GROUP") out.push(...flatten(f.fields, prefix + f.code + "."));
+    else out.push({ ...f, path: prefix + f.code });
+  }
+  return out;
+}
+
+/** Generic validation of the answers against the descriptor (what the Node does before calling the EC). */
+function validateAnswers(form, answers) {
+  const v = [];
+  const val = c => (answers[c] ?? "").toString().trim();
+  for (const f of flatten(form.fields)) {
+    if (["INFORMATIVE", "HIDDEN"].includes(f._type)) continue;
+    if (f._type === "ONE_OF") {
+      const filled = f.alternatives.filter(a => val(a.code));
+      if (filled.length !== 1) { if (f.required || filled.length > 1) v.push({ code: f.path, reason: "ONE_OF_VIOLATION", message: "Compila una sola delle alternative" }); continue; }
+      v.push(...checkField(filled[0], filled[0].code, val(filled[0].code)));
+      continue;
+    }
+    v.push(...checkField(f, f.path, val(f.path)));
+  }
+  return v;
+}
+function checkField(f, path, x) {
+  const v = []; const add = (reason, message) => v.push({ code: path, reason, message });
+  if (f._type === "CONSENT") { if (f.required && x !== "true") add("REQUIRED", "Conferma obbligatoria"); return v; }
+  if (f._type === "BOOLEAN") return v;
+  if (!x) { if (f.required) add("REQUIRED", "Campo obbligatorio"); return v; }
+  const r = f.validation || {};
+  if (r.maxLength && x.length > r.maxLength) add("MAX_LENGTH", `Massimo ${r.maxLength} caratteri`);
+  if (r.pattern && !new RegExp(r.pattern).test(x)) add("PATTERN", "Formato non valido");
+  if (f._type === "FISCAL_CODE") {
+    const ok = f.subjectKind === "F" ? cfPFValid(x) : f.subjectKind === "G" ? pivaValid(x) : (cfPFValid(x) || pivaValid(x));
+    if (!ok) add("INVALID_CHECKSUM", f.subjectKind === "G" ? "Codice fiscale / P.IVA non valido" : "Codice fiscale non valido");
+  }
+  if (f._type === "EMAIL") {
+    if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(x)) add("INVALID_FORMAT", "Email non valida");
+    else if (f.businessOnly && /^[a-z]+\.[a-z]+@/i.test(x)) add("NOT_ALLOWED", "Usa un indirizzo aziendale generico (es. info@…)");
+  }
+  if (f._type === "AMOUNT") {
+    const c = Math.round(parseFloat(x.replace(",", ".")) * 100);
+    if (isNaN(c)) add("INVALID_FORMAT", "Importo non valido"); else if (f.min && c < f.min) add("MIN", "Importo troppo basso");
+  }
+  return v;
+}
+
+const logEl = document.getElementById("log");
+function log(who, title, { status, body, kind } = {}) {
+  const e = document.createElement("div");
+  e.className = "entry " + (kind || "");
+  const st = status ? `<span class="st s${String(status)[0]}">${status}</span>` : "";
+  const label = { psp: "PSP → pagoPA", node: "pagoPA → PSP", ec: "pagoPA ⇄ Ente", note: "info" }[who];
+  e.innerHTML = `<div class="hd"><span class="who ${who}">${label}</span><span>${title}</span>${st}</div>`;
+  if (body !== undefined) {
+    const pre = document.createElement("pre");
+    pre.textContent = typeof body === "string" ? body : JSON.stringify(body, null, 2);
+    e.appendChild(pre);
+    e.querySelector(".hd").onclick = () => pre.hidden = !pre.hidden;
+  }
+  logEl.appendChild(e); logEl.scrollTop = logEl.scrollHeight;
+}
+document.getElementById("clearLog").onclick = e => { e.preventDefault(); logEl.innerHTML = ""; };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* =====================================================================
+ *  3. Simulated pagoPA Node API (REST draft)
+ * ===================================================================== */
+const PSP = { idPSP: "BCITITMM", idBrokerPSP: "00799960158", idChannel: "00799960158_01" };
+const api = {
+  async getServices() {
+    log("psp", `GET /psps/${PSP.idPSP}/services`, { kind: "rest" });
+    await sleep(150);
+    const body = { services: SERVICES.map(s => ({ serviceId: s.serviceId, subjectServiceId: s.subjectServiceId, name: s.name, category: s.category, creditorInstitution: s.creditorInstitution, formVersion: s.formVersion })) };
+    log("node", "200 catalogo servizi", { status: 200, body, kind: "rest" });
+    return SERVICES;
+  },
+  async getForm(svc) {
+    log("psp", `GET /psps/${PSP.idPSP}/services/${svc.subjectServiceId}/form`, { kind: "rest" });
+    await sleep(150);
+    const visible = JSON.parse(JSON.stringify(svc.form));
+    const body = { subjectServiceId: svc.subjectServiceId, formVersion: svc.formVersion, ...visible };
+    log("node", `200 descrittore form · ETag "${svc.formVersion}"`, { status: 200, body, kind: "rest" });
+    return body;
+  },
+  async demand(svc, answers, touchpoint) {
+    const reqAnswers = Object.entries(answers).filter(([, v]) => v !== "" && v !== undefined).map(([code, value]) => ({ code, value: String(value) }));
+    log("psp", `POST /psps/${PSP.idPSP}/services/${svc.subjectServiceId}/demands`, { kind: "rest",
+      body: { idBrokerPSP: PSP.idBrokerPSP, idChannel: PSP.idChannel, formVersion: svc.formVersion, touchpoint, answers: reqAnswers } });
+    await sleep(250);
+
+    const violations = validateAnswers(svc.form, answers);
+    if (violations.length) {
+      const body = { type: "https://developer.pagopa.it/errors/INVALID_ANSWERS", title: "Invalid answers", status: 400, appErrorCode: "INVALID_ANSWERS", violations };
+      log("note", "pagoPA valida i dati sul descrittore: l'Ente NON viene chiamato", { kind: "note" });
+      log("node", "400 dati non validi (errori campo per campo)", { status: 400, body, kind: "rest" });
+      return { status: 400, body };
+    }
+
+    const full = { ...answers };
+    flatten(svc.form.fields).filter(f => f._type === "HIDDEN").forEach(f => full[f.path] = f.value);
+    for (const f of flatten(svc.form.fields)) if (f._type === "AMOUNT" && full[f.path]) full[f.path] = String(Math.round(parseFloat(String(full[f.path]).replace(",", ".")) * 100));
+    const ecAnswers = Object.entries(full).filter(([, v]) => v !== "" && v !== undefined).map(([code, value]) => ({ code, value: String(value) }));
+
+    let ecRes;
+    if (svc.ec.interface === "SOAP_LEGACY") {
+      const xml = svc.ec.xmlTemplate.replace(/{{([^}]+)}}/g, (_, k) => escapeXml(full[k] ?? ""));
+      log("note", "Ente già integrato in SOAP: pagoPA genera l'XML del servizio dal template (nessun cambiamento per l'Ente)", { kind: "note" });
+      const soap = `<soapenv:Envelope ...>\n <soapenv:Body>\n  <pafn:paDemandPaymentNoticeRequest>\n   <idPA>${svc.creditorInstitution.fiscalCode}</idPA>\n   <idBrokerPA>${svc.creditorInstitution.fiscalCode}</idBrokerPA>\n   <idStation>${svc.ec.station}</idStation>\n   <idServizio>${svc.serviceId}</idServizio>\n   <idSoggettoServizio>${svc.subjectServiceId}</idSoggettoServizio>\n   <datiSpecificiServizioRequest>${btoa(unescape(encodeURIComponent(xml)))}</datiSpecificiServizioRequest>\n  </pafn:paDemandPaymentNoticeRequest>\n </soapenv:Body>\n</soapenv:Envelope>\n\n<!-- datiSpecificiServizio decodificato -->\n${xml}`;
+      log("ec", `SOAP paDemandPaymentNotice → stazione ${svc.ec.station}`, { kind: "soap", body: soap });
+    } else {
+      log("ec", `POST /demands → stazione ${svc.ec.station} (REST)`, { kind: "rest",
+        body: { idPA: svc.creditorInstitution.fiscalCode, idStation: svc.ec.station, serviceId: svc.serviceId, subjectServiceId: svc.subjectServiceId, formVersion: svc.formVersion, touchpoint, answers: ecAnswers } });
+    }
+    await sleep(400);
+    ecRes = svc.ec.simulate ? svc.ec.simulate(full) : genericEc(svc, full);
+
+    if (ecRes.reject) {
+      const r = ecRes.reject;
+      log("ec", svc.ec.interface === "SOAP_LEGACY" ? "Risposta Ente: outcome KO" : "422 Risposta Ente", { status: svc.ec.interface === "SOAP_LEGACY" ? 200 : 422, kind: svc.ec.interface === "SOAP_LEGACY" ? "soap" : "rest",
+        body: svc.ec.interface === "SOAP_LEGACY" ? `<outcome>KO</outcome>\n<fault><faultCode>${r.faultCode}</faultCode><faultString>${r.text}</faultString></fault>` : { status: 422, appErrorCode: r.faultCode, userMessage: { it: r.text }, violations: [{ code: r.field, reason: "NOT_FOUND" }] } });
+      const body = { type: "https://developer.pagopa.it/errors/EC_REJECTED", status: 422, appErrorCode: "EC_REJECTED", userMessage: { it: r.text }, violations: [{ code: r.field, reason: "NOT_FOUND", message: r.text }], creditorInstitutionFault: { faultCode: r.faultCode, faultString: r.text } };
+      log("node", "422 rifiutato dall'Ente (messaggio mostrabile all'utente)", { status: 422, body, kind: "rest" });
+      return { status: 422, body };
+    }
+
+    const nav = "3" + String(hash(JSON.stringify(full) + Date.now())).padStart(10, "0").slice(0, 10) + String(Math.floor(Math.random() * 1e7)).padStart(7, "0");
+    const opt = { amount: ecRes.amount, option: ecRes.option || "EQ", dueDate: ecRes.dueDate || undefined, description: ecRes.description };
+    if (svc.ec.interface === "SOAP_LEGACY") {
+      log("ec", "Risposta Ente: outcome OK", { status: 200, kind: "soap",
+        body: `<outcome>OK</outcome>\n<qrCode><fiscalCode>${ecRes.beneficiary.fiscalCode}</fiscalCode><noticeNumber>${nav}</noticeNumber></qrCode>\n<paymentList><paymentOptionDescription><amount>${(ecRes.amount / 100).toFixed(2)}</amount><options>EQ</options></paymentOptionDescription></paymentList>\n<paymentDescription>${ecRes.description}</paymentDescription>\n<fiscalCodePA>${ecRes.beneficiary.fiscalCode}</fiscalCodePA>\n<companyName>${ecRes.beneficiary.companyName}</companyName>` });
+    } else {
+      log("ec", "200 Risposta Ente", { status: 200, kind: "rest",
+        body: { qrCode: { fiscalCode: ecRes.beneficiary.fiscalCode, noticeNumber: nav }, paymentDescription: ecRes.description, creditorInstitution: ecRes.beneficiary, paymentOptions: [opt] } });
+    }
+    const body = { demandId: "01J" + Math.random().toString(36).slice(2, 12).toUpperCase(), qrCode: { fiscalCode: ecRes.beneficiary.fiscalCode, noticeNumber: nav },
+      paymentDescription: ecRes.description, creditorInstitution: ecRes.beneficiary, paymentOptions: [opt], receiptRequirements: { noticeBarcode: ecRes.barcode || "NONE" } };
+    log("node", "201 avviso generato", { status: 201, body, kind: "rest" });
+    return { status: 201, body };
+  },
+  async pay(d) {
+    log("note", "Da qui in poi il flusso pagoPA è quello di oggi", { kind: "note" });
+    log("psp", "activatePaymentNoticeV2", { kind: "soap", body: { qrCode: d.qrCode, amount: (d.paymentOptions[0].amount / 100).toFixed(2) } });
+    await sleep(300);
+    log("ec", "paGetPaymentV2 → Ente", { kind: "soap" });
+    await sleep(200);
+    log("node", "activatePaymentNoticeV2Response OK · paymentToken", { status: 200, kind: "soap" });
+    await sleep(300);
+    log("psp", "sendPaymentOutcomeV2 (OK)", { kind: "soap" });
+    await sleep(200);
+    log("ec", "paSendRTV2 → Ente (ricevuta)", { kind: "soap" });
+    log("node", "sendPaymentOutcomeV2Response OK", { status: 200, kind: "soap" });
+  }
+};
+function genericEc(svc, a) {
+  const amtField = flatten(svc.form.fields).find(f => f._type === "AMOUNT");
+  let amount = amtField && a[amtField.path] ? Number(a[amtField.path]) : (svc.ec.defaultAmount || 100);
+  if (a.bollo === "true") amount += 1600;
+  return { amount, description: `${t(svc.name)}`, beneficiary: svc.creditorInstitution, dueDate: null };
+}
+function escapeXml(s) { return String(s).replace(/[<>&"']/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" }[c])); }
+
+/* =====================================================================
+ *  4. PSP touchpoint: GENERIC renderer (written once by the PSP)
+ * ===================================================================== */
+let skin = "hb";
+const screen = document.getElementById("screen");
+const device = document.getElementById("device");
+const bar = document.getElementById("bar");
+let state = { view: "catalog" };
+
+function renderBar() {
+  bar.innerHTML = skin === "hb" ? `<span class="logo">MiaBanca</span> Pagamenti › pagoPA <span class="user">👤 ${CUSTOMER.PAYER_FULL_NAME}</span>`
+    : skin === "atm" ? "BANCOMAT · SERVIZI DI PAGAMENTO pagoPA"
+    : `<span>PSP Sportello</span><span>12:30 · 🔋</span>`;
+}
+function h(html) { screen.innerHTML = html; }
+function crumbs(extra) { return `<div class="crumbs"><a onclick="goCatalog()">Servizi pagoPA</a>${extra ? " › " + extra : ""}</div>`; }
+
+async function goCatalog() {
+  state = { view: "catalog" };
+  const list = await api.getServices();
+  h(`${crumbs()}<h2>Cosa vuoi pagare?</h2>
+     <div class="tiles">${list.map((s, i) => `<div class="tile" onclick="goForm(${i})">${s._new ? '<span class="badge">NUOVO</span>' : ""}
+       <div class="ico">${s.icon || "💳"}</div><div class="nm">${t(s.name)}</div><div class="ec">${s.creditorInstitution.companyName}</div></div>`).join("")}</div>
+     <p class="muted" style="margin-top:18px">L'elenco arriva da pagoPA: il PSP non ha nulla di specifico per servizio.</p>`);
+}
+
+async function goForm(i, keep) {
+  const svc = SERVICES[i];
+  const form = keep ? state.form : await api.getForm(svc);
+  state = { view: "form", i, svc, form, answers: keep ? state.answers : {}, errors: keep ? state.errors : {}, oneOf: keep ? state.oneOf : {} };
+  if (!keep) flatten(form.fields).forEach(f => { if (f.prefill && skin === "hb") state.answers[f.path] = CUSTOMER[f.prefill]; });
+  drawForm();
+}
+
+function drawForm(globalMsg) {
+  const { svc, form } = state;
+  h(`${crumbs(t(svc.name))}<h2>${t(form.title)}</h2>
+     <form id="f" novalidate>${form.fields.map(f => fieldHtml(f, "")).join("")}
+     ${globalMsg ? `<div class="alert">⚠️ ${globalMsg}</div>` : ""}
+     <div class="actions"><button class="btn" id="go">Continua</button><button type="button" class="btn secondary" onclick="goCatalog()">Annulla</button></div></form>`);
+  const fEl = document.getElementById("f");
+  fEl.oninput = fEl.onchange = e => {
+    const el = e.target; if (!el.dataset.code) return;
+    if (el.name === "__oneof") { state.oneOf[el.dataset.code] = el.value; drawForm(); return; }
+    let v = el.type === "checkbox" ? String(el.checked) : el.value;
+    if (el.dataset.upper) { v = v.toUpperCase(); el.value = v; }
+    state.answers[el.dataset.code] = v;
+  };
+  fEl.onsubmit = async e => { e.preventDefault(); await submit(); };
+  screen.querySelectorAll(".opt").forEach(o => o.onclick = () => { state.answers[o.dataset.code] = o.dataset.value; drawForm(); });
+}
+
+function fieldHtml(f, prefix) {
+  const path = prefix + f.code;
+  const err = state.errors[path] ? `<div class="err">${state.errors[path]}</div>` : "";
+  const bad = state.errors[path] ? "bad" : "";
+  const v = state.answers[path] ?? "";
+  const lab = `<label class="f ${f.required ? "req" : ""}" for="${path}">${t(f.label)}${f.prefill && skin === "hb" ? '<span class="prefilled">precompilato dalla banca</span>' : ""}</label>`;
+  const hint = f.hint ? `<div class="hint">${t(f.hint)}</div>` : "";
+  const upper = (f.validation && f.validation.transform === "UPPERCASE") || f._type === "FISCAL_CODE" ? 'data-upper="1"' : "";
+  switch (f._type) {
+    case "HIDDEN": return "";
+    case "INFORMATIVE": return `<div class="info">${t(f.text)}</div>`;
+    case "GROUP": return `<fieldset><legend>${t(f.label)}</legend>${f.fields.map(x => fieldHtml(x, path + ".")).join("")}</fieldset>`;
+    case "CONSENT": return `<div class="consent"><input type="checkbox" id="${path}" data-code="${path}" ${v === "true" ? "checked" : ""}><label for="${path}" class="${f.required ? "req" : ""}">${t(f.text)}</label></div>${err}`;
+    case "BOOLEAN": return `<div class="consent"><input type="checkbox" id="${path}" data-code="${path}" ${v === "true" ? "checked" : ""}><label for="${path}">${t(f.label)}</label></div>`;
+    case "SELECT":
+      if (skin === "atm") return `${lab}<div class="opts">${f.options.map(o => `<div class="opt ${v === o.value ? "on" : ""}" data-code="${path}" data-value="${o.value}">${t(o.label)}</div>`).join("")}</div>${err}`;
+      return `${lab}<select id="${path}" data-code="${path}" class="${bad}"><option value="">— seleziona —</option>${f.options.map(o => `<option value="${o.value}" ${v === o.value ? "selected" : ""}>${t(o.label)}</option>`).join("")}</select>${hint}${err}`;
+    case "ONE_OF": {
+      const chosen = state.oneOf[path] || f.alternatives[0].code;
+      const alt = f.alternatives.find(a => a.code === chosen);
+      f.alternatives.filter(a => a.code !== chosen).forEach(a => delete state.answers[a.code]);
+      return `<fieldset><legend class="${f.required ? "req" : ""}">${t(f.label)}</legend>
+        <div class="oneof-choice">${f.alternatives.map(a => `<label><input type="radio" name="__oneof" data-code="${path}" value="${a.code}" ${a.code === chosen ? "checked" : ""}>${t(a.label)}</label>`).join("")}</div>
+        ${fieldHtml({ ...alt, required: true }, "")}${err}</fieldset>`;
+    }
+    default: {
+      const type = f._type === "EMAIL" ? "email" : f._type === "DATE" ? "date" : "text";
+      const im = f._type === "AMOUNT" || f._type === "NUMBER" ? 'inputmode="decimal"' : "";
+      const ml = f.validation && f.validation.maxLength ? `maxlength="${f.validation.maxLength}"` : f._type === "FISCAL_CODE" ? 'maxlength="16"' : "";
+      return `${lab}<input id="${path}" type="${type}" ${im} ${ml} ${upper} data-code="${path}" value="${escapeXml(v)}" class="${bad}" autocomplete="off">${hint}${err}`;
+    }
+  }
+}
+
+async function submit() {
+  const btn = document.getElementById("go"); btn.disabled = true; btn.textContent = "Attendere…";
+  const touchpoint = { hb: "HOME_BANKING", atm: "ATM", pos: "POS" }[skin];
+  const res = await api.demand(state.svc, state.answers, touchpoint);
+  if (res.status !== 201) {
+    state.errors = {};
+    (res.body.violations || []).forEach(v => state.errors[v.code] = v.message || v.reason);
+    return drawForm(res.status === 422 ? t(res.body.userMessage) : null);
+  }
+  state.errors = {}; state.demand = res.body; drawNotice();
+}
+
+function drawNotice() {
+  const d = state.demand, o = d.paymentOptions[0];
+  h(`${crumbs(t(state.svc.name))}<h2>Riepilogo avviso</h2>
+    <div class="card"><div class="kv">
+      <b>Ente beneficiario</b><span>${d.creditorInstitution.companyName}</span>
+      <b>Causale</b><span>${d.paymentDescription}</span>
+      <b>Codice avviso</b><span style="font-family:monospace">${d.qrCode.noticeNumber}</span>
+      ${o.dueDate ? `<b>Scadenza</b><span>${new Date(o.dueDate).toLocaleDateString("it-IT")}</span>` : ""}
+    </div><div class="amount">${eur(o.amount)}</div><div class="muted">+ commissione PSP</div></div>
+    <div class="actions"><button class="btn" id="pay">Paga ora</button><button class="btn secondary" onclick="goForm(state.i, true)">Modifica dati</button></div>`);
+  document.getElementById("pay").onclick = async e => { e.target.disabled = true; e.target.textContent = "Pagamento in corso…"; await api.pay(d); drawReceipt(); };
+}
+
+function drawReceipt() {
+  const d = state.demand, o = d.paymentOptions[0];
+  const bc = d.receiptRequirements.noticeBarcode === "GS1_128"
+    ? `<div class="barcode">${Array.from({ length: 70 }, (_, k) => `<i style="width:${1 + (hash(d.qrCode.noticeNumber + k) % 3)}px"></i>`).join("")}</div><div class="muted" style="font-family:monospace">(415)8033…(8020)${d.qrCode.noticeNumber}</div><div class="muted">Codice a barre GS1-128 richiesto dal servizio</div>` : "";
+  h(`<div class="ok">✔</div><h2 style="text-align:center">Pagamento eseguito</h2>
+    <div class="card"><div class="kv">
+      <b>Ente</b><span>${d.creditorInstitution.companyName}</span>
+      <b>Causale</b><span>${d.paymentDescription}</span>
+      <b>Codice avviso</b><span style="font-family:monospace">${d.qrCode.noticeNumber}</span>
+      <b>Importo</b><span>${eur(o.amount)}</span>
+      <b>Data</b><span>${new Date().toLocaleString("it-IT")}</span>
+    </div>${bc}</div>
+    <div class="actions"><button class="btn" onclick="goCatalog()">Nuovo pagamento</button></div>`);
+}
+
+/* ---------- skins ---------- */
+document.querySelectorAll("#skins button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#skins button").forEach(x => x.classList.toggle("on", x === b));
+  skin = b.dataset.skin; device.className = "device skin-" + skin; renderBar();
+  log("note", `Cambio touchpoint: ${b.textContent.trim()} – stesso descrittore, stesso codice di rendering`, { kind: "note" });
+  if (state.view === "form") drawForm(); else if (state.view === "catalog") goCatalog();
+});
+
+/* ---------- publisher ---------- */
+const ta = document.getElementById("newSvc");
+ta.value = JSON.stringify(NEW_SERVICE_EXAMPLE, null, 2);
+document.getElementById("publishBtn").onclick = () => {
+  const msg = document.getElementById("pubMsg");
+  try {
+    const s = JSON.parse(ta.value);
+    if (!s.subjectServiceId || !s.form || !Array.isArray(s.form.fields)) throw new Error("servono subjectServiceId e form.fields");
+    const known = ["TEXT","FISCAL_CODE","EMAIL","AMOUNT","NUMBER","DATE","SELECT","MULTI","BOOLEAN","ONE_OF","GROUP","INFORMATIVE","CONSENT","HIDDEN"];
+    const bad = JSON.stringify(s.form).match(/"_type":"([A-Z_]+)"/g)?.map(x => x.slice(9, -1)).filter(x => !known.includes(x));
+    if (bad && bad.length) throw new Error("tipo non supportato: " + bad.join(", "));
+    s._new = true; s.ec = s.ec || { interface: "REST", station: "NEW_01" };
+    const idx = SERVICES.findIndex(x => x.subjectServiceId === s.subjectServiceId);
+    if (idx >= 0) { s.formVersion = String(+SERVICES[idx].formVersion + 1); SERVICES[idx] = s; } else SERVICES.push(s);
+    log("note", `Servizio "${t(s.name)}" pubblicato su pagoPA (form v${s.formVersion}). Nessun rilascio lato PSP.`, { kind: "note" });
+    msg.textContent = "✔ Pubblicato: torna al catalogo del touchpoint"; msg.style.color = "var(--green)";
+    goCatalog();
+  } catch (e) { msg.textContent = "✖ " + e.message; msg.style.color = "var(--red)"; }
+};
+
+renderBar();
+log("note", "Mock-up interattivo: tutte le chiamate sono simulate nel browser secondo la bozza OpenAPI (PSP → pagoPA REST, pagoPA → Ente REST o SOAP legacy).", { kind: "note" });
+goCatalog();
+</script>
+</body>
+</html>
